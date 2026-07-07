@@ -8,29 +8,30 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <img src="assets/logo.png" alt="Rent in Tbilisi" onerror="this.style.display='none'">
-        <div><b>Rent in Tbilisi</b><span>CRM</span></div>
+  <aside class="side" id="side">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Rent in Tbilisi" onerror="this.remove()">
+      <div><b>Rent in Tbilisi</b><span>CRM</span></div>
+    </div>
+    <button class="new" onclick="openCreate()">＋ Добавить</button>
+    <nav id="nav"></nav>
+    <div class="side-card"><b id="recordsCount">0</b><span>записей в базе браузера</span></div>
+  </aside>
+
+  <main class="app">
+    <header class="top">
+      <button class="icon mobile" onclick="toggleMenu()">☰</button>
+      <div>
+        <h1 id="title">Главная</h1>
+        <p id="subtitle">Рабочая панель Rent in Tbilisi</p>
       </div>
-      <button class="primary full" data-action="new-property">+ Новый объект</button>
-      <nav id="nav"></nav>
-      <div class="note"><b id="sideCount">0</b><span>записей в демо-базе</span></div>
-    </aside>
+      <label class="search"><span>⌕</span><input id="search" placeholder="Поиск по CRM"></label>
+      <button class="icon" onclick="toggleTheme()">◐</button>
+    </header>
+    <section id="view" class="view"></section>
+  </main>
 
-    <main class="main">
-      <header class="topbar">
-        <button class="round mobile" id="menuBtn">☰</button>
-        <div class="heading"><h1 id="pageTitle">Главная</h1><p id="pageSub">Рабочая CRM для команды</p></div>
-        <label class="search"><span>⌕</span><input id="search" placeholder="Поиск"></label>
-        <button class="round" id="themeBtn">◐</button>
-      </header>
-      <section class="content" id="content"></section>
-    </main>
-  </div>
-
-  <div class="overlay" id="overlay"></div>
+  <div class="shade" id="shade" onclick="closeDrawer()"></div>
   <aside class="drawer" id="drawer"></aside>
   <div class="toast" id="toast"></div>
   <script src="app.js"></script>
