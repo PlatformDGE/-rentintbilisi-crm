@@ -2,27 +2,29 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#1d3560" />
   <title>Rent in Tbilisi CRM</title>
-  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="side" id="side">
-      <div class="brand"><img src="assets/logo.png" alt="logo"><div><strong>Rent in Tbilisi</strong><span>Рабочая CRM</span></div></div>
-      <button class="big-action" id="newObjectBtn">+ Новый объект</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Rent in Tbilisi" onerror="this.style.display='none'">
+        <div><b>Rent in Tbilisi</b><span>CRM</span></div>
+      </div>
+      <button class="primary full" data-action="new-property">+ Новый объект</button>
       <nav id="nav"></nav>
-      <div class="side-card"><span>Сегодня</span><b id="todayStats">0 задач</b><small>Демо-данные сохраняются в браузере</small></div>
+      <div class="note"><b id="sideCount">0</b><span>записей в демо-базе</span></div>
     </aside>
 
     <main class="main">
-      <header class="top">
-        <button class="icon-btn mobile" id="menuBtn">☰</button>
-        <div class="title"><h1 id="title">Главная</h1><p id="subtitle">Рабочая CRM для Rent in Tbilisi</p></div>
-        <label class="search"><span>⌕</span><input id="search" placeholder="Поиск по адресу, телефону, агенту, клиенту"></label>
-        <button class="icon-btn" id="themeBtn">◐</button>
+      <header class="topbar">
+        <button class="round mobile" id="menuBtn">☰</button>
+        <div class="heading"><h1 id="pageTitle">Главная</h1><p id="pageSub">Рабочая CRM для команды</p></div>
+        <label class="search"><span>⌕</span><input id="search" placeholder="Поиск"></label>
+        <button class="round" id="themeBtn">◐</button>
       </header>
       <section class="content" id="content"></section>
     </main>
