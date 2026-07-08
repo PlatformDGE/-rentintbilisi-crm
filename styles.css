@@ -66,6 +66,7 @@ button{cursor:pointer}
 .top{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:auto 1fr minmax(260px,420px) auto;gap:16px;align-items:center;padding:20px 28px;border-bottom:1px solid rgba(236,231,223,.86);background:rgba(251,250,247,.92);backdrop-filter:blur(18px)}
 .title h1{font-size:30px;margin:0;letter-spacing:-.055em}
 .title p{margin:4px 0 0}
+.mobile-brand{display:none}
 .icon-btn{width:44px;height:44px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--blue);display:grid;place-items:center}
 .mobile{display:none}
 .search{display:flex;align-items:center;gap:8px;padding:0 14px;height:46px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 8px 24px rgba(15,23,42,.04)}
@@ -83,15 +84,40 @@ button{cursor:pointer}
   .side{position:fixed;left:0;top:0;bottom:0;width:280px;transform:translateX(-100%);transition:transform .2s ease;box-shadow:16px 0 40px rgba(15,23,42,.12)}
   .side.open{transform:translateX(0)}
   .main{min-height:100vh}
-  .top{grid-template-columns:auto 1fr auto}
-  .title{min-width:0}
+  .top{
+    min-height:72px;
+    padding:14px 16px 12px;
+    gap:12px;
+    grid-template-columns:44px minmax(0, 1fr) 44px;
+    grid-template-rows:auto auto;
+    align-items:center;
+  }
+  .top .search{
+    grid-column:1 / -1;
+    width:100%;
+    min-width:0;
+    height:52px;
+    padding:0 14px;
+    border-radius:18px;
+    margin-top:6px;
+  }
+  .title{min-width:0;display:flex;align-items:center;justify-content:center;grid-column:2}
+  .title h1{display:none}
+  .title p{display:none}
+  .mobile-brand{display:block;font-size:18px;font-weight:800;color:var(--blue);text-align:center;line-height:1.1;letter-spacing:-.02em}
   .mobile{display:grid}
-  .search{min-width:0}
-  .content{padding:20px 18px 28px}
+  .icon-btn{width:44px;height:44px;border:1px solid #e4e4e4;background:#fff;color:var(--blue);box-shadow:none}
+  .content{padding:0 16px 24px}
+  .hero-card{display:none !important}
+  .dashboard-shell{gap:12px;padding-top:0}
+  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .card.metric{padding:14px 14px}
+  .card.metric b{font-size:20px}
 }
 
 @media (max-width: 640px){
-  .top{padding:16px 16px 14px;gap:12px}
-  .title h1{font-size:24px}
-  .search{height:42px;padding:0 12px}
+  .top{padding:14px 14px 12px;gap:10px}
+  .top .search{height:48px;padding:0 12px;border-radius:16px}
+  .mobile-brand{font-size:16px}
+  .search input{font-size:14px}
 }
