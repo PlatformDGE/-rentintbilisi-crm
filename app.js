@@ -58,6 +58,42 @@ function normalizeDb(data){
   return data;
 }
 let db = normalizeDb(JSON.parse(localStorage.getItem(storeKey) || 'null') || cloneData(seed));
+
+// Initialize PropertyRepository data if it exists, otherwise migrate existing data
+function initializeRepository() {
+  let repoProperties = PropertyRepository ? PropertyRepository.listProperties() : [];
+  if (repoProperties.length === 0 && db.properties.length > 0) {
+    // Migrate existing properties to repository on first run
+    db.properties.forEach(p => {
+      try {
+        PropertyRepository.createProperty({
+          source_type: p.source_type || 'direct',
+          source_url: p.source_url || '',
+          owner_name: p.owner || '',
+          owner_phone: p.phone || '',
+          address: p.address || '',
+          district: p.district || '',
+          price: Number(p.price) || 0,
+          rooms: 0,
+          area: 0,
+          notes: p.notes || '',
+          assigned_agent_name: p.agent || ''
+        });
+      } catch (e) {
+        console.error('Failed to migrate property', p, e);
+      }
+    });
+  }
+  // Load properties from repository
+  if (PropertyRepository) {
+    db.properties = PropertyRepository.listProperties();
+  }
+}
+
+// Initialize on load
+if (typeof PropertyRepository !== 'undefined') {
+  initializeRepository();
+}
 let page = 'dashboard';
 let filter = 'all';
 let mapFilter = 'all';
@@ -210,7 +246,7 @@ function listPage(kind,title,headers,rowFn,formType){
   return `<div class="page-shell"><div class="panel"><div class="panel-head"><div><p class="eyebrow">${escapeHtml(title)}</p><h3>Управление записями</h3></div><button class="btn primary" onclick="openForm('${formType}')">+ Добавить</button></div><div class="tabs">${statuses.map(s=>`<button class="tab ${filter===s?'active':''}" onclick="setFilter('${escapeHtml(s)}')">${escapeHtml(s)}</button>`).join('')}</div>${table(headers,items.map(rowFn))}</div></div>`;
 }
 function setFilter(v){ filter=v; render(); }
-function properties(){ return listPage('properties','Объекты',['Адрес','Тип','Район','Цена','Статус','Агент',''],p=>`<tr><td class="row-title">${escapeHtml(p.address)}<br><small class="muted">${escapeHtml(p.notes||'')}</small></td><td>${escapeHtml(p.type)}</td><td>${escapeHtml(p.district)}</td><td>${money(p.price)}</td><td>${chip(p.status)}</td><td>${escapeHtml(p.agent)}</td><td class="table-actions"><button onclick="viewItem('properties','${p.id}')">Открыть</button><button onclick="openForm('property','${p.id}')">Редактировать</button><button onclick="duplicateItem('properties','${p.id}')">Копировать</button><button onclick="removeItem('properties','${p.id}')">Удалить</button></td></tr>`,'property'); }
+function properties(){ return listPage('properties','Объекты',['Адрес','Источник','Цена','Статус','Агент','Дата'],p=>`<tr><td class="row-title">${escapeHtml(p.address)}<br><small class="muted">${escapeHtml(p.notes||'')}</small></td><td>${escapeHtml(p.source_type||'—')}</td><td>${money(p.price)}</td><td>${chip(p.status||'—')}</td><td>${escapeHtml(p.assigned_agent_name||'Не назначен')}</td><td>${p.created_at?p.created_at.slice(0,10):'—'}</td><td class="table-actions"><button onclick="viewItem('properties','${p.id}')">Открыть</button><button onclick="openForm('property','${p.id}')">Редактировать</button><button onclick="removeItem('properties','${p.id}')">Удалить</button></td></tr>`,'property'); }
 function owners(){ return listPage('owners','База собственников',['Собственник','Телефон','Объект','Статус','Последнее действие',''],o=>`<tr><td class="row-title">${escapeHtml(o.name)}</td><td>${escapeHtml(o.phone)}</td><td>${escapeHtml(o.object)}</td><td>${chip(o.status)}</td><td>${escapeHtml(o.last)}</td><td class="table-actions"><button onclick="viewItem('owners','${o.id}')">Открыть</button><button onclick="openForm('owner','${o.id}')">Редактировать</button><button onclick="createReportFrom('Звонок собственнику','${escapeHtml(o.name)}')">Отчет</button><button onclick="removeItem('owners','${o.id}')">Удалить</button></td></tr>`,'owner'); }
 function clients(){ return listPage('clients','Клиенты',['Клиент','Телефон','Запрос','Бюджет','Статус','Агент',''],c=>`<tr><td class="row-title">${escapeHtml(c.name)}</td><td>${escapeHtml(c.phone)}</td><td>${escapeHtml(c.request)}</td><td>${money(c.budget)}</td><td>${chip(c.status)}</td><td>${escapeHtml(c.agent)}</td><td class="table-actions"><button onclick="viewItem('clients','${c.id}')">Открыть</button><button onclick="openForm('client','${c.id}')">Редактировать</button><button onclick="createReportFrom('Показ','${escapeHtml(c.name)}')">Показ</button><button onclick="removeItem('clients','${c.id}')">Удалить</button></td></tr>`,'client'); }
 function reports(){
@@ -225,15 +261,17 @@ function settings(){ return `<div class="page-shell"><div class="content-grid"><
 function render(){ buildNav(); let views={dashboard,properties,owners,clients,reports,contracts,agents,map,analytics,settings}; const contentEl=$('#content'); if(contentEl){ contentEl.innerHTML=views[page]?views[page]():developmentPage('Раздел', 'Содержимое временно недоступно'); } updateSideStats(); }
 
 const config={
-  property:{key:'properties',title:'Объект',fields:[['address','Адрес'],['type','Тип'],['district','Район'],['price','Цена','number'],['status','Статус','select','Свободно,В работе,Сдано'],['agent','Агент'],['owner','Собственник'],['phone','Телефон собственника'],['notes','Заметки','textarea']]},
+  property:{key:'properties',title:'Объект',fields:[['source_type','Источник','select','direct,myhome,ss,referral,import,other'],['source_url','Ссылка на источник'],['owner_name','Имя собственника'],['owner_phone','Телефон собственника'],['address','Адрес'],['district','Район'],['cadastral_code','Кадастровый код'],['price','Цена','number'],['rooms','Комнаты','number'],['area','Площадь м²','number'],['assigned_agent_id','Назначен агенту','select'],['notes','Заметки','textarea']]},
   owner:{key:'owners',title:'Собственник',fields:[['name','Имя собственника'],['phone','Телефон'],['object','Объект'],['status','Статус','select','Эксклюзив,В работе,Не эксклюзив'],['last','Последнее действие','textarea']]},
   client:{key:'clients',title:'Клиент',fields:[['name','Имя клиента'],['phone','Телефон'],['request','Запрос'],['budget','Бюджет','number'],['status','Статус','select','Новый,Показ,Горячий,Потерян'],['agent','Агент']]},
   report:{key:'reports',title:'Отчет',fields:[['date','Дата','date'],['type','Тип','select','Общий отчет,Ежедневный отчет,Фото,Показ,Звонки,Сделка,Фото с платформы,Проверка объекта,Звонок собственнику'],['agent','Агент'],['target','Цель'],['status','Статус','select','Запланировано,Готово,Проблема']]},
   agent:{key:'agents',title:'Агент',fields:[['name','Имя агента'],['role','Роль','select','Агент,Рекрут,Владелец / менеджер,Оператор'],['deals','Сделки','number'],['objects','Объекты','number'],['level','Комиссия','select','50%,70%,90%']]},
   task:{key:'tasks',title:'Задача',fields:[['time','Время'],['title','Действие'],['status','Статус','select','Запланировано,В работе,Горячий,Готово'],['agent','Агент']]}
 };
-function fieldHtml(f,v=''){ let [name,label,type,opts]=f; v=escapeHtml(v||''); if(type==='textarea') return `<label>${label}<textarea name="${name}" rows="4">${v}</textarea></label>`; if(type==='select') return `<label>${label}<select name="${name}">${opts.split(',').map(o=>`<option ${o==v?'selected':''}>${o}</option>`).join('')}</select></label>`; return `<label>${label}<input name="${name}" type="${type||'text'}" value="${v}"></label>`; }
-function openForm(type,id=null,preset=null){ let c=config[type]; let item=id?db[c.key].find(x=>x.id===id):{}; if(preset&&type==='report') item={type:preset,date:new Date().toISOString().slice(0,10),status:'Запланировано'}; $('#drawer').innerHTML=`<div class="drawer-head"><div><h2>${id?'Редактировать':'Добавить'} ${c.title}</h2><p class="muted">Сохранение работает сразу.</p></div><button class="x" onclick="closeDrawer()">✕</button></div><form class="form two" id="editForm">${c.fields.map(f=>fieldHtml(f,item?.[f[0]])).join('')}<button class="btn primary" style="grid-column:1/-1">Сохранить</button></form>`; $('#overlay').classList.add('open'); $('#drawer').classList.add('open'); $('#editForm').onsubmit=e=>{ e.preventDefault(); let fd=new FormData(e.target); let obj={id:id||uid()}; c.fields.forEach(f=>obj[f[0]]=fd.get(f[0])); if(id){ let ix=db[c.key].findIndex(x=>x.id===id); db[c.key][ix]=obj; } else db[c.key].unshift(obj); save(); closeDrawer(); render(); toast('Сохранено'); }; }
+function fieldHtml(f,v=''){ let [name,label,type,opts]=f; v=escapeHtml(v||''); if(name==='assigned_agent_id'){ let agentOpts=db.agents.map(a=>`<option value="${a.id}" ${a.id==v?'selected':''}>${escapeHtml(a.name)}</option>`).join(''); return `<label>${label}<select name="${name}"><option value="">-- Выберите агента --</option>${agentOpts}</select></label>`; } if(type==='textarea') return `<label>${label}<textarea name="${name}" rows="4">${v}</textarea></label>`; if(type==='select') return `<label>${label}<select name="${name}">${opts.split(',').map(o=>`<option ${o==v?'selected':''}>${o}</option>`).join('')}</select></label>`; return `<label>${label}<input name="${name}" type="${type||'text'}" value="${v}"></label>`; }
+function checkPropertyDuplicate(formData){ if(!PropertyRepository) return null; let prop={source_type:formData.get('source_type'),source_url:formData.get('source_url'),owner_phone:formData.get('owner_phone'),address:formData.get('address'),cadastral_code:formData.get('cadastral_code')}; let dups=PropertyRepository.findDuplicates(prop); return dups.length>0?dups[0]:null; }
+function openForm(type,id=null,preset=null){ let c=config[type]; let item=id?db[c.key].find(x=>x.id===id):{}; if(preset&&type==='report') item={type:preset,date:new Date().toISOString().slice(0,10),status:'Запланировано'}; $('#drawer').innerHTML=`<div class="drawer-head"><div><h2>${id?'Редактировать':'Добавить'} ${c.title}</h2><p class="muted">${type==='property'&&!id?'Проверка дублей включена.':'Сохранение работает сразу.'}</p></div><button class="x" onclick="closeDrawer()">✕</button></div><form class="form two" id="editForm">${c.fields.map(f=>fieldHtml(f,item?.[f[0]])).join('')}<button class="btn primary" style="grid-column:1/-1">Сохранить</button></form>`; $('#overlay').classList.add('open'); $('#drawer').classList.add('open'); $('#editForm').onsubmit=e=>{ e.preventDefault(); let fd=new FormData(e.target); if(type==='property'&&!id){ let dup=checkPropertyDuplicate(fd); if(dup){ showDuplicateWarning(dup, fd); return; } } let obj={id:id||uid()}; c.fields.forEach(f=>obj[f[0]]=fd.get(f[0])); if(id){ let ix=db[c.key].findIndex(x=>x.id===id); db[c.key][ix]=obj; } else { if(type==='property'){ let agent=db.agents.find(a=>a.id===obj.assigned_agent_id); obj.assigned_agent_name=agent?agent.name:''; obj.status='ASSIGNED'; PropertyRepository.createProperty(obj); PropertyRepository.appendActionLog({entity_id:obj.id,action:'created',after:obj}); if(agent) { PropertyRepository.createTask(obj.id,agent.id,'MAKE_PHOTO'); TelegramNotifier.notifyPropertyCreated(obj); } closeDrawer(); render(); toast('Объект создан'); return; } } db[c.key].unshift(obj); save(); closeDrawer(); render(); toast('Сохранено'); }; }
+function showDuplicateWarning(dup,formData){ let existing=dup.duplicate; let msg=`Найден возможный дубликат!\n\nАдрес: ${existing.address}\nДистрикт: ${existing.district}\nЦена: ${existing.price}\nАгент: ${existing.assigned_agent_name||'Не назначен'}\nДата добавления: ${existing.created_at}\n\nПричина: ${dup.reason}\n\nПродолжить создание нового объекта?`; if(confirm(msg)){ PropertyRepository.appendActionLog({entity_id:existing.id,action:'duplicate_detected'}); let obj={id:uid(),source_type:formData.get('source_type'),source_url:formData.get('source_url'),owner_name:formData.get('owner_name'),owner_phone:formData.get('owner_phone'),address:formData.get('address'),district:formData.get('district'),cadastral_code:formData.get('cadastral_code'),price:Number(formData.get('price'))||0,rooms:Number(formData.get('rooms'))||0,area:Number(formData.get('area'))||0,notes:formData.get('notes'),status:'ASSIGNED'}; let agent=db.agents.find(a=>a.id===formData.get('assigned_agent_id')); if(agent){ obj.assigned_agent_id=agent.id; obj.assigned_agent_name=agent.name; } PropertyRepository.createProperty(obj); PropertyRepository.appendActionLog({entity_id:obj.id,action:'created_after_duplicate_warning',after:obj}); if(agent) PropertyRepository.createTask(obj.id,agent.id,'MAKE_PHOTO'); TelegramNotifier.notifyDuplicateDetected(obj,existing); closeDrawer(); render(); toast('Объект создан (предупреждение о дубликате записано)'); } }
 function closeDrawer(){ $('#drawer').classList.remove('open'); $('#overlay').classList.remove('open'); }
 function viewItem(key,id){ let item=db[key].find(x=>x.id===id); if(!item) return toast('Не найдено'); $('#drawer').innerHTML=`<div class="drawer-head"><div><h2>${escapeHtml(item.address||item.name||item.type||'Детали')}</h2><p class="muted">Карточка записи</p></div><button class="x" onclick="closeDrawer()">✕</button></div><div class="card" style="box-shadow:none">${Object.entries(item).filter(([k])=>k!=='id').map(([k,v])=>`<p><b>${escapeHtml(k)}:</b> ${escapeHtml(v)}</p>`).join('')}<div class="actions-row"><button class="btn primary" onclick="openForm('${typeByKey(key)}','${id}')">Редактировать</button><button class="btn secondary" onclick="copyText('${escapeHtml(Object.values(item).join(' | '))}')">Копировать</button><button class="btn danger" onclick="removeItem('${key}','${id}')">Удалить</button></div></div>`; $('#overlay').classList.add('open'); $('#drawer').classList.add('open'); }
 function typeByKey(k){ return ({properties:'property',owners:'owner',clients:'client',reports:'report',agents:'agent',tasks:'task'})[k]; }
