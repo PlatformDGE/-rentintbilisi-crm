@@ -163,6 +163,9 @@ class DailyRankingTest(unittest.TestCase):
     def test_invalid_longitude_is_rejected(self):
         self.assertEqual(extract_coordinates_from_map_url("https://maps.google.com/?q=41.7151,181.1234"), (None, None, None))
 
+    def test_null_island_placeholder_is_rejected(self):
+        self.assertEqual(extract_coordinates_from_map_url("https://maps.google.com/?q=0.0,0.0"), (None, None, None))
+
     def test_random_price_and_area_are_not_coordinates(self):
         self.assertEqual(extract_coordinates_from_text("$500, 75 sq.m, floor 3 8"), (None, None, None))
 

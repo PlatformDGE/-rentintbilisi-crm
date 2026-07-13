@@ -57,6 +57,7 @@ def valid_coordinates(latitude, longitude):
         and not isinstance(longitude, bool)
         and -90 <= latitude <= 90
         and -180 <= longitude <= 180
+        and not (abs(latitude) < 0.0001 and abs(longitude) < 0.0001)
     )
 
 
