@@ -8,8 +8,8 @@
   "period_start": null,
   "period_end": null,
   "baseline_created_late": false,
-  "updated_at": "2026-07-14T02:40:25+04:00",
-  "test_generated_at": "2026-07-14T02:40:25+04:00",
+  "updated_at": "2026-07-14T02:42:11+04:00",
+  "test_generated_at": "2026-07-14T02:42:11+04:00",
   "items": [
     {
       "id": "492214",
@@ -153,9 +153,9 @@
       "metro": "",
       "rooms": 1,
       "floor": "8/16",
-      "latitude": 0.0,
-      "longitude": 0.0,
-      "location_source": "google_maps_url",
+      "latitude": null,
+      "longitude": null,
+      "location_source": null,
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
