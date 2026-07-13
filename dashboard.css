@@ -167,6 +167,8 @@ body.dark{
 .telegram-panel-head{align-items:flex-end}
 .telegram-panel-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
 .telegram-top10-updated{color:var(--muted);font-size:12px}
+.telegram-panel-period,.telegram-panel-notice{margin:5px 0 0;color:var(--muted);font-size:13px}
+.telegram-panel-notice:empty{display:none}
 .telegram-list{display:grid}
 .telegram-item{display:grid;grid-template-columns:36px 76px minmax(0,1fr) auto;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--line);min-width:0}
 .telegram-item:first-child{border-top:0}
@@ -180,8 +182,7 @@ body.dark{
 .telegram-property-head b{white-space:nowrap;color:var(--navy);font-size:18px}
 .telegram-property p{margin:5px 0 0;color:var(--muted);line-height:1.4;overflow-wrap:anywhere}
 .telegram-stats{display:grid;justify-items:end;gap:5px;min-width:135px}
-.telegram-stats strong{color:var(--ink)}
-.telegram-stats span{color:var(--muted);font-size:12px}
+.telegram-reposts{color:#1d3560;font-size:17px;font-weight:800;white-space:nowrap}
 .telegram-stats a{color:var(--navy);font-weight:700;text-decoration:none}
 .telegram-stats a:hover{text-decoration:underline}
 .telegram-state{padding:28px 12px;text-align:center;color:var(--muted);background:var(--soft);border-radius:16px}

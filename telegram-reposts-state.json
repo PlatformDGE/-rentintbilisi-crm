@@ -1,0 +1,9 @@
+{
+  "timezone": "Asia/Tbilisi",
+  "date": "2026-07-13",
+  "window_start": "2026-07-13T10:00:00+04:00",
+  "window_end": "2026-07-13T22:00:00+04:00",
+  "baseline_created_at": "2026-07-13T22:00:00+04:00",
+  "baseline_created_late": true,
+  "messages": {}
+}
