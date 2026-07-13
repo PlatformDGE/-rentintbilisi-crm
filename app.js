@@ -165,7 +165,7 @@ function dashboard(){
       <div class="panel-head telegram-panel-head">
         <div>
           <p class="eyebrow">Telegram-аналитика</p>
-          <h3 class="telegram-panel-title">Топ-10 объектов по репостам сегодня</h3>
+          <div class="telegram-title-row"><h3 class="telegram-panel-title">Топ-10 объектов по репостам сегодня</h3><span class="telegram-test-badge" hidden>ТЕСТ</span></div>
           <p class="telegram-panel-period">Сегодня, 10:00–22:00</p>
           <p class="telegram-panel-notice"></p>
         </div>

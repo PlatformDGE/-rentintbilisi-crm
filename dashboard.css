@@ -169,6 +169,9 @@ body.dark{
 .telegram-top10-updated{color:var(--muted);font-size:12px}
 .telegram-panel-period,.telegram-panel-notice{margin:5px 0 0;color:var(--muted);font-size:13px}
 .telegram-panel-notice:empty{display:none}
+.telegram-title-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.telegram-test-badge{padding:4px 8px;border-radius:999px;background:#fef3c7;color:#78350f;font-size:10px;font-weight:800;letter-spacing:.08em}
+.telegram-test-note{color:#92400e;font-weight:600}
 .telegram-list{display:grid}
 .telegram-item{display:grid;grid-template-columns:36px 76px minmax(0,1fr) auto;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--line);min-width:0}
 .telegram-item:first-child{border-top:0}

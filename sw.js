@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rit-crm-v4';
+const CACHE_NAME = 'rit-crm-v5';
 
 const STATIC_FILES = [
   './',

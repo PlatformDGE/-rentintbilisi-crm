@@ -16,6 +16,7 @@ from telethon.sessions import StringSession
 CHANNEL = "rent_tbilisi_ge"
 MESSAGE_LIMIT = 300
 TBILISI_TZ = ZoneInfo("Asia/Tbilisi")
+TEST_MODE = os.environ.get("TELEGRAM_TEST_MODE", "false").lower() == "true"
 ROOT = Path(__file__).resolve().parents[1]
 STATE_PATH = ROOT / "telegram-reposts-state.json"
 OUTPUT_PATH = ROOT / "telegram-top10.json"
@@ -216,6 +217,29 @@ def calculate_ranking(messages, state, start):
     return selected
 
 
+def calculate_test_ranking(messages):
+    items = []
+    for message in messages:
+        current_forwards = max(int(message["current_forwards"]), 0)
+        message_id = message["id"]
+        items.append({
+            **message["property"],
+            "daily_reposts": current_forwards,
+            "current_forwards": current_forwards,
+            "baseline_forwards": 0,
+            "published_at": iso(message["published_at"]),
+            "post_url": f"https://t.me/{CHANNEL}/{message_id}",
+            "image": f"telegram-images/{message_id}.jpg" if message["has_photo"] else "",
+            "_message": message["message"],
+        })
+    items.sort(key=lambda item: (
+        item["daily_reposts"],
+        item["current_forwards"],
+        item["published_at"],
+    ), reverse=True)
+    return items[:10]
+
+
 def public_item(item):
     return {key: value for key, value in item.items() if key != "_message"}
 
@@ -272,6 +296,23 @@ def build_payload(now, start, end, status, state, ranking):
     }
 
 
+def build_test_payload(now, ranking):
+    return {
+        "channel": CHANNEL,
+        "timezone": "Asia/Tbilisi",
+        "ranking": "daily_reposts",
+        "status": "test",
+        "test_mode": True,
+        "date": now.date().isoformat(),
+        "period_start": None,
+        "period_end": None,
+        "baseline_created_late": False,
+        "updated_at": iso(now),
+        "test_generated_at": iso(now),
+        "items": [public_item(item) for item in ranking],
+    }
+
+
 def required_environment():
     values = {
         "api_id": os.environ.get("TELEGRAM_API_ID", "").strip(),
@@ -294,7 +335,7 @@ async def update():
     status = period_status(now, start, end)
     previous_output = load_json(OUTPUT_PATH)
 
-    if status == "before_window":
+    if not TEST_MODE and status == "before_window":
         if previous_output and previous_output.get("status") == "finished":
             print("До 10:00 сохраняется итог предыдущего дня")
             return 0
@@ -312,7 +353,7 @@ async def update():
         })
         return 0
 
-    if status == "finished" and previous_output and previous_output.get("date") == now.date().isoformat() and previous_output.get("status") == "finished":
+    if not TEST_MODE and status == "finished" and previous_output and previous_output.get("date") == now.date().isoformat() and previous_output.get("status") == "finished":
         print("Итог текущего дня уже зафиксирован")
         return 0
 
@@ -321,6 +362,12 @@ async def update():
         messages = await collect_messages(client)
         if not messages:
             raise RuntimeError("Среди последних публикаций не найдено объектов недвижимости")
+        if TEST_MODE:
+            ranking = calculate_test_ranking(messages)
+            await sync_images(client, ranking)
+            save_json(OUTPUT_PATH, build_test_payload(now, ranking))
+            print(f"Сохранено {len(ranking)} объектов в тестовом режиме; рабочий baseline не изменён")
+            return 0
         state = load_json(STATE_PATH)
         if not state or state.get("date") != now.date().isoformat():
             state = create_state(now, start, end, messages)

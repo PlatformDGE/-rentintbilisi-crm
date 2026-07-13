@@ -57,16 +57,23 @@
 
   function periodCopy(payload) {
     const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tbilisi' });
+    if (payload.status === 'test' || payload.test_mode === true) {
+      return {
+        title: 'Тестовый топ-10 объектов по репостам',
+        period: 'Тестовый режим: показано текущее общее количество репостов',
+        isTest: true
+      };
+    }
     if (payload.status === 'before_window') {
-      return { title: 'Сегодняшний рейтинг начнётся в 10:00', period: '' };
+      return { title: 'Сегодняшний рейтинг начнётся в 10:00', period: '', isTest: false };
     }
     if (payload.status === 'finished' && payload.date !== today) {
-      return { title: 'Итог за вчера', period: '10:00–22:00' };
+      return { title: 'Итог за вчера', period: '10:00–22:00', isTest: false };
     }
     if (payload.status === 'finished') {
-      return { title: 'Итог за сегодня по репостам', period: '10:00–22:00' };
+      return { title: 'Итог за сегодня по репостам', period: '10:00–22:00', isTest: false };
     }
-    return { title: 'Топ-10 объектов по репостам сегодня', period: 'Сегодня, 10:00–22:00' };
+    return { title: 'Топ-10 объектов по репостам сегодня', period: 'Сегодня, 10:00–22:00', isTest: false };
   }
 
   function updateHeader(container, payload) {
@@ -74,10 +81,13 @@
     const title = container.querySelector('.telegram-panel-title');
     const period = container.querySelector('.telegram-panel-period');
     const notice = container.querySelector('.telegram-panel-notice');
+    const badge = container.querySelector('.telegram-test-badge');
     const updated = container.querySelector('.telegram-top10-updated');
     if (title) title.textContent = copy.title;
     if (period) period.textContent = copy.period;
-    if (notice) notice.textContent = payload.baseline_created_late ? 'Отсчёт сегодня начат позже 10:00' : '';
+    if (period) period.classList.toggle('telegram-test-note', copy.isTest);
+    if (badge) badge.hidden = !copy.isTest;
+    if (notice) notice.textContent = !copy.isTest && payload.baseline_created_late ? 'Отсчёт сегодня начат позже 10:00' : '';
     if (updated) {
       const date = new Date(payload.updated_at);
       updated.textContent = Number.isNaN(date.getTime()) ? '' : `Обновлено: ${date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tbilisi' })}`;
