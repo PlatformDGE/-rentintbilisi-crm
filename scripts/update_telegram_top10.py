@@ -8,6 +8,8 @@ import os
 from pathlib import Path
 import re
 import sys
+from urllib.parse import parse_qs, unquote, urlparse
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 from zoneinfo import ZoneInfo
 
 from telethon import TelegramClient
@@ -34,6 +36,205 @@ METROS = [
     "Ghrmaghele", "Gotsiridze", "Rustaveli", "Avlabari", "Samgori",
     "Didube", "Varketili", "Delisi", "Isani",
 ]
+
+URL_PATTERN = re.compile(r"https?://[^\s<>\]\[\"']+", re.I)
+COORDINATE_PATTERN = re.compile(
+    r"(?<![\d.])(-?\d{1,2}\.\d{2,})\s*[,;\s]\s*(-?\d{1,3}\.\d{2,})(?![\d.])"
+)
+SHORT_MAP_CACHE = {}
+
+
+class LimitedRedirectHandler(HTTPRedirectHandler):
+    max_redirections = 3
+    max_repeats = 2
+
+
+def valid_coordinates(latitude, longitude):
+    return (
+        isinstance(latitude, (int, float))
+        and not isinstance(latitude, bool)
+        and isinstance(longitude, (int, float))
+        and not isinstance(longitude, bool)
+        and -90 <= latitude <= 90
+        and -180 <= longitude <= 180
+    )
+
+
+def coordinates_from_geo(geo):
+    if geo is None:
+        return None, None
+    latitude = getattr(geo, "lat", None)
+    longitude = getattr(geo, "long", getattr(geo, "longitude", None))
+    if valid_coordinates(latitude, longitude):
+        return float(latitude), float(longitude)
+    return None, None
+
+
+def extract_native_geo(message):
+    media = getattr(message, "media", None)
+    media_type = type(media).__name__
+    if media_type == "MessageMediaVenue":
+        latitude, longitude = coordinates_from_geo(getattr(media, "geo", None))
+        if latitude is not None:
+            return latitude, longitude, "telegram_venue"
+    if media_type == "MessageMediaGeoLive":
+        latitude, longitude = coordinates_from_geo(getattr(media, "geo", None))
+        if latitude is not None:
+            return latitude, longitude, "telegram_geo_live"
+    if media_type == "MessageMediaGeo":
+        latitude, longitude = coordinates_from_geo(getattr(media, "geo", None))
+        if latitude is not None:
+            return latitude, longitude, "telegram_geo"
+
+    candidates = [
+        getattr(message, "geo", None),
+        getattr(media, "geo", None),
+        getattr(media, "geo_point", None),
+        getattr(getattr(media, "venue", None), "geo", None),
+    ]
+    for geo in candidates:
+        latitude, longitude = coordinates_from_geo(geo)
+        if latitude is not None:
+            return latitude, longitude, "telegram_geo"
+    return None, None, None
+
+
+def extract_coordinates_from_text(text):
+    text = text or ""
+    for match in COORDINATE_PATTERN.finditer(text):
+        latitude_text, longitude_text = match.groups()
+        has_precision = max(
+            len(latitude_text.partition(".")[2]),
+            len(longitude_text.partition(".")[2]),
+        ) >= 4
+        context = text[max(0, match.start() - 24):match.end() + 24]
+        has_location_hint = bool(re.search(
+            r"location|maps?|coordinates?|ლოკაცია|геолокац",
+            context,
+            re.I,
+        ))
+        if not has_precision and not has_location_hint:
+            continue
+        latitude = float(latitude_text)
+        longitude = float(longitude_text)
+        if valid_coordinates(latitude, longitude):
+            return latitude, longitude, "text_coordinates"
+    return None, None, None
+
+
+def extract_coordinates_from_map_url(url):
+    try:
+        parsed = urlparse(url)
+    except (TypeError, ValueError):
+        return None, None, None
+    hostname = (parsed.hostname or "").lower()
+    if hostname not in {"google.com", "www.google.com", "maps.google.com"}:
+        return None, None, None
+
+    decoded_url = unquote(url)
+    path_match = re.search(r"@(-?\d{1,2}(?:\.\d+)?),(-?\d{1,3}(?:\.\d+)?)", decoded_url)
+    candidates = []
+    if path_match:
+        candidates.append(path_match.groups())
+    query = parse_qs(parsed.query)
+    for key in ("q", "query", "ll", "destination"):
+        for value in query.get(key, []):
+            match = re.search(r"(-?\d{1,2}(?:\.\d+)?)\s*[,;\s]\s*(-?\d{1,3}(?:\.\d+)?)", value)
+            if match:
+                candidates.append(match.groups())
+    for latitude_text, longitude_text in candidates:
+        latitude = float(latitude_text)
+        longitude = float(longitude_text)
+        if valid_coordinates(latitude, longitude):
+            return latitude, longitude, "google_maps_url"
+    return None, None, None
+
+
+def slice_telegram_entity(text, offset, length):
+    encoded = (text or "").encode("utf-16-le")
+    return encoded[offset * 2:(offset + length) * 2].decode("utf-16-le", errors="ignore")
+
+
+def extract_urls_from_message(message):
+    texts = [
+        getattr(message, "message", None),
+        getattr(message, "raw_text", None),
+        getattr(message, "caption", None),
+    ]
+    urls = []
+    for text in texts:
+        if text:
+            urls.extend(match.group(0).rstrip(".,;:!?)") for match in URL_PATTERN.finditer(text))
+
+    entity_groups = [
+        (getattr(message, "entities", None), getattr(message, "message", "") or ""),
+        (getattr(message, "caption_entities", None), getattr(message, "caption", "") or ""),
+        (getattr(getattr(message, "media", None), "caption_entities", None), getattr(message, "caption", "") or ""),
+    ]
+    for entities, text in entity_groups:
+        for entity in entities or []:
+            hidden_url = getattr(entity, "url", None)
+            if hidden_url:
+                urls.append(hidden_url)
+                continue
+            if type(entity).__name__ == "MessageEntityUrl":
+                offset = int(getattr(entity, "offset", 0))
+                length = int(getattr(entity, "length", 0))
+                if length > 0:
+                    urls.append(slice_telegram_entity(text, offset, length))
+    return list(dict.fromkeys(url for url in urls if isinstance(url, str) and url.startswith(("http://", "https://"))))
+
+
+def expand_short_map_url(url, opener=None):
+    if url in SHORT_MAP_CACHE:
+        return SHORT_MAP_CACHE[url]
+    try:
+        client = opener or build_opener(LimitedRedirectHandler())
+        request = Request(url, headers={"User-Agent": "RentInTbilisiBot/1.0"})
+        with client.open(request, timeout=10) as response:
+            final_url = response.geturl()
+    except Exception as error:
+        print(f"Не удалось раскрыть короткую ссылку карты: {type(error).__name__}", file=sys.stderr)
+        final_url = ""
+    SHORT_MAP_CACHE[url] = final_url
+    return final_url
+
+
+def extract_location(message, short_url_opener=None):
+    latitude, longitude, source = extract_native_geo(message)
+    if latitude is not None:
+        return {"latitude": latitude, "longitude": longitude, "location_source": source}
+
+    text = "\n".join(filter(None, [
+        getattr(message, "message", None),
+        getattr(message, "raw_text", None),
+        getattr(message, "caption", None),
+    ]))
+    text_without_urls = URL_PATTERN.sub(" ", text)
+    latitude, longitude, source = extract_coordinates_from_text(text_without_urls)
+    if latitude is not None:
+        return {"latitude": latitude, "longitude": longitude, "location_source": source}
+
+    urls = extract_urls_from_message(message)
+    for url in urls:
+        latitude, longitude, source = extract_coordinates_from_map_url(url)
+        if latitude is not None:
+            return {"latitude": latitude, "longitude": longitude, "location_source": source}
+    for url in urls:
+        if (urlparse(url).hostname or "").lower() != "maps.app.goo.gl":
+            continue
+        expanded_url = expand_short_map_url(url, short_url_opener)
+        latitude, longitude, _ = extract_coordinates_from_map_url(expanded_url)
+        if latitude is not None:
+            return {"latitude": latitude, "longitude": longitude, "location_source": "expanded_short_url"}
+    return {"latitude": None, "longitude": None, "location_source": None}
+
+
+def build_post_url(channel_username, message_id):
+    normalized_channel = str(channel_username).strip().lstrip("@")
+    if not normalized_channel or not re.fullmatch(r"[A-Za-z0-9_]+", normalized_channel):
+        raise ValueError("Некорректное имя Telegram-канала")
+    return f"https://t.me/{normalized_channel}/{int(message_id)}"
 
 
 def iso(value):
@@ -203,7 +404,7 @@ def calculate_ranking(messages, state, start):
             "current_forwards": current_forwards,
             "baseline_forwards": baseline_forwards,
             "published_at": iso(message["published_at"]),
-            "post_url": f"https://t.me/{CHANNEL}/{message_id}",
+            "post_url": build_post_url(CHANNEL, message_id),
             "image": f"telegram-images/{message_id}.jpg" if message["has_photo"] else "",
             "_message": message["message"],
         })
@@ -228,7 +429,7 @@ def calculate_test_ranking(messages):
             "current_forwards": current_forwards,
             "baseline_forwards": 0,
             "published_at": iso(message["published_at"]),
-            "post_url": f"https://t.me/{CHANNEL}/{message_id}",
+            "post_url": build_post_url(CHANNEL, message_id),
             "image": f"telegram-images/{message_id}.jpg" if message["has_photo"] else "",
             "_message": message["message"],
         })
@@ -250,6 +451,7 @@ async def collect_messages(client):
         property_data = parse_property(message.id, message.message or "")
         if property_data is None:
             continue
+        property_data.update(extract_location(message))
         published_at = message.date.astimezone(TBILISI_TZ)
         messages.append({
             "id": str(message.id),

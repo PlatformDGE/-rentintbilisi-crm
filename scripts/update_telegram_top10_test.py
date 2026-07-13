@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 import unittest
 from datetime import datetime
+from types import SimpleNamespace
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -11,14 +12,64 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from update_telegram_top10 import (
     calculate_ranking,
     calculate_test_ranking,
+    build_post_url,
     build_test_payload,
     create_state,
+    extract_coordinates_from_map_url,
+    extract_coordinates_from_text,
+    extract_location,
+    extract_native_geo,
+    extract_urls_from_message,
     parse_property,
     period_status,
     window_for,
 )
 
 TZ = ZoneInfo("Asia/Tbilisi")
+
+
+def native_media(type_name, latitude, longitude):
+    media = type(type_name, (), {})()
+    media.geo = SimpleNamespace(lat=latitude, long=longitude, access_hash=123456)
+    return media
+
+
+def telegram_message(text="", media=None, entities=None):
+    return SimpleNamespace(
+        message=text,
+        raw_text=text,
+        caption="",
+        entities=entities or [],
+        caption_entities=[],
+        media=media,
+        geo=None,
+    )
+
+
+class FakeResponse:
+    def __init__(self, url):
+        self.url = url
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def geturl(self):
+        return self.url
+
+
+class FakeOpener:
+    def __init__(self, final_url):
+        self.final_url = final_url
+        self.calls = 0
+
+    def open(self, _request, timeout):
+        self.calls += 1
+        if timeout > 10:
+            raise AssertionError("Timeout exceeds ten seconds")
+        return FakeResponse(self.final_url)
 
 
 def message(message_id, published_at, forwards, title="Test apartment for rent 75 sq.m 2 Bed Vake"):
@@ -33,6 +84,102 @@ def message(message_id, published_at, forwards, title="Test apartment for rent 7
 
 
 class DailyRankingTest(unittest.TestCase):
+    def test_native_message_media_geo(self):
+        result = extract_native_geo(telegram_message(media=native_media("MessageMediaGeo", 41.7151, 44.8271)))
+        self.assertEqual(result, (41.7151, 44.8271, "telegram_geo"))
+
+    def test_native_message_media_geo_live(self):
+        result = extract_native_geo(telegram_message(media=native_media("MessageMediaGeoLive", 41.7151, 44.8271)))
+        self.assertEqual(result, (41.7151, 44.8271, "telegram_geo_live"))
+
+    def test_native_message_media_venue(self):
+        result = extract_native_geo(telegram_message(media=native_media("MessageMediaVenue", 41.7151, 44.8271)))
+        self.assertEqual(result, (41.7151, 44.8271, "telegram_venue"))
+
+    def test_text_coordinates_with_comma(self):
+        self.assertEqual(
+            extract_coordinates_from_text("Location: 41.7151, 44.8271"),
+            (41.7151, 44.8271, "text_coordinates"),
+        )
+
+    def test_text_coordinates_with_space(self):
+        self.assertEqual(
+            extract_coordinates_from_text("coordinates 41.7151 44.8271"),
+            (41.7151, 44.8271, "text_coordinates"),
+        )
+
+    def test_google_maps_query_parameters(self):
+        urls = [
+            "https://www.google.com/maps?q=41.7151,44.8271",
+            "https://www.google.com/maps?query=41.7151,44.8271",
+            "https://maps.google.com/maps?ll=41.7151,44.8271",
+            "https://www.google.com/maps/dir/?api=1&destination=41.7151,44.8271",
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertEqual(
+                    extract_coordinates_from_map_url(url),
+                    (41.7151, 44.8271, "google_maps_url"),
+                )
+
+    def test_google_maps_at_coordinates(self):
+        urls = [
+            "https://www.google.com/maps/@41.7151,44.8271,15z",
+            "https://www.google.com/maps/place/Tbilisi/@41.7151,44.8271,17z",
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertEqual(
+                    extract_coordinates_from_map_url(url),
+                    (41.7151, 44.8271, "google_maps_url"),
+                )
+
+    def test_short_google_maps_redirect_is_mocked_and_cached(self):
+        opener = FakeOpener("https://www.google.com/maps/@41.7151,44.8271,17z")
+        message_with_short_url = telegram_message("Location https://maps.app.goo.gl/example-test-location")
+        first = extract_location(message_with_short_url, opener)
+        second = extract_location(message_with_short_url, opener)
+        self.assertEqual(first, {"latitude": 41.7151, "longitude": 44.8271, "location_source": "expanded_short_url"})
+        self.assertEqual(second, first)
+        self.assertEqual(opener.calls, 1)
+
+    def test_hidden_entity_url_is_extracted(self):
+        entity = SimpleNamespace(url="https://maps.google.com/?q=41.7151,44.8271")
+        result = extract_location(telegram_message("Location", entities=[entity]))
+        self.assertEqual(result["location_source"], "google_maps_url")
+
+    def test_visible_entity_url_uses_telegram_utf16_offsets(self):
+        text = "📍 https://maps.google.com/?q=41.7151,44.8271"
+        url = text.split(" ", 1)[1]
+        entity_type = type("MessageEntityUrl", (), {})
+        entity = entity_type()
+        entity.offset = 3
+        entity.length = len(url)
+        self.assertIn(url, extract_urls_from_message(telegram_message(text, entities=[entity])))
+
+    def test_invalid_latitude_is_rejected(self):
+        self.assertEqual(extract_coordinates_from_text("Location 91.1234, 44.8271"), (None, None, None))
+
+    def test_invalid_longitude_is_rejected(self):
+        self.assertEqual(extract_coordinates_from_map_url("https://maps.google.com/?q=41.7151,181.1234"), (None, None, None))
+
+    def test_random_price_and_area_are_not_coordinates(self):
+        self.assertEqual(extract_coordinates_from_text("$500, 75 sq.m, floor 3 8"), (None, None, None))
+
+    def test_no_location_returns_null_values(self):
+        self.assertEqual(
+            extract_location(telegram_message("Apartment for rent $500, 75 sq.m")),
+            {"latitude": None, "longitude": None, "location_source": None},
+        )
+
+    def test_post_url_is_direct_and_normalizes_channel(self):
+        self.assertEqual(build_post_url(" @rent_tbilisi_ge ", "492214"), "https://t.me/rent_tbilisi_ge/492214")
+
+    def test_post_url_contains_matching_numeric_message_id(self):
+        url = build_post_url("rent_tbilisi_ge", 492315)
+        self.assertRegex(url, r"^https://t\.me/rent_tbilisi_ge/\d+$")
+        self.assertEqual(url.rsplit("/", 1)[1], "492315")
+
     def test_period_statuses(self):
         for hour, expected in ((9, "before_window"), (10, "active"), (21, "active"), (22, "finished")):
             now = datetime(2026, 7, 14, hour, tzinfo=TZ)
