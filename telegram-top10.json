@@ -1,6 +1,6 @@
 {
   "channel": "rent_tbilisi_ge",
-  "updated_at": "2026-07-13T18:19:29Z",
+  "updated_at": "2026-07-13T18:30:59Z",
   "items": [
     {
       "id": "492225",
@@ -11,7 +11,7 @@
       "metro": "Rustaveli",
       "rooms": null,
       "floor": "",
-      "views": 147,
+      "views": 148,
       "published_at": "2026-07-13T12:16:11+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492225",
       "image": "https://cdn4.telesco.pe/file/DbIcZDWM3ktMk-l_fOq3kVbXQmo8KGbjIjaSUIrDlo3eyzuRgzRXNHyI7q5HrFpFYW1VFjoXfMSaUiRm7PtZhgwxU2NAaQERE-_99Lt4Jb2eM6bXDBBMCybWRwFNFctBzjX2O2WhTorPDbu5b_WFrHtRnnubJPXqkIHiJXaMVP9E0xzQm9vwdYPuV3cyYPDMg7nBjIFbjU2sYieVFH--AGRJK4-4BVgQtKsDQACdOjrNfSgWMJn6J6a5y_Sxx_R971GQTm-t2Lw34_53qclKnldwXGeIFD-n66KKDfD0nXmSbIstlQTkZW7j0MlsvfxUaJq3QnVOmst02plxZ4_8MQ.jpg"
@@ -25,7 +25,7 @@
       "metro": "",
       "rooms": 1,
       "floor": "2/12",
-      "views": 143,
+      "views": 145,
       "published_at": "2026-07-13T14:05:37+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492274",
       "image": "https://cdn4.telesco.pe/file/OdfOp8VZPcnyPEyBAaAiI7aYa9jWP_k6IqrbRy1egHX5zM6IeeeKG7PlyXtxAxV1gaJajnSSQgyWSL0_D4rezrXEkyYUucEMxJhljxGEni5wd9Xnq67FH4D7revpvuq90d8_raSJFvOweQ0NneBcckmDyAiS4Kc-808MXB3Vcmtu5HnFrmv8gvgiIVRocvmhNYiKn5BP2_nFs2oy4kIfgQOLbzZEi7xkWSLGNmFoTh-43C8LbODkVNggcwnngfCVcJoBCNJT3VXPeDLvMuydOdTGJeLHJsS7TBIj7wyoqWPyHkO7FG-DlbrvScByJ0s1wX99L4kSUtUyZ8zLcJEEZg.jpg"
@@ -39,7 +39,7 @@
       "metro": "Delisi",
       "rooms": 1,
       "floor": "5/8",
-      "views": 142,
+      "views": 143,
       "published_at": "2026-07-13T12:45:59+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492245",
       "image": "https://cdn4.telesco.pe/file/oTxEh2zwJFpZ0oqHPWElUf1Js3YvK3y1YIG0jYsfybDClLC8crS3mcG37dvRETxaFA33_AQQVaJQnHNV35ddtKCmza_ir15SDo4wHG7VkdIbDiPuIkXQXM-vv0R6MTV5O8ehAL2mWTqfRW4yARgl_mfJHF8HYq2eb3RERKKBPEClW1yYKkzJ0vtJwKNDDevWoMczGW4DntXddYzKecXYHS36hXA_z7983wMqyjd1U-B7JNzFTpj6XSMtI28b2Arz_UhTIsGGn7Is35Y3F5ETduXVW-ASxAGR4wsAz6pB2Tmvc4QkEfhNvW8oFkXlVfwtzpEQvgbBWvrbX0R6fQGscw.jpg"
@@ -53,7 +53,7 @@
       "metro": "Rustaveli",
       "rooms": 2,
       "floor": "1/4",
-      "views": 141,
+      "views": 142,
       "published_at": "2026-07-13T15:16:09+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492325",
       "image": "https://cdn4.telesco.pe/file/fLeeZyer8yOmk5dv6_-GXR6cGpO23oAGZA-SDnDncqOuD-ylohqU4SHUEdokht139A86WeNrDTK54jTr-jr0cQIGsIcOLRSg44LRBFeDsLYt_qrjJUy1EHgRJsOP6-C-cKvkI3f2C3F8Vxx3gkxA2vmpvdi1ERCUDLbPC1lSmH8NfufZXAVtyPBEK0wNENm_dI4IAYwhhFwTkoiJr166rZxp3f-G-8w8BWFu0VhDf9tphbpxgQU4OtamJYH0_1hHnbdS8WxT63VynWlarq77SHYbr6BdIExrxh9P6dYhSBNOii20MnQqZVvrXa306J8xZ0JmF1U1CUYKqqRd9ezHQQ.jpg"
@@ -67,10 +67,24 @@
       "metro": "300 Aragveli",
       "rooms": null,
       "floor": "11/12",
-      "views": 137,
+      "views": 138,
       "published_at": "2026-07-13T14:54:39+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492315",
       "image": "https://cdn4.telesco.pe/file/JfJsuhM6GbInx41FLzyZZ-F_ErSmEdokMOk7BfA54lKVFiskQhUZ6BJhgqRWcHkMdR9YNy2KTJZXaZxTTg_fTbTRiZLQM39wwqOvFZiJ2Sh72RmQM4NIWVFNCG-nkpnBvju6QsYiUUMFVNcRJfzsxYKtegILBQkQKP0LpVo-AxR-4BXM8kXh1ISzcQjgLCpyTR3gwcZobJi72E0birrc_mVxItT2IZ5dLZQJjPoaRx6_VIE8NA4L3x6_lyWwhPG3A5m1d76tyaJVg6Yret6J2eOQ37YI9kFgq5qbM0yYP6zP4w1ZRMEPdA3tONm6VzGuYiRQkgpKEHGI06MK5nsJ8Q.jpg"
+    },
+    {
+      "id": "492285",
+      "title": "31 Petre Kavtaradze St",
+      "price": 600,
+      "area": 70,
+      "district": "",
+      "metro": "Vazha-Pshavela",
+      "rooms": 1,
+      "floor": "4/9",
+      "views": 137,
+      "published_at": "2026-07-13T14:15:57+00:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/492285",
+      "image": "https://cdn4.telesco.pe/file/AXjmAvuG61-_jv9AiP_ySf9kRDU7EhFFt-Kno2JftqBegc14rS2bWLDFy2oJw5VV10an8_fD7_DIJXpgzTwGg6gTkU5HB_YQSGi3Ms9EtQDN58hkdqsKXhguuW6Wfu8b3ddINh8wFKRdQ8QlUAJoaqwkLoMBGkMVW4L2oFLCOD5bShEwNUk4WjO2jy5VxHe6s3mNNnt-qHLDWX6T9BmlzMuuEqpyyEVTo661Tf-kmaHRQ5nedohuCjQgcfwd1zpxjCwcg3ssHEdzKIsKR8NOqZGH2ncyjCxdrVBpuvFW-RMbkJYj8XbLdV7riL3KDC5RX_QqKWtDMCqSVOggHcxllQ.jpg"
     },
     {
       "id": "492235",
@@ -87,18 +101,18 @@
       "image": "https://cdn4.telesco.pe/file/l8yGyxiUdtNctfnH_FHCFW5Y4Ox9NVh-Ar7pR_U3sLg9Qp_csZT8tYdaTxW4DEtKo9sCQ7Jsv7a9FbKU0hxmQK7HI1wdwl7tGgWi7cgyOSa9bZOyJezwT34vhH4NxWvY4tDwo7w7I4xZ4WVY7csKynHRCAs6Nb8Wy4b9Vsm35q3OfLOuGiCToM-wB27wuoc4wtv78gUlXbaZoyKtc_vg1bMIABqZrYy_5lwtV9hlV_ngkLHJdV97G5YWRQWZD-2smJU1RCTI_7KT3adeRCFNz0uH1aSZgAmE6qrprO1VMUjd4PuEDjwwO6PINvjoyL8uqNDfGBXZVRM8L2QPj6WIAA.jpg"
     },
     {
-      "id": "492285",
-      "title": "31 Petre Kavtaradze St",
-      "price": 600,
-      "area": 70,
-      "district": "",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "4/9",
-      "views": 135,
-      "published_at": "2026-07-13T14:15:57+00:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/492285",
-      "image": "https://cdn4.telesco.pe/file/AXjmAvuG61-_jv9AiP_ySf9kRDU7EhFFt-Kno2JftqBegc14rS2bWLDFy2oJw5VV10an8_fD7_DIJXpgzTwGg6gTkU5HB_YQSGi3Ms9EtQDN58hkdqsKXhguuW6Wfu8b3ddINh8wFKRdQ8QlUAJoaqwkLoMBGkMVW4L2oFLCOD5bShEwNUk4WjO2jy5VxHe6s3mNNnt-qHLDWX6T9BmlzMuuEqpyyEVTo661Tf-kmaHRQ5nedohuCjQgcfwd1zpxjCwcg3ssHEdzKIsKR8NOqZGH2ncyjCxdrVBpuvFW-RMbkJYj8XbLdV7riL3KDC5RX_QqKWtDMCqSVOggHcxllQ.jpg"
+      "id": "492295",
+      "title": "7 Ilia Chavchavadze Avenue",
+      "price": 1700,
+      "area": 240,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 6,
+      "floor": "5/10",
+      "views": 134,
+      "published_at": "2026-07-13T14:46:10+00:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/492295",
+      "image": "https://cdn4.telesco.pe/file/hFxNDOnTj2txEAsuiDXDjhmk_cUf47ymsGikhT5WIdI2_oxvr0tKfLR3XlEaMDsYbjkLc9oHvVcH_NtduUJfO2KXxVQecMXvyBOVpiYzNFmzspzRLJrp-E8ZUjOgwVUVVLBhf2XDokd4a1cE_SdPsxeb-VTJcE9ywyT17DhzifhPBNCAADbCL4BGmh4DKUwLcmZ-WOIbxig185o4M0VDUbhCHLr4xhNaE8jXH690J1AD1Mx1RMWWCoMG0yQmJoHfPebwPbhvnXMbu6WeavjRlYP4ZvjaiPL6zR5FCsjFDl09mjU413Uh88nhq_3x8QpuGAdccg73EfZecqjhBtW0xQ.jpg"
     },
     {
       "id": "492265",
@@ -109,7 +123,7 @@
       "metro": "",
       "rooms": null,
       "floor": "",
-      "views": 133,
+      "views": 134,
       "published_at": "2026-07-13T13:46:02+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492265",
       "image": "https://cdn4.telesco.pe/file/Mk2d2BDe0tkvfuQO45VRXkuLW_H1WUdtgPwr7ZXNJA24tHIsC_wFBQ6BlWiq40Qcy5p0V6L95A1fBZwRwkxPMOXdC7whfVpY5ztFxsAGLoOsUa7QedBV54X7VBqmNAvAggm328qUff4NuqCZFkR9xD0rBPvgMkRFGhqDa82t_Q9rdBo3834vzv3Q6J_Q5xPVQWc6GKLLrhzHEWdczuj1C03bqfM_S_3wtMSHwXFOkRSMJIej0INTWUumNQknzqo3jz35s-gUM21pf2Prbv8k4zGX8s0s3Or7ypoXGQC2GYvyHxR6GAvDb1RYYGlyTi4YLKBlMWrRG6N-ipTK1Wsr8w.jpg"
@@ -123,24 +137,10 @@
       "metro": "Delisi",
       "rooms": null,
       "floor": "4/5",
-      "views": 132,
+      "views": 133,
       "published_at": "2026-07-13T14:51:09+00:00",
       "post_url": "https://t.me/rent_tbilisi_ge/492305",
       "image": "https://cdn4.telesco.pe/file/f8sfmN5wh89eXwXGgLGkg-4WAwv-tLx2Xad-XgKwdk0UTQz3rWAlJUW-OoRLTQNDdSZv5UDurO6BddmjISLjx5KxcHexgUD_iouJwMgV4E5IBpVH5gNIGTETcO6NRKHZZud-7S63u1wjR4a7UJ_QGO4Mcpmdn8kpQTv1BHnwbUtrykEOsm9WAZQqva_bIo48DWzPFl4uhec3GFQVJsc1pmd3CtWaJok1UYnt3ycirSSOZonDu_VgHIWoWogIyxKDk30bCIU-yfUXJVvTySVjWJY9JI8hXrrD4rIFdoKKpoXK5RZ9juj0CpJ9nznfI9A9Iz1iOxrXjYT_zkaWKwdALA.jpg"
-    },
-    {
-      "id": "492295",
-      "title": "7 Ilia Chavchavadze Avenue",
-      "price": 1700,
-      "area": 240,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 6,
-      "floor": "5/10",
-      "views": 132,
-      "published_at": "2026-07-13T14:46:10+00:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/492295",
-      "image": "https://cdn4.telesco.pe/file/hFxNDOnTj2txEAsuiDXDjhmk_cUf47ymsGikhT5WIdI2_oxvr0tKfLR3XlEaMDsYbjkLc9oHvVcH_NtduUJfO2KXxVQecMXvyBOVpiYzNFmzspzRLJrp-E8ZUjOgwVUVVLBhf2XDokd4a1cE_SdPsxeb-VTJcE9ywyT17DhzifhPBNCAADbCL4BGmh4DKUwLcmZ-WOIbxig185o4M0VDUbhCHLr4xhNaE8jXH690J1AD1Mx1RMWWCoMG0yQmJoHfPebwPbhvnXMbu6WeavjRlYP4ZvjaiPL6zR5FCsjFDl09mjU413Uh88nhq_3x8QpuGAdccg73EfZecqjhBtW0xQ.jpg"
     }
   ]
 }
