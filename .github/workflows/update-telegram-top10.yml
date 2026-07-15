@@ -1,6 +1,9 @@
 name: Update Telegram Top 10
 
 on:
+  push:
+    branches:
+      - feature/telegram-property-registry
   schedule:
     - cron: "0 6-18 * * *"
   workflow_dispatch:
