@@ -80,11 +80,16 @@ def channel_age_minutes(published_at, now):
     return max(int((now - published_at).total_seconds() // 60), 0)
 
 
-def media_diagnostic(media, had_media):
+def media_diagnostic(media, had_media, failures=None):
     if media:
         return "media_ready"
     if not had_media:
         return "no_media_in_post"
+    failures = failures or []
+    if "storage_failed" in failures:
+        return "storage_failed"
+    if "invalid_mapping" in failures:
+        return "invalid_mapping"
     return "download_failed"
 
 
@@ -140,7 +145,7 @@ async def import_registry(client, storage=None, now=None):
     for message in messages:
         groups.setdefault(str(message.grouped_id or message.id), []).append(message)
 
-    properties = []
+    properties_by_url = dict(previous)
     agents = {}
     created = updated = with_media = without_media = media_errors = 0
     for group in groups.values():
@@ -164,11 +169,13 @@ async def import_registry(client, storage=None, now=None):
                 "active": True,
             }
         media = []
+        media_failures = []
         had_media = any(item.photo or item.video for item in group)
         for order, message in enumerate(item for item in group if item.photo or item.video):
             extension = "mp4" if message.video else "jpg"
             stored = await storage.store(client, message, f"{primary.id}-{order + 1}.{extension}")
             if stored.status != "media_ready":
+                media_failures.append(stored.status)
                 continue
             media_object = getattr(message, "photo", None) or getattr(message, "document", None)
             media.append({
@@ -185,7 +192,7 @@ async def import_registry(client, storage=None, now=None):
             })
         location = extract_location(primary)
         published_at = primary.date.astimezone(TBILISI_TZ)
-        status = media_diagnostic(media, had_media)
+        status = media_diagnostic(media, had_media, media_failures)
         incoming = {
             "id": property_id(source_url),
             "sourceTelegramUrl": source_url,
@@ -223,7 +230,9 @@ async def import_registry(client, storage=None, now=None):
         with_media += int(bool(media))
         without_media += int(not had_media)
         media_errors += int(had_media and not media)
-        properties.append(merged)
+        properties_by_url[source_url] = merged
+
+    properties = list(properties_by_url.values())
 
     ranking = load_json(RANKING_PATH) or {}
     ranks = {item.get("post_url"): item for item in ranking.get("items") or []}
@@ -234,7 +243,7 @@ async def import_registry(client, storage=None, now=None):
             item["highestRank"] = ranked.get("highestRank")
             item["maxRepostCount"] = int(ranked.get("maxRepostCount", item["repostCount"]))
     report = {
-        "processedPublications": len(properties),
+        "processedPublications": created + updated,
         "created": created,
         "updated": updated,
         "withRealMedia": with_media,

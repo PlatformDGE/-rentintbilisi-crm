@@ -104,6 +104,8 @@ class RegistryImportTest(unittest.IsolatedAsyncioTestCase):
 
     def test_download_failure_has_diagnostic_without_fake_media(self):
         self.assertEqual(media_diagnostic([], True), "download_failed")
+        self.assertEqual(media_diagnostic([], True, ["storage_failed"]), "storage_failed")
+        self.assertEqual(media_diagnostic([], True, ["invalid_mapping"]), "invalid_mapping")
         self.assertEqual(media_diagnostic([], False), "no_media_in_post")
 
     def test_channel_age_uses_published_at(self):
