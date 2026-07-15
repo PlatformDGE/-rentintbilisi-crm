@@ -53,14 +53,20 @@ jobs:
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           TELEGRAM_TEST_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.test_mode || 'false' }}
         run: python scripts/update_telegram_top10.py
+      - name: Import independent property registry
+        env:
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+        run: python scripts/import_telegram_property_registry.py
       - name: Commit updated data
         run: |
-          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-images; then
+          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-property-registry.json telegram-images telegram-media; then
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-images
+          git add telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-property-registry.json telegram-images telegram-media
           git commit -m "Update daily Telegram repost ranking"
           git push
