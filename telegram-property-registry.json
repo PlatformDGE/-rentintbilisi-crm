@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "channel": "rent_tbilisi_ge",
-  "updatedAt": "2026-07-15T15:36:51+04:00",
+  "updatedAt": "2026-07-15T15:41:46+04:00",
   "agents": [
     {
       "id": "agent:alyona",
@@ -239,9 +239,9 @@
       "repostCount": 2,
       "highestRank": 2,
       "maxRepostCount": 2,
-      "channelAgeMinutes": 20,
+      "channelAgeMinutes": 25,
       "firstSeenAt": "2026-07-15T15:16:15+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -390,9 +390,9 @@
       "repostCount": 1,
       "highestRank": 5,
       "maxRepostCount": 1,
-      "channelAgeMinutes": 36,
+      "channelAgeMinutes": 40,
       "firstSeenAt": "2026-07-15T15:00:49+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -541,9 +541,9 @@
       "repostCount": 1,
       "highestRank": 6,
       "maxRepostCount": 1,
-      "channelAgeMinutes": 39,
+      "channelAgeMinutes": 44,
       "firstSeenAt": "2026-07-15T14:57:40+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -689,9 +689,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 50,
+      "channelAgeMinutes": 55,
       "firstSeenAt": "2026-07-15T14:46:16+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -840,9 +840,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 80,
+      "channelAgeMinutes": 85,
       "firstSeenAt": "2026-07-15T14:15:56+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -985,12 +985,12 @@
       "mediaImportStatus": "media_ready",
       "telegramAvailable": true,
       "lifecycleStatus": "active",
-      "repostCount": 2,
-      "highestRank": 3,
-      "maxRepostCount": 2,
-      "channelAgeMinutes": 110,
+      "repostCount": 3,
+      "highestRank": 2,
+      "maxRepostCount": 3,
+      "channelAgeMinutes": 115,
       "firstSeenAt": "2026-07-15T13:46:13+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1148,9 +1148,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 123,
+      "channelAgeMinutes": 128,
       "firstSeenAt": "2026-07-15T13:33:38+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1308,9 +1308,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 140,
+      "channelAgeMinutes": 145,
       "firstSeenAt": "2026-07-15T13:15:59+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1471,9 +1471,9 @@
       "repostCount": 1,
       "highestRank": 7,
       "maxRepostCount": 1,
-      "channelAgeMinutes": 156,
+      "channelAgeMinutes": 160,
       "firstSeenAt": "2026-07-15T13:00:50+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1634,9 +1634,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 170,
+      "channelAgeMinutes": 175,
       "firstSeenAt": "2026-07-15T12:45:59+04:00",
-      "lastSeenAt": "2026-07-15T15:36:51+04:00",
+      "lastSeenAt": "2026-07-15T15:41:46+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1647,8 +1647,8 @@
   ],
   "report": {
     "processedPublications": 10,
-    "created": 10,
-    "updated": 0,
+    "created": 0,
+    "updated": 10,
     "withRealMedia": 10,
     "withoutMedia": 0,
     "mediaErrors": 0,
