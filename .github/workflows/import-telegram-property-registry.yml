@@ -1,0 +1,38 @@
+name: Import Telegram Property Registry
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 6-18 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telegram-property-registry
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Import channel registry
+        env:
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+        run: python scripts/import_telegram_property_registry.py
+      - name: Commit registry and persistent media
+        run: |
+          if git diff --quiet -- telegram-property-registry.json telegram-top10.json telegram-media; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add telegram-property-registry.json telegram-top10.json telegram-media
+          git commit -m "Update Telegram property registry"
+          git push
