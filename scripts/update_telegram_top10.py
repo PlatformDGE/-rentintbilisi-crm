@@ -399,6 +399,12 @@ def parse_property(message_id, text):
     district = find_named(text, DISTRICTS)
     metro = find_named(text, METROS)
     title = extract_title(text, district, rooms, message_id)
+    cadastral_match = re.search(r"(?:cadastral|кадастров(?:ый|ого)?(?:\s+номер)?|საკადასტრო)\s*[:#-]?\s*([\d.\-/]+)", text, re.I)
+    owner_phone_match = re.search(
+        r"(?:owner|собственник|владелец|მეპატრონე)\D{0,18}(\+?\d[\d ()-]{7,}\d)",
+        text,
+        re.I,
+    )
     word_signal = bool(re.search(
         r"\b(apartment|flat|house|rent|sale|квартир\w*|аренд\w*|продаж\w*)\b",
         text,
@@ -417,6 +423,9 @@ def parse_property(message_id, text):
         "metro": metro,
         "rooms": rooms,
         "floor": floor,
+        "address": title,
+        "_cadastralNumber": cadastral_match.group(1) if cadastral_match else "",
+        "_ownerPhone": owner_phone_match.group(1) if owner_phone_match else "",
     }
 
 
@@ -501,7 +510,7 @@ def calculate_test_ranking(messages, limit=10):
 
 
 def public_item(item):
-    return {key: value for key, value in item.items() if key != "_message"}
+    return {key: value for key, value in item.items() if not key.startswith("_")}
 
 
 async def collect_messages(client):

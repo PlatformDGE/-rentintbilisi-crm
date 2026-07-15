@@ -366,6 +366,18 @@ class LifecycleTest(unittest.TestCase):
         self.assertEqual(entries["101"]["highestRank"], 1)
         self.assertEqual(entries["101"]["maxRepostCount"], 12)
 
+    def test_stable_key_preserves_first_seen_when_message_id_changes(self):
+        now = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        original = self.item("100")
+        original["_cadastralNumber"] = "01.14.05.001.001"
+        _, _, history = update_lifecycle([original], empty_history(), now)
+        updated = self.item("200", published_at="2026-07-16T12:00:00+04:00")
+        updated["_cadastralNumber"] = "01.14.05.001.001"
+        active, _, history = update_lifecycle([updated], history, datetime(2026, 7, 16, 15, tzinfo=TZ))
+        self.assertEqual(len(history["properties"]), 1)
+        self.assertEqual(active[0]["firstSeenAt"], "2026-07-14T12:00:00+04:00")
+        self.assertEqual(active[0]["id"], "200")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -21,11 +21,11 @@ def normalize_text(value):
 
 
 def property_key(item):
-    cadastral = normalize_text(item.get("cadastralNumber"))
+    cadastral = normalize_text(item.get("cadastralNumber") or item.get("_cadastralNumber"))
     if cadastral:
         return f"cadastral:{cadastral.replace(' ', '')}"
     address = normalize_text(item.get("address") or item.get("title"))
-    owner_phone = re.sub(r"\D", "", str(item.get("ownerPhone") or ""))
+    owner_phone = re.sub(r"\D", "", str(item.get("ownerPhone") or item.get("_ownerPhone") or ""))
     if address and owner_phone:
         digest = hashlib.sha256(f"{address}|{owner_phone}".encode()).hexdigest()[:24]
         return f"address-owner:{digest}"
@@ -103,7 +103,7 @@ def update_lifecycle(items, history, now, confirmed_rentals=None):
         entry["lastSeenAt"] = iso(now)
         entry["highestRank"] = min(int(entry.get("highestRank", rank)), rank)
         entry["maxRepostCount"] = max(int(entry.get("maxRepostCount", 0)), int(item.get("repostCount", 0)))
-        entry["snapshot"] = {key: value for key, value in item.items() if key != "_message"}
+        entry["snapshot"] = {key: value for key, value in item.items() if not key.startswith("_")}
 
         confirmed_at = confirmed_rentals.get(stored_key) or confirmed_rentals.get(str(item["id"]))
         if confirmed_at and entry.get("lifecycleStatus") != "rented":
