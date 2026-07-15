@@ -17,7 +17,10 @@ from update_telegram_top10 import (
     CHANNEL,
     TBILISI_TZ,
     build_post_url,
-    extract_location,
+    extract_coordinates_from_map_url,
+    extract_coordinates_from_text,
+    extract_native_geo,
+    extract_urls_from_message,
     iso,
     load_json,
     parse_property,
@@ -91,6 +94,23 @@ def media_diagnostic(media, had_media, failures=None):
     if "invalid_mapping" in failures:
         return "invalid_mapping"
     return "download_failed"
+
+
+def extract_registry_location(message):
+    latitude, longitude, source = extract_native_geo(message)
+    if latitude is not None:
+        return {"latitude": latitude, "longitude": longitude, "location_source": source, "location_url": None}
+    text = getattr(message, "message", "") or ""
+    latitude, longitude, source = extract_coordinates_from_text(text)
+    if latitude is not None:
+        return {"latitude": latitude, "longitude": longitude, "location_source": source, "location_url": None}
+    urls = extract_urls_from_message(message)
+    for url in urls:
+        latitude, longitude, source = extract_coordinates_from_map_url(url)
+        if latitude is not None:
+            return {"latitude": latitude, "longitude": longitude, "location_source": source, "location_url": url}
+    map_url = next((url for url in urls if "maps" in url.lower() or "goo.gl" in url.lower()), None)
+    return {"latitude": None, "longitude": None, "location_source": None, "location_url": map_url}
 
 
 def merge_property(previous, incoming, now):
@@ -190,7 +210,7 @@ async def import_registry(client, storage=None, now=None):
                 "order": order,
                 "isPrimary": order == 0,
             })
-        location = extract_location(primary)
+        location = extract_registry_location(primary)
         published_at = primary.date.astimezone(TBILISI_TZ)
         status = media_diagnostic(media, had_media, media_failures)
         incoming = {
