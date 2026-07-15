@@ -24,7 +24,14 @@ from update_telegram_top10 import (
     period_status,
     window_for,
 )
-from telegram_lifecycle import days_inclusive, empty_history, update_lifecycle
+from telegram_lifecycle import (
+    days_inclusive,
+    empty_history,
+    format_elapsed_minutes,
+    normalize_telegram_url,
+    telegram_message_id,
+    update_lifecycle,
+)
 
 TZ = ZoneInfo("Asia/Tbilisi")
 
@@ -334,6 +341,13 @@ class LifecycleTest(unittest.TestCase):
             datetime(2026, 7, 15, 1, tzinfo=TZ),
         ), 2)
 
+    def test_timer_formats_minutes_hours_days_and_week(self):
+        self.assertEqual(format_elapsed_minutes(0), "Сегодня")
+        self.assertEqual(format_elapsed_minutes(37), "37 мин")
+        self.assertEqual(format_elapsed_minutes(125), "2 ч 5 мин")
+        self.assertEqual(format_elapsed_minutes(3 * 1440 + 4 * 60), "3 д 4 ч")
+        self.assertEqual(format_elapsed_minutes(8 * 1440 + 50), "8 дней")
+
     def test_disappearing_from_ranking_does_not_mean_rented(self):
         now = datetime(2026, 7, 14, 15, tzinfo=TZ)
         _, _, history = update_lifecycle([self.item()], empty_history(), now)
@@ -360,23 +374,61 @@ class LifecycleTest(unittest.TestCase):
         now = datetime(2026, 7, 14, 15, tzinfo=TZ)
         _, _, history = update_lifecycle([self.item(reposts=8), self.item("101", reposts=7)], empty_history(), now)
         _, _, history = update_lifecycle([self.item("101", reposts=12), self.item(reposts=3)], history, now)
-        entries = {entry["messageId"]: entry for entry in history["properties"].values()}
+        entries = {entry["sourceTelegramMessageId"]: entry for entry in history["properties"].values()}
         self.assertEqual(entries["100"]["highestRank"], 1)
         self.assertEqual(entries["100"]["maxRepostCount"], 8)
         self.assertEqual(entries["101"]["highestRank"], 1)
         self.assertEqual(entries["101"]["maxRepostCount"], 12)
 
-    def test_stable_key_preserves_first_seen_when_message_id_changes(self):
+    def test_source_url_is_normalized_and_message_id_extracted(self):
+        self.assertEqual(
+            normalize_telegram_url("https://T.ME/Rent_Tbilisi_GE/00100?single"),
+            "https://t.me/rent_tbilisi_ge/100",
+        )
+        self.assertEqual(telegram_message_id("https://t.me/rent_tbilisi_ge/100"), "100")
+
+    def test_exact_url_match_closes_property_and_keeps_confirmation(self):
         now = datetime(2026, 7, 14, 15, tzinfo=TZ)
-        original = self.item("100")
-        original["_cadastralNumber"] = "01.14.05.001.001"
-        _, _, history = update_lifecycle([original], empty_history(), now)
-        updated = self.item("200", published_at="2026-07-16T12:00:00+04:00")
-        updated["_cadastralNumber"] = "01.14.05.001.001"
-        active, _, history = update_lifecycle([updated], history, datetime(2026, 7, 16, 15, tzinfo=TZ))
-        self.assertEqual(len(history["properties"]), 1)
-        self.assertEqual(active[0]["firstSeenAt"], "2026-07-14T12:00:00+04:00")
-        self.assertEqual(active[0]["id"], "200")
+        _, _, history = update_lifecycle([self.item()], empty_history(), now)
+        event = {
+            "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/100",
+            "confirmationTelegramUrl": "https://t.me/rented_by_owner/900",
+            "status": "rented",
+            "confirmedAt": "2026-07-15T15:00:00+04:00",
+        }
+        active, closed, _ = update_lifecycle([self.item()], history, datetime(2026, 7, 16, 15, tzinfo=TZ), [event])
+        self.assertEqual(active, [])
+        self.assertEqual(closed[0]["lifecycleStatus"], "rented")
+        self.assertEqual(closed[0]["confirmationTelegramUrl"], "https://t.me/rented_by_owner/900")
+
+    def test_url_presence_prevents_address_fallback(self):
+        now = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        _, _, history = update_lifecycle([self.item()], empty_history(), now)
+        event = {
+            "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/999",
+            "address": "10 Test Street",
+            "status": "rented",
+            "confirmedAt": "2026-07-15T15:00:00+04:00",
+        }
+        active, closed, _ = update_lifecycle([self.item()], history, now, [event])
+        self.assertEqual(len(active), 1)
+        self.assertEqual(closed, [])
+
+    def test_address_fallback_only_without_url_and_sold_timer_stops(self):
+        now = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        _, _, history = update_lifecycle([self.item()], empty_history(), now)
+        event = {
+            "address": "10 test street",
+            "price": 500,
+            "status": "sold",
+            "confirmedAt": "2026-07-16T12:00:00+04:00",
+        }
+        active, closed, history = update_lifecycle([self.item()], history, datetime(2026, 7, 17, 15, tzinfo=TZ), [event])
+        self.assertEqual(active, [])
+        self.assertEqual(closed[0]["lifecycleStatus"], "sold")
+        elapsed = closed[0]["elapsedMinutesOnChannel"]
+        _, closed_again, _ = update_lifecycle([self.item()], history, datetime(2026, 7, 20, 15, tzinfo=TZ))
+        self.assertEqual(closed_again[0]["elapsedMinutesOnChannel"], elapsed)
 
 
 if __name__ == "__main__":

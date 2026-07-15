@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 
-from telegram_lifecycle import empty_history, update_lifecycle
+from telegram_lifecycle import empty_history, normalize_telegram_url, update_lifecycle
 
 CHANNEL = "rent_tbilisi_ge"
 MESSAGE_LIMIT = 300
@@ -399,12 +399,6 @@ def parse_property(message_id, text):
     district = find_named(text, DISTRICTS)
     metro = find_named(text, METROS)
     title = extract_title(text, district, rooms, message_id)
-    cadastral_match = re.search(r"(?:cadastral|кадастров(?:ый|ого)?(?:\s+номер)?|საკადასტრო)\s*[:#-]?\s*([\d.\-/]+)", text, re.I)
-    owner_phone_match = re.search(
-        r"(?:owner|собственник|владелец|მეპატრონე)\D{0,18}(\+?\d[\d ()-]{7,}\d)",
-        text,
-        re.I,
-    )
     word_signal = bool(re.search(
         r"\b(apartment|flat|house|rent|sale|квартир\w*|аренд\w*|продаж\w*)\b",
         text,
@@ -424,8 +418,6 @@ def parse_property(message_id, text):
         "rooms": rooms,
         "floor": floor,
         "address": title,
-        "_cadastralNumber": cadastral_match.group(1) if cadastral_match else "",
-        "_ownerPhone": owner_phone_match.group(1) if owner_phone_match else "",
     }
 
 
@@ -590,12 +582,26 @@ def confirmed_rentals_from_environment():
     if not raw:
         return {}
     payload = json.loads(raw)
-    if not isinstance(payload, dict):
-        raise RuntimeError("TELEGRAM_RENTED_EVENTS_JSON должен быть JSON-объектом")
-    confirmed = {}
-    for key, value in payload.items():
-        confirmed[str(key)] = datetime.fromisoformat(str(value)).astimezone(TBILISI_TZ)
-    return confirmed
+    if isinstance(payload, dict):
+        return {
+            str(key): datetime.fromisoformat(str(value)).astimezone(TBILISI_TZ)
+            for key, value in payload.items()
+        }
+    if not isinstance(payload, list):
+        raise RuntimeError("TELEGRAM_RENTED_EVENTS_JSON должен быть JSON-массивом событий")
+    events = []
+    for source in payload:
+        if not isinstance(source, dict):
+            continue
+        event = dict(source)
+        if not event.get("sourceTelegramUrl"):
+            for url in URL_PATTERN.findall(str(event.get("confirmationText") or "")):
+                normalized = normalize_telegram_url(url.rstrip(".,;:!?)"))
+                if normalized and "/rent_tbilisi_ge/" in normalized:
+                    event["sourceTelegramUrl"] = normalized
+                    break
+        events.append(event)
+    return events
 
 
 def required_environment():
