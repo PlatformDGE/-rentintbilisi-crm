@@ -42,6 +42,7 @@ COORDINATE_PATTERN = re.compile(
     r"(?<![\d.])(-?\d{1,2}\.\d{2,})\s*[,;\s]\s*(-?\d{1,3}\.\d{2,})(?![\d.])"
 )
 SHORT_MAP_CACHE = {}
+SHORT_MAP_HOSTS = {"maps.app.goo.gl", "goo.gl"}
 
 
 class LimitedRedirectHandler(HTTPRedirectHandler):
@@ -137,6 +138,13 @@ def extract_coordinates_from_map_url(url):
     candidates = []
     if path_match:
         candidates.append(path_match.groups())
+    place_match = re.search(
+        r"/place/(?:[^/]+/)?(-?\d{1,2}(?:\.\d+)?),(-?\d{1,3}(?:\.\d+)?)(?:[/@?]|$)",
+        decoded_url,
+        re.I,
+    )
+    if place_match:
+        candidates.append(place_match.groups())
     query = parse_qs(parsed.query)
     for key in ("q", "query", "ll", "destination"):
         for value in query.get(key, []):
@@ -204,7 +212,13 @@ def expand_short_map_url(url, opener=None):
 def extract_location(message, short_url_opener=None):
     latitude, longitude, source = extract_native_geo(message)
     if latitude is not None:
-        return {"latitude": latitude, "longitude": longitude, "location_source": source}
+        return {
+            "latitude": latitude,
+            "longitude": longitude,
+            "location_source": source,
+            "location_url": None,
+            "location_diagnostic": None,
+        }
 
     text = "\n".join(filter(None, [
         getattr(message, "message", None),
@@ -214,21 +228,60 @@ def extract_location(message, short_url_opener=None):
     text_without_urls = URL_PATTERN.sub(" ", text)
     latitude, longitude, source = extract_coordinates_from_text(text_without_urls)
     if latitude is not None:
-        return {"latitude": latitude, "longitude": longitude, "location_source": source}
+        return {
+            "latitude": latitude,
+            "longitude": longitude,
+            "location_source": source,
+            "location_url": None,
+            "location_diagnostic": None,
+        }
 
     urls = extract_urls_from_message(message)
     for url in urls:
         latitude, longitude, source = extract_coordinates_from_map_url(url)
         if latitude is not None:
-            return {"latitude": latitude, "longitude": longitude, "location_source": source}
+            return {
+                "latitude": latitude,
+                "longitude": longitude,
+                "location_source": source,
+                "location_url": url,
+                "location_diagnostic": None,
+            }
     for url in urls:
-        if (urlparse(url).hostname or "").lower() != "maps.app.goo.gl":
+        hostname = (urlparse(url).hostname or "").lower()
+        if hostname not in SHORT_MAP_HOSTS or (hostname == "goo.gl" and not urlparse(url).path.startswith("/maps")):
             continue
         expanded_url = expand_short_map_url(url, short_url_opener)
         latitude, longitude, _ = extract_coordinates_from_map_url(expanded_url)
         if latitude is not None:
-            return {"latitude": latitude, "longitude": longitude, "location_source": "expanded_short_url"}
-    return {"latitude": None, "longitude": None, "location_source": None}
+            return {
+                "latitude": latitude,
+                "longitude": longitude,
+                "location_source": "expanded_short_url",
+                "location_url": url,
+                "location_expanded_url": expanded_url,
+                "location_diagnostic": None,
+            }
+        return {
+            "latitude": None,
+            "longitude": None,
+            "location_source": None,
+            "location_url": url,
+            "location_expanded_url": expanded_url or None,
+            "location_diagnostic": "Короткая Google Maps-ссылка не содержит координат после раскрытия",
+        }
+    google_urls = [url for url in urls if "google." in (urlparse(url).hostname or "").lower()]
+    return {
+        "latitude": None,
+        "longitude": None,
+        "location_source": None,
+        "location_url": google_urls[0] if google_urls else None,
+        "location_diagnostic": (
+            "Google Maps-ссылка не содержит координат"
+            if google_urls
+            else "В Telegram-публикации не найдена Google Maps-ссылка с координатами"
+        ),
+    }
 
 
 def build_post_url(channel_username, message_id):
@@ -401,6 +454,7 @@ def calculate_ranking(messages, state, start):
         current_forwards = max(int(message["current_forwards"]), 0)
         items.append({
             **message["property"],
+            "repostCount": max(current_forwards - baseline_forwards, 0),
             "daily_reposts": max(current_forwards - baseline_forwards, 0),
             "current_forwards": current_forwards,
             "baseline_forwards": baseline_forwards,
@@ -414,9 +468,7 @@ def calculate_ranking(messages, state, start):
         item["current_forwards"],
         item["published_at"],
     ), reverse=True)
-    positive = [item for item in items if item["daily_reposts"] > 0]
-    selected = positive[:10] if len(positive) >= 10 else items[:10]
-    return selected
+    return [item for item in items if item["repostCount"] > 0][:10]
 
 
 def calculate_test_ranking(messages):
@@ -426,6 +478,7 @@ def calculate_test_ranking(messages):
         message_id = message["id"]
         items.append({
             **message["property"],
+            "repostCount": current_forwards,
             "daily_reposts": current_forwards,
             "current_forwards": current_forwards,
             "baseline_forwards": 0,
@@ -439,7 +492,7 @@ def calculate_test_ranking(messages):
         item["current_forwards"],
         item["published_at"],
     ), reverse=True)
-    return items[:10]
+    return [item for item in items if item["repostCount"] > 0][:10]
 
 
 def public_item(item):

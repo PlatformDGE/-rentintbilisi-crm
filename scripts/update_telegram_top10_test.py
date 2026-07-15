@@ -134,14 +134,29 @@ class DailyRankingTest(unittest.TestCase):
                     (41.7151, 44.8271, "google_maps_url"),
                 )
 
+    def test_google_maps_place_coordinates(self):
+        self.assertEqual(
+            extract_coordinates_from_map_url("https://www.google.com/maps/place/41.7151,44.8271"),
+            (41.7151, 44.8271, "google_maps_url"),
+        )
+
     def test_short_google_maps_redirect_is_mocked_and_cached(self):
         opener = FakeOpener("https://www.google.com/maps/@41.7151,44.8271,17z")
         message_with_short_url = telegram_message("Location https://maps.app.goo.gl/example-test-location")
         first = extract_location(message_with_short_url, opener)
         second = extract_location(message_with_short_url, opener)
-        self.assertEqual(first, {"latitude": 41.7151, "longitude": 44.8271, "location_source": "expanded_short_url"})
+        self.assertEqual((first["latitude"], first["longitude"]), (41.7151, 44.8271))
+        self.assertEqual(first["location_source"], "expanded_short_url")
+        self.assertEqual(first["location_url"], "https://maps.app.goo.gl/example-test-location")
+        self.assertEqual(first["location_expanded_url"], "https://www.google.com/maps/@41.7151,44.8271,17z")
         self.assertEqual(second, first)
         self.assertEqual(opener.calls, 1)
+
+    def test_goo_gl_maps_redirect_is_supported(self):
+        opener = FakeOpener("https://maps.google.com/?q=41.7151,44.8271")
+        result = extract_location(telegram_message("Location https://goo.gl/maps/example"), opener)
+        self.assertEqual((result["latitude"], result["longitude"]), (41.7151, 44.8271))
+        self.assertEqual(result["location_source"], "expanded_short_url")
 
     def test_hidden_entity_url_is_extracted(self):
         entity = SimpleNamespace(url="https://maps.google.com/?q=41.7151,44.8271")
@@ -170,10 +185,10 @@ class DailyRankingTest(unittest.TestCase):
         self.assertEqual(extract_coordinates_from_text("$500, 75 sq.m, floor 3 8"), (None, None, None))
 
     def test_no_location_returns_null_values(self):
-        self.assertEqual(
-            extract_location(telegram_message("Apartment for rent $500, 75 sq.m")),
-            {"latitude": None, "longitude": None, "location_source": None},
-        )
+        result = extract_location(telegram_message("Apartment for rent $500, 75 sq.m"))
+        self.assertIsNone(result["latitude"])
+        self.assertIsNone(result["longitude"])
+        self.assertIn("не найдена", result["location_diagnostic"])
 
     def test_post_url_is_direct_and_normalizes_channel(self):
         self.assertEqual(build_post_url(" @rent_tbilisi_ge ", "492214"), "https://t.me/rent_tbilisi_ge/492214")
@@ -196,7 +211,7 @@ class DailyRankingTest(unittest.TestCase):
         state = create_state(now, start, end, messages)
         ranking = calculate_ranking(messages, state, start)
         self.assertTrue(state["baseline_created_late"])
-        self.assertEqual(ranking[0]["daily_reposts"], 0)
+        self.assertEqual(ranking, [])
 
     def test_existing_post_uses_daily_difference(self):
         now = datetime(2026, 7, 14, 10, tzinfo=TZ)
@@ -222,7 +237,21 @@ class DailyRankingTest(unittest.TestCase):
         messages = [message(3, datetime(2026, 7, 12, 12, tzinfo=TZ), 11)]
         state = {"messages": {}, "baseline_created_late": False}
         ranking = calculate_ranking(messages, state, start)
-        self.assertEqual((ranking[0]["baseline_forwards"], ranking[0]["daily_reposts"]), (11, 0))
+        self.assertEqual(ranking, [])
+        self.assertEqual(state["messages"]["3"]["baseline_forwards"], 11)
+
+    def test_zero_reposts_are_excluded_when_positive_count_is_below_ten(self):
+        now = datetime(2026, 7, 14, 10, tzinfo=TZ)
+        start, end = window_for(now)
+        messages = [
+            message(1, datetime(2026, 7, 13, 12, tzinfo=TZ), 5),
+            message(2, datetime(2026, 7, 13, 12, tzinfo=TZ), 0),
+        ]
+        state = create_state(now, start, end, messages)
+        messages[0]["current_forwards"] = 7
+        ranking = calculate_ranking(messages, state, start)
+        self.assertEqual([item["id"] for item in ranking], ["1"])
+        self.assertEqual(ranking[0]["repostCount"], 2)
 
     def test_sorting_and_limit(self):
         now = datetime(2026, 7, 14, 10, tzinfo=TZ)
