@@ -122,6 +122,16 @@ class RegistryImportTest(unittest.IsolatedAsyncioTestCase):
         ranking = {"items": [{"post_url": "https://t.me/rent_tbilisi_ge/100", "repostCount": 2}]}
         self.assertEqual(link_ranking_to_registry(ranking, properties)["items"][0]["propertyId"], "telegram:100")
 
+    def test_ranking_uses_property_coordinates(self):
+        ranking = {"items": [{"post_url": "https://t.me/rent_tbilisi_ge/100", "latitude": 0, "longitude": 0}]}
+        properties = [{
+            "id": "telegram:100",
+            "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/100",
+            "coordinates": {"latitude": 41.72, "longitude": 44.78},
+        }]
+        linked = link_ranking_to_registry(ranking, properties)["items"][0]
+        self.assertEqual((linked["latitude"], linked["longitude"]), (41.72, 44.78))
+
 
 if __name__ == "__main__":
     unittest.main()

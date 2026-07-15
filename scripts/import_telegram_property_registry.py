@@ -34,6 +34,8 @@ OUTPUT_PATH = ROOT / "telegram-property-registry.json"
 RANKING_PATH = ROOT / "telegram-top10.json"
 MEDIA_PATH = ROOT / "telegram-media"
 MESSAGE_LIMIT = int(os.environ.get("TELEGRAM_REGISTRY_MESSAGE_LIMIT", "2000"))
+MEDIA_CONCURRENCY = int(os.environ.get("TELEGRAM_REGISTRY_MEDIA_CONCURRENCY", "6"))
+MEDIA_TIMEOUT_SECONDS = int(os.environ.get("TELEGRAM_REGISTRY_MEDIA_TIMEOUT_SECONDS", "60"))
 HASHTAG_PATTERN = re.compile(r"#([A-Za-z][A-Za-z0-9_]*)")
 
 
@@ -56,7 +58,10 @@ class StaticMediaStorage(MediaStorage):
         self.root.mkdir(parents=True, exist_ok=True)
         target = self.root / filename
         try:
-            downloaded = await client.download_media(message, file=str(target))
+            downloaded = await asyncio.wait_for(
+                client.download_media(message, file=str(target)),
+                timeout=MEDIA_TIMEOUT_SECONDS,
+            )
         except Exception:
             return StoredMedia("", "download_failed")
         if not downloaded or not target.exists() or target.stat().st_size == 0:
@@ -149,10 +154,26 @@ def registry_payload(properties, agents, now, report):
 def link_ranking_to_registry(ranking, properties):
     if not isinstance(ranking, dict):
         return ranking
-    by_url = {item["sourceTelegramUrl"]: item["id"] for item in properties}
+    by_url = {item["sourceTelegramUrl"]: item for item in properties}
     for item in ranking.get("items") or []:
-        item["propertyId"] = by_url.get(item.get("sourceTelegramUrl") or item.get("post_url"))
+        prop = by_url.get(item.get("sourceTelegramUrl") or item.get("post_url"))
+        item["propertyId"] = prop.get("id") if prop else None
+        coordinates = prop.get("coordinates") if prop else None
+        if coordinates:
+            item["latitude"] = coordinates["latitude"]
+            item["longitude"] = coordinates["longitude"]
     return ranking
+
+
+async def import_group_media(client, storage, primary_id, group, semaphore):
+    async def store(order, message):
+        extension = "mp4" if message.video else "jpg"
+        async with semaphore:
+            result = await storage.store(client, message, f"{primary_id}-{order + 1}.{extension}")
+        return order, message, result
+
+    messages = [item for item in group if item.photo or item.video]
+    return await asyncio.gather(*(store(order, message) for order, message in enumerate(messages)))
 
 
 async def import_registry(client, storage=None, now=None):
@@ -166,11 +187,20 @@ async def import_registry(client, storage=None, now=None):
         groups.setdefault(str(message.grouped_id or message.id), []).append(message)
 
     properties_by_url = dict(previous)
-    agents = {}
+    agents = {item["id"]: item for item in previous_payload.get("agents") or []}
     created = updated = with_media = without_media = media_errors = 0
+    prepared_groups = []
+    semaphore = asyncio.Semaphore(MEDIA_CONCURRENCY)
     for group in groups.values():
         group.sort(key=lambda item: item.id)
         primary = next((item for item in group if item.message), group[0])
+        prepared_groups.append((group, primary))
+    media_batches = await asyncio.gather(*(
+        import_group_media(client, storage, primary.id, group, semaphore)
+        for group, primary in prepared_groups
+    ))
+
+    for (group, primary), stored_batch in zip(prepared_groups, media_batches):
         raw_text = primary.message or ""
         parsed = parse_property(primary.id, raw_text)
         if parsed is None:
@@ -191,9 +221,7 @@ async def import_registry(client, storage=None, now=None):
         media = []
         media_failures = []
         had_media = any(item.photo or item.video for item in group)
-        for order, message in enumerate(item for item in group if item.photo or item.video):
-            extension = "mp4" if message.video else "jpg"
-            stored = await storage.store(client, message, f"{primary.id}-{order + 1}.{extension}")
+        for order, message, stored in stored_batch:
             if stored.status != "media_ready":
                 media_failures.append(stored.status)
                 continue
