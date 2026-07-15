@@ -65,7 +65,7 @@ jobs:
         run: python scripts/import_telegram_property_registry.py
       - name: Commit updated data
         run: |
-          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-property-registry.json telegram-images telegram-media; then
+          if test -z "$(git status --porcelain -- telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-property-registry.json telegram-images telegram-media)"; then
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
