@@ -24,6 +24,7 @@ from update_telegram_top10 import (
     period_status,
     window_for,
 )
+from telegram_lifecycle import days_inclusive, empty_history, update_lifecycle
 
 TZ = ZoneInfo("Asia/Tbilisi")
 
@@ -299,6 +300,71 @@ class DailyRankingTest(unittest.TestCase):
         self.assertIn("Тестовый топ-10 объектов по репостам", source)
         self.assertIn("period.classList.toggle('telegram-test-note', copy.isTest)", source)
         self.assertIn("badge.hidden = !copy.isTest", source)
+
+
+class LifecycleTest(unittest.TestCase):
+    def item(self, message_id="100", published_at="2026-07-14T12:00:00+04:00", reposts=5):
+        return {
+            "id": message_id,
+            "title": "10 Test Street",
+            "price": 500,
+            "district": "Vake",
+            "post_url": f"https://t.me/rent_tbilisi_ge/{message_id}",
+            "published_at": published_at,
+            "repostCount": reposts,
+            "image": "",
+        }
+
+    def test_first_seen_is_saved_and_not_rewritten(self):
+        first_run = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        active, _, history = update_lifecycle([self.item()], empty_history(), first_run)
+        self.assertEqual(active[0]["firstSeenAt"], "2026-07-14T12:00:00+04:00")
+        second_run = datetime(2026, 7, 16, 15, tzinfo=TZ)
+        active, _, history = update_lifecycle([self.item(published_at="2026-07-16T12:00:00+04:00")], history, second_run)
+        self.assertEqual(active[0]["firstSeenAt"], "2026-07-14T12:00:00+04:00")
+        self.assertEqual(active[0]["daysOnChannel"], 3)
+
+    def test_calendar_days_are_inclusive_and_today_is_one(self):
+        self.assertEqual(days_inclusive(
+            datetime(2026, 7, 14, 1, tzinfo=TZ),
+            datetime(2026, 7, 14, 23, tzinfo=TZ),
+        ), 1)
+        self.assertEqual(days_inclusive(
+            datetime(2026, 7, 14, 23, tzinfo=TZ),
+            datetime(2026, 7, 15, 1, tzinfo=TZ),
+        ), 2)
+
+    def test_disappearing_from_ranking_does_not_mean_rented(self):
+        now = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        _, _, history = update_lifecycle([self.item()], empty_history(), now)
+        active, rented, history = update_lifecycle([], history, datetime(2026, 7, 15, 15, tzinfo=TZ))
+        entry = next(iter(history["properties"].values()))
+        self.assertEqual(active, [])
+        self.assertEqual(rented, [])
+        self.assertEqual(entry["lifecycleStatus"], "active")
+
+    def test_confirmed_rental_is_stable_and_excluded_from_active(self):
+        now = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        _, _, history = update_lifecycle([self.item()], empty_history(), now)
+        rented_at = datetime(2026, 7, 18, 10, tzinfo=TZ)
+        active, rented, history = update_lifecycle([self.item()], history, rented_at, {"100": rented_at})
+        self.assertEqual(active, [])
+        self.assertEqual(len(rented), 1)
+        self.assertEqual(rented[0]["daysUntilRented"], 5)
+        original_rented_at = rented[0]["rentedAt"]
+        later = datetime(2026, 7, 20, 10, tzinfo=TZ)
+        _, rented, history = update_lifecycle([self.item()], history, later, {"100": later})
+        self.assertEqual(rented[0]["rentedAt"], original_rented_at)
+
+    def test_history_rank_and_repost_max_survive_repeated_run(self):
+        now = datetime(2026, 7, 14, 15, tzinfo=TZ)
+        _, _, history = update_lifecycle([self.item(reposts=8), self.item("101", reposts=7)], empty_history(), now)
+        _, _, history = update_lifecycle([self.item("101", reposts=12), self.item(reposts=3)], history, now)
+        entries = {entry["messageId"]: entry for entry in history["properties"].values()}
+        self.assertEqual(entries["100"]["highestRank"], 1)
+        self.assertEqual(entries["100"]["maxRepostCount"], 8)
+        self.assertEqual(entries["101"]["highestRank"], 1)
+        self.assertEqual(entries["101"]["maxRepostCount"], 12)
 
 
 if __name__ == "__main__":

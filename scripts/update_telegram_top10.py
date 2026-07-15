@@ -15,6 +15,8 @@ from zoneinfo import ZoneInfo
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 
+from telegram_lifecycle import empty_history, update_lifecycle
+
 CHANNEL = "rent_tbilisi_ge"
 MESSAGE_LIMIT = 300
 TBILISI_TZ = ZoneInfo("Asia/Tbilisi")
@@ -23,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STATE_PATH = ROOT / "telegram-reposts-state.json"
 OUTPUT_PATH = ROOT / "telegram-top10.json"
 IMAGES_PATH = ROOT / "telegram-images"
+LIFECYCLE_PATH = ROOT / "telegram-property-lifecycle.json"
 
 DISTRICTS = [
     "Old Tbilisi", "Didi Dighomi", "Nadzaladevi", "Mtatsminda", "Chugureti",
@@ -437,7 +440,7 @@ def create_state(now, start, end, messages):
     }
 
 
-def calculate_ranking(messages, state, start):
+def calculate_ranking(messages, state, start, limit=10):
     state_messages = state.setdefault("messages", {})
     items = []
     for message in messages:
@@ -468,10 +471,11 @@ def calculate_ranking(messages, state, start):
         item["current_forwards"],
         item["published_at"],
     ), reverse=True)
-    return [item for item in items if item["repostCount"] > 0][:10]
+    positive = [item for item in items if item["repostCount"] > 0]
+    return positive[:limit] if limit is not None else positive
 
 
-def calculate_test_ranking(messages):
+def calculate_test_ranking(messages, limit=10):
     items = []
     for message in messages:
         current_forwards = max(int(message["current_forwards"]), 0)
@@ -492,7 +496,8 @@ def calculate_test_ranking(messages):
         item["current_forwards"],
         item["published_at"],
     ), reverse=True)
-    return [item for item in items if item["repostCount"] > 0][:10]
+    positive = [item for item in items if item["repostCount"] > 0]
+    return positive[:limit] if limit is not None else positive
 
 
 def public_item(item):
@@ -537,7 +542,7 @@ async def sync_images(client, ranking):
             print(f"Не удалось скачать фото публикации {item['id']}: {error}", file=sys.stderr)
 
 
-def build_payload(now, start, end, status, state, ranking):
+def build_payload(now, start, end, status, state, ranking, recently_rented=None):
     return {
         "channel": CHANNEL,
         "timezone": "Asia/Tbilisi",
@@ -549,10 +554,11 @@ def build_payload(now, start, end, status, state, ranking):
         "baseline_created_late": bool(state.get("baseline_created_late")),
         "updated_at": iso(now),
         "items": [public_item(item) for item in ranking],
+        "recentlyRented": [public_item(item) for item in (recently_rented or [])],
     }
 
 
-def build_test_payload(now, ranking):
+def build_test_payload(now, ranking, recently_rented=None):
     return {
         "channel": CHANNEL,
         "timezone": "Asia/Tbilisi",
@@ -566,7 +572,21 @@ def build_test_payload(now, ranking):
         "updated_at": iso(now),
         "test_generated_at": iso(now),
         "items": [public_item(item) for item in ranking],
+        "recentlyRented": [public_item(item) for item in (recently_rented or [])],
     }
+
+
+def confirmed_rentals_from_environment():
+    raw = os.environ.get("TELEGRAM_RENTED_EVENTS_JSON", "").strip()
+    if not raw:
+        return {}
+    payload = json.loads(raw)
+    if not isinstance(payload, dict):
+        raise RuntimeError("TELEGRAM_RENTED_EVENTS_JSON должен быть JSON-объектом")
+    confirmed = {}
+    for key, value in payload.items():
+        confirmed[str(key)] = datetime.fromisoformat(str(value)).astimezone(TBILISI_TZ)
+    return confirmed
 
 
 def required_environment():
@@ -619,18 +639,28 @@ async def update():
         if not messages:
             raise RuntimeError("Среди последних публикаций не найдено объектов недвижимости")
         if TEST_MODE:
-            ranking = calculate_test_ranking(messages)
+            candidates = calculate_test_ranking(messages, limit=None)
+            history = load_json(LIFECYCLE_PATH) or empty_history()
+            ranking, recently_rented, history = update_lifecycle(
+                candidates, history, now, confirmed_rentals_from_environment()
+            )
             await sync_images(client, ranking)
-            save_json(OUTPUT_PATH, build_test_payload(now, ranking))
+            save_json(LIFECYCLE_PATH, history)
+            save_json(OUTPUT_PATH, build_test_payload(now, ranking, recently_rented))
             print(f"Сохранено {len(ranking)} объектов в тестовом режиме; рабочий baseline не изменён")
             return 0
         state = load_json(STATE_PATH)
         if not state or state.get("date") != now.date().isoformat():
             state = create_state(now, start, end, messages)
-        ranking = calculate_ranking(messages, state, start)
+        candidates = calculate_ranking(messages, state, start, limit=None)
+        history = load_json(LIFECYCLE_PATH) or empty_history()
+        ranking, recently_rented, history = update_lifecycle(
+            candidates, history, now, confirmed_rentals_from_environment()
+        )
         await sync_images(client, ranking)
         save_json(STATE_PATH, state)
-        save_json(OUTPUT_PATH, build_payload(now, start, end, status, state, ranking))
+        save_json(LIFECYCLE_PATH, history)
+        save_json(OUTPUT_PATH, build_payload(now, start, end, status, state, ranking, recently_rented))
     print(f"Сохранено {len(ranking)} объектов; status={status}; baseline_created_late={state['baseline_created_late']}")
     return 0
 

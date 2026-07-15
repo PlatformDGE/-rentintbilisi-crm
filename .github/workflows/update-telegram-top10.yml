@@ -55,12 +55,12 @@ jobs:
         run: python scripts/update_telegram_top10.py
       - name: Commit updated data
         run: |
-          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then
+          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-images; then
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add telegram-top10.json telegram-reposts-state.json telegram-images
+          git add telegram-top10.json telegram-reposts-state.json telegram-property-lifecycle.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
           git push
