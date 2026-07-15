@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - feature/telegram-property-registry
+    paths:
+      - .github/workflows/update-telegram-top10.yml
+      - scripts/import_telegram_property_registry.py
+      - scripts/import_telegram_property_registry_test.py
   schedule:
     - cron: "0 6-18 * * *"
   workflow_dispatch:
