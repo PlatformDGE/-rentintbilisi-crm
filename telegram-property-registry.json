@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "channel": "rent_tbilisi_ge",
-  "updatedAt": "2026-07-15T15:41:46+04:00",
+  "updatedAt": "2026-07-15T15:51:35+04:00",
   "agents": [
     {
       "id": "agent:alyona",
@@ -86,6 +86,169 @@
     }
   ],
   "properties": [
+    {
+      "id": "telegram:493244",
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493244",
+      "sourceTelegramMessageId": "493244",
+      "publishedAt": "2026-07-15T15:46:16+04:00",
+      "editedAt": null,
+      "rawText": "#Vera 🚇 #Rustaveli \n📍 5 Iakob Nikoladze St\n\n🏢 #2Bed #Apartment for #Rent \n✨ #NewBuilding | #New | #White \n🏠 70 Sq.m | 4 Floor | #CentralHeating | #Shower\n\n✅#Stove✅#Elevator \n✅#Balcony ✅#Oven \n✅#Microwave ✅#TV \n✅#WiFi✅#ParkingPlace\n\n💰 750$ + Deposit 750$ | \n 0% commission\n#Price700to900 \n\n👬 Tenants: 2-4 | \n🐕 Pets: #NotAllowed \n🕐 #6Month #12Month \n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #Daniil\n\n📍APARTMENTS ON MAP📍",
+      "caption": "#Vera 🚇 #Rustaveli \n📍 5 Iakob Nikoladze St\n\n🏢 #2Bed #Apartment for #Rent \n✨ #NewBuilding | #New | #White \n🏠 70 Sq.m | 4 Floor | #CentralHeating | #Shower\n\n✅#Stove✅#Elevator \n✅#Balcony ✅#Oven \n✅#Microwave ✅#TV \n✅#WiFi✅#ParkingPlace\n\n💰 750$ + Deposit 750$ | \n 0% commission\n#Price700to900 \n\n👬 Tenants: 2-4 | \n🐕 Pets: #NotAllowed \n🕐 #6Month #12Month \n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #Daniil\n\n📍APARTMENTS ON MAP📍",
+      "address": "5 Iakob Nikoladze St",
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "price": 750,
+      "currency": "USD",
+      "area": 70,
+      "floor": null,
+      "totalFloors": null,
+      "bedrooms": 2,
+      "propertyType": "Apartment",
+      "agentHashtag": "Daniil",
+      "assignedAgentId": "agent:daniil",
+      "googleMapsUrl": "https://www.google.com/maps/place/5+Iakob+Nikoladze+St,+T'bilisi/@41.7103332,44.7825972,16z/data=!4m6!3m5!1s0x40440cd40aa8a673:0x9f06393bd926bab9!8m2!3d41.7103332!4d44.7825972!16s%2Fg%2F11b8zcx0x_?utm_campaign=ml-sul&g_ep=Eg1tbF8yMDI2MDcwNV8wIJvbDyoASAJQAg%3D%3D",
+      "coordinates": {
+        "latitude": 41.7103332,
+        "longitude": 44.7825972
+      },
+      "media": [
+        {
+          "id": "493244:1",
+          "type": "image",
+          "sourceMessageId": "493244",
+          "sourceFileId": "5364072488515607427",
+          "originalUrl": "telegram-media/493244-1.jpg",
+          "thumbnailUrl": "telegram-media/493244-1.jpg",
+          "width": null,
+          "height": null,
+          "order": 0,
+          "isPrimary": true
+        },
+        {
+          "id": "493244:2",
+          "type": "image",
+          "sourceMessageId": "493245",
+          "sourceFileId": "5364072488515607428",
+          "originalUrl": "telegram-media/493244-2.jpg",
+          "thumbnailUrl": "telegram-media/493244-2.jpg",
+          "width": null,
+          "height": null,
+          "order": 1,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:3",
+          "type": "image",
+          "sourceMessageId": "493246",
+          "sourceFileId": "5364072488515607429",
+          "originalUrl": "telegram-media/493244-3.jpg",
+          "thumbnailUrl": "telegram-media/493244-3.jpg",
+          "width": null,
+          "height": null,
+          "order": 2,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:4",
+          "type": "image",
+          "sourceMessageId": "493247",
+          "sourceFileId": "5364072488515607430",
+          "originalUrl": "telegram-media/493244-4.jpg",
+          "thumbnailUrl": "telegram-media/493244-4.jpg",
+          "width": null,
+          "height": null,
+          "order": 3,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:5",
+          "type": "image",
+          "sourceMessageId": "493248",
+          "sourceFileId": "5364072488515607431",
+          "originalUrl": "telegram-media/493244-5.jpg",
+          "thumbnailUrl": "telegram-media/493244-5.jpg",
+          "width": null,
+          "height": null,
+          "order": 4,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:6",
+          "type": "image",
+          "sourceMessageId": "493249",
+          "sourceFileId": "5364072488515607432",
+          "originalUrl": "telegram-media/493244-6.jpg",
+          "thumbnailUrl": "telegram-media/493244-6.jpg",
+          "width": null,
+          "height": null,
+          "order": 5,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:7",
+          "type": "image",
+          "sourceMessageId": "493250",
+          "sourceFileId": "5364072488515607433",
+          "originalUrl": "telegram-media/493244-7.jpg",
+          "thumbnailUrl": "telegram-media/493244-7.jpg",
+          "width": null,
+          "height": null,
+          "order": 6,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:8",
+          "type": "image",
+          "sourceMessageId": "493251",
+          "sourceFileId": "5364072488515607434",
+          "originalUrl": "telegram-media/493244-8.jpg",
+          "thumbnailUrl": "telegram-media/493244-8.jpg",
+          "width": null,
+          "height": null,
+          "order": 7,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:9",
+          "type": "image",
+          "sourceMessageId": "493252",
+          "sourceFileId": "5364072488515607435",
+          "originalUrl": "telegram-media/493244-9.jpg",
+          "thumbnailUrl": "telegram-media/493244-9.jpg",
+          "width": null,
+          "height": null,
+          "order": 8,
+          "isPrimary": false
+        },
+        {
+          "id": "493244:10",
+          "type": "video",
+          "sourceMessageId": "493253",
+          "sourceFileId": "5364072488055647760",
+          "originalUrl": "telegram-media/493244-10.mp4",
+          "thumbnailUrl": "telegram-media/493244-10.mp4",
+          "width": null,
+          "height": null,
+          "order": 9,
+          "isPrimary": false
+        }
+      ],
+      "mediaImportStatus": "media_ready",
+      "telegramAvailable": true,
+      "lifecycleStatus": "active",
+      "repostCount": 2,
+      "highestRank": 3,
+      "maxRepostCount": 2,
+      "channelAgeMinutes": 5,
+      "firstSeenAt": "2026-07-15T15:46:16+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
+      "changeHistory": [
+        {
+          "at": "2026-07-15T15:51:35+04:00",
+          "type": "created"
+        }
+      ]
+    },
     {
       "id": "telegram:493234",
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493234",
@@ -239,9 +402,9 @@
       "repostCount": 2,
       "highestRank": 2,
       "maxRepostCount": 2,
-      "channelAgeMinutes": 25,
+      "channelAgeMinutes": 35,
       "firstSeenAt": "2026-07-15T15:16:15+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -390,9 +553,9 @@
       "repostCount": 1,
       "highestRank": 5,
       "maxRepostCount": 1,
-      "channelAgeMinutes": 40,
+      "channelAgeMinutes": 50,
       "firstSeenAt": "2026-07-15T15:00:49+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -541,9 +704,9 @@
       "repostCount": 1,
       "highestRank": 6,
       "maxRepostCount": 1,
-      "channelAgeMinutes": 44,
+      "channelAgeMinutes": 53,
       "firstSeenAt": "2026-07-15T14:57:40+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -689,9 +852,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 55,
+      "channelAgeMinutes": 65,
       "firstSeenAt": "2026-07-15T14:46:16+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -840,9 +1003,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 85,
+      "channelAgeMinutes": 95,
       "firstSeenAt": "2026-07-15T14:15:56+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -985,12 +1148,12 @@
       "mediaImportStatus": "media_ready",
       "telegramAvailable": true,
       "lifecycleStatus": "active",
-      "repostCount": 3,
-      "highestRank": 2,
-      "maxRepostCount": 3,
-      "channelAgeMinutes": 115,
+      "repostCount": 4,
+      "highestRank": 1,
+      "maxRepostCount": 4,
+      "channelAgeMinutes": 125,
       "firstSeenAt": "2026-07-15T13:46:13+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1148,9 +1311,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 128,
+      "channelAgeMinutes": 137,
       "firstSeenAt": "2026-07-15T13:33:38+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1308,9 +1471,9 @@
       "repostCount": 0,
       "highestRank": null,
       "maxRepostCount": 0,
-      "channelAgeMinutes": 145,
+      "channelAgeMinutes": 155,
       "firstSeenAt": "2026-07-15T13:15:59+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1471,9 +1634,9 @@
       "repostCount": 1,
       "highestRank": 7,
       "maxRepostCount": 1,
-      "channelAgeMinutes": 160,
+      "channelAgeMinutes": 170,
       "firstSeenAt": "2026-07-15T13:00:50+04:00",
-      "lastSeenAt": "2026-07-15T15:41:46+04:00",
+      "lastSeenAt": "2026-07-15T15:51:35+04:00",
       "changeHistory": [
         {
           "at": "2026-07-15T15:36:51+04:00",
@@ -1647,8 +1810,8 @@
   ],
   "report": {
     "processedPublications": 10,
-    "created": 0,
-    "updated": 10,
+    "created": 1,
+    "updated": 9,
     "withRealMedia": 10,
     "withoutMedia": 0,
     "mediaErrors": 0,
