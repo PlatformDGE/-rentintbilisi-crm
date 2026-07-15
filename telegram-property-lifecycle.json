@@ -1,15 +1,15 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "properties": {
     "telegram:https://t.me/rent_tbilisi_ge/493135": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493135",
       "messageId": "493135",
       "firstSeenAt": "2026-07-15T12:38:13+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 1,
-      "maxRepostCount": 3,
+      "maxRepostCount": 4,
       "snapshot": {
         "id": "493135",
         "title": "35 Vasil Petriashvili",
@@ -19,25 +19,31 @@
         "metro": "Rustaveli",
         "rooms": 1,
         "floor": "",
+        "address": "35 Vasil Petriashvili",
         "latitude": 41.7040063,
         "longitude": 44.7792582,
         "location_source": "google_maps_url",
         "location_url": "https://www.google.com/maps/place/35+Vasil+Petriashvili+Street,+T'bilisi/@41.7040063,44.7792582,16z/data=!4m6!3m5!1s0x40440ccfa86e0ded:0xf67404d71bdb8a56!8m2!3d41.7040063!4d44.7792582!16s%2Fg%2F12hk8xfn_?g_ep=Eg1tbF8yMDI2MDMxOF8wIJvbDyoASAJQAg%3D%3D",
         "location_diagnostic": null,
-        "repostCount": 3,
-        "daily_reposts": 3,
-        "current_forwards": 3,
+        "repostCount": 4,
+        "daily_reposts": 4,
+        "current_forwards": 4,
         "baseline_forwards": 0,
         "published_at": "2026-07-15T12:38:13+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/493135",
-        "image": "telegram-images/493135.jpg"
-      }
+        "image": "telegram-images/493135.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493135",
+        "sourceTelegramMessageId": "493135"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493135",
+      "sourceTelegramMessageId": "493135",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/493015": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493015",
       "messageId": "493015",
       "firstSeenAt": "2026-07-15T09:45:25+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 2,
@@ -51,6 +57,7 @@
         "metro": "",
         "rooms": 2,
         "floor": "3/4",
+        "address": "1 Pekini I Dead End",
         "latitude": 41.7191106,
         "longitude": 44.7763118,
         "location_source": "google_maps_url",
@@ -62,18 +69,23 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-15T09:45:25+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/493015",
-        "image": "telegram-images/493015.jpg"
-      }
+        "image": "telegram-images/493015.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493015",
+        "sourceTelegramMessageId": "493015"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493015",
+      "sourceTelegramMessageId": "493015",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492935": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492935",
       "messageId": "492935",
       "firstSeenAt": "2026-07-14T20:29:11+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 3,
-      "maxRepostCount": 3,
+      "highestRank": 2,
+      "maxRepostCount": 4,
       "snapshot": {
         "id": "492935",
         "title": "11 Vazha Pshavela III Block",
@@ -83,25 +95,31 @@
         "metro": "Vazha-Pshavela",
         "rooms": 2,
         "floor": "5/5",
+        "address": "11 Vazha Pshavela III Block",
         "latitude": 41.7252606,
         "longitude": 44.7271326,
         "location_source": "google_maps_url",
         "location_url": "https://www.google.com/maps/place/11,+T'bilisi/@41.7252606,44.7271326,16z/data=!4m6!3m5!1s0x4044730b93fb0061:0x1b85237a6c754eda!8m2!3d41.7252606!4d44.7271326!16s%2Fg%2F11bw4m96sl?g_ep=Eg1tbF8yMDI2MDYxNF8wIJvbDyoASAJQAg%3D%3D",
         "location_diagnostic": null,
-        "repostCount": 3,
-        "daily_reposts": 3,
-        "current_forwards": 3,
+        "repostCount": 4,
+        "daily_reposts": 4,
+        "current_forwards": 4,
         "baseline_forwards": 0,
         "published_at": "2026-07-14T20:29:11+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492935",
-        "image": "telegram-images/492935.jpg"
-      }
+        "image": "telegram-images/492935.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492935",
+        "sourceTelegramMessageId": "492935"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492935",
+      "sourceTelegramMessageId": "492935",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492925": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492925",
       "messageId": "492925",
       "firstSeenAt": "2026-07-14T20:16:19+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 4,
@@ -115,6 +133,7 @@
         "metro": "Rustaveli",
         "rooms": 3,
         "floor": "",
+        "address": "37b Ilia Chavchavadze Avenue",
         "latitude": 41.7120989,
         "longitude": 44.7609054,
         "location_source": "google_maps_url",
@@ -126,14 +145,19 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-14T20:16:19+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492925",
-        "image": "telegram-images/492925.jpg"
-      }
+        "image": "telegram-images/492925.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492925",
+        "sourceTelegramMessageId": "492925"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492925",
+      "sourceTelegramMessageId": "492925",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492885": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492885",
       "messageId": "492885",
       "firstSeenAt": "2026-07-14T19:56:33+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 5,
@@ -147,6 +171,7 @@
         "metro": "Station Square",
         "rooms": 2,
         "floor": "1/2",
+        "address": "6 Baku Street",
         "latitude": 41.718038,
         "longitude": 44.7924678,
         "location_source": "google_maps_url",
@@ -158,8 +183,13 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-14T19:56:33+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492885",
-        "image": "telegram-images/492885.jpg"
-      }
+        "image": "telegram-images/492885.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492885",
+        "sourceTelegramMessageId": "492885"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492885",
+      "sourceTelegramMessageId": "492885",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492865": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492865",
@@ -191,16 +221,19 @@
         "published_at": "2026-07-14T19:16:13+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492865",
         "image": "telegram-images/492865.jpg"
-      }
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492865",
+      "sourceTelegramMessageId": "492865",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/493075": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493075",
       "messageId": "493075",
       "firstSeenAt": "2026-07-15T11:15:55+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 7,
+      "highestRank": 6,
       "maxRepostCount": 2,
       "snapshot": {
         "id": "493075",
@@ -211,6 +244,7 @@
         "metro": "Delisi",
         "rooms": 1,
         "floor": "13/13",
+        "address": "Domus Hippodrome / 13o Mikheil Tamarashvili St",
         "latitude": 41.7212442,
         "longitude": 44.748496,
         "location_source": "google_maps_url",
@@ -222,14 +256,19 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-15T11:15:55+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/493075",
-        "image": "telegram-images/493075.jpg"
-      }
+        "image": "telegram-images/493075.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493075",
+        "sourceTelegramMessageId": "493075"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493075",
+      "sourceTelegramMessageId": "493075",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492895": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492895",
       "messageId": "492895",
       "firstSeenAt": "2026-07-14T20:05:21+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 8,
@@ -243,6 +282,7 @@
         "metro": "Delisi",
         "rooms": 3,
         "floor": "11/14",
+        "address": "12 Kamanis Street",
         "latitude": null,
         "longitude": null,
         "location_source": null,
@@ -255,8 +295,13 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-14T20:05:21+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492895",
-        "image": "telegram-images/492895.jpg"
-      }
+        "image": "telegram-images/492895.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492895",
+        "sourceTelegramMessageId": "492895"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492895",
+      "sourceTelegramMessageId": "492895",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492875": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492875",
@@ -288,13 +333,16 @@
         "published_at": "2026-07-14T19:46:10+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492875",
         "image": "telegram-images/492875.jpg"
-      }
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492875",
+      "sourceTelegramMessageId": "492875",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/493155": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493155",
       "messageId": "493155",
       "firstSeenAt": "2026-07-15T13:00:50+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 10,
@@ -308,6 +356,7 @@
         "metro": "Varketili",
         "rooms": 1,
         "floor": "3/9",
+        "address": "2 Sesilia Takaishvili St, Tbilisi",
         "latitude": 41.7102197,
         "longitude": 44.8739962,
         "location_source": "google_maps_url",
@@ -319,14 +368,19 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-15T13:00:50+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/493155",
-        "image": "telegram-images/493155.jpg"
-      }
+        "image": "telegram-images/493155.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493155",
+        "sourceTelegramMessageId": "493155"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493155",
+      "sourceTelegramMessageId": "493155",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/493125": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493125",
       "messageId": "493125",
       "firstSeenAt": "2026-07-15T12:20:43+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 11,
@@ -340,6 +394,7 @@
         "metro": "Liberty Square",
         "rooms": 1,
         "floor": "1/3",
+        "address": "7 Vukol Beridze St",
         "latitude": 41.6944031,
         "longitude": 44.7960748,
         "location_source": "google_maps_url",
@@ -351,14 +406,19 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-15T12:20:43+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/493125",
-        "image": "telegram-images/493125.jpg"
-      }
+        "image": "telegram-images/493125.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493125",
+        "sourceTelegramMessageId": "493125"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493125",
+      "sourceTelegramMessageId": "493125",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/493025": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493025",
       "messageId": "493025",
       "firstSeenAt": "2026-07-15T10:00:48+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 12,
@@ -372,6 +432,7 @@
         "metro": "Rustaveli",
         "rooms": null,
         "floor": "",
+        "address": "2 Titsian Tabidze St",
         "latitude": 41.7064861,
         "longitude": 44.7667625,
         "location_source": "google_maps_url",
@@ -383,18 +444,23 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-15T10:00:48+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/493025",
-        "image": "telegram-images/493025.jpg"
-      }
+        "image": "telegram-images/493025.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493025",
+        "sourceTelegramMessageId": "493025"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493025",
+      "sourceTelegramMessageId": "493025",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492975": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492975",
       "messageId": "492975",
       "firstSeenAt": "2026-07-15T09:00:44+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 13,
-      "maxRepostCount": 1,
+      "highestRank": 7,
+      "maxRepostCount": 2,
       "snapshot": {
         "id": "492975",
         "title": "14 Petre Kavtaradze St",
@@ -404,25 +470,31 @@
         "metro": "Delisi",
         "rooms": 1,
         "floor": "",
+        "address": "14 Petre Kavtaradze St",
         "latitude": 41.7215992,
         "longitude": 44.7369835,
         "location_source": "google_maps_url",
         "location_url": "https://www.google.com/maps/place/14+Petre+Kavtaradze+St,+T'bilisi/@41.7215992,44.7369835,16z/data=!4m6!3m5!1s0x404473122e5c2a8d:0xfac84bab9cede187!8m2!3d41.7215992!4d44.7369835!16s%2Fg%2F11tfx2zqml?g_ep=Eg1tbF8yMDI2MDUxM18wIJvbDyoASAJQAg%3D%3D",
         "location_diagnostic": null,
-        "repostCount": 1,
-        "daily_reposts": 1,
-        "current_forwards": 1,
+        "repostCount": 2,
+        "daily_reposts": 2,
+        "current_forwards": 2,
         "baseline_forwards": 0,
         "published_at": "2026-07-15T09:00:44+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492975",
-        "image": "telegram-images/492975.jpg"
-      }
+        "image": "telegram-images/492975.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492975",
+        "sourceTelegramMessageId": "492975"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492975",
+      "sourceTelegramMessageId": "492975",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492965": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492965",
       "messageId": "492965",
       "firstSeenAt": "2026-07-14T22:46:26+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 14,
@@ -436,6 +508,7 @@
         "metro": "Rustaveli",
         "rooms": 2,
         "floor": "3/16",
+        "address": "10 Nino Zhvania st",
         "latitude": 41.7025917,
         "longitude": 44.7719506,
         "location_source": "google_maps_url",
@@ -447,14 +520,19 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-14T22:46:26+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492965",
-        "image": "telegram-images/492965.jpg"
-      }
+        "image": "telegram-images/492965.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492965",
+        "sourceTelegramMessageId": "492965"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492965",
+      "sourceTelegramMessageId": "492965",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492945": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492945",
       "messageId": "492945",
       "firstSeenAt": "2026-07-14T20:46:16+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 15,
@@ -468,6 +546,7 @@
         "metro": "",
         "rooms": 1,
         "floor": "3/8",
+        "address": "60 Mikheil Burdzgla St",
         "latitude": 41.7231478,
         "longitude": 44.7605422,
         "location_source": "google_maps_url",
@@ -479,14 +558,19 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-14T20:46:16+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492945",
-        "image": "telegram-images/492945.jpg"
-      }
+        "image": "telegram-images/492945.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492945",
+        "sourceTelegramMessageId": "492945"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492945",
+      "sourceTelegramMessageId": "492945",
+      "confirmationTelegramUrl": null
     },
     "telegram:https://t.me/rent_tbilisi_ge/492905": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492905",
       "messageId": "492905",
       "firstSeenAt": "2026-07-14T20:15:24+04:00",
-      "lastSeenAt": "2026-07-15T13:29:44+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 16,
@@ -500,6 +584,7 @@
         "metro": "",
         "rooms": 2,
         "floor": "",
+        "address": "23-25 Berbuki St",
         "latitude": 41.7183896,
         "longitude": 44.7817567,
         "location_source": "google_maps_url",
@@ -511,7 +596,90 @@
         "baseline_forwards": 0,
         "published_at": "2026-07-14T20:15:24+04:00",
         "post_url": "https://t.me/rent_tbilisi_ge/492905",
-        "image": "telegram-images/492905.jpg"
+        "image": "telegram-images/492905.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492905",
+        "sourceTelegramMessageId": "492905"
+      },
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492905",
+      "sourceTelegramMessageId": "492905",
+      "confirmationTelegramUrl": null
+    },
+    "telegram:https://t.me/rent_tbilisi_ge/493185": {
+      "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493185",
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493185",
+      "sourceTelegramMessageId": "493185",
+      "firstSeenAt": "2026-07-15T13:46:13+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "closedAt": null,
+      "rentedAt": null,
+      "soldAt": null,
+      "confirmationTelegramUrl": null,
+      "lifecycleStatus": "active",
+      "highestRank": 9,
+      "maxRepostCount": 1,
+      "snapshot": {
+        "id": "493185",
+        "title": "82 Besarion Jgenti Street",
+        "price": 690,
+        "area": 75,
+        "district": "Saburtalo",
+        "metro": "Vazha-Pshavela",
+        "rooms": 2,
+        "floor": "5/9",
+        "address": "82 Besarion Jgenti Street",
+        "latitude": null,
+        "longitude": null,
+        "location_source": null,
+        "location_url": "https://www.google.com/maps/place/82+Besarion+Jgenti+St,+T'bilisi/@0,0,22z/data=!4m2!3m1!1s0x40447309def62f55:0xcbea8f3c3f04316c?g_ep=Eg1tbF8yMDI2MDUyMF8wIJvbDyoASAJQAg%3D%3D",
+        "location_diagnostic": "Google Maps-ссылка не содержит координат",
+        "repostCount": 1,
+        "daily_reposts": 1,
+        "current_forwards": 1,
+        "baseline_forwards": 0,
+        "published_at": "2026-07-15T13:46:13+04:00",
+        "post_url": "https://t.me/rent_tbilisi_ge/493185",
+        "image": "telegram-images/493185.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493185",
+        "sourceTelegramMessageId": "493185"
+      }
+    },
+    "telegram:https://t.me/rent_tbilisi_ge/493095": {
+      "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493095",
+      "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493095",
+      "sourceTelegramMessageId": "493095",
+      "firstSeenAt": "2026-07-15T11:46:01+04:00",
+      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "closedAt": null,
+      "rentedAt": null,
+      "soldAt": null,
+      "confirmationTelegramUrl": null,
+      "lifecycleStatus": "active",
+      "highestRank": 12,
+      "maxRepostCount": 1,
+      "snapshot": {
+        "id": "493095",
+        "title": "16 Guram Rcheulishvili II Dead End",
+        "price": 500,
+        "area": 45,
+        "district": "Vera",
+        "metro": "Rustaveli",
+        "rooms": 1,
+        "floor": "3/7",
+        "address": "16 Guram Rcheulishvili II Dead End",
+        "latitude": null,
+        "longitude": null,
+        "location_source": null,
+        "location_url": "https://www.google.com/maps?geocode=FWlRfAIdLmurAg%3D%3D;FVpYfAIdpDmrAinjEfbQzgxEQDF2GR1SpZUuVg%3D%3D&daddr=16+Guram+Rcheulishvili+II+Dead+End,+T%27bilisi&saddr=41.7017369,44.7885259&dirflg=w&ftid=0x40440cced0f611e3:0x562e95a5521d1976&lucs=,94297699,94284493,94231188,94280568,47071704,94218641,94282134,94286869&g_ep=CAISEjI2LjE4LjAuOTA2NTA0NDMzMBgAILq3CypILDk0Mjk3Njk5LDk0Mjg0NDkzLDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDk0Mjg2ODY5QgJHRQ%3D%3D&skid=932e5644-0c1e-44eb-a451-f70ecde65633&g_st=ic&g_st=ic",
+        "location_diagnostic": "Google Maps-ссылка не содержит координат",
+        "repostCount": 1,
+        "daily_reposts": 1,
+        "current_forwards": 1,
+        "baseline_forwards": 0,
+        "published_at": "2026-07-15T11:46:01+04:00",
+        "post_url": "https://t.me/rent_tbilisi_ge/493095",
+        "image": "telegram-images/493095.jpg",
+        "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493095",
+        "sourceTelegramMessageId": "493095"
       }
     }
   }
