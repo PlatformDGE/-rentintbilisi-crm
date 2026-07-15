@@ -59,6 +59,15 @@ def format_elapsed_minutes(minutes):
     return f"{minutes // (24 * 60)} дней"
 
 
+def performance_status(minutes):
+    completed_days = max(int(minutes), 0) // (24 * 60)
+    if completed_days <= 7:
+        return "fast"
+    if completed_days <= 20:
+        return "normal"
+    return "slow"
+
+
 def days_inclusive(start, end):
     return max((end.date() - start.date()).days + 1, 1)
 
@@ -117,6 +126,9 @@ def lifecycle_fields(entry, now):
         "lastSeenAt": entry["lastSeenAt"],
         "elapsedMinutesOnChannel": elapsed,
         "timerLabel": format_elapsed_minutes(elapsed),
+        "performanceStatus": performance_status(elapsed),
+        "highestRank": int(entry.get("highestRank", 0)),
+        "maxRepostCount": int(entry.get("maxRepostCount", 0)),
         "daysOnChannel": days_inclusive(first_seen, timer_end),
         "lifecycleStatus": status,
         "closedAt": closed_at_value,
@@ -215,6 +227,7 @@ def update_lifecycle(items, history, now, confirmed_deals=None):
             "sourceTelegramUrl": source_url,
             "sourceTelegramMessageId": message_id,
         }
+        entry["performanceStatus"] = lifecycle_fields(entry, now)["performanceStatus"]
 
     for event in normalize_deal_events(confirmed_deals):
         status = event.get("status")
@@ -232,6 +245,7 @@ def update_lifecycle(items, history, now, confirmed_deals=None):
         entry["rentedAt"] = iso(closed_at) if status == "rented" else None
         entry["soldAt"] = iso(closed_at) if status == "sold" else None
         entry["confirmationTelegramUrl"] = normalize_telegram_url(event.get("confirmationTelegramUrl"))
+        entry["performanceStatus"] = lifecycle_fields(entry, now)["performanceStatus"]
 
     active = []
     recently_closed = []
@@ -243,7 +257,8 @@ def update_lifecycle(items, history, now, confirmed_deals=None):
             active.append(enriched)
         elif entry.get("lifecycleStatus") in CLOSED_STATUSES and entry.get("closedAt"):
             recently_closed.append(enriched)
-    rank_by_id = {str(item.get("id")): rank for rank, item in enumerate(items)}
+    rank_by_id = {str(item.get("id")): rank for rank, item in enumerate(items, 1)}
+    active = [{**item, "currentRank": rank_by_id.get(str(item.get("id")))} for item in active]
     active.sort(key=lambda item: rank_by_id.get(str(item.get("id")), 10_000))
     recently_closed.sort(key=lambda item: item["closedAt"], reverse=True)
     return active[:10], recently_closed[:5], history

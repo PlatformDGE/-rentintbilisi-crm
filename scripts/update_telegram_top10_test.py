@@ -29,6 +29,7 @@ from telegram_lifecycle import (
     empty_history,
     format_elapsed_minutes,
     normalize_telegram_url,
+    performance_status,
     telegram_message_id,
     update_lifecycle,
 )
@@ -348,6 +349,13 @@ class LifecycleTest(unittest.TestCase):
         self.assertEqual(format_elapsed_minutes(3 * 1440 + 4 * 60), "3 д 4 ч")
         self.assertEqual(format_elapsed_minutes(8 * 1440 + 50), "8 дней")
 
+    def test_performance_status_thresholds(self):
+        self.assertEqual(performance_status(0), "fast")
+        self.assertEqual(performance_status(7 * 1440 + 1439), "fast")
+        self.assertEqual(performance_status(8 * 1440), "normal")
+        self.assertEqual(performance_status(20 * 1440 + 1439), "normal")
+        self.assertEqual(performance_status(21 * 1440), "slow")
+
     def test_disappearing_from_ranking_does_not_mean_rented(self):
         now = datetime(2026, 7, 14, 15, tzinfo=TZ)
         _, _, history = update_lifecycle([self.item()], empty_history(), now)
@@ -379,6 +387,26 @@ class LifecycleTest(unittest.TestCase):
         self.assertEqual(entries["100"]["maxRepostCount"], 8)
         self.assertEqual(entries["101"]["highestRank"], 1)
         self.assertEqual(entries["101"]["maxRepostCount"], 12)
+
+    def test_active_timer_continues_and_closed_performance_uses_frozen_duration(self):
+        now = datetime(2026, 7, 1, 12, tzinfo=TZ)
+        item = self.item(published_at="2026-07-01T12:00:00+04:00")
+        active, _, history = update_lifecycle([item], empty_history(), now)
+        first_elapsed = active[0]["elapsedMinutesOnChannel"]
+        active, _, history = update_lifecycle([item], history, datetime(2026, 7, 10, 12, tzinfo=TZ))
+        self.assertGreater(active[0]["elapsedMinutesOnChannel"], first_elapsed)
+        self.assertEqual(active[0]["performanceStatus"], "normal")
+        event = {
+            "sourceTelegramUrl": item["post_url"],
+            "status": "sold",
+            "confirmedAt": "2026-07-23T12:00:00+04:00",
+        }
+        _, closed, history = update_lifecycle([item], history, datetime(2026, 7, 23, 12, tzinfo=TZ), [event])
+        self.assertEqual(closed[0]["performanceStatus"], "slow")
+        frozen = closed[0]["elapsedMinutesOnChannel"]
+        _, closed, _ = update_lifecycle([item], history, datetime(2026, 8, 1, 12, tzinfo=TZ))
+        self.assertEqual(closed[0]["elapsedMinutesOnChannel"], frozen)
+        self.assertEqual(closed[0]["performanceStatus"], "slow")
 
     def test_source_url_is_normalized_and_message_id_extracted(self):
         self.assertEqual(
