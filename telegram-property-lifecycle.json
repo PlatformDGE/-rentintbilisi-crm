@@ -5,7 +5,7 @@
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493135",
       "messageId": "493135",
       "firstSeenAt": "2026-07-15T12:38:13+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 1,
@@ -37,13 +37,14 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493135",
       "sourceTelegramMessageId": "493135",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/493015": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493015",
       "messageId": "493015",
       "firstSeenAt": "2026-07-15T09:45:25+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 2,
@@ -75,13 +76,14 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493015",
       "sourceTelegramMessageId": "493015",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492935": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492935",
       "messageId": "492935",
       "firstSeenAt": "2026-07-14T20:29:11+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 2,
@@ -113,13 +115,14 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492935",
       "sourceTelegramMessageId": "492935",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492925": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492925",
       "messageId": "492925",
       "firstSeenAt": "2026-07-14T20:16:19+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 4,
@@ -151,7 +154,8 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492925",
       "sourceTelegramMessageId": "492925",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492885": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492885",
@@ -230,10 +234,10 @@
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493075",
       "messageId": "493075",
       "firstSeenAt": "2026-07-15T11:15:55+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 6,
+      "highestRank": 5,
       "maxRepostCount": 2,
       "snapshot": {
         "id": "493075",
@@ -262,16 +266,17 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493075",
       "sourceTelegramMessageId": "493075",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492895": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492895",
       "messageId": "492895",
       "firstSeenAt": "2026-07-14T20:05:21+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 8,
+      "highestRank": 7,
       "maxRepostCount": 2,
       "snapshot": {
         "id": "492895",
@@ -301,7 +306,8 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492895",
       "sourceTelegramMessageId": "492895",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492875": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492875",
@@ -342,10 +348,10 @@
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493155",
       "messageId": "493155",
       "firstSeenAt": "2026-07-15T13:00:50+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 10,
+      "highestRank": 9,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "493155",
@@ -374,16 +380,17 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493155",
       "sourceTelegramMessageId": "493155",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/493125": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493125",
       "messageId": "493125",
       "firstSeenAt": "2026-07-15T12:20:43+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 11,
+      "highestRank": 10,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "493125",
@@ -412,13 +419,14 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493125",
       "sourceTelegramMessageId": "493125",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/493025": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493025",
       "messageId": "493025",
       "firstSeenAt": "2026-07-15T10:00:48+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
       "highestRank": 12,
@@ -450,16 +458,17 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493025",
       "sourceTelegramMessageId": "493025",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492975": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492975",
       "messageId": "492975",
       "firstSeenAt": "2026-07-15T09:00:44+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 7,
+      "highestRank": 6,
       "maxRepostCount": 2,
       "snapshot": {
         "id": "492975",
@@ -488,16 +497,17 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492975",
       "sourceTelegramMessageId": "492975",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492965": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492965",
       "messageId": "492965",
       "firstSeenAt": "2026-07-14T22:46:26+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 14,
+      "highestRank": 13,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "492965",
@@ -526,16 +536,17 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492965",
       "sourceTelegramMessageId": "492965",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492945": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492945",
       "messageId": "492945",
       "firstSeenAt": "2026-07-14T20:46:16+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 15,
+      "highestRank": 14,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "492945",
@@ -564,16 +575,17 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492945",
       "sourceTelegramMessageId": "492945",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/492905": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/492905",
       "messageId": "492905",
       "firstSeenAt": "2026-07-14T20:15:24+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "rentedAt": null,
       "lifecycleStatus": "active",
-      "highestRank": 16,
+      "highestRank": 15,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "492905",
@@ -602,20 +614,21 @@
       },
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/492905",
       "sourceTelegramMessageId": "492905",
-      "confirmationTelegramUrl": null
+      "confirmationTelegramUrl": null,
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/493185": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493185",
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493185",
       "sourceTelegramMessageId": "493185",
       "firstSeenAt": "2026-07-15T13:46:13+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "closedAt": null,
       "rentedAt": null,
       "soldAt": null,
       "confirmationTelegramUrl": null,
       "lifecycleStatus": "active",
-      "highestRank": 9,
+      "highestRank": 8,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "493185",
@@ -641,20 +654,21 @@
         "image": "telegram-images/493185.jpg",
         "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493185",
         "sourceTelegramMessageId": "493185"
-      }
+      },
+      "performanceStatus": "fast"
     },
     "telegram:https://t.me/rent_tbilisi_ge/493095": {
       "propertyKey": "telegram:https://t.me/rent_tbilisi_ge/493095",
       "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493095",
       "sourceTelegramMessageId": "493095",
       "firstSeenAt": "2026-07-15T11:46:01+04:00",
-      "lastSeenAt": "2026-07-15T14:05:28+04:00",
+      "lastSeenAt": "2026-07-15T14:29:09+04:00",
       "closedAt": null,
       "rentedAt": null,
       "soldAt": null,
       "confirmationTelegramUrl": null,
       "lifecycleStatus": "active",
-      "highestRank": 12,
+      "highestRank": 11,
       "maxRepostCount": 1,
       "snapshot": {
         "id": "493095",
@@ -680,7 +694,8 @@
         "image": "telegram-images/493095.jpg",
         "sourceTelegramUrl": "https://t.me/rent_tbilisi_ge/493095",
         "sourceTelegramMessageId": "493095"
-      }
+      },
+      "performanceStatus": "fast"
     }
   }
 }
