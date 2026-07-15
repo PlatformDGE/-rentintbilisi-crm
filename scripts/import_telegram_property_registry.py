@@ -4,11 +4,17 @@
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
 import re
+import shutil
+import tempfile
 from zoneinfo import ZoneInfo
+
+from PIL import Image, ImageOps, UnidentifiedImageError
+from pillow_heif import register_heif_opener
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
@@ -32,16 +38,22 @@ from update_telegram_top10 import (
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = ROOT / "telegram-property-registry.json"
 RANKING_PATH = ROOT / "telegram-top10.json"
-MEDIA_PATH = ROOT / "telegram-media"
+MEDIA_PATH = ROOT / "public" / "telegram-media"
 MESSAGE_LIMIT = int(os.environ.get("TELEGRAM_REGISTRY_MESSAGE_LIMIT", "2000"))
 MEDIA_CONCURRENCY = int(os.environ.get("TELEGRAM_REGISTRY_MEDIA_CONCURRENCY", "6"))
 MEDIA_TIMEOUT_SECONDS = int(os.environ.get("TELEGRAM_REGISTRY_MEDIA_TIMEOUT_SECONDS", "60"))
 HASHTAG_PATTERN = re.compile(r"#([A-Za-z][A-Za-z0-9_]*)")
+register_heif_opener()
 
 
 @dataclass
 class StoredMedia:
-    relative_url: str
+    original_path: str
+    public_url: str
+    thumbnail_url: str
+    mime_type: str
+    width: int | None
+    height: int | None
     status: str
 
 
@@ -55,18 +67,73 @@ class StaticMediaStorage(MediaStorage):
         self.root = Path(root)
 
     async def store(self, client, message, filename):
-        self.root.mkdir(parents=True, exist_ok=True)
-        target = self.root / filename
-        try:
-            downloaded = await asyncio.wait_for(
-                client.download_media(message, file=str(target)),
-                timeout=MEDIA_TIMEOUT_SECONDS,
-            )
-        except Exception:
-            return StoredMedia("", "download_failed")
-        if not downloaded or not target.exists() or target.stat().st_size == 0:
-            return StoredMedia("", "storage_failed")
-        return StoredMedia(f"telegram-media/{target.name}", "media_ready")
+        channel, primary_id, order_text, media_type = filename.split(":", 3)
+        target_dir = self.root / channel / primary_id
+        target_dir.mkdir(parents=True, exist_ok=True)
+        suffix = ".mp4" if media_type == "video" else ".source"
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            temporary = Path(temporary_directory) / f"download{suffix}"
+            try:
+                downloaded = await asyncio.wait_for(
+                    client.download_media(message, file=str(temporary)),
+                    timeout=MEDIA_TIMEOUT_SECONDS,
+                )
+            except Exception:
+                return failed_media("download_failed")
+            downloaded_path = Path(downloaded) if downloaded else temporary
+            if not downloaded_path.exists() or downloaded_path.stat().st_size == 0:
+                return failed_media("storage_failed")
+            if media_type == "video":
+                content_hash = file_hash(downloaded_path)
+                name = f"{primary_id}-{int(order_text):02d}-{content_hash}.mp4"
+                target = target_dir / name
+                if not target.exists():
+                    shutil.copyfile(downloaded_path, target)
+                path = public_media_path(channel, primary_id, name)
+                return StoredMedia(path, path, path, "video/mp4", None, None, "ready")
+            try:
+                with Image.open(downloaded_path) as source:
+                    source.load()
+                    normalized = ImageOps.exif_transpose(source).convert("RGB")
+                    width, height = normalized.size
+                    with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as normalized_file:
+                        normalized_path = Path(normalized_file.name)
+                    try:
+                        normalized.save(normalized_path, "JPEG", quality=92, optimize=True)
+                        content_hash = file_hash(normalized_path)
+                        original_name = f"{primary_id}-{int(order_text):02d}-{content_hash}.jpg"
+                        original_target = target_dir / original_name
+                        if not original_target.exists():
+                            shutil.copyfile(normalized_path, original_target)
+                    finally:
+                        normalized_path.unlink(missing_ok=True)
+                    thumbnail = normalized.copy()
+                    thumbnail.thumbnail((640, 640), Image.Resampling.LANCZOS)
+                    thumbnail_name = f"{primary_id}-{int(order_text):02d}-{content_hash}-thumb.jpg"
+                    thumbnail_target = target_dir / thumbnail_name
+                    if not thumbnail_target.exists():
+                        thumbnail.save(thumbnail_target, "JPEG", quality=85, optimize=True)
+            except (UnidentifiedImageError, OSError, ValueError):
+                return failed_media("decode_failed")
+        original_path = public_media_path(channel, primary_id, original_name)
+        thumbnail_url = public_media_path(channel, primary_id, thumbnail_name)
+        return StoredMedia(original_path, original_path, thumbnail_url, "image/jpeg", width, height, "ready")
+
+
+def failed_media(status):
+    return StoredMedia("", "", "", "", None, None, status)
+
+
+def file_hash(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()[:12]
+
+
+def public_media_path(channel, primary_id, filename):
+    return f"telegram-media/{channel}/{primary_id}/{filename}"
 
 
 def normalize_agent_hashtag(text):
@@ -89,13 +156,15 @@ def channel_age_minutes(published_at, now):
 
 
 def media_diagnostic(media, had_media, failures=None):
-    if media:
+    if any(item.get("downloadStatus") == "ready" for item in media):
         return "media_ready"
     if not had_media:
         return "no_media_in_post"
     failures = failures or []
     if "storage_failed" in failures:
         return "storage_failed"
+    if "decode_failed" in failures:
+        return "decode_failed"
     if "invalid_mapping" in failures:
         return "invalid_mapping"
     return "download_failed"
@@ -142,7 +211,7 @@ def merge_property(previous, incoming, now):
 
 def registry_payload(properties, agents, now, report):
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "channel": CHANNEL,
         "updatedAt": iso(now),
         "agents": sorted(agents.values(), key=lambda item: item["agentHashtag"].lower()),
@@ -167,9 +236,12 @@ def link_ranking_to_registry(ranking, properties):
 
 async def import_group_media(client, storage, primary_id, group, semaphore):
     async def store(order, message):
-        extension = "mp4" if message.video else "jpg"
         async with semaphore:
-            result = await storage.store(client, message, f"{primary_id}-{order + 1}.{extension}")
+            result = await storage.store(
+                client,
+                message,
+                f"{CHANNEL}:{primary_id}:{order + 1}:{'video' if message.video else 'image'}",
+            )
         return order, message, result
 
     messages = [item for item in group if item.photo or item.video]
@@ -222,22 +294,43 @@ async def import_registry(client, storage=None, now=None):
         media_failures = []
         had_media = any(item.photo or item.video for item in group)
         for order, message, stored in stored_batch:
-            if stored.status != "media_ready":
-                media_failures.append(stored.status)
-                continue
             media_object = getattr(message, "photo", None) or getattr(message, "document", None)
+            if stored.status != "ready":
+                media_failures.append(stored.status)
+                media.append({
+                    "id": f"{primary.id}:{order + 1}",
+                    "type": "video" if message.video else "image",
+                    "sourceMessageId": str(message.id),
+                    "sourceFileId": str(getattr(media_object, "id", "")),
+                    "originalPath": "",
+                    "publicUrl": "",
+                    "thumbnailUrl": "",
+                    "mimeType": "",
+                    "width": None,
+                    "height": None,
+                    "order": order,
+                    "isPrimary": False,
+                    "downloadStatus": stored.status,
+                })
+                continue
             media.append({
                 "id": f"{primary.id}:{order + 1}",
                 "type": "video" if message.video else "image",
                 "sourceMessageId": str(message.id),
                 "sourceFileId": str(getattr(media_object, "id", "")),
-                "originalUrl": stored.relative_url,
-                "thumbnailUrl": stored.relative_url,
-                "width": getattr(media_object, "w", None),
-                "height": getattr(media_object, "h", None),
+                "originalPath": stored.original_path,
+                "publicUrl": stored.public_url,
+                "thumbnailUrl": stored.thumbnail_url,
+                "mimeType": stored.mime_type,
+                "width": stored.width,
+                "height": stored.height,
                 "order": order,
-                "isPrimary": order == 0,
+                "isPrimary": False,
+                "downloadStatus": stored.status,
             })
+        primary_image = next((item for item in media if item["type"] == "image" and item["downloadStatus"] == "ready"), None)
+        if primary_image:
+            primary_image["isPrimary"] = True
         location = extract_registry_location(primary)
         published_at = primary.date.astimezone(TBILISI_TZ)
         status = media_diagnostic(media, had_media, media_failures)
@@ -275,9 +368,9 @@ async def import_registry(client, storage=None, now=None):
         merged, is_created = merge_property(previous.get(source_url), incoming, now)
         created += int(is_created)
         updated += int(not is_created)
-        with_media += int(bool(media))
+        with_media += int(primary_image is not None)
         without_media += int(not had_media)
-        media_errors += int(had_media and not media)
+        media_errors += int(had_media and primary_image is None)
         properties_by_url[source_url] = merged
 
     properties = list(properties_by_url.values())
