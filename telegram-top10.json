@@ -5,26 +5,10 @@
   "date": "2026-07-16",
   "period_start": "2026-07-16T10:00:00+04:00",
   "period_end": "2026-07-16T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-07-16T20:23:27+04:00",
+  "updated_at": "2026-07-16T22:11:52+04:00",
   "items": [
-    {
-      "id": "493746",
-      "title": "83/5 Ivane Javakhishvili St",
-      "price": 550,
-      "area": 65,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "3/5",
-      "daily_reposts": 11,
-      "current_forwards": 11,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-16T11:43:19+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/493746",
-      "image": "telegram-images/493746.jpg"
-    },
     {
       "id": "493787",
       "title": "7 Lado Asatiani",
@@ -74,6 +58,22 @@
       "image": "telegram-images/493777.jpg"
     },
     {
+      "id": "493925",
+      "title": "16 Taras Shevchenko St",
+      "price": 700,
+      "area": 60,
+      "district": "Mtatsminda",
+      "metro": "Liberty Square",
+      "rooms": 1,
+      "floor": "3/3",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-16T16:15:54+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/493925",
+      "image": "telegram-images/493925.jpg"
+    },
+    {
       "id": "493846",
       "title": "#Vera 🚇#Rustaveli 📍20 Anastasia Eristav-Khoshtaria St",
       "price": 500,
@@ -88,6 +88,22 @@
       "published_at": "2026-07-16T14:42:51+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/493846",
       "image": "telegram-images/493846.jpg"
+    },
+    {
+      "id": "493816",
+      "title": "17 Giorgi Eristavi St",
+      "price": 500,
+      "area": 58,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 1,
+      "floor": "1/3",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-16T13:48:48+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/493816",
+      "image": "telegram-images/493816.jpg"
     },
     {
       "id": "493806",
@@ -106,20 +122,20 @@
       "image": "telegram-images/493806.jpg"
     },
     {
-      "id": "493925",
-      "title": "16 Taras Shevchenko St",
-      "price": 700,
-      "area": 60,
-      "district": "Mtatsminda",
-      "metro": "Liberty Square",
+      "id": "493966",
+      "title": "38 Ana Politkovskaia Street",
+      "price": 450,
+      "area": 52,
+      "district": "Saburtalo",
+      "metro": "",
       "rooms": 1,
-      "floor": "3/3",
+      "floor": "1/5",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-07-16T16:15:54+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/493925",
-      "image": "telegram-images/493925.jpg"
+      "published_at": "2026-07-16T17:36:39+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/493966",
+      "image": "telegram-images/493966.jpg"
     },
     {
       "id": "493826",
@@ -136,22 +152,6 @@
       "published_at": "2026-07-16T13:49:18+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/493826",
       "image": "telegram-images/493826.jpg"
-    },
-    {
-      "id": "493816",
-      "title": "17 Giorgi Eristavi St",
-      "price": 500,
-      "area": 58,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "1/3",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-16T13:48:48+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/493816",
-      "image": "telegram-images/493816.jpg"
     },
     {
       "id": "493767",
