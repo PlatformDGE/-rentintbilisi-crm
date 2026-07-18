@@ -5,9 +5,9 @@
   "date": "2026-07-18",
   "period_start": "2026-07-18T10:00:00+04:00",
   "period_end": "2026-07-18T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-07-18T21:04:19+04:00",
+  "updated_at": "2026-07-18T23:14:03+04:00",
   "items": [
     {
       "id": "494916",
@@ -24,6 +24,22 @@
       "published_at": "2026-07-18T15:20:44+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/494916",
       "image": "telegram-images/494916.jpg"
+    },
+    {
+      "id": "494975",
+      "title": "6 Baku Street",
+      "price": 900,
+      "area": 115,
+      "district": "Chugureti",
+      "metro": "Station Square",
+      "rooms": 2,
+      "floor": "1/2",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-18T16:54:27+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/494975",
+      "image": "telegram-images/494975.jpg"
     },
     {
       "id": "494856",
@@ -90,20 +106,36 @@
       "image": "telegram-images/495015.jpg"
     },
     {
-      "id": "494975",
-      "title": "6 Baku Street",
-      "price": 900,
-      "area": 115,
-      "district": "Chugureti",
-      "metro": "Station Square",
+      "id": "495005",
+      "title": "5 Iakob Nikoladze St",
+      "price": 750,
+      "area": 70,
+      "district": "Vera",
+      "metro": "Rustaveli",
       "rooms": 2,
-      "floor": "1/2",
+      "floor": "",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-07-18T16:54:27+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/494975",
-      "image": "telegram-images/494975.jpg"
+      "published_at": "2026-07-18T17:16:06+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/495005",
+      "image": "telegram-images/495005.jpg"
+    },
+    {
+      "id": "494956",
+      "title": "18 Amaghleba St",
+      "price": 550,
+      "area": 60,
+      "district": "Sololaki",
+      "metro": "Liberty Square",
+      "rooms": 1,
+      "floor": "1/3",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-18T16:32:53+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/494956",
+      "image": "telegram-images/494956.jpg"
     },
     {
       "id": "494946",
@@ -136,38 +168,6 @@
       "published_at": "2026-07-18T19:15:56+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/495084",
       "image": "telegram-images/495084.jpg"
-    },
-    {
-      "id": "495005",
-      "title": "5 Iakob Nikoladze St",
-      "price": 750,
-      "area": 70,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-18T17:16:06+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/495005",
-      "image": "telegram-images/495005.jpg"
-    },
-    {
-      "id": "494956",
-      "title": "18 Amaghleba St",
-      "price": 550,
-      "area": 60,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": 1,
-      "floor": "1/3",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-18T16:32:53+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/494956",
-      "image": "telegram-images/494956.jpg"
     }
   ]
 }
