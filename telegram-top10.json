@@ -7,8 +7,24 @@
   "period_end": "2026-07-25T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-07-25T18:40:48+04:00",
+  "updated_at": "2026-07-25T20:08:52+04:00",
   "items": [
+    {
+      "id": "498638",
+      "title": "2 Alexander Griboedov St",
+      "price": 480,
+      "area": 38,
+      "district": "Mtatsminda",
+      "metro": "Liberty Square",
+      "rooms": null,
+      "floor": "2/3",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-25T18:45:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/498638",
+      "image": "telegram-images/498638.jpg"
+    },
     {
       "id": "498469",
       "title": "7 Giorgi Shatberashvili",
@@ -24,6 +40,22 @@
       "published_at": "2026-07-25T14:15:31+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/498469",
       "image": "telegram-images/498469.jpg"
+    },
+    {
+      "id": "498648",
+      "title": "11 Alio Mirtskhulava St",
+      "price": 500,
+      "area": 53,
+      "district": "",
+      "metro": "Didube",
+      "rooms": 1,
+      "floor": "14/14",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-25T19:15:31+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/498648",
+      "image": "telegram-images/498648.jpg"
     },
     {
       "id": "498579",
@@ -136,38 +168,6 @@
       "published_at": "2026-07-25T12:43:29+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/498419",
       "image": "telegram-images/498419.jpg"
-    },
-    {
-      "id": "498339",
-      "title": "#Vera 🚇 #Rustaveli 📍 4 Iakob Gogebashvili St",
-      "price": 440,
-      "area": 60,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-25T11:01:28+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/498339",
-      "image": "telegram-images/498339.jpg"
-    },
-    {
-      "id": "498608",
-      "title": "72 Viktor Kupradze St",
-      "price": 500,
-      "area": 50,
-      "district": "",
-      "metro": "Varketili",
-      "rooms": 1,
-      "floor": "4/9",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-25T17:45:38+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/498608",
-      "image": "telegram-images/498608.jpg"
     }
   ]
 }
