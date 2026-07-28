@@ -5,10 +5,26 @@
   "date": "2026-07-28",
   "period_start": "2026-07-28T10:00:00+04:00",
   "period_end": "2026-07-28T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-07-28T20:45:15+04:00",
+  "updated_at": "2026-07-28T22:19:39+04:00",
   "items": [
+    {
+      "id": "499766",
+      "title": "Vazha-Pshavela VI Block 16",
+      "price": 670,
+      "area": 105,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 3,
+      "floor": "6/6",
+      "daily_reposts": 7,
+      "current_forwards": 7,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-28T10:45:25+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/499766",
+      "image": "telegram-images/499766.jpg"
+    },
     {
       "id": "499776",
       "title": "4 Alexander Kazbegi Ave",
@@ -26,20 +42,20 @@
       "image": "telegram-images/499776.jpg"
     },
     {
-      "id": "499766",
-      "title": "Vazha-Pshavela VI Block 16",
-      "price": 670,
-      "area": 105,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 3,
-      "floor": "6/6",
-      "daily_reposts": 6,
-      "current_forwards": 6,
+      "id": "500003",
+      "title": "#Vera 🚇#Rustaveli 📍20 Anastasia Eristav-Khoshtaria St",
+      "price": 500,
+      "area": 40,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 5,
+      "current_forwards": 5,
       "baseline_forwards": 0,
-      "published_at": "2026-07-28T10:45:25+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/499766",
-      "image": "telegram-images/499766.jpg"
+      "published_at": "2026-07-28T19:15:31+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/500003",
+      "image": "telegram-images/500003.jpg"
     },
     {
       "id": "499893",
@@ -72,22 +88,6 @@
       "published_at": "2026-07-28T10:15:23+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/499746",
       "image": "telegram-images/499746.jpg"
-    },
-    {
-      "id": "500003",
-      "title": "#Vera 🚇#Rustaveli 📍20 Anastasia Eristav-Khoshtaria St",
-      "price": 500,
-      "area": 40,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-28T19:15:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/500003",
-      "image": "telegram-images/500003.jpg"
     },
     {
       "id": "499993",
@@ -154,20 +154,20 @@
       "image": "telegram-images/499943.jpg"
     },
     {
-      "id": "499845",
-      "title": "11 Elizbar Mindeli St",
-      "price": 700,
-      "area": 55,
-      "district": "Saburtalo",
-      "metro": "State University",
+      "id": "499886",
+      "title": "72 Viktor Kupradze St",
+      "price": 500,
+      "area": 50,
+      "district": "",
+      "metro": "Varketili",
       "rooms": 1,
-      "floor": "9/24",
+      "floor": "4/9",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-07-28T12:45:24+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/499845",
-      "image": "telegram-images/499845.jpg"
+      "published_at": "2026-07-28T14:25:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/499886",
+      "image": "telegram-images/499886.jpg"
     }
   ]
 }
