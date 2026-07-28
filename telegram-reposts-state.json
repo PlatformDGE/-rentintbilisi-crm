@@ -177,6 +177,26 @@
     "499913": {
       "baseline_forwards": 0,
       "published_at": "2026-07-28T15:45:31+04:00"
+    },
+    "500022": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-28T20:15:37+04:00"
+    },
+    "500012": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-28T19:45:31+04:00"
+    },
+    "500003": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-28T19:15:31+04:00"
+    },
+    "499993": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-28T18:45:37+04:00"
+    },
+    "499983": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-28T18:30:13+04:00"
     }
   }
 }
