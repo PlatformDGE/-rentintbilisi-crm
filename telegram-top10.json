@@ -5,9 +5,9 @@
   "date": "2026-07-29",
   "period_start": "2026-07-29T10:00:00+04:00",
   "period_end": "2026-07-29T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-07-29T20:26:23+04:00",
+  "updated_at": "2026-07-29T22:11:25+04:00",
   "items": [
     {
       "id": "500443",
@@ -106,6 +106,22 @@
       "image": "telegram-images/500233.jpg"
     },
     {
+      "id": "500473",
+      "title": "14 Niko Tskhvedadze St",
+      "price": 380,
+      "area": 45,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "1/3",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T19:45:31+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/500473",
+      "image": "telegram-images/500473.jpg"
+    },
+    {
       "id": "500453",
       "title": "10 Kote Khimshiashvili St",
       "price": 700,
@@ -152,22 +168,6 @@
       "published_at": "2026-07-29T15:23:24+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/500343",
       "image": "telegram-images/500343.jpg"
-    },
-    {
-      "id": "500213",
-      "title": "116 Tengiz Sheshelidze street,",
-      "price": 400,
-      "area": 40,
-      "district": "Gldani",
-      "metro": "",
-      "rooms": 1,
-      "floor": "5/15",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-29T12:49:49+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/500213",
-      "image": "telegram-images/500213.jpg"
     }
   ]
 }
