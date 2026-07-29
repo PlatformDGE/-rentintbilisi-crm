@@ -181,6 +181,42 @@
     "500223": {
       "baseline_forwards": 0,
       "published_at": "2026-07-29T13:15:28+04:00"
+    },
+    "500433": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T18:15:38+04:00"
+    },
+    "500423": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T17:49:53+04:00"
+    },
+    "500413": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T17:45:35+04:00"
+    },
+    "500403": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T17:37:02+04:00"
+    },
+    "500393": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T17:15:30+04:00"
+    },
+    "500383": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T16:46:27+04:00"
+    },
+    "500373": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T16:45:30+04:00"
+    },
+    "500363": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T16:15:30+04:00"
+    },
+    "500353": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T15:45:33+04:00"
     }
   }
 }
