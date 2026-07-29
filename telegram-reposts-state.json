@@ -217,6 +217,30 @@
     "500353": {
       "baseline_forwards": 0,
       "published_at": "2026-07-29T15:45:33+04:00"
+    },
+    "500493": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T20:15:33+04:00"
+    },
+    "500483": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T20:14:41+04:00"
+    },
+    "500473": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T19:45:31+04:00"
+    },
+    "500463": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T19:39:09+04:00"
+    },
+    "500453": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T19:15:31+04:00"
+    },
+    "500443": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-29T18:45:30+04:00"
     }
   }
 }
