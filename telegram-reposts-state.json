@@ -209,6 +209,18 @@
     "500845": {
       "baseline_forwards": 0,
       "published_at": "2026-07-30T18:45:36+04:00"
+    },
+    "500924": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-30T21:56:05+04:00"
+    },
+    "500914": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-30T21:15:36+04:00"
+    },
+    "500904": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-30T20:45:35+04:00"
     }
   }
 }
