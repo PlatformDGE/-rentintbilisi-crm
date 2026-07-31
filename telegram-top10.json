@@ -5,9 +5,9 @@
   "date": "2026-07-31",
   "period_start": "2026-07-31T10:00:00+04:00",
   "period_end": "2026-07-31T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-07-31T21:46:41+04:00",
+  "updated_at": "2026-07-31T23:44:14+04:00",
   "items": [
     {
       "id": "501176",
@@ -26,6 +26,22 @@
       "image": "telegram-images/501176.jpg"
     },
     {
+      "id": "501216",
+      "title": "#Saburtalo 🚇 #MCUniversity📍41 Archil Tsagareli St",
+      "price": 550,
+      "area": 50,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 6,
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T16:05:26+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/501216",
+      "image": "telegram-images/501216.jpg"
+    },
+    {
       "id": "501266",
       "title": "30 Vazha Pshavela Ave",
       "price": 650,
@@ -42,20 +58,20 @@
       "image": "telegram-images/501266.jpg"
     },
     {
-      "id": "501216",
-      "title": "#Saburtalo 🚇 #MCUniversity📍41 Archil Tsagareli St",
+      "id": "501386",
+      "title": "125a Shalva Nutsubidze St",
       "price": 550,
-      "area": 50,
+      "area": 52,
       "district": "Saburtalo",
-      "metro": "",
+      "metro": "Vazha-Pshavela",
       "rooms": 1,
-      "floor": "",
-      "daily_reposts": 5,
-      "current_forwards": 5,
+      "floor": "3/13",
+      "daily_reposts": 2,
+      "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-07-31T16:05:26+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/501216",
-      "image": "telegram-images/501216.jpg"
+      "published_at": "2026-07-31T21:35:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/501386",
+      "image": "telegram-images/501386.jpg"
     },
     {
       "id": "501306",
@@ -90,6 +106,38 @@
       "image": "telegram-images/501246.jpg"
     },
     {
+      "id": "501236",
+      "title": "43 Zhiuli Shartava St",
+      "price": 900,
+      "area": 62,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T16:45:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/501236",
+      "image": "telegram-images/501236.jpg"
+    },
+    {
+      "id": "501105",
+      "title": "82 Davit Aghmashenebeli Ave",
+      "price": 400,
+      "area": 40,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 1,
+      "floor": "1/2",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T13:09:55+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/501105",
+      "image": "telegram-images/501105.jpg"
+    },
+    {
       "id": "501396",
       "title": "11 Natia Bashaleishvili St",
       "price": 770,
@@ -120,54 +168,6 @@
       "published_at": "2026-07-31T18:45:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/501296",
       "image": "telegram-images/501296.jpg"
-    },
-    {
-      "id": "501256",
-      "title": "84 Vasil Barnov St",
-      "price": 1100,
-      "area": 125,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "4/6",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-31T17:10:37+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/501256",
-      "image": "telegram-images/501256.jpg"
-    },
-    {
-      "id": "501236",
-      "title": "43 Zhiuli Shartava St",
-      "price": 900,
-      "area": 62,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-31T16:45:33+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/501236",
-      "image": "telegram-images/501236.jpg"
-    },
-    {
-      "id": "501206",
-      "title": "4 Elizbar Mindeli Street",
-      "price": 650,
-      "area": 54,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "3/13",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-07-31T15:45:37+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/501206",
-      "image": "telegram-images/501206.jpg"
     }
   ]
 }
