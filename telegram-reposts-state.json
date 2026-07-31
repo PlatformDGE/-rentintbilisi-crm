@@ -125,6 +125,46 @@
     "500825": {
       "baseline_forwards": 0,
       "published_at": "2026-07-30T18:15:30+04:00"
+    },
+    "501216": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T16:05:26+04:00"
+    },
+    "501206": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T15:45:37+04:00"
+    },
+    "501196": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T15:15:33+04:00"
+    },
+    "501186": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T14:45:35+04:00"
+    },
+    "501176": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T14:39:00+04:00"
+    },
+    "501166": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T14:15:30+04:00"
+    },
+    "501156": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T14:15:19+04:00"
+    },
+    "501146": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T13:52:48+04:00"
+    },
+    "501136": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T13:45:32+04:00"
+    },
+    "501126": {
+      "baseline_forwards": 0,
+      "published_at": "2026-07-31T13:15:38+04:00"
     }
   }
 }
