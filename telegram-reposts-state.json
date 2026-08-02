@@ -125,6 +125,30 @@
     "501711": {
       "baseline_forwards": 9,
       "published_at": "2026-08-01T15:45:37+04:00"
+    },
+    "502058": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-02T14:43:43+04:00"
+    },
+    "502047": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-02T14:16:24+04:00"
+    },
+    "502037": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-02T13:45:01+04:00"
+    },
+    "502027": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-02T13:15:14+04:00"
+    },
+    "502017": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-02T12:45:26+04:00"
+    },
+    "502007": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-02T12:35:17+04:00"
     }
   }
 }
