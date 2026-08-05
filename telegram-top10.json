@@ -5,9 +5,9 @@
   "date": "2026-08-05",
   "period_start": "2026-08-05T10:00:00+04:00",
   "period_end": "2026-08-05T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-08-05T20:46:17+04:00",
+  "updated_at": "2026-08-05T22:27:14+04:00",
   "items": [
     {
       "id": "503417",
@@ -24,6 +24,22 @@
       "published_at": "2026-08-05T13:27:44+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/503417",
       "image": "telegram-images/503417.jpg"
+    },
+    {
+      "id": "503517",
+      "title": "#Chugureti🚇 #Marjanishvili📍 51 Davit Aghmashenebeli Ave",
+      "price": 500,
+      "area": 52,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-05T15:38:14+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/503517",
+      "image": "telegram-images/503517.jpg"
     },
     {
       "id": "503497",
@@ -74,22 +90,6 @@
       "image": "telegram-images/503548.jpg"
     },
     {
-      "id": "503517",
-      "title": "#Chugureti🚇 #Marjanishvili📍 51 Davit Aghmashenebeli Ave",
-      "price": 500,
-      "area": 52,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-05T15:38:14+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/503517",
-      "image": "telegram-images/503517.jpg"
-    },
-    {
       "id": "503447",
       "title": "34 Parnavaz Mepe Avenue",
       "price": 700,
@@ -106,22 +106,6 @@
       "image": "telegram-images/503447.jpg"
     },
     {
-      "id": "503457",
-      "title": "22 Pavle Ingoroyva street",
-      "price": 450,
-      "area": 35,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-05T14:15:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/503457",
-      "image": "telegram-images/503457.jpg"
-    },
-    {
       "id": "503407",
       "title": "27 Ivane Tarkhnishvili St",
       "price": 1000,
@@ -130,28 +114,28 @@
       "metro": "Rustaveli",
       "rooms": 3,
       "floor": "5/6",
-      "daily_reposts": 2,
-      "current_forwards": 2,
+      "daily_reposts": 3,
+      "current_forwards": 3,
       "baseline_forwards": 0,
       "published_at": "2026-08-05T13:15:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/503407",
       "image": "telegram-images/503407.jpg"
     },
     {
-      "id": "503397",
-      "title": "2 Niko Nikoladze St",
-      "price": 700,
-      "area": 80,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "",
+      "id": "503699",
+      "title": "116 Tengiz Sheshelidze street,",
+      "price": 400,
+      "area": 40,
+      "district": "Gldani",
+      "metro": "",
+      "rooms": 1,
+      "floor": "5/15",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-05T12:52:05+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/503397",
-      "image": "telegram-images/503397.jpg"
+      "published_at": "2026-08-05T21:45:43+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/503699",
+      "image": "telegram-images/503699.jpg"
     },
     {
       "id": "503619",
@@ -162,12 +146,28 @@
       "metro": "Rustaveli",
       "rooms": 1,
       "floor": "3/8",
-      "daily_reposts": 1,
-      "current_forwards": 1,
+      "daily_reposts": 2,
+      "current_forwards": 2,
       "baseline_forwards": 0,
       "published_at": "2026-08-05T19:15:36+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/503619",
       "image": "telegram-images/503619.jpg"
+    },
+    {
+      "id": "503507",
+      "title": "44 Tashkenti St",
+      "price": 600,
+      "area": 40,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "2/5",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-05T15:15:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/503507",
+      "image": "telegram-images/503507.jpg"
     }
   ]
 }
