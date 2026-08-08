@@ -7,7 +7,7 @@
   "period_end": "2026-08-08T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-08T19:36:24+04:00",
+  "updated_at": "2026-08-08T20:41:56+04:00",
   "items": [
     {
       "id": "505029",
@@ -18,8 +18,8 @@
       "metro": "",
       "rooms": 1,
       "floor": "17/23",
-      "daily_reposts": 4,
-      "current_forwards": 4,
+      "daily_reposts": 5,
+      "current_forwards": 5,
       "baseline_forwards": 0,
       "published_at": "2026-08-08T18:14:36+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505029",
@@ -72,6 +72,22 @@
       "published_at": "2026-08-08T11:45:22+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/504838",
       "image": "telegram-images/504838.jpg"
+    },
+    {
+      "id": "505097",
+      "title": "4 Zurab Anjaparidze St",
+      "price": 700,
+      "area": 55,
+      "district": "Saburtalo",
+      "metro": "State University",
+      "rooms": 1,
+      "floor": "14/33",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-08T20:25:18+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505097",
+      "image": "telegram-images/505097.jpg"
     },
     {
       "id": "504949",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-08T18:15:35+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505039",
       "image": "telegram-images/505039.jpg"
-    },
-    {
-      "id": "504989",
-      "title": "10 Berbuki St",
-      "price": 600,
-      "area": 70,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-08T16:45:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/504989",
-      "image": "telegram-images/504989.jpg"
     }
   ]
 }
