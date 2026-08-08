@@ -7,7 +7,7 @@
   "period_end": "2026-08-08T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-08T18:38:00+04:00",
+  "updated_at": "2026-08-08T19:36:24+04:00",
   "items": [
     {
       "id": "505029",
@@ -122,6 +122,38 @@
       "image": "telegram-images/504808.jpg"
     },
     {
+      "id": "505049",
+      "title": "4 Marijani St",
+      "price": 500,
+      "area": 65,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 1,
+      "floor": "11/14",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-08T18:45:29+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505049",
+      "image": "telegram-images/505049.jpg"
+    },
+    {
+      "id": "505039",
+      "title": "74 Merab Kostava St",
+      "price": 715,
+      "area": 80,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 3,
+      "floor": "3/7",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-08T18:15:35+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505039",
+      "image": "telegram-images/505039.jpg"
+    },
+    {
       "id": "504989",
       "title": "10 Berbuki St",
       "price": 600,
@@ -136,38 +168,6 @@
       "published_at": "2026-08-08T16:45:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/504989",
       "image": "telegram-images/504989.jpg"
-    },
-    {
-      "id": "504979",
-      "title": "31 Nino Ramishvili St",
-      "price": 1500,
-      "area": 100,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 3,
-      "floor": "3/12",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-08T16:15:30+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/504979",
-      "image": "telegram-images/504979.jpg"
-    },
-    {
-      "id": "504959",
-      "title": "1 Tavkhelidze St",
-      "price": 700,
-      "area": 75,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "15/18",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-08T15:15:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/504959",
-      "image": "telegram-images/504959.jpg"
     }
   ]
 }
