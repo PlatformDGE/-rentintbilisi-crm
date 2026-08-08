@@ -7,8 +7,24 @@
   "period_end": "2026-08-08T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-08T17:02:11+04:00",
+  "updated_at": "2026-08-08T18:38:00+04:00",
   "items": [
+    {
+      "id": "505029",
+      "title": "29 Zhiuli Shartava St",
+      "price": 650,
+      "area": 53,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "17/23",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-08T18:14:36+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505029",
+      "image": "telegram-images/505029.jpg"
+    },
     {
       "id": "504928",
       "title": "8 Elizbar Mindeli St",
@@ -24,6 +40,22 @@
       "published_at": "2026-08-08T14:15:33+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/504928",
       "image": "telegram-images/504928.jpg"
+    },
+    {
+      "id": "504918",
+      "title": "18 Iuri Gagarini St",
+      "price": 550,
+      "area": 43,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-08T13:45:35+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/504918",
+      "image": "telegram-images/504918.jpg"
     },
     {
       "id": "504838",
@@ -56,38 +88,6 @@
       "published_at": "2026-08-08T15:11:10+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/504949",
       "image": "telegram-images/504949.jpg"
-    },
-    {
-      "id": "504918",
-      "title": "18 Iuri Gagarini St",
-      "price": 550,
-      "area": 43,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-08T13:45:35+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/504918",
-      "image": "telegram-images/504918.jpg"
-    },
-    {
-      "id": "504878",
-      "title": "17 Ilia Chavchadze",
-      "price": 460,
-      "area": 40,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "2/10",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-08T12:18:19+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/504878",
-      "image": "telegram-images/504878.jpg"
     },
     {
       "id": "504828",
