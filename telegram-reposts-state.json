@@ -125,6 +125,22 @@
     "504928": {
       "baseline_forwards": 3,
       "published_at": "2026-08-08T14:15:33+04:00"
+    },
+    "505270": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T12:46:02+04:00"
+    },
+    "505260": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T12:16:02+04:00"
+    },
+    "505250": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T11:46:02+04:00"
+    },
+    "505240": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T11:31:53+04:00"
     }
   }
 }
