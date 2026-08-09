@@ -7,8 +7,24 @@
   "period_end": "2026-08-09T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-09T12:52:46+04:00",
+  "updated_at": "2026-08-09T13:48:32+04:00",
   "items": [
+    {
+      "id": "505168",
+      "title": "#Chugureti🚇 #Marjanishvili📍 51 Davit Aghmashenebeli Ave",
+      "price": 500,
+      "area": 52,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 4,
+      "current_forwards": 9,
+      "baseline_forwards": 5,
+      "published_at": "2026-08-09T09:46:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505168",
+      "image": "telegram-images/505168.jpg"
+    },
     {
       "id": "505178",
       "title": "4 Konstantine Kapaneli St",
@@ -24,22 +40,6 @@
       "published_at": "2026-08-09T10:01:02+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505178",
       "image": "telegram-images/505178.jpg"
-    },
-    {
-      "id": "505168",
-      "title": "#Chugureti🚇 #Marjanishvili📍 51 Davit Aghmashenebeli Ave",
-      "price": 500,
-      "area": 52,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 8,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-09T09:46:02+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505168",
-      "image": "telegram-images/505168.jpg"
     },
     {
       "id": "505200",
@@ -90,6 +90,22 @@
       "image": "telegram-images/504989.jpg"
     },
     {
+      "id": "505270",
+      "title": "19 Zaza Panaskertel-Tsitsishvili St, Tbilisi",
+      "price": 400,
+      "area": 40,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": null,
+      "floor": "1/12",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T12:46:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505270",
+      "image": "telegram-images/505270.jpg"
+    },
+    {
       "id": "505250",
       "title": "19-21a Mtskheta St",
       "price": 100,
@@ -104,6 +120,22 @@
       "published_at": "2026-08-09T11:46:02+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505250",
       "image": "telegram-images/505250.jpg"
+    },
+    {
+      "id": "505210",
+      "title": "23-25 Berbuki St",
+      "price": 900,
+      "area": 95,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T10:31:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505210",
+      "image": "telegram-images/505210.jpg"
     },
     {
       "id": "505117",
@@ -136,38 +168,6 @@
       "published_at": "2026-08-09T09:16:02+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505148",
       "image": "telegram-images/505148.jpg"
-    },
-    {
-      "id": "505260",
-      "title": "1 Ilia Sukhishvili st",
-      "price": 550,
-      "area": 63,
-      "district": "",
-      "metro": "Varketili",
-      "rooms": 2,
-      "floor": "4/10",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-09T12:16:02+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505260",
-      "image": "telegram-images/505260.jpg"
-    },
-    {
-      "id": "505210",
-      "title": "23-25 Berbuki St",
-      "price": 900,
-      "area": 95,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-09T10:31:02+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505210",
-      "image": "telegram-images/505210.jpg"
     }
   ]
 }
