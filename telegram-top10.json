@@ -7,7 +7,7 @@
   "period_end": "2026-08-09T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-09T13:48:32+04:00",
+  "updated_at": "2026-08-09T14:41:24+04:00",
   "items": [
     {
       "id": "505168",
@@ -18,8 +18,8 @@
       "metro": "Marjanishvili",
       "rooms": 1,
       "floor": "",
-      "daily_reposts": 4,
-      "current_forwards": 9,
+      "daily_reposts": 5,
+      "current_forwards": 10,
       "baseline_forwards": 5,
       "published_at": "2026-08-09T09:46:02+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505168",
@@ -74,22 +74,6 @@
       "image": "telegram-images/505097.jpg"
     },
     {
-      "id": "504989",
-      "title": "10 Berbuki St",
-      "price": 600,
-      "area": 70,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 5,
-      "baseline_forwards": 3,
-      "published_at": "2026-08-08T16:45:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/504989",
-      "image": "telegram-images/504989.jpg"
-    },
-    {
       "id": "505270",
       "title": "19 Zaza Panaskertel-Tsitsishvili St, Tbilisi",
       "price": 400,
@@ -136,6 +120,22 @@
       "published_at": "2026-08-09T10:31:02+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505210",
       "image": "telegram-images/505210.jpg"
+    },
+    {
+      "id": "505127",
+      "title": "20 Irodion Evdoshvili St",
+      "price": 500,
+      "area": 40,
+      "district": "",
+      "metro": "Didube",
+      "rooms": null,
+      "floor": "7/16",
+      "daily_reposts": 1,
+      "current_forwards": 6,
+      "baseline_forwards": 5,
+      "published_at": "2026-08-08T21:56:06+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505127",
+      "image": "telegram-images/505127.jpg"
     },
     {
       "id": "505117",
