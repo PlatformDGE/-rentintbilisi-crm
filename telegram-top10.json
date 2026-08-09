@@ -7,7 +7,7 @@
   "period_end": "2026-08-09T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-09T15:36:00+04:00",
+  "updated_at": "2026-08-09T17:04:43+04:00",
   "items": [
     {
       "id": "505168",
@@ -18,12 +18,28 @@
       "metro": "Marjanishvili",
       "rooms": 1,
       "floor": "",
-      "daily_reposts": 5,
-      "current_forwards": 10,
+      "daily_reposts": 6,
+      "current_forwards": 11,
       "baseline_forwards": 5,
       "published_at": "2026-08-09T09:46:02+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505168",
       "image": "telegram-images/505168.jpg"
+    },
+    {
+      "id": "505200",
+      "title": "24 Vakhtang Bochorishvili St",
+      "price": 700,
+      "area": 71,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "13/16",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T10:26:19+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505200",
+      "image": "telegram-images/505200.jpg"
     },
     {
       "id": "505178",
@@ -42,36 +58,20 @@
       "image": "telegram-images/505178.jpg"
     },
     {
-      "id": "505200",
-      "title": "24 Vakhtang Bochorishvili St",
-      "price": 700,
-      "area": 71,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "13/16",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-09T10:26:19+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505200",
-      "image": "telegram-images/505200.jpg"
-    },
-    {
-      "id": "505097",
-      "title": "4 Zurab Anjaparidze St",
-      "price": 700,
-      "area": 55,
-      "district": "Saburtalo",
-      "metro": "State University",
+      "id": "505352",
+      "title": "11 Gabriel Sundukiani Street",
+      "price": 400,
+      "area": 40,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
       "rooms": 1,
-      "floor": "14/33",
+      "floor": "1/1",
       "daily_reposts": 2,
-      "current_forwards": 6,
-      "baseline_forwards": 4,
-      "published_at": "2026-08-08T20:25:18+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505097",
-      "image": "telegram-images/505097.jpg"
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T15:02:45+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505352",
+      "image": "telegram-images/505352.jpg"
     },
     {
       "id": "505291",
@@ -154,20 +154,20 @@
       "image": "telegram-images/505127.jpg"
     },
     {
-      "id": "505117",
-      "title": "16 Ipolite Khvichia St",
-      "price": 750,
-      "area": 80,
-      "district": "Saburtalo",
+      "id": "505148",
+      "title": "26 Irakli Abashidze street",
+      "price": 1000,
+      "area": 100,
+      "district": "Vake",
       "metro": "",
       "rooms": 2,
-      "floor": "6/6",
+      "floor": "1/4",
       "daily_reposts": 1,
-      "current_forwards": 3,
-      "baseline_forwards": 2,
-      "published_at": "2026-08-08T21:15:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505117",
-      "image": "telegram-images/505117.jpg"
+      "current_forwards": 2,
+      "baseline_forwards": 1,
+      "published_at": "2026-08-09T09:16:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505148",
+      "image": "telegram-images/505148.jpg"
     }
   ]
 }
