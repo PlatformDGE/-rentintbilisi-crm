@@ -7,7 +7,7 @@
   "period_end": "2026-08-09T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-09T14:41:24+04:00",
+  "updated_at": "2026-08-09T15:36:00+04:00",
   "items": [
     {
       "id": "505168",
@@ -72,6 +72,22 @@
       "published_at": "2026-08-08T20:25:18+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505097",
       "image": "telegram-images/505097.jpg"
+    },
+    {
+      "id": "505291",
+      "title": "23-25 Pavle Aslanidi St",
+      "price": 700,
+      "area": 100,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "8/16",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-09T13:46:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/505291",
+      "image": "telegram-images/505291.jpg"
     },
     {
       "id": "505270",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-08T21:15:36+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/505117",
       "image": "telegram-images/505117.jpg"
-    },
-    {
-      "id": "505148",
-      "title": "26 Irakli Abashidze street",
-      "price": 1000,
-      "area": 100,
-      "district": "Vake",
-      "metro": "",
-      "rooms": 2,
-      "floor": "1/4",
-      "daily_reposts": 1,
-      "current_forwards": 2,
-      "baseline_forwards": 1,
-      "published_at": "2026-08-09T09:16:02+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/505148",
-      "image": "telegram-images/505148.jpg"
     }
   ]
 }
