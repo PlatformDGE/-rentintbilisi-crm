@@ -125,6 +125,26 @@
     "505432": {
       "baseline_forwards": 3,
       "published_at": "2026-08-09T17:15:36+04:00"
+    },
+    "505764": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-10T13:15:33+04:00"
+    },
+    "505754": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-10T12:45:33+04:00"
+    },
+    "505744": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-10T12:22:33+04:00"
+    },
+    "505734": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-10T12:15:28+04:00"
+    },
+    "505724": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-10T12:01:41+04:00"
     }
   }
 }
