@@ -5,9 +5,9 @@
   "date": "2026-08-12",
   "period_start": "2026-08-12T10:00:00+04:00",
   "period_end": "2026-08-12T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-08-12T21:03:09+04:00",
+  "updated_at": "2026-08-12T23:10:50+04:00",
   "items": [
     {
       "id": "506860",
@@ -18,8 +18,8 @@
       "metro": "Vazha-Pshavela",
       "rooms": 2,
       "floor": "5/9",
-      "daily_reposts": 5,
-      "current_forwards": 5,
+      "daily_reposts": 6,
+      "current_forwards": 6,
       "baseline_forwards": 0,
       "published_at": "2026-08-12T17:45:31+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/506860",
@@ -58,6 +58,22 @@
       "image": "telegram-images/506759.jpg"
     },
     {
+      "id": "506880",
+      "title": "14b Shalva Nutsubidze Street",
+      "price": 900,
+      "area": 105,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "5/12",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-12T18:45:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/506880",
+      "image": "telegram-images/506880.jpg"
+    },
+    {
       "id": "506850",
       "title": "8 Berbuki St",
       "price": 1000,
@@ -72,6 +88,22 @@
       "published_at": "2026-08-12T17:27:44+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/506850",
       "image": "telegram-images/506850.jpg"
+    },
+    {
+      "id": "506799",
+      "title": "Axis Towers | 37 Ilia Chavchavadze Ave",
+      "price": 1000,
+      "area": 42,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "8/30",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-12T16:08:27+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/506799",
+      "image": "telegram-images/506799.jpg"
     },
     {
       "id": "506769",
@@ -90,6 +122,22 @@
       "image": "telegram-images/506769.jpg"
     },
     {
+      "id": "506963",
+      "title": "37b Vakhtang Bochorishvili St",
+      "price": 700,
+      "area": 82,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "13/18",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-12T21:25:25+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/506963",
+      "image": "telegram-images/506963.jpg"
+    },
+    {
       "id": "506900",
       "title": "4 Marijani St",
       "price": 500,
@@ -106,68 +154,20 @@
       "image": "telegram-images/506900.jpg"
     },
     {
-      "id": "506880",
-      "title": "14b Shalva Nutsubidze Street",
-      "price": 900,
-      "area": 105,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "5/12",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-12T18:45:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/506880",
-      "image": "telegram-images/506880.jpg"
-    },
-    {
-      "id": "506809",
-      "title": "57 Ana Politkovskaia St",
-      "price": 750,
-      "area": 104,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": null,
-      "floor": "2/14",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-12T16:15:39+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/506809",
-      "image": "telegram-images/506809.jpg"
-    },
-    {
-      "id": "506799",
-      "title": "Axis Towers | 37 Ilia Chavchavadze Ave",
-      "price": 1000,
-      "area": 42,
+      "id": "506870",
+      "title": "3 Tskneti St",
+      "price": 850,
+      "area": 130,
       "district": "Vake",
       "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "8/30",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-12T16:08:27+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/506799",
-      "image": "telegram-images/506799.jpg"
-    },
-    {
-      "id": "506748",
-      "title": "34/10 Giorgi Chkondideli st",
-      "price": 650,
-      "area": 55,
-      "district": "",
-      "metro": "Didube",
       "rooms": 2,
-      "floor": "9/11",
+      "floor": "",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-12T14:15:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/506748",
-      "image": "telegram-images/506748.jpg"
+      "published_at": "2026-08-12T18:15:39+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/506870",
+      "image": "telegram-images/506870.jpg"
     }
   ]
 }
