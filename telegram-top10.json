@@ -7,7 +7,7 @@
   "period_end": "2026-08-13T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-13T17:26:38+04:00",
+  "updated_at": "2026-08-13T19:03:58+04:00",
   "items": [
     {
       "id": "507204",
@@ -18,8 +18,8 @@
       "metro": "Rustaveli",
       "rooms": 1,
       "floor": "",
-      "daily_reposts": 8,
-      "current_forwards": 8,
+      "daily_reposts": 10,
+      "current_forwards": 10,
       "baseline_forwards": 0,
       "published_at": "2026-08-13T13:46:46+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507204",
@@ -34,8 +34,8 @@
       "metro": "Liberty Square",
       "rooms": null,
       "floor": "2/2",
-      "daily_reposts": 6,
-      "current_forwards": 6,
+      "daily_reposts": 7,
+      "current_forwards": 7,
       "baseline_forwards": 0,
       "published_at": "2026-08-13T13:14:57+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507184",
@@ -58,22 +58,6 @@
       "image": "telegram-images/507154.jpg"
     },
     {
-      "id": "507104",
-      "title": "1A Davit Tavkhelidze Street",
-      "price": 650,
-      "area": 60,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "13/15",
-      "daily_reposts": 5,
-      "current_forwards": 5,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-13T11:09:16+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507104",
-      "image": "telegram-images/507104.jpg"
-    },
-    {
       "id": "507114",
       "title": "22D Petre Kavtaradze Street",
       "price": 700,
@@ -88,6 +72,22 @@
       "published_at": "2026-08-13T11:09:50+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507114",
       "image": "telegram-images/507114.jpg"
+    },
+    {
+      "id": "507357",
+      "title": "37b Ilia Chavchavadze Ave",
+      "price": 850,
+      "area": 130,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 3,
+      "floor": "",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-13T16:45:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507357",
+      "image": "telegram-images/507357.jpg"
     },
     {
       "id": "507226",
@@ -106,20 +106,20 @@
       "image": "telegram-images/507226.jpg"
     },
     {
-      "id": "507357",
-      "title": "37b Ilia Chavchavadze Ave",
-      "price": 850,
-      "area": 130,
-      "district": "Vake",
+      "id": "507376",
+      "title": "26 Anastasia Eristav-Khoshtaria St",
+      "price": 750,
+      "area": 70,
+      "district": "Vera",
       "metro": "Rustaveli",
-      "rooms": 3,
-      "floor": "",
+      "rooms": 1,
+      "floor": "1/2",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-13T16:45:33+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507357",
-      "image": "telegram-images/507357.jpg"
+      "published_at": "2026-08-13T17:44:57+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507376",
+      "image": "telegram-images/507376.jpg"
     },
     {
       "id": "507317",
@@ -154,20 +154,20 @@
       "image": "telegram-images/507144.jpg"
     },
     {
-      "id": "507347",
-      "title": "8 Omar Khizanishvili st",
-      "price": 700,
-      "area": 90,
-      "district": "Gldani",
-      "metro": "",
-      "rooms": 2,
-      "floor": "7/12",
-      "daily_reposts": 1,
-      "current_forwards": 1,
+      "id": "507134",
+      "title": "2 Petre Kavtaradze St",
+      "price": 345,
+      "area": 32,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 1,
+      "floor": "1/5",
+      "daily_reposts": 2,
+      "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-13T16:41:53+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507347",
-      "image": "telegram-images/507347.jpg"
+      "published_at": "2026-08-13T11:16:47+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507134",
+      "image": "telegram-images/507134.jpg"
     }
   ]
 }
