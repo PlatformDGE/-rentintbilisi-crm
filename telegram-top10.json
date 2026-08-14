@@ -5,10 +5,26 @@
   "date": "2026-08-14",
   "period_start": "2026-08-14T10:00:00+04:00",
   "period_end": "2026-08-14T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-08-14T21:05:06+04:00",
+  "updated_at": "2026-08-14T23:02:50+04:00",
   "items": [
+    {
+      "id": "507687",
+      "title": "#Saburtalo 🚇 #VazhaPshavela📍82 Shalva Nutsubidze St",
+      "price": 750,
+      "area": 82,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 2,
+      "floor": "",
+      "daily_reposts": 8,
+      "current_forwards": 8,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T12:15:29+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507687",
+      "image": "telegram-images/507687.jpg"
+    },
     {
       "id": "507727",
       "title": "52 Shalva Nutsubidze St",
@@ -24,22 +40,6 @@
       "published_at": "2026-08-14T13:45:31+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507727",
       "image": "telegram-images/507727.jpg"
-    },
-    {
-      "id": "507687",
-      "title": "#Saburtalo 🚇 #VazhaPshavela📍82 Shalva Nutsubidze St",
-      "price": 750,
-      "area": 82,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 7,
-      "current_forwards": 7,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T12:15:29+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507687",
-      "image": "telegram-images/507687.jpg"
     },
     {
       "id": "507838",
@@ -72,6 +72,22 @@
       "published_at": "2026-08-14T14:15:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507737",
       "image": "telegram-images/507737.jpg"
+    },
+    {
+      "id": "507908",
+      "title": "Mtatsminda hills",
+      "price": 1200,
+      "area": 100,
+      "district": "Mtatsminda",
+      "metro": "Liberty Square",
+      "rooms": 2,
+      "floor": "1/4",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T20:15:36+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507908",
+      "image": "telegram-images/507908.jpg"
     },
     {
       "id": "507808",
@@ -122,38 +138,6 @@
       "image": "telegram-images/507677.jpg"
     },
     {
-      "id": "507637",
-      "title": "16 Bochorma Street",
-      "price": 750,
-      "area": 70,
-      "district": "Avlabari",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "10/22",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:15:42+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507637",
-      "image": "telegram-images/507637.jpg"
-    },
-    {
-      "id": "507908",
-      "title": "Mtatsminda hills",
-      "price": 1200,
-      "area": 100,
-      "district": "Mtatsminda",
-      "metro": "Liberty Square",
-      "rooms": 2,
-      "floor": "1/4",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T20:15:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507908",
-      "image": "telegram-images/507908.jpg"
-    },
-    {
       "id": "507888",
       "title": "90 Zakaria Paliashvili Street",
       "price": 2000,
@@ -168,6 +152,22 @@
       "published_at": "2026-08-14T19:15:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507888",
       "image": "telegram-images/507888.jpg"
+    },
+    {
+      "id": "507878",
+      "title": "14 Kobuleti St",
+      "price": 35,
+      "area": 40,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "1/1",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T18:56:24+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507878",
+      "image": "telegram-images/507878.jpg"
     }
   ]
 }
