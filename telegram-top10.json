@@ -7,7 +7,7 @@
   "period_end": "2026-08-14T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-14T17:21:10+04:00",
+  "updated_at": "2026-08-14T18:57:58+04:00",
   "items": [
     {
       "id": "507687",
@@ -26,20 +26,36 @@
       "image": "telegram-images/507687.jpg"
     },
     {
-      "id": "507557",
-      "title": "3 Nino Zhvania St",
-      "price": 1000,
-      "area": 85,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "6/14",
+      "id": "507727",
+      "title": "52 Shalva Nutsubidze St",
+      "price": 450,
+      "area": 70,
+      "district": "Saburtalo",
+      "metro": "Delisi",
+      "rooms": 1,
+      "floor": "8/9",
+      "daily_reposts": 6,
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T13:45:31+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507727",
+      "image": "telegram-images/507727.jpg"
+    },
+    {
+      "id": "507838",
+      "title": "9 Kiziki St",
+      "price": 300,
+      "area": 48,
+      "district": "",
+      "metro": "Varketili",
+      "rooms": 1,
+      "floor": "4/4",
       "daily_reposts": 4,
-      "current_forwards": 8,
-      "baseline_forwards": 4,
-      "published_at": "2026-08-14T09:59:52+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507557",
-      "image": "telegram-images/507557.jpg"
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T17:15:39+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507838",
+      "image": "telegram-images/507838.jpg"
     },
     {
       "id": "507737",
@@ -58,6 +74,22 @@
       "image": "telegram-images/507737.jpg"
     },
     {
+      "id": "507808",
+      "title": "18 Atoneli St",
+      "price": 500,
+      "area": 40,
+      "district": "Sololaki",
+      "metro": "Liberty Square",
+      "rooms": null,
+      "floor": "2/2",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T16:42:49+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507808",
+      "image": "telegram-images/507808.jpg"
+    },
+    {
       "id": "507767",
       "title": "6/8 Ipolite Khvichia St",
       "price": 700,
@@ -74,20 +106,20 @@
       "image": "telegram-images/507767.jpg"
     },
     {
-      "id": "507727",
-      "title": "52 Shalva Nutsubidze St",
-      "price": 450,
-      "area": 70,
+      "id": "507677",
+      "title": "3 Simon Kandelaki Street",
+      "price": 570,
+      "area": 83,
       "district": "Saburtalo",
-      "metro": "Delisi",
-      "rooms": 1,
-      "floor": "8/9",
+      "metro": "",
+      "rooms": 2,
+      "floor": "1/5",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T13:45:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507727",
-      "image": "telegram-images/507727.jpg"
+      "published_at": "2026-08-14T12:03:09+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507677",
+      "image": "telegram-images/507677.jpg"
     },
     {
       "id": "507637",
@@ -106,22 +138,6 @@
       "image": "telegram-images/507637.jpg"
     },
     {
-      "id": "507577",
-      "title": "7 Berbuki St",
-      "price": 950,
-      "area": 120,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "4/12",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T10:35:10+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507577",
-      "image": "telegram-images/507577.jpg"
-    },
-    {
       "id": "507717",
       "title": "2 Zakaria Paliashvili St",
       "price": 1200,
@@ -136,22 +152,6 @@
       "published_at": "2026-08-14T13:39:44+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507717",
       "image": "telegram-images/507717.jpg"
-    },
-    {
-      "id": "507677",
-      "title": "3 Simon Kandelaki Street",
-      "price": 570,
-      "area": 83,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "1/5",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T12:03:09+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507677",
-      "image": "telegram-images/507677.jpg"
     },
     {
       "id": "507617",
