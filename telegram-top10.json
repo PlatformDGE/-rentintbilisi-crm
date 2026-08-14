@@ -7,7 +7,7 @@
   "period_end": "2026-08-14T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-14T18:57:58+04:00",
+  "updated_at": "2026-08-14T19:59:57+04:00",
   "items": [
     {
       "id": "507687",
@@ -58,6 +58,22 @@
       "image": "telegram-images/507838.jpg"
     },
     {
+      "id": "507808",
+      "title": "18 Atoneli St",
+      "price": 500,
+      "area": 40,
+      "district": "Sololaki",
+      "metro": "Liberty Square",
+      "rooms": null,
+      "floor": "2/2",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T16:42:49+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507808",
+      "image": "telegram-images/507808.jpg"
+    },
+    {
       "id": "507737",
       "title": "78 Zakaria Paliashvili Street",
       "price": 750,
@@ -72,22 +88,6 @@
       "published_at": "2026-08-14T14:15:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/507737",
       "image": "telegram-images/507737.jpg"
-    },
-    {
-      "id": "507808",
-      "title": "18 Atoneli St",
-      "price": 500,
-      "area": 40,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": null,
-      "floor": "2/2",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T16:42:49+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507808",
-      "image": "telegram-images/507808.jpg"
     },
     {
       "id": "507767",
@@ -138,36 +138,36 @@
       "image": "telegram-images/507637.jpg"
     },
     {
-      "id": "507717",
-      "title": "2 Zakaria Paliashvili St",
-      "price": 1200,
-      "area": 160,
+      "id": "507888",
+      "title": "90 Zakaria Paliashvili Street",
+      "price": 2000,
+      "area": 250,
       "district": "Vake",
       "metro": "Rustaveli",
       "rooms": 3,
-      "floor": "2/5",
+      "floor": "",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T13:39:44+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507717",
-      "image": "telegram-images/507717.jpg"
+      "published_at": "2026-08-14T19:15:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507888",
+      "image": "telegram-images/507888.jpg"
     },
     {
-      "id": "507617",
-      "title": "84 Vasil Barnov St",
-      "price": 1100,
-      "area": 125,
+      "id": "507878",
+      "title": "14 Kobuleti St",
+      "price": 35,
+      "area": 40,
       "district": "Vake",
       "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "4/6",
+      "rooms": 1,
+      "floor": "1/1",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:04:12+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507617",
-      "image": "telegram-images/507617.jpg"
+      "published_at": "2026-08-14T18:56:24+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507878",
+      "image": "telegram-images/507878.jpg"
     }
   ]
 }
