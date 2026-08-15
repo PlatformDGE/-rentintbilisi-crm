@@ -7,7 +7,7 @@
   "period_end": "2026-08-15T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-15T20:32:18+04:00",
+  "updated_at": "2026-08-15T21:26:37+04:00",
   "items": [
     {
       "id": "508243",
@@ -42,6 +42,22 @@
       "image": "telegram-images/508193.jpg"
     },
     {
+      "id": "508110",
+      "title": "Lisi Veranda",
+      "price": 1400,
+      "area": 120,
+      "district": "Vera",
+      "metro": "",
+      "rooms": 2,
+      "floor": "2/5",
+      "daily_reposts": 6,
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T12:15:28+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508110",
+      "image": "telegram-images/508110.jpg"
+    },
+    {
       "id": "508121",
       "title": "King David Residences",
       "price": 1600,
@@ -56,22 +72,6 @@
       "published_at": "2026-08-15T12:31:00+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508121",
       "image": "telegram-images/508121.jpg"
-    },
-    {
-      "id": "508110",
-      "title": "Lisi Veranda",
-      "price": 1400,
-      "area": 120,
-      "district": "Vera",
-      "metro": "",
-      "rooms": 2,
-      "floor": "2/5",
-      "daily_reposts": 5,
-      "current_forwards": 5,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T12:15:28+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508110",
-      "image": "telegram-images/508110.jpg"
     },
     {
       "id": "508080",
@@ -122,6 +122,22 @@
       "image": "telegram-images/508253.jpg"
     },
     {
+      "id": "508384",
+      "title": "2 Niko Nikoladze St",
+      "price": 700,
+      "area": 80,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T21:15:41+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508384",
+      "image": "telegram-images/508384.jpg"
+    },
+    {
       "id": "508090",
       "title": "37b Ilia Chavchavadze Avenue",
       "price": 850,
@@ -152,22 +168,6 @@
       "published_at": "2026-08-15T11:04:57+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508060",
       "image": "telegram-images/508060.jpg"
-    },
-    {
-      "id": "508050",
-      "title": "73 Sairme St",
-      "price": 1700,
-      "area": 150,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 3,
-      "floor": "3/5",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T10:45:22+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508050",
-      "image": "telegram-images/508050.jpg"
     }
   ]
 }
