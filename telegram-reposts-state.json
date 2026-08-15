@@ -137,6 +137,22 @@
     "508060": {
       "baseline_forwards": 0,
       "published_at": "2026-08-15T11:04:57+04:00"
+    },
+    "508121": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T12:31:00+04:00"
+    },
+    "508110": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T12:15:28+04:00"
+    },
+    "508100": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T12:03:43+04:00"
+    },
+    "508090": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T11:45:27+04:00"
     }
   }
 }
