@@ -7,24 +7,8 @@
   "period_end": "2026-08-15T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-15T18:29:39+04:00",
+  "updated_at": "2026-08-15T19:27:47+04:00",
   "items": [
-    {
-      "id": "508010",
-      "title": "5 Amaghleba St",
-      "price": 550,
-      "area": 50,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": 1,
-      "floor": "1/1",
-      "daily_reposts": 7,
-      "current_forwards": 7,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T09:45:19+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508010",
-      "image": "telegram-images/508010.jpg"
-    },
     {
       "id": "508243",
       "title": "34-36 Archil Tsagareli St",
@@ -34,8 +18,8 @@
       "metro": "",
       "rooms": 2,
       "floor": "",
-      "daily_reposts": 6,
-      "current_forwards": 6,
+      "daily_reposts": 8,
+      "current_forwards": 8,
       "baseline_forwards": 0,
       "published_at": "2026-08-15T16:24:40+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508243",
@@ -50,8 +34,8 @@
       "metro": "Liberty Square",
       "rooms": 1,
       "floor": "",
-      "daily_reposts": 5,
-      "current_forwards": 5,
+      "daily_reposts": 6,
+      "current_forwards": 6,
       "baseline_forwards": 0,
       "published_at": "2026-08-15T15:45:33+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508193",
@@ -106,6 +90,22 @@
       "image": "telegram-images/508283.jpg"
     },
     {
+      "id": "508253",
+      "title": "Tengiz Sheshelidze street, 116",
+      "price": 450,
+      "area": 45,
+      "district": "Gldani",
+      "metro": "Akhmeteli Theatre",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T16:28:10+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508253",
+      "image": "telegram-images/508253.jpg"
+    },
+    {
       "id": "508080",
       "title": "24 Vakhtang Bochorishvili St",
       "price": 700,
@@ -138,22 +138,6 @@
       "image": "telegram-images/508030.jpg"
     },
     {
-      "id": "508253",
-      "title": "Tengiz Sheshelidze street, 116",
-      "price": 450,
-      "area": 45,
-      "district": "Gldani",
-      "metro": "Akhmeteli Theatre",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T16:28:10+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508253",
-      "image": "telegram-images/508253.jpg"
-    },
-    {
       "id": "508090",
       "title": "37b Ilia Chavchavadze Avenue",
       "price": 850,
@@ -168,6 +152,22 @@
       "published_at": "2026-08-15T11:45:27+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508090",
       "image": "telegram-images/508090.jpg"
+    },
+    {
+      "id": "508060",
+      "title": "1 Bochorishvili St",
+      "price": 800,
+      "area": 82,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "5/10",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T11:04:57+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508060",
+      "image": "telegram-images/508060.jpg"
     }
   ]
 }
