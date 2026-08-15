@@ -5,9 +5,9 @@
   "date": "2026-08-15",
   "period_start": "2026-08-15T10:00:00+04:00",
   "period_end": "2026-08-15T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-08-15T21:26:37+04:00",
+  "updated_at": "2026-08-15T22:38:33+04:00",
   "items": [
     {
       "id": "508243",
@@ -58,6 +58,22 @@
       "image": "telegram-images/508110.jpg"
     },
     {
+      "id": "508283",
+      "title": "9/11 Alio Mirtskhulava St",
+      "price": 600,
+      "area": 45,
+      "district": "",
+      "metro": "Didube",
+      "rooms": 1,
+      "floor": "8/23",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T17:19:42+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508283",
+      "image": "telegram-images/508283.jpg"
+    },
+    {
       "id": "508121",
       "title": "King David Residences",
       "price": 1600,
@@ -90,20 +106,20 @@
       "image": "telegram-images/508080.jpg"
     },
     {
-      "id": "508283",
-      "title": "9/11 Alio Mirtskhulava St",
-      "price": 600,
-      "area": 45,
-      "district": "",
-      "metro": "Didube",
-      "rooms": 1,
-      "floor": "8/23",
+      "id": "508384",
+      "title": "2 Niko Nikoladze St",
+      "price": 700,
+      "area": 80,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "",
       "daily_reposts": 4,
       "current_forwards": 4,
       "baseline_forwards": 0,
-      "published_at": "2026-08-15T17:19:42+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508283",
-      "image": "telegram-images/508283.jpg"
+      "published_at": "2026-08-15T21:15:41+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508384",
+      "image": "telegram-images/508384.jpg"
     },
     {
       "id": "508253",
@@ -122,20 +138,20 @@
       "image": "telegram-images/508253.jpg"
     },
     {
-      "id": "508384",
-      "title": "2 Niko Nikoladze St",
-      "price": 700,
-      "area": 80,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "",
+      "id": "508304",
+      "title": "4 Marijani St",
+      "price": 500,
+      "area": 65,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 1,
+      "floor": "11/14",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-15T21:15:41+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508384",
-      "image": "telegram-images/508384.jpg"
+      "published_at": "2026-08-15T18:15:28+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508304",
+      "image": "telegram-images/508304.jpg"
     },
     {
       "id": "508090",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-15T11:45:27+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508090",
       "image": "telegram-images/508090.jpg"
-    },
-    {
-      "id": "508060",
-      "title": "1 Bochorishvili St",
-      "price": 800,
-      "area": 82,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "5/10",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T11:04:57+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508060",
-      "image": "telegram-images/508060.jpg"
     }
   ]
 }
