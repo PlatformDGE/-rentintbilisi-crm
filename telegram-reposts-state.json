@@ -1,205 +1,85 @@
 {
   "timezone": "Asia/Tbilisi",
-  "date": "2026-08-14",
-  "window_start": "2026-08-14T10:00:00+04:00",
-  "window_end": "2026-08-14T22:00:00+04:00",
-  "baseline_created_at": "2026-08-14T11:41:44+04:00",
+  "date": "2026-08-15",
+  "window_start": "2026-08-15T10:00:00+04:00",
+  "window_end": "2026-08-15T22:00:00+04:00",
+  "baseline_created_at": "2026-08-15T10:50:00+04:00",
   "baseline_created_late": true,
   "messages": {
-    "507647": {
+    "508050": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:33:21+04:00"
+      "published_at": "2026-08-15T10:45:22+04:00"
     },
-    "507637": {
+    "508040": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:15:42+04:00"
+      "published_at": "2026-08-15T10:32:00+04:00"
     },
-    "507627": {
+    "508030": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:15:26+04:00"
+      "published_at": "2026-08-15T10:15:26+04:00"
     },
-    "507617": {
+    "508020": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:04:12+04:00"
+      "published_at": "2026-08-15T10:01:07+04:00"
     },
-    "507607": {
+    "508010": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T10:45:24+04:00"
+      "published_at": "2026-08-15T09:45:19+04:00"
     },
-    "507597": {
+    "508000": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T10:39:02+04:00"
+      "published_at": "2026-08-15T09:30:28+04:00"
     },
-    "507587": {
+    "507990": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T10:38:14+04:00"
+      "published_at": "2026-08-15T09:15:18+04:00"
     },
-    "507577": {
+    "507980": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T10:35:10+04:00"
+      "published_at": "2026-08-15T09:12:03+04:00"
     },
-    "507567": {
+    "507970": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T10:15:01+04:00"
+      "published_at": "2026-08-15T09:11:21+04:00"
     },
-    "507557": {
+    "507960": {
+      "baseline_forwards": 2,
+      "published_at": "2026-08-15T09:10:49+04:00"
+    },
+    "507950": {
+      "baseline_forwards": 1,
+      "published_at": "2026-08-15T09:04:19+04:00"
+    },
+    "507949": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T08:03:04+04:00"
+    },
+    "507939": {
+      "baseline_forwards": 3,
+      "published_at": "2026-08-14T21:45:39+04:00"
+    },
+    "507929": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T21:15:38+04:00"
+    },
+    "507918": {
+      "baseline_forwards": 0,
+      "published_at": "2026-08-14T20:45:35+04:00"
+    },
+    "507908": {
       "baseline_forwards": 4,
-      "published_at": "2026-08-14T09:59:52+04:00"
+      "published_at": "2026-08-14T20:15:36+04:00"
     },
-    "507547": {
-      "baseline_forwards": 4,
-      "published_at": "2026-08-13T21:45:12+04:00"
-    },
-    "507537": {
+    "507898": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-13T21:32:05+04:00"
+      "published_at": "2026-08-14T19:45:31+04:00"
     },
-    "507527": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-13T21:28:53+04:00"
-    },
-    "507517": {
-      "baseline_forwards": 1,
-      "published_at": "2026-08-13T21:28:53+04:00"
-    },
-    "507507": {
-      "baseline_forwards": 1,
-      "published_at": "2026-08-13T21:15:16+04:00"
-    },
-    "507497": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-13T21:14:39+04:00"
-    },
-    "507487": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-13T21:05:25+04:00"
-    },
-    "507477": {
-      "baseline_forwards": 13,
-      "published_at": "2026-08-13T21:00:01+04:00"
-    },
-    "507466": {
-      "baseline_forwards": 3,
-      "published_at": "2026-08-13T20:17:53+04:00"
-    },
-    "507456": {
+    "507888": {
       "baseline_forwards": 2,
-      "published_at": "2026-08-13T20:16:44+04:00"
-    },
-    "507446": {
-      "baseline_forwards": 2,
-      "published_at": "2026-08-13T19:57:02+04:00"
-    },
-    "507436": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-13T19:45:37+04:00"
-    },
-    "507426": {
-      "baseline_forwards": 2,
-      "published_at": "2026-08-13T19:22:09+04:00"
-    },
-    "507416": {
-      "baseline_forwards": 2,
-      "published_at": "2026-08-13T19:15:34+04:00"
-    },
-    "507406": {
-      "baseline_forwards": 3,
-      "published_at": "2026-08-13T18:45:37+04:00"
-    },
-    "507396": {
-      "baseline_forwards": 1,
-      "published_at": "2026-08-13T18:38:20+04:00"
-    },
-    "507386": {
-      "baseline_forwards": 8,
-      "published_at": "2026-08-13T18:14:57+04:00"
-    },
-    "507376": {
-      "baseline_forwards": 6,
-      "published_at": "2026-08-13T17:44:57+04:00"
-    },
-    "507366": {
-      "baseline_forwards": 2,
-      "published_at": "2026-08-13T17:15:36+04:00"
-    },
-    "507357": {
-      "baseline_forwards": 3,
-      "published_at": "2026-08-13T16:45:33+04:00"
-    },
-    "507697": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T12:45:27+04:00"
-    },
-    "507687": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T12:15:29+04:00"
-    },
-    "507677": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T12:03:09+04:00"
-    },
-    "507667": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:50:12+04:00"
-    },
-    "507657": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T11:45:23+04:00"
-    },
-    "507747": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T14:45:34+04:00"
-    },
-    "507737": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T14:15:34+04:00"
-    },
-    "507727": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T13:45:31+04:00"
-    },
-    "507717": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T13:39:44+04:00"
-    },
-    "507707": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T13:15:31+04:00"
-    },
-    "507838": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T17:15:39+04:00"
-    },
-    "507828": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T16:54:34+04:00"
-    },
-    "507818": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T16:45:38+04:00"
-    },
-    "507808": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T16:42:49+04:00"
-    },
-    "507789": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T16:15:32+04:00"
-    },
-    "507787": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T16:15:31+04:00"
-    },
-    "507777": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T15:45:39+04:00"
-    },
-    "507767": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T15:21:39+04:00"
+      "published_at": "2026-08-14T19:15:34+04:00"
     },
     "507878": {
-      "baseline_forwards": 0,
+      "baseline_forwards": 4,
       "published_at": "2026-08-14T18:56:24+04:00"
     },
     "507868": {
@@ -207,36 +87,44 @@
       "published_at": "2026-08-14T18:45:36+04:00"
     },
     "507858": {
-      "baseline_forwards": 0,
+      "baseline_forwards": 3,
       "published_at": "2026-08-14T18:22:22+04:00"
     },
     "507848": {
-      "baseline_forwards": 0,
+      "baseline_forwards": 2,
       "published_at": "2026-08-14T17:45:34+04:00"
     },
-    "507898": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T19:45:31+04:00"
+    "507838": {
+      "baseline_forwards": 6,
+      "published_at": "2026-08-14T17:15:39+04:00"
     },
-    "507888": {
+    "507828": {
       "baseline_forwards": 0,
-      "published_at": "2026-08-14T19:15:34+04:00"
+      "published_at": "2026-08-14T16:54:34+04:00"
     },
-    "507918": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T20:45:35+04:00"
+    "507818": {
+      "baseline_forwards": 1,
+      "published_at": "2026-08-14T16:45:38+04:00"
     },
-    "507908": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T20:15:36+04:00"
+    "507808": {
+      "baseline_forwards": 4,
+      "published_at": "2026-08-14T16:42:49+04:00"
     },
-    "507939": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T21:45:39+04:00"
+    "507789": {
+      "baseline_forwards": 1,
+      "published_at": "2026-08-14T16:15:32+04:00"
     },
-    "507929": {
-      "baseline_forwards": 0,
-      "published_at": "2026-08-14T21:15:38+04:00"
+    "507787": {
+      "baseline_forwards": 2,
+      "published_at": "2026-08-14T16:15:31+04:00"
+    },
+    "507777": {
+      "baseline_forwards": 1,
+      "published_at": "2026-08-14T15:45:39+04:00"
+    },
+    "507767": {
+      "baseline_forwards": 4,
+      "published_at": "2026-08-14T15:21:39+04:00"
     }
   }
 }
