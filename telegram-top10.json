@@ -7,7 +7,7 @@
   "period_end": "2026-08-15T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-15T14:29:31+04:00",
+  "updated_at": "2026-08-15T15:26:20+04:00",
   "items": [
     {
       "id": "508010",
@@ -26,6 +26,22 @@
       "image": "telegram-images/508010.jpg"
     },
     {
+      "id": "508121",
+      "title": "King David Residences",
+      "price": 1600,
+      "area": 90,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-15T12:31:00+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508121",
+      "image": "telegram-images/508121.jpg"
+    },
+    {
       "id": "508030",
       "title": "83 Ilia Chavchavadze Ave",
       "price": 1500,
@@ -42,36 +58,36 @@
       "image": "telegram-images/508030.jpg"
     },
     {
-      "id": "508132",
-      "title": "1 Veriko Anjaparidze St",
-      "price": 800,
-      "area": 20,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "2/5",
+      "id": "507960",
+      "title": "33a Delisi St",
+      "price": 1200,
+      "area": 108,
+      "district": "Saburtalo",
+      "metro": "Delisi",
+      "rooms": 2,
+      "floor": "7/7",
       "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T12:45:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508132",
-      "image": "telegram-images/508132.jpg"
+      "current_forwards": 5,
+      "baseline_forwards": 2,
+      "published_at": "2026-08-15T09:10:49+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507960",
+      "image": "telegram-images/507960.jpg"
     },
     {
-      "id": "508121",
-      "title": "King David Residences",
-      "price": 1600,
-      "area": 90,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
+      "id": "508090",
+      "title": "37b Ilia Chavchavadze Avenue",
+      "price": 850,
+      "area": 145,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 3,
       "floor": "",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-15T12:31:00+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508121",
-      "image": "telegram-images/508121.jpg"
+      "published_at": "2026-08-15T11:45:27+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508090",
+      "image": "telegram-images/508090.jpg"
     },
     {
       "id": "508080",
@@ -122,20 +138,20 @@
       "image": "telegram-images/507939.jpg"
     },
     {
-      "id": "507960",
-      "title": "33a Delisi St",
-      "price": 1200,
-      "area": 108,
+      "id": "507950",
+      "title": "211 Shalva Nutsubidze St",
+      "price": 500,
+      "area": 50,
       "district": "Saburtalo",
-      "metro": "Delisi",
-      "rooms": 2,
-      "floor": "7/7",
+      "metro": "",
+      "rooms": 1,
+      "floor": "3/9",
       "daily_reposts": 2,
-      "current_forwards": 4,
-      "baseline_forwards": 2,
-      "published_at": "2026-08-15T09:10:49+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/507960",
-      "image": "telegram-images/507960.jpg"
+      "current_forwards": 3,
+      "baseline_forwards": 1,
+      "published_at": "2026-08-15T09:04:19+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/507950",
+      "image": "telegram-images/507950.jpg"
     },
     {
       "id": "508110",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-15T12:15:28+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508110",
       "image": "telegram-images/508110.jpg"
-    },
-    {
-      "id": "508090",
-      "title": "37b Ilia Chavchavadze Avenue",
-      "price": 850,
-      "area": 145,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 3,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-15T11:45:27+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508090",
-      "image": "telegram-images/508090.jpg"
     }
   ]
 }
