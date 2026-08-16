@@ -7,7 +7,7 @@
   "period_end": "2026-08-16T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-16T16:51:44+04:00",
+  "updated_at": "2026-08-16T17:36:19+04:00",
   "items": [
     {
       "id": "508615",
@@ -18,12 +18,28 @@
       "metro": "Marjanishvili",
       "rooms": 1,
       "floor": "2/2",
-      "daily_reposts": 7,
-      "current_forwards": 7,
+      "daily_reposts": 9,
+      "current_forwards": 9,
       "baseline_forwards": 0,
       "published_at": "2026-08-16T14:30:56+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508615",
       "image": "telegram-images/508615.jpg"
+    },
+    {
+      "id": "508415",
+      "title": "47 Merab Kostava St",
+      "price": 700,
+      "area": 52,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": null,
+      "floor": "5/9",
+      "daily_reposts": 4,
+      "current_forwards": 7,
+      "baseline_forwards": 3,
+      "published_at": "2026-08-16T09:01:25+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508415",
+      "image": "telegram-images/508415.jpg"
     },
     {
       "id": "508546",
@@ -42,6 +58,22 @@
       "image": "telegram-images/508546.jpg"
     },
     {
+      "id": "508675",
+      "title": "3 Ilia Chavchavadze, 1st Ln",
+      "price": 750,
+      "area": 68,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "10/14",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-16T16:45:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508675",
+      "image": "telegram-images/508675.jpg"
+    },
+    {
       "id": "508655",
       "title": "42 Revaz Japaridze St",
       "price": 500,
@@ -56,6 +88,22 @@
       "published_at": "2026-08-16T15:44:53+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508655",
       "image": "telegram-images/508655.jpg"
+    },
+    {
+      "id": "508516",
+      "title": "8 Nikolioz Kipshidze St",
+      "price": null,
+      "area": 53,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "10/16",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-16T11:15:53+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508516",
+      "image": "telegram-images/508516.jpg"
     },
     {
       "id": "508486",
@@ -74,36 +122,20 @@
       "image": "telegram-images/508486.jpg"
     },
     {
-      "id": "508415",
-      "title": "47 Merab Kostava St",
-      "price": 700,
-      "area": 52,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": null,
-      "floor": "5/9",
-      "daily_reposts": 2,
-      "current_forwards": 5,
-      "baseline_forwards": 3,
-      "published_at": "2026-08-16T09:01:25+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508415",
-      "image": "telegram-images/508415.jpg"
-    },
-    {
-      "id": "508394",
-      "title": "196 David Guramishvili Ave",
-      "price": 500,
-      "area": 58,
-      "district": "Nadzaladevi",
-      "metro": "Nadzaladevi",
-      "rooms": 1,
-      "floor": "5/15",
-      "daily_reposts": 2,
+      "id": "508445",
+      "title": "Tornike Eristavi 1",
+      "price": 1000,
+      "area": 110,
+      "district": "",
+      "metro": "Didube",
+      "rooms": 3,
+      "floor": "12/12",
+      "daily_reposts": 3,
       "current_forwards": 3,
-      "baseline_forwards": 1,
-      "published_at": "2026-08-15T21:32:57+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508394",
-      "image": "telegram-images/508394.jpg"
+      "baseline_forwards": 0,
+      "published_at": "2026-08-16T09:32:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508445",
+      "image": "telegram-images/508445.jpg"
     },
     {
       "id": "508595",
@@ -136,38 +168,6 @@
       "published_at": "2026-08-16T13:14:53+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508576",
       "image": "telegram-images/508576.jpg"
-    },
-    {
-      "id": "508566",
-      "title": "9 Medea Chakhava St",
-      "price": 1000,
-      "area": 150,
-      "district": "Saburtalo",
-      "metro": "Delisi",
-      "rooms": 3,
-      "floor": "4/6",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-16T12:51:10+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508566",
-      "image": "telegram-images/508566.jpg"
-    },
-    {
-      "id": "508536",
-      "title": "4 Elizbar Mindeli Street",
-      "price": 650,
-      "area": 54,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "3/13",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-16T11:45:53+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508536",
-      "image": "telegram-images/508536.jpg"
     }
   ]
 }
