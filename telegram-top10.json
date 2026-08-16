@@ -7,7 +7,7 @@
   "period_end": "2026-08-16T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-16T18:29:34+04:00",
+  "updated_at": "2026-08-16T19:27:50+04:00",
   "items": [
     {
       "id": "508615",
@@ -138,6 +138,22 @@
       "image": "telegram-images/508445.jpg"
     },
     {
+      "id": "508718",
+      "title": "12 Ushangi Chkheidze Street",
+      "price": 1200,
+      "area": 76,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 2,
+      "floor": "4/7",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-16T18:45:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508718",
+      "image": "telegram-images/508718.jpg"
+    },
+    {
       "id": "508576",
       "title": "37b Ilia Chavchavadze Ave",
       "price": 850,
@@ -152,22 +168,6 @@
       "published_at": "2026-08-16T13:14:53+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508576",
       "image": "telegram-images/508576.jpg"
-    },
-    {
-      "id": "508566",
-      "title": "9 Medea Chakhava St",
-      "price": 1000,
-      "area": 150,
-      "district": "Saburtalo",
-      "metro": "Delisi",
-      "rooms": 3,
-      "floor": "4/6",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-16T12:51:10+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508566",
-      "image": "telegram-images/508566.jpg"
     }
   ]
 }
