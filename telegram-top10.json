@@ -7,7 +7,7 @@
   "period_end": "2026-08-17T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-17T17:45:49+04:00",
+  "updated_at": "2026-08-17T18:34:54+04:00",
   "items": [
     {
       "id": "509059",
@@ -18,28 +18,12 @@
       "metro": "Rustaveli",
       "rooms": 2,
       "floor": "2/2",
-      "daily_reposts": 8,
-      "current_forwards": 8,
+      "daily_reposts": 13,
+      "current_forwards": 13,
       "baseline_forwards": 0,
       "published_at": "2026-08-17T16:00:07+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509059",
       "image": "telegram-images/509059.jpg"
-    },
-    {
-      "id": "508840",
-      "title": "8 Berbuki St",
-      "price": 1000,
-      "area": 77,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "11/14",
-      "daily_reposts": 6,
-      "current_forwards": 9,
-      "baseline_forwards": 3,
-      "published_at": "2026-08-17T09:14:53+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508840",
-      "image": "telegram-images/508840.jpg"
     },
     {
       "id": "508920",
@@ -90,36 +74,20 @@
       "image": "telegram-images/508890.jpg"
     },
     {
-      "id": "508870",
-      "title": "14b Shalva Nutsubidze Street",
+      "id": "509139",
+      "title": "56 Giorgi Shatberashvili St",
       "price": 900,
-      "area": 105,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "5/12",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-17T10:02:55+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508870",
-      "image": "telegram-images/508870.jpg"
-    },
-    {
-      "id": "508850",
-      "title": "82 Besarion Jgenti Street",
-      "price": 750,
-      "area": 75,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 2,
-      "floor": "5/9",
+      "area": 66,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "7/10",
       "daily_reposts": 2,
-      "current_forwards": 7,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-17T09:29:53+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508850",
-      "image": "telegram-images/508850.jpg"
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-17T18:06:18+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509139",
+      "image": "telegram-images/509139.jpg"
     },
     {
       "id": "509049",
@@ -168,6 +136,38 @@
       "published_at": "2026-08-17T12:15:52+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508949",
       "image": "telegram-images/508949.jpg"
+    },
+    {
+      "id": "508939",
+      "title": "16 Ipolite Khvichia St",
+      "price": 750,
+      "area": 80,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "6/6",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-17T11:45:52+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508939",
+      "image": "telegram-images/508939.jpg"
+    },
+    {
+      "id": "508929",
+      "title": "#Vera 🚇 #Rustaveli 📍9 Mikheil Zandukeli St",
+      "price": 1400,
+      "area": 150,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": 3,
+      "floor": "",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-17T11:35:24+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508929",
+      "image": "telegram-images/508929.jpg"
     }
   ]
 }
