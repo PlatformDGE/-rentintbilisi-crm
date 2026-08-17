@@ -7,7 +7,7 @@
   "period_end": "2026-08-17T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-17T18:34:54+04:00",
+  "updated_at": "2026-08-17T19:31:37+04:00",
   "items": [
     {
       "id": "509059",
@@ -18,8 +18,8 @@
       "metro": "Rustaveli",
       "rooms": 2,
       "floor": "2/2",
-      "daily_reposts": 13,
-      "current_forwards": 13,
+      "daily_reposts": 15,
+      "current_forwards": 15,
       "baseline_forwards": 0,
       "published_at": "2026-08-17T16:00:07+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509059",
@@ -58,22 +58,6 @@
       "image": "telegram-images/509029.jpg"
     },
     {
-      "id": "508890",
-      "title": "26 Viktor Dolidze St",
-      "price": 800,
-      "area": 140,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "16/18",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-17T10:31:10+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508890",
-      "image": "telegram-images/508890.jpg"
-    },
-    {
       "id": "509139",
       "title": "56 Giorgi Shatberashvili St",
       "price": 900,
@@ -82,12 +66,28 @@
       "metro": "Rustaveli",
       "rooms": 1,
       "floor": "7/10",
-      "daily_reposts": 2,
-      "current_forwards": 2,
+      "daily_reposts": 3,
+      "current_forwards": 3,
       "baseline_forwards": 0,
       "published_at": "2026-08-17T18:06:18+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509139",
       "image": "telegram-images/509139.jpg"
+    },
+    {
+      "id": "508949",
+      "title": "20 Irodion Evdoshvili St",
+      "price": 500,
+      "area": 40,
+      "district": "",
+      "metro": "Didube",
+      "rooms": null,
+      "floor": "7/16",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-17T12:15:52+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/508949",
+      "image": "telegram-images/508949.jpg"
     },
     {
       "id": "509049",
@@ -122,22 +122,6 @@
       "image": "telegram-images/508989.jpg"
     },
     {
-      "id": "508949",
-      "title": "20 Irodion Evdoshvili St",
-      "price": 500,
-      "area": 40,
-      "district": "",
-      "metro": "Didube",
-      "rooms": null,
-      "floor": "7/16",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-17T12:15:52+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/508949",
-      "image": "telegram-images/508949.jpg"
-    },
-    {
       "id": "508939",
       "title": "16 Ipolite Khvichia St",
       "price": 750,
@@ -168,6 +152,22 @@
       "published_at": "2026-08-17T11:35:24+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/508929",
       "image": "telegram-images/508929.jpg"
+    },
+    {
+      "id": "509189",
+      "title": "Vazha-Pshavela VII Block, 4",
+      "price": 550,
+      "area": 60,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 2,
+      "floor": "1/4",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-17T18:59:22+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509189",
+      "image": "telegram-images/509189.jpg"
     }
   ]
 }
