@@ -7,8 +7,24 @@
   "period_end": "2026-08-18T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-18T12:45:30+04:00",
+  "updated_at": "2026-08-18T13:39:50+04:00",
   "items": [
+    {
+      "id": "509402",
+      "title": "40 Arkanjelo Lamberti Street",
+      "price": 500,
+      "area": 55,
+      "district": "Digomi",
+      "metro": "Didube",
+      "rooms": 1,
+      "floor": "5/10",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-18T11:43:25+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509402",
+      "image": "telegram-images/509402.jpg"
+    },
     {
       "id": "509382",
       "title": "1 Levan Gotua st",
@@ -26,22 +42,6 @@
       "image": "telegram-images/509382.jpg"
     },
     {
-      "id": "509402",
-      "title": "40 Arkanjelo Lamberti Street",
-      "price": 500,
-      "area": 55,
-      "district": "Digomi",
-      "metro": "Didube",
-      "rooms": 1,
-      "floor": "5/10",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-18T11:43:25+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509402",
-      "image": "telegram-images/509402.jpg"
-    },
-    {
       "id": "509372",
       "title": "14 Pavle Aslanidi St",
       "price": 700,
@@ -50,12 +50,28 @@
       "metro": "",
       "rooms": 1,
       "floor": "4/14",
-      "daily_reposts": 2,
-      "current_forwards": 2,
+      "daily_reposts": 3,
+      "current_forwards": 3,
       "baseline_forwards": 0,
       "published_at": "2026-08-18T10:21:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509372",
       "image": "telegram-images/509372.jpg"
+    },
+    {
+      "id": "509443",
+      "title": "196 David Guramishvili Ave",
+      "price": 450,
+      "area": 58,
+      "district": "Nadzaladevi",
+      "metro": "Nadzaladevi",
+      "rooms": 1,
+      "floor": "5/15",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-18T13:15:55+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509443",
+      "image": "telegram-images/509443.jpg"
     },
     {
       "id": "509280",
@@ -90,22 +106,6 @@
       "image": "telegram-images/509239.jpg"
     },
     {
-      "id": "509079",
-      "title": "36 Ana Politkovskaia St",
-      "price": 550,
-      "area": 43,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 1,
-      "current_forwards": 2,
-      "baseline_forwards": 1,
-      "published_at": "2026-08-17T16:45:35+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509079",
-      "image": "telegram-images/509079.jpg"
-    },
-    {
       "id": "509413",
       "title": "7 Ilia Chavchavadze Avenue",
       "price": 1700,
@@ -120,6 +120,22 @@
       "published_at": "2026-08-18T12:15:51+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509413",
       "image": "telegram-images/509413.jpg"
+    },
+    {
+      "id": "509352",
+      "title": "18b Ateni street",
+      "price": 1000,
+      "area": 110,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "3/16",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-18T10:15:01+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509352",
+      "image": "telegram-images/509352.jpg"
     },
     {
       "id": "509139",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-17T21:51:07+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509290",
       "image": "telegram-images/509290.jpg"
-    },
-    {
-      "id": "509229",
-      "title": "36 Tereverko",
-      "price": 550,
-      "area": 81,
-      "district": "Digomi",
-      "metro": "Didube",
-      "rooms": 1,
-      "floor": "1/6",
-      "daily_reposts": 0,
-      "current_forwards": 5,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-17T19:52:44+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509229",
-      "image": "telegram-images/509229.jpg"
     }
   ]
 }
