@@ -7,7 +7,7 @@
   "period_end": "2026-08-18T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-18T13:39:50+04:00",
+  "updated_at": "2026-08-18T14:35:26+04:00",
   "items": [
     {
       "id": "509402",
@@ -18,8 +18,8 @@
       "metro": "Didube",
       "rooms": 1,
       "floor": "5/10",
-      "daily_reposts": 5,
-      "current_forwards": 5,
+      "daily_reposts": 6,
+      "current_forwards": 6,
       "baseline_forwards": 0,
       "published_at": "2026-08-18T11:43:25+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509402",
@@ -34,12 +34,28 @@
       "metro": "",
       "rooms": 2,
       "floor": "2/14",
-      "daily_reposts": 3,
-      "current_forwards": 3,
+      "daily_reposts": 5,
+      "current_forwards": 5,
       "baseline_forwards": 0,
       "published_at": "2026-08-18T10:58:47+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509382",
       "image": "telegram-images/509382.jpg"
+    },
+    {
+      "id": "509280",
+      "title": "7 Sairme St",
+      "price": 550,
+      "area": 80,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "5/9",
+      "daily_reposts": 3,
+      "current_forwards": 7,
+      "baseline_forwards": 4,
+      "published_at": "2026-08-17T21:40:01+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509280",
+      "image": "telegram-images/509280.jpg"
     },
     {
       "id": "509372",
@@ -74,20 +90,20 @@
       "image": "telegram-images/509443.jpg"
     },
     {
-      "id": "509280",
-      "title": "7 Sairme St",
-      "price": 550,
-      "area": 80,
-      "district": "Saburtalo",
-      "metro": "",
+      "id": "509169",
+      "title": "31 Petre Kavtaradze St",
+      "price": 590,
+      "area": 70,
+      "district": "",
+      "metro": "Vazha-Pshavela",
       "rooms": 1,
-      "floor": "5/9",
+      "floor": "4/9",
       "daily_reposts": 1,
-      "current_forwards": 5,
-      "baseline_forwards": 4,
-      "published_at": "2026-08-17T21:40:01+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509280",
-      "image": "telegram-images/509280.jpg"
+      "current_forwards": 6,
+      "baseline_forwards": 5,
+      "published_at": "2026-08-17T18:30:53+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509169",
+      "image": "telegram-images/509169.jpg"
     },
     {
       "id": "509239",
@@ -104,6 +120,22 @@
       "published_at": "2026-08-17T19:53:20+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509239",
       "image": "telegram-images/509239.jpg"
+    },
+    {
+      "id": "509453",
+      "title": "78 Vazha Pshavela",
+      "price": 600,
+      "area": 84,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 2,
+      "floor": "8/13",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-18T13:45:51+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509453",
+      "image": "telegram-images/509453.jpg"
     },
     {
       "id": "509413",
@@ -136,38 +168,6 @@
       "published_at": "2026-08-18T10:15:01+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509352",
       "image": "telegram-images/509352.jpg"
-    },
-    {
-      "id": "509139",
-      "title": "56 Giorgi Shatberashvili St",
-      "price": 900,
-      "area": 66,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "7/10",
-      "daily_reposts": 0,
-      "current_forwards": 7,
-      "baseline_forwards": 7,
-      "published_at": "2026-08-17T18:06:18+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509139",
-      "image": "telegram-images/509139.jpg"
-    },
-    {
-      "id": "509290",
-      "title": "1 Petre Qavtaradze I Turn",
-      "price": 650,
-      "area": 50,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "5/9",
-      "daily_reposts": 0,
-      "current_forwards": 5,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-17T21:51:07+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509290",
-      "image": "telegram-images/509290.jpg"
     }
   ]
 }
