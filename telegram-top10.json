@@ -7,8 +7,24 @@
   "period_end": "2026-08-18T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-18T18:40:23+04:00",
+  "updated_at": "2026-08-18T19:38:03+04:00",
   "items": [
+    {
+      "id": "509443",
+      "title": "196 David Guramishvili Ave",
+      "price": 450,
+      "area": 58,
+      "district": "Nadzaladevi",
+      "metro": "Nadzaladevi",
+      "rooms": 1,
+      "floor": "5/15",
+      "daily_reposts": 6,
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-18T13:15:55+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509443",
+      "image": "telegram-images/509443.jpg"
+    },
     {
       "id": "509382",
       "title": "1 Levan Gotua st",
@@ -58,20 +74,36 @@
       "image": "telegram-images/509543.jpg"
     },
     {
-      "id": "509443",
-      "title": "196 David Guramishvili Ave",
-      "price": 450,
-      "area": 58,
+      "id": "509563",
+      "title": "Samasi Aragveli 3 turn N:5",
+      "price": 900,
+      "area": 86,
+      "district": "Avlabari",
+      "metro": "300 Aragveli",
+      "rooms": 2,
+      "floor": "3/7",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-18T17:15:02+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509563",
+      "image": "telegram-images/509563.jpg"
+    },
+    {
+      "id": "509513",
+      "title": "41T David Guramishvili Avenue",
+      "price": 500,
+      "area": 44,
       "district": "Nadzaladevi",
       "metro": "Nadzaladevi",
       "rooms": 1,
-      "floor": "5/15",
-      "daily_reposts": 5,
-      "current_forwards": 5,
+      "floor": "8/11",
+      "daily_reposts": 4,
+      "current_forwards": 4,
       "baseline_forwards": 0,
-      "published_at": "2026-08-18T13:15:55+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509443",
-      "image": "telegram-images/509443.jpg"
+      "published_at": "2026-08-18T16:00:16+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509513",
+      "image": "telegram-images/509513.jpg"
     },
     {
       "id": "509473",
@@ -90,36 +122,20 @@
       "image": "telegram-images/509473.jpg"
     },
     {
-      "id": "509372",
-      "title": "14 Pavle Aslanidi St",
-      "price": 700,
-      "area": 60,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "4/14",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-18T10:21:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509372",
-      "image": "telegram-images/509372.jpg"
-    },
-    {
-      "id": "509513",
-      "title": "41T David Guramishvili Avenue",
+      "id": "509605",
+      "title": "116 Tengiz Sheshelidze st",
       "price": 500,
-      "area": 44,
-      "district": "Nadzaladevi",
-      "metro": "Nadzaladevi",
+      "area": 57,
+      "district": "Gldani",
+      "metro": "Akhmeteli Theatre",
       "rooms": 1,
-      "floor": "8/11",
+      "floor": "",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-18T16:00:16+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509513",
-      "image": "telegram-images/509513.jpg"
+      "published_at": "2026-08-18T18:45:51+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509605",
+      "image": "telegram-images/509605.jpg"
     },
     {
       "id": "509352",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-17T21:51:07+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509290",
       "image": "telegram-images/509290.jpg"
-    },
-    {
-      "id": "509563",
-      "title": "Samasi Aragveli 3 turn N:5",
-      "price": 900,
-      "area": 86,
-      "district": "Avlabari",
-      "metro": "300 Aragveli",
-      "rooms": 2,
-      "floor": "3/7",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-18T17:15:02+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509563",
-      "image": "telegram-images/509563.jpg"
     }
   ]
 }
