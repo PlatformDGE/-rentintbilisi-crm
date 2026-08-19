@@ -7,8 +7,24 @@
   "period_end": "2026-08-19T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-19T12:46:09+04:00",
+  "updated_at": "2026-08-19T13:39:56+04:00",
   "items": [
+    {
+      "id": "509900",
+      "title": "24 Vakhtang Bochorishvili St",
+      "price": 700,
+      "area": 71,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "13/16",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-19T12:45:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509900",
+      "image": "telegram-images/509900.jpg"
+    },
     {
       "id": "509779",
       "title": "54 Giorgi V Brtskinvale St",
@@ -106,6 +122,22 @@
       "image": "telegram-images/509890.jpg"
     },
     {
+      "id": "509869",
+      "title": "11 Vladimer Gabashvili St",
+      "price": 1200,
+      "area": 84,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "8/13",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-19T11:45:29+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509869",
+      "image": "telegram-images/509869.jpg"
+    },
+    {
       "id": "509859",
       "title": "10 Givi Kartozia St",
       "price": 700,
@@ -136,38 +168,6 @@
       "published_at": "2026-08-19T10:35:00+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509819",
       "image": "telegram-images/509819.jpg"
-    },
-    {
-      "id": "509686",
-      "title": "39a Zakaria Paliashvili St",
-      "price": 1000,
-      "area": 125,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "2/5",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-18T20:45:51+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509686",
-      "image": "telegram-images/509686.jpg"
-    },
-    {
-      "id": "509697",
-      "title": "Nino Zhvania 10",
-      "price": 850,
-      "area": 83,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "5/14",
-      "daily_reposts": 0,
-      "current_forwards": 8,
-      "baseline_forwards": 8,
-      "published_at": "2026-08-18T20:54:15+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509697",
-      "image": "telegram-images/509697.jpg"
     }
   ]
 }
