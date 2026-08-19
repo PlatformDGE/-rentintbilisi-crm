@@ -7,7 +7,7 @@
   "period_end": "2026-08-19T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-19T14:35:15+04:00",
+  "updated_at": "2026-08-19T15:31:19+04:00",
   "items": [
     {
       "id": "509941",
@@ -106,22 +106,6 @@
       "image": ""
     },
     {
-      "id": "509636",
-      "title": "8 Giorgi Leonidze St",
-      "price": 700,
-      "area": 50,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": null,
-      "floor": "3/3",
-      "daily_reposts": 1,
-      "current_forwards": 3,
-      "baseline_forwards": 2,
-      "published_at": "2026-08-18T19:45:51+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509636",
-      "image": "telegram-images/509636.jpg"
-    },
-    {
       "id": "509789",
       "title": "83 Ilia Chavchavadze Ave",
       "price": 1500,
@@ -138,6 +122,38 @@
       "image": "telegram-images/509789.jpg"
     },
     {
+      "id": "509961",
+      "title": "1 Petre Qavtaradze I Turn",
+      "price": 650,
+      "area": 50,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
+      "rooms": 1,
+      "floor": "5/9",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-19T14:45:51+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509961",
+      "image": "telegram-images/509961.jpg"
+    },
+    {
+      "id": "509921",
+      "title": "54 Adam Mitskevichi St",
+      "price": 700,
+      "area": 70,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "3/10",
+      "daily_reposts": 1,
+      "current_forwards": 1,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-19T13:45:51+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/509921",
+      "image": "telegram-images/509921.jpg"
+    },
+    {
       "id": "509890",
       "title": "37b Vakhtang Bochorishvili St",
       "price": 750,
@@ -152,22 +168,6 @@
       "published_at": "2026-08-19T12:15:30+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/509890",
       "image": "telegram-images/509890.jpg"
-    },
-    {
-      "id": "509869",
-      "title": "11 Vladimer Gabashvili St",
-      "price": 1200,
-      "area": 84,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "8/13",
-      "daily_reposts": 1,
-      "current_forwards": 1,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-19T11:45:29+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/509869",
-      "image": "telegram-images/509869.jpg"
     }
   ]
 }
