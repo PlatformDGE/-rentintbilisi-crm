@@ -5,9 +5,9 @@
   "date": "2026-08-20",
   "period_start": "2026-08-20T10:00:00+04:00",
   "period_end": "2026-08-20T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-08-20T21:35:49+04:00",
+  "updated_at": "2026-08-20T22:50:07+04:00",
   "items": [
     {
       "id": "510536",
