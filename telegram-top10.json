@@ -7,23 +7,23 @@
   "period_end": "2026-08-20T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-20T15:33:20+04:00",
+  "updated_at": "2026-08-20T17:01:39+04:00",
   "items": [
     {
-      "id": "510203",
-      "title": "11 Pekini Ave",
-      "price": 420,
-      "area": 32,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "4/7",
+      "id": "510334",
+      "title": "4 Konstantine Kapaneli St",
+      "price": 600,
+      "area": 60,
+      "district": "Lisi",
+      "metro": "Delisi",
+      "rooms": 2,
+      "floor": "3/10",
       "daily_reposts": 5,
-      "current_forwards": 10,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-19T21:33:54+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510203",
-      "image": "telegram-images/510203.jpg"
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-20T11:45:50+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510334",
+      "image": "telegram-images/510334.jpg"
     },
     {
       "id": "510234",
@@ -42,20 +42,20 @@
       "image": "telegram-images/510234.jpg"
     },
     {
-      "id": "510334",
-      "title": "4 Konstantine Kapaneli St",
-      "price": 600,
-      "area": 60,
-      "district": "Lisi",
+      "id": "510414",
+      "title": "9 Otar Chkheidze",
+      "price": 1300,
+      "area": 105,
+      "district": "Saburtalo",
       "metro": "Delisi",
       "rooms": 2,
-      "floor": "3/10",
+      "floor": "14/14",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-20T11:45:50+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510334",
-      "image": "telegram-images/510334.jpg"
+      "published_at": "2026-08-20T14:42:35+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510414",
+      "image": "telegram-images/510414.jpg"
     },
     {
       "id": "510304",
@@ -90,20 +90,36 @@
       "image": "telegram-images/510284.jpg"
     },
     {
-      "id": "510193",
-      "title": "43 Zhiuli Shartava St",
-      "price": 900,
-      "area": 63,
-      "district": "Saburtalo",
+      "id": "510444",
+      "title": "9 Kukuri Gogiashvili St",
+      "price": 350,
+      "area": 25,
+      "district": "Didi Dighomi",
       "metro": "",
       "rooms": 1,
-      "floor": "7/37",
+      "floor": "3/4",
       "daily_reposts": 2,
-      "current_forwards": 3,
-      "baseline_forwards": 1,
-      "published_at": "2026-08-19T21:15:49+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510193",
-      "image": "telegram-images/510193.jpg"
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-20T15:18:01+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510444",
+      "image": "telegram-images/510444.jpg"
+    },
+    {
+      "id": "510424",
+      "title": "105 Gorgasali St",
+      "price": 550,
+      "area": 55,
+      "district": "Ortachala",
+      "metro": "300 Aragveli",
+      "rooms": 1,
+      "floor": "3/16",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-20T15:15:11+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510424",
+      "image": "telegram-images/510424.jpg"
     },
     {
       "id": "510394",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-19T21:45:49+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510213",
       "image": "telegram-images/510213.jpg"
-    },
-    {
-      "id": "510224",
-      "title": "43 Zhiuli Shartava St",
-      "price": 1400,
-      "area": 100,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 1,
-      "current_forwards": 2,
-      "baseline_forwards": 1,
-      "published_at": "2026-08-20T09:00:54+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510224",
-      "image": "telegram-images/510224.jpg"
     }
   ]
 }
