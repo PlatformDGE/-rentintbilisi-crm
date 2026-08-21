@@ -7,7 +7,7 @@
   "period_end": "2026-08-21T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-21T20:41:25+04:00",
+  "updated_at": "2026-08-21T21:35:08+04:00",
   "items": [
     {
       "id": "511009",
@@ -18,8 +18,8 @@
       "metro": "Rustaveli",
       "rooms": 1,
       "floor": "2/6",
-      "daily_reposts": 7,
-      "current_forwards": 7,
+      "daily_reposts": 8,
+      "current_forwards": 8,
       "baseline_forwards": 0,
       "published_at": "2026-08-21T18:15:33+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511009",
@@ -34,12 +34,28 @@
       "metro": "",
       "rooms": 2,
       "floor": "7/11",
-      "daily_reposts": 6,
-      "current_forwards": 6,
+      "daily_reposts": 7,
+      "current_forwards": 7,
       "baseline_forwards": 0,
       "published_at": "2026-08-21T15:21:22+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510909",
       "image": "telegram-images/510909.jpg"
+    },
+    {
+      "id": "510819",
+      "title": "14 Pavle Aslanidi St",
+      "price": 650,
+      "area": 70,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "4/14",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T13:53:06+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510819",
+      "image": "telegram-images/510819.jpg"
     },
     {
       "id": "511029",
@@ -120,22 +136,6 @@
       "published_at": "2026-08-21T15:15:36+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510869",
       "image": "telegram-images/510869.jpg"
-    },
-    {
-      "id": "510819",
-      "title": "14 Pavle Aslanidi St",
-      "price": 650,
-      "area": 70,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "4/14",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-21T13:53:06+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510819",
-      "image": "telegram-images/510819.jpg"
     },
     {
       "id": "510779",
