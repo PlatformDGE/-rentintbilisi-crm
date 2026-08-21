@@ -7,7 +7,7 @@
   "period_end": "2026-08-21T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-21T18:41:59+04:00",
+  "updated_at": "2026-08-21T19:40:20+04:00",
   "items": [
     {
       "id": "510909",
@@ -26,6 +26,38 @@
       "image": "telegram-images/510909.jpg"
     },
     {
+      "id": "511009",
+      "title": "2 Tskneti St",
+      "price": 400,
+      "area": 45,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "2/6",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T18:15:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511009",
+      "image": "telegram-images/511009.jpg"
+    },
+    {
+      "id": "511029",
+      "title": "Dmitri uznadze 115a",
+      "price": 750,
+      "area": 114,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 2,
+      "floor": "3/3",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T18:34:20+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511029",
+      "image": "telegram-images/511029.jpg"
+    },
+    {
       "id": "510929",
       "title": "Nino Zhvania 10",
       "price": 50,
@@ -40,6 +72,22 @@
       "published_at": "2026-08-21T16:15:31+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510929",
       "image": "telegram-images/510929.jpg"
+    },
+    {
+      "id": "510869",
+      "title": "72 Zakaria Paliashvili Street",
+      "price": 1000,
+      "area": 125,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "4/6",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T15:15:36+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510869",
+      "image": "telegram-images/510869.jpg"
     },
     {
       "id": "510819",
@@ -58,6 +106,22 @@
       "image": "telegram-images/510819.jpg"
     },
     {
+      "id": "510979",
+      "title": "56 Giorgi Shatberashvili St",
+      "price": 850,
+      "area": 66,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "7/10",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T17:17:35+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510979",
+      "image": "telegram-images/510979.jpg"
+    },
+    {
       "id": "510969",
       "title": "1 Shroshi Street",
       "price": 800,
@@ -72,22 +136,6 @@
       "published_at": "2026-08-21T17:15:57+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510969",
       "image": "telegram-images/510969.jpg"
-    },
-    {
-      "id": "510869",
-      "title": "72 Zakaria Paliashvili Street",
-      "price": 1000,
-      "area": 125,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "4/6",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-21T15:15:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510869",
-      "image": "telegram-images/510869.jpg"
     },
     {
       "id": "510779",
@@ -120,54 +168,6 @@
       "published_at": "2026-08-21T12:45:35+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510769",
       "image": "telegram-images/510769.jpg"
-    },
-    {
-      "id": "510719",
-      "title": "26d Shalva Nutsubidze St",
-      "price": 750,
-      "area": 85,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "6/9",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-21T11:05:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510719",
-      "image": "telegram-images/510719.jpg"
-    },
-    {
-      "id": "510699",
-      "title": "Archi Isani C",
-      "price": 1000,
-      "area": 120,
-      "district": "Isani",
-      "metro": "Isani",
-      "rooms": 3,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-21T10:45:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510699",
-      "image": "telegram-images/510699.jpg"
-    },
-    {
-      "id": "510679",
-      "title": "32 Levan Kbilashvili st",
-      "price": 340,
-      "area": 45,
-      "district": "Gldani",
-      "metro": "",
-      "rooms": 1,
-      "floor": "3/6",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-21T10:15:20+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510679",
-      "image": "telegram-images/510679.jpg"
     }
   ]
 }
