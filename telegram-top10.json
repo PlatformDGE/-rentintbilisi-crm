@@ -7,7 +7,7 @@
   "period_end": "2026-08-21T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-21T17:00:30+04:00",
+  "updated_at": "2026-08-21T18:41:59+04:00",
   "items": [
     {
       "id": "510909",
@@ -26,6 +26,22 @@
       "image": "telegram-images/510909.jpg"
     },
     {
+      "id": "510929",
+      "title": "Nino Zhvania 10",
+      "price": 50,
+      "area": 83,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "5/14",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T16:15:31+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510929",
+      "image": "telegram-images/510929.jpg"
+    },
+    {
       "id": "510819",
       "title": "14 Pavle Aslanidi St",
       "price": 650,
@@ -42,36 +58,36 @@
       "image": "telegram-images/510819.jpg"
     },
     {
-      "id": "510650",
-      "title": "91 Vazha-Pshavela Ave",
-      "price": 600,
-      "area": 40,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "5/8",
-      "daily_reposts": 3,
-      "current_forwards": 6,
-      "baseline_forwards": 3,
-      "published_at": "2026-08-21T09:34:45+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510650",
-      "image": "telegram-images/510650.jpg"
-    },
-    {
-      "id": "510929",
-      "title": "Nino Zhvania 10",
-      "price": 50,
-      "area": 83,
+      "id": "510969",
+      "title": "1 Shroshi Street",
+      "price": 800,
+      "area": 100,
       "district": "Vake",
       "metro": "Rustaveli",
       "rooms": 2,
-      "floor": "5/14",
+      "floor": "6/12",
       "daily_reposts": 3,
       "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-21T16:15:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510929",
-      "image": "telegram-images/510929.jpg"
+      "published_at": "2026-08-21T17:15:57+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510969",
+      "image": "telegram-images/510969.jpg"
+    },
+    {
+      "id": "510869",
+      "title": "72 Zakaria Paliashvili Street",
+      "price": 1000,
+      "area": 125,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "4/6",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-21T15:15:36+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/510869",
+      "image": "telegram-images/510869.jpg"
     },
     {
       "id": "510779",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-21T10:15:20+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/510679",
       "image": "telegram-images/510679.jpg"
-    },
-    {
-      "id": "510630",
-      "title": "16 Bochorma St",
-      "price": 700,
-      "area": 59,
-      "district": "Avlabari",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "16/24",
-      "daily_reposts": 2,
-      "current_forwards": 4,
-      "baseline_forwards": 2,
-      "published_at": "2026-08-21T09:03:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/510630",
-      "image": "telegram-images/510630.jpg"
     }
   ]
 }
