@@ -7,7 +7,7 @@
   "period_end": "2026-08-22T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-22T14:30:29+04:00",
+  "updated_at": "2026-08-22T15:26:16+04:00",
   "items": [
     {
       "id": "511150",
@@ -26,6 +26,22 @@
       "image": "telegram-images/511150.jpg"
     },
     {
+      "id": "511339",
+      "title": "49 Dzmebi Zubalashvilebi St",
+      "price": 500,
+      "area": 60,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T14:33:05+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511339",
+      "image": "telegram-images/511339.jpg"
+    },
+    {
       "id": "511249",
       "title": "4 Simon Janashia",
       "price": 800,
@@ -34,8 +50,8 @@
       "metro": "Rustaveli",
       "rooms": 2,
       "floor": "1/2",
-      "daily_reposts": 4,
-      "current_forwards": 4,
+      "daily_reposts": 5,
+      "current_forwards": 5,
       "baseline_forwards": 0,
       "published_at": "2026-08-22T11:53:29+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511249",
@@ -58,6 +74,22 @@
       "image": "telegram-images/511229.jpg"
     },
     {
+      "id": "511319",
+      "title": "23 Bakhtrioni St",
+      "price": 650,
+      "area": 43,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "15/15",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T14:15:36+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511319",
+      "image": "telegram-images/511319.jpg"
+    },
+    {
       "id": "511219",
       "title": "38–40 Kobuleti St",
       "price": 1500,
@@ -74,36 +106,20 @@
       "image": "telegram-images/511219.jpg"
     },
     {
-      "id": "511029",
-      "title": "Dmitri uznadze 115a",
-      "price": 750,
-      "area": 114,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
+      "id": "511329",
+      "title": "71 Nino Zhvania St",
+      "price": 1200,
+      "area": 90,
+      "district": "Vake",
+      "metro": "Rustaveli",
       "rooms": 2,
-      "floor": "3/3",
-      "daily_reposts": 2,
-      "current_forwards": 7,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-21T18:34:20+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511029",
-      "image": "telegram-images/511029.jpg"
-    },
-    {
-      "id": "511319",
-      "title": "23 Bakhtrioni St",
-      "price": 650,
-      "area": 43,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "15/15",
+      "floor": "5/8",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-22T14:15:36+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511319",
-      "image": "telegram-images/511319.jpg"
+      "published_at": "2026-08-22T14:29:13+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511329",
+      "image": "telegram-images/511329.jpg"
     },
     {
       "id": "511289",
@@ -138,36 +154,20 @@
       "image": "telegram-images/511179.jpg"
     },
     {
-      "id": "511009",
-      "title": "2 Tskneti St",
-      "price": 400,
-      "area": 45,
-      "district": "Vake",
-      "metro": "Rustaveli",
+      "id": "511078",
+      "title": "4 Marijani St",
+      "price": 500,
+      "area": 65,
+      "district": "Saburtalo",
+      "metro": "Vazha-Pshavela",
       "rooms": 1,
-      "floor": "2/6",
+      "floor": "11/14",
       "daily_reposts": 1,
-      "current_forwards": 15,
-      "baseline_forwards": 14,
-      "published_at": "2026-08-21T18:15:33+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511009",
-      "image": "telegram-images/511009.jpg"
-    },
-    {
-      "id": "511058",
-      "title": "48/50 Mtskheta St",
-      "price": 1700,
-      "area": 102,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "3/8",
-      "daily_reposts": 1,
-      "current_forwards": 2,
-      "baseline_forwards": 1,
-      "published_at": "2026-08-21T19:45:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511058",
-      "image": "telegram-images/511058.jpg"
+      "current_forwards": 3,
+      "baseline_forwards": 2,
+      "published_at": "2026-08-21T20:24:42+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511078",
+      "image": "telegram-images/511078.jpg"
     }
   ]
 }
