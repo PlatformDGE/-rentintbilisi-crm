@@ -5,9 +5,9 @@
   "date": "2026-08-22",
   "period_start": "2026-08-22T10:00:00+04:00",
   "period_end": "2026-08-22T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-08-22T21:26:46+04:00",
+  "updated_at": "2026-08-22T22:39:17+04:00",
   "items": [
     {
       "id": "511339",
@@ -98,12 +98,28 @@
       "metro": "",
       "rooms": 1,
       "floor": "4/16",
-      "daily_reposts": 3,
-      "current_forwards": 3,
+      "daily_reposts": 4,
+      "current_forwards": 4,
       "baseline_forwards": 0,
       "published_at": "2026-08-22T19:23:20+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511488",
       "image": "telegram-images/511488.jpg"
+    },
+    {
+      "id": "511568",
+      "title": "17 Davit Batonishvili St",
+      "price": 500,
+      "area": 64,
+      "district": "Digomi",
+      "metro": "",
+      "rooms": 1,
+      "floor": "4/8",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T21:15:42+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511568",
+      "image": "telegram-images/511568.jpg"
     },
     {
       "id": "511367",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-22T14:15:36+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511319",
       "image": "telegram-images/511319.jpg"
-    },
-    {
-      "id": "511299",
-      "title": "Davit Agmashenebeli 82",
-      "price": 450,
-      "area": 40,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-22T13:15:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511299",
-      "image": "telegram-images/511299.jpg"
     }
   ]
 }
