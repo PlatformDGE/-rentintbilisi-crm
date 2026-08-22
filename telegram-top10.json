@@ -7,7 +7,7 @@
   "period_end": "2026-08-22T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-22T18:28:09+04:00",
+  "updated_at": "2026-08-22T19:27:43+04:00",
   "items": [
     {
       "id": "511339",
@@ -18,8 +18,8 @@
       "metro": "Rustaveli",
       "rooms": 1,
       "floor": "",
-      "daily_reposts": 11,
-      "current_forwards": 11,
+      "daily_reposts": 15,
+      "current_forwards": 15,
       "baseline_forwards": 0,
       "published_at": "2026-08-22T14:33:05+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511339",
@@ -42,20 +42,20 @@
       "image": "telegram-images/511249.jpg"
     },
     {
-      "id": "511150",
-      "title": "11 Natia Bashaleishvili St",
-      "price": 770,
-      "area": 83,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 1,
-      "floor": "2/2",
+      "id": "511398",
+      "title": "35/37 Zhiuli Shartava St",
+      "price": 600,
+      "area": 90,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "17/17",
       "daily_reposts": 6,
-      "current_forwards": 10,
-      "baseline_forwards": 4,
-      "published_at": "2026-08-22T09:45:23+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511150",
-      "image": "telegram-images/511150.jpg"
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T16:28:00+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511398",
+      "image": "telegram-images/511398.jpg"
     },
     {
       "id": "511229",
@@ -74,20 +74,36 @@
       "image": "telegram-images/511229.jpg"
     },
     {
-      "id": "511398",
-      "title": "35/37 Zhiuli Shartava St",
-      "price": 600,
-      "area": 90,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "17/17",
-      "daily_reposts": 5,
-      "current_forwards": 5,
+      "id": "511367",
+      "title": "34 Nadakvari III St",
+      "price": 800,
+      "area": 64,
+      "district": "Ortachala",
+      "metro": "Liberty Square",
+      "rooms": 1,
+      "floor": "5/9",
+      "daily_reposts": 3,
+      "current_forwards": 3,
       "baseline_forwards": 0,
-      "published_at": "2026-08-22T16:28:00+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511398",
-      "image": "telegram-images/511398.jpg"
+      "published_at": "2026-08-22T15:18:31+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511367",
+      "image": "telegram-images/511367.jpg"
+    },
+    {
+      "id": "511347",
+      "title": "Kvemo Lisi",
+      "price": 3800,
+      "area": 500,
+      "district": "Lisi",
+      "metro": "Delisi",
+      "rooms": 4,
+      "floor": "",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T14:45:29+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511347",
+      "image": "telegram-images/511347.jpg"
     },
     {
       "id": "511319",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-22T11:02:46+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511219",
       "image": "telegram-images/511219.jpg"
-    },
-    {
-      "id": "511179",
-      "title": "2 Didi Kheivani St",
-      "price": 700,
-      "area": 75,
-      "district": "Ortachala",
-      "metro": "300 Aragveli",
-      "rooms": 2,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-22T10:15:45+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511179",
-      "image": "telegram-images/511179.jpg"
     }
   ]
 }
