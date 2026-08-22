@@ -7,7 +7,7 @@
   "period_end": "2026-08-22T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-22T20:31:52+04:00",
+  "updated_at": "2026-08-22T21:26:46+04:00",
   "items": [
     {
       "id": "511339",
@@ -34,12 +34,28 @@
       "metro": "",
       "rooms": 2,
       "floor": "17/17",
-      "daily_reposts": 9,
-      "current_forwards": 9,
+      "daily_reposts": 11,
+      "current_forwards": 11,
       "baseline_forwards": 0,
       "published_at": "2026-08-22T16:28:00+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511398",
       "image": "telegram-images/511398.jpg"
+    },
+    {
+      "id": "511538",
+      "title": "#Sololaki 🚇 #LibertySquare 📍 Aleksandre Chikvaidze 4/9",
+      "price": 500,
+      "area": 57,
+      "district": "Sololaki",
+      "metro": "Liberty Square",
+      "rooms": 1,
+      "floor": "4/9",
+      "daily_reposts": 7,
+      "current_forwards": 7,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T20:13:53+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511538",
+      "image": "telegram-images/511538.jpg"
     },
     {
       "id": "511528",
@@ -58,22 +74,6 @@
       "image": "telegram-images/511528.jpg"
     },
     {
-      "id": "511538",
-      "title": "#Sololaki 🚇 #LibertySquare 📍 Aleksandre Chikvaidze 4/9",
-      "price": 500,
-      "area": 57,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": 1,
-      "floor": "4/9",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-22T20:13:53+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511538",
-      "image": "telegram-images/511538.jpg"
-    },
-    {
       "id": "511498",
       "title": "3 Vazha Pshavela III Turn",
       "price": 580,
@@ -82,12 +82,28 @@
       "metro": "Vazha-Pshavela",
       "rooms": 2,
       "floor": "5/5",
-      "daily_reposts": 3,
-      "current_forwards": 3,
+      "daily_reposts": 4,
+      "current_forwards": 4,
       "baseline_forwards": 0,
       "published_at": "2026-08-22T19:37:10+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511498",
       "image": "telegram-images/511498.jpg"
+    },
+    {
+      "id": "511488",
+      "title": "4a Simon Chikovani St",
+      "price": 650,
+      "area": 58,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "4/16",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-22T19:23:20+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511488",
+      "image": "telegram-images/511488.jpg"
     },
     {
       "id": "511367",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-22T13:15:31+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511299",
       "image": "telegram-images/511299.jpg"
-    },
-    {
-      "id": "511289",
-      "title": "31 Amaghleba St",
-      "price": 900,
-      "area": 70,
-      "district": "Sololaki",
-      "metro": "Liberty Square",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-22T12:45:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511289",
-      "image": "telegram-images/511289.jpg"
     }
   ]
 }
