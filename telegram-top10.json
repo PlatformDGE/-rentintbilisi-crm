@@ -7,8 +7,24 @@
   "period_end": "2026-08-23T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-23T10:52:05+04:00",
+  "updated_at": "2026-08-23T11:39:06+04:00",
   "items": [
+    {
+      "id": "511669",
+      "title": "1 Lekh Kachinski Street",
+      "price": 100,
+      "area": 30,
+      "district": "Avlabari",
+      "metro": "300 Aragveli",
+      "rooms": 1,
+      "floor": "7/11",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T11:15:05+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511669",
+      "image": "telegram-images/511669.jpg"
+    },
     {
       "id": "511639",
       "title": "3 Shiraki St",
@@ -18,8 +34,8 @@
       "metro": "300 Aragveli",
       "rooms": 1,
       "floor": "5/6",
-      "daily_reposts": 1,
-      "current_forwards": 1,
+      "daily_reposts": 2,
+      "current_forwards": 2,
       "baseline_forwards": 0,
       "published_at": "2026-08-23T10:28:46+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511639",
@@ -152,22 +168,6 @@
       "published_at": "2026-08-22T19:37:10+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511498",
       "image": "telegram-images/511498.jpg"
-    },
-    {
-      "id": "511367",
-      "title": "34 Nadakvari III St",
-      "price": 800,
-      "area": 64,
-      "district": "Ortachala",
-      "metro": "Liberty Square",
-      "rooms": 1,
-      "floor": "5/9",
-      "daily_reposts": 0,
-      "current_forwards": 4,
-      "baseline_forwards": 4,
-      "published_at": "2026-08-22T15:18:31+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511367",
-      "image": "telegram-images/511367.jpg"
     }
   ]
 }
