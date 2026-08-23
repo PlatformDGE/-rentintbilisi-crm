@@ -7,7 +7,7 @@
   "period_end": "2026-08-23T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-23T19:28:45+04:00",
+  "updated_at": "2026-08-23T20:33:28+04:00",
   "items": [
     {
       "id": "511779",
@@ -18,12 +18,28 @@
       "metro": "",
       "rooms": 1,
       "floor": "4/8",
-      "daily_reposts": 12,
-      "current_forwards": 12,
+      "daily_reposts": 13,
+      "current_forwards": 13,
       "baseline_forwards": 0,
       "published_at": "2026-08-23T13:48:28+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511779",
       "image": "telegram-images/511779.jpg"
+    },
+    {
+      "id": "511829",
+      "title": "11 Vladimer Gabashvili St",
+      "price": 1200,
+      "area": 84,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "8/13",
+      "daily_reposts": 6,
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T15:15:30+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511829",
+      "image": "telegram-images/511829.jpg"
     },
     {
       "id": "511729",
@@ -42,6 +58,38 @@
       "image": "telegram-images/511729.jpg"
     },
     {
+      "id": "511979",
+      "title": "74/8 Viktor Kupradze Street",
+      "price": 380,
+      "area": 40,
+      "district": "",
+      "metro": "Varketili",
+      "rooms": 1,
+      "floor": "7/9",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T19:19:16+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511979",
+      "image": "telegram-images/511979.jpg"
+    },
+    {
+      "id": "511920",
+      "title": "9b Nikolioz Kipshidze St",
+      "price": 800,
+      "area": 100,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "8/12",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T17:24:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511920",
+      "image": "telegram-images/511920.jpg"
+    },
+    {
       "id": "511870",
       "title": "6/8 Ipolite Khvichia St",
       "price": 700,
@@ -58,22 +106,6 @@
       "image": "telegram-images/511870.jpg"
     },
     {
-      "id": "511829",
-      "title": "11 Vladimer Gabashvili St",
-      "price": 1200,
-      "area": 84,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "8/13",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-23T15:15:30+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511829",
-      "image": "telegram-images/511829.jpg"
-    },
-    {
       "id": "511859",
       "title": "40 Arkanjelo Lamberti Street",
       "price": 550,
@@ -88,6 +120,22 @@
       "published_at": "2026-08-23T15:50:24+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511859",
       "image": "telegram-images/511859.jpg"
+    },
+    {
+      "id": "511839",
+      "title": "37b Vakhtang Bochorishvili St",
+      "price": 750,
+      "area": 82,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "13/18",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T15:45:38+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511839",
+      "image": "telegram-images/511839.jpg"
     },
     {
       "id": "511799",
@@ -120,54 +168,6 @@
       "published_at": "2026-08-23T14:03:51+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511789",
       "image": "telegram-images/511789.jpg"
-    },
-    {
-      "id": "511960",
-      "title": "8 Vazha Pshavela Ave",
-      "price": 750,
-      "area": 65,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-23T18:45:32+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511960",
-      "image": "telegram-images/511960.jpg"
-    },
-    {
-      "id": "511920",
-      "title": "9b Nikolioz Kipshidze St",
-      "price": 800,
-      "area": 100,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "8/12",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-23T17:24:33+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511920",
-      "image": "telegram-images/511920.jpg"
-    },
-    {
-      "id": "511900",
-      "title": "7 Berbuki St",
-      "price": 600,
-      "area": 66,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "7/12",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-23T16:59:57+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511900",
-      "image": "telegram-images/511900.jpg"
     }
   ]
 }
