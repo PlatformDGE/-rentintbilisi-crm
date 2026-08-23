@@ -7,7 +7,7 @@
   "period_end": "2026-08-23T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-23T17:37:25+04:00",
+  "updated_at": "2026-08-23T18:29:28+04:00",
   "items": [
     {
       "id": "511669",
@@ -34,28 +34,12 @@
       "metro": "",
       "rooms": 1,
       "floor": "4/8",
-      "daily_reposts": 11,
-      "current_forwards": 11,
+      "daily_reposts": 12,
+      "current_forwards": 12,
       "baseline_forwards": 0,
       "published_at": "2026-08-23T13:48:28+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511779",
       "image": "telegram-images/511779.jpg"
-    },
-    {
-      "id": "511639",
-      "title": "3 Shiraki St",
-      "price": 550,
-      "area": 55,
-      "district": "Isani",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "5/6",
-      "daily_reposts": 5,
-      "current_forwards": 5,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-23T10:28:46+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511639",
-      "image": "telegram-images/511639.jpg"
     },
     {
       "id": "511870",
@@ -152,6 +136,22 @@
       "published_at": "2026-08-23T14:03:51+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511789",
       "image": "telegram-images/511789.jpg"
+    },
+    {
+      "id": "511920",
+      "title": "9b Nikolioz Kipshidze St",
+      "price": 800,
+      "area": 100,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "8/12",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T17:24:33+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511920",
+      "image": "telegram-images/511920.jpg"
     },
     {
       "id": "511900",
