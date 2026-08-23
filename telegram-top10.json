@@ -7,7 +7,7 @@
   "period_end": "2026-08-23T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-23T16:52:42+04:00",
+  "updated_at": "2026-08-23T17:37:25+04:00",
   "items": [
     {
       "id": "511669",
@@ -18,8 +18,8 @@
       "metro": "300 Aragveli",
       "rooms": 1,
       "floor": "7/11",
-      "daily_reposts": 12,
-      "current_forwards": 12,
+      "daily_reposts": 13,
+      "current_forwards": 13,
       "baseline_forwards": 0,
       "published_at": "2026-08-23T11:15:05+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511669",
@@ -58,6 +58,22 @@
       "image": "telegram-images/511639.jpg"
     },
     {
+      "id": "511870",
+      "title": "6/8 Ipolite Khvichia St",
+      "price": 700,
+      "area": 80,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "4/8",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-23T16:15:35+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511870",
+      "image": "telegram-images/511870.jpg"
+    },
+    {
       "id": "511829",
       "title": "11 Vladimer Gabashvili St",
       "price": 1200,
@@ -88,22 +104,6 @@
       "published_at": "2026-08-23T13:08:15+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/511729",
       "image": "telegram-images/511729.jpg"
-    },
-    {
-      "id": "511870",
-      "title": "6/8 Ipolite Khvichia St",
-      "price": 700,
-      "area": 80,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "4/8",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-23T16:15:35+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511870",
-      "image": "telegram-images/511870.jpg"
     },
     {
       "id": "511859",
@@ -154,20 +154,20 @@
       "image": "telegram-images/511789.jpg"
     },
     {
-      "id": "511759",
-      "title": "12 Sulkhan Tsintsadze St",
+      "id": "511900",
+      "title": "7 Berbuki St",
       "price": 600,
-      "area": 60,
+      "area": 66,
       "district": "Saburtalo",
       "metro": "",
       "rooms": 1,
-      "floor": "5/13",
+      "floor": "7/12",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-23T13:46:09+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/511759",
-      "image": "telegram-images/511759.jpg"
+      "published_at": "2026-08-23T16:59:57+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/511900",
+      "image": "telegram-images/511900.jpg"
     }
   ]
 }
