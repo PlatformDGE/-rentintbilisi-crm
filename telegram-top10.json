@@ -7,7 +7,7 @@
   "period_end": "2026-08-24T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-24T14:44:53+04:00",
+  "updated_at": "2026-08-24T15:35:20+04:00",
   "items": [
     {
       "id": "512201",
@@ -18,8 +18,8 @@
       "metro": "Didube",
       "rooms": 1,
       "floor": "4/8",
-      "daily_reposts": 8,
-      "current_forwards": 8,
+      "daily_reposts": 9,
+      "current_forwards": 9,
       "baseline_forwards": 0,
       "published_at": "2026-08-24T12:49:35+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512201",
@@ -106,20 +106,20 @@
       "image": "telegram-images/511989.jpg"
     },
     {
-      "id": "512243",
-      "title": "Archi Saburtalo",
-      "price": 800,
-      "area": 80,
+      "id": "512233",
+      "title": "37b Vakhtang Bochorishvili St",
+      "price": 1000,
+      "area": 86,
       "district": "Saburtalo",
       "metro": "",
-      "rooms": 2,
-      "floor": "",
+      "rooms": 3,
+      "floor": "12/12",
       "daily_reposts": 2,
       "current_forwards": 2,
       "baseline_forwards": 0,
-      "published_at": "2026-08-24T13:54:37+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512243",
-      "image": "telegram-images/512243.jpg"
+      "published_at": "2026-08-24T13:54:26+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512233",
+      "image": "telegram-images/512233.jpg"
     },
     {
       "id": "512151",
