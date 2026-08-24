@@ -7,7 +7,7 @@
   "period_end": "2026-08-24T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-24T19:46:06+04:00",
+  "updated_at": "2026-08-24T20:46:17+04:00",
   "items": [
     {
       "id": "512201",
@@ -18,12 +18,28 @@
       "metro": "Nadzaladevi",
       "rooms": 1,
       "floor": "4/8",
-      "daily_reposts": 17,
-      "current_forwards": 17,
+      "daily_reposts": 19,
+      "current_forwards": 19,
       "baseline_forwards": 0,
       "published_at": "2026-08-24T12:49:35+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512201",
       "image": "telegram-images/512201.jpg"
+    },
+    {
+      "id": "512374",
+      "title": "13 Solomon Zaldastanishvili Turn",
+      "price": 700,
+      "area": 65,
+      "district": "Vera",
+      "metro": "Rustaveli",
+      "rooms": 1,
+      "floor": "2/3",
+      "daily_reposts": 10,
+      "current_forwards": 10,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-24T19:51:18+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512374",
+      "image": "telegram-images/512374.jpg"
     },
     {
       "id": "512181",
@@ -74,22 +90,6 @@
       "image": "telegram-images/512191.jpg"
     },
     {
-      "id": "512334",
-      "title": "24 Vakhtang Bochorishvili St",
-      "price": 700,
-      "area": 71,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "13/16",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-24T18:15:37+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512334",
-      "image": "telegram-images/512334.jpg"
-    },
-    {
       "id": "512304",
       "title": "George Tereverko I Turn",
       "price": 550,
@@ -122,22 +122,6 @@
       "image": "telegram-images/512283.jpg"
     },
     {
-      "id": "512072",
-      "title": "91 Vazha-Pshavela Ave",
-      "price": 600,
-      "area": 40,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "5/8",
-      "daily_reposts": 3,
-      "current_forwards": 8,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-24T09:32:04+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512072",
-      "image": "telegram-images/512072.jpg"
-    },
-    {
       "id": "512263",
       "title": "55 Sairme Street",
       "price": 750,
@@ -152,6 +136,22 @@
       "published_at": "2026-08-24T14:21:05+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512263",
       "image": "telegram-images/512263.jpg"
+    },
+    {
+      "id": "512233",
+      "title": "37b Vakhtang Bochorishvili St",
+      "price": 1000,
+      "area": 86,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 3,
+      "floor": "12/12",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-24T13:54:26+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512233",
+      "image": "telegram-images/512233.jpg"
     },
     {
       "id": "512151",
