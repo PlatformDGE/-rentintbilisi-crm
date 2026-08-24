@@ -7,7 +7,7 @@
   "period_end": "2026-08-24T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-24T17:03:18+04:00",
+  "updated_at": "2026-08-24T18:49:52+04:00",
   "items": [
     {
       "id": "512201",
@@ -18,12 +18,44 @@
       "metro": "Nadzaladevi",
       "rooms": 1,
       "floor": "4/8",
-      "daily_reposts": 11,
-      "current_forwards": 11,
+      "daily_reposts": 14,
+      "current_forwards": 14,
       "baseline_forwards": 0,
       "published_at": "2026-08-24T12:49:35+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512201",
       "image": "telegram-images/512201.jpg"
+    },
+    {
+      "id": "512181",
+      "title": "117 Mikheili Tsinamdzghvrishvili St",
+      "price": 500,
+      "area": 43,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 1,
+      "floor": "2/2",
+      "daily_reposts": 7,
+      "current_forwards": 7,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-24T12:26:46+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512181",
+      "image": "telegram-images/512181.jpg"
+    },
+    {
+      "id": "512273",
+      "title": "3-3 Vakhtang Ninua Street",
+      "price": 650,
+      "area": 60,
+      "district": "Nadzaladevi",
+      "metro": "Nadzaladevi",
+      "rooms": 1,
+      "floor": "13/15",
+      "daily_reposts": 6,
+      "current_forwards": 6,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-24T15:15:30+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512273",
+      "image": "telegram-images/512273.jpg"
     },
     {
       "id": "512191",
@@ -42,38 +74,6 @@
       "image": "telegram-images/512191.jpg"
     },
     {
-      "id": "512273",
-      "title": "3-3 Vakhtang Ninua Street",
-      "price": 650,
-      "area": 60,
-      "district": "Nadzaladevi",
-      "metro": "Nadzaladevi",
-      "rooms": 1,
-      "floor": "13/15",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-24T15:15:30+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512273",
-      "image": "telegram-images/512273.jpg"
-    },
-    {
-      "id": "512181",
-      "title": "117 Mikheili Tsinamdzghvrishvili St",
-      "price": 500,
-      "area": 43,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "2/2",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-24T12:26:46+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512181",
-      "image": "telegram-images/512181.jpg"
-    },
-    {
       "id": "512072",
       "title": "91 Vazha-Pshavela Ave",
       "price": 600,
@@ -88,6 +88,38 @@
       "published_at": "2026-08-24T09:32:04+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512072",
       "image": "telegram-images/512072.jpg"
+    },
+    {
+      "id": "512304",
+      "title": "George Tereverko I Turn",
+      "price": 550,
+      "area": 68,
+      "district": "Digomi",
+      "metro": "Didube",
+      "rooms": 1,
+      "floor": "2/5",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-24T16:45:26+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512304",
+      "image": "telegram-images/512304.jpg"
+    },
+    {
+      "id": "512283",
+      "title": "36 Tereverko",
+      "price": 550,
+      "area": 81,
+      "district": "Digomi",
+      "metro": "Didube",
+      "rooms": 1,
+      "floor": "1/6",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-24T15:45:34+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512283",
+      "image": "telegram-images/512283.jpg"
     },
     {
       "id": "512263",
@@ -122,22 +154,6 @@
       "image": "telegram-images/512151.jpg"
     },
     {
-      "id": "512283",
-      "title": "36 Tereverko",
-      "price": 550,
-      "area": 81,
-      "district": "Digomi",
-      "metro": "Didube",
-      "rooms": 1,
-      "floor": "1/6",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-24T15:45:34+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512283",
-      "image": "telegram-images/512283.jpg"
-    },
-    {
       "id": "512253",
       "title": "1 Bochorishvili St",
       "price": 800,
@@ -152,22 +168,6 @@
       "published_at": "2026-08-24T14:14:51+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512253",
       "image": "telegram-images/512253.jpg"
-    },
-    {
-      "id": "512233",
-      "title": "37b Vakhtang Bochorishvili St",
-      "price": 1000,
-      "area": 86,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 3,
-      "floor": "12/12",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-24T13:54:26+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512233",
-      "image": "telegram-images/512233.jpg"
     }
   ]
 }
