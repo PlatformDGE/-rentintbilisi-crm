@@ -7,7 +7,7 @@
   "period_end": "2026-08-25T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-25T18:56:17+04:00",
+  "updated_at": "2026-08-25T19:52:04+04:00",
   "items": [
     {
       "id": "512546",
@@ -24,6 +24,22 @@
       "published_at": "2026-08-25T11:34:44+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512546",
       "image": "telegram-images/512546.jpg"
+    },
+    {
+      "id": "512828",
+      "title": "10 Berbuki St",
+      "price": 600,
+      "area": 70,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 2,
+      "floor": "",
+      "daily_reposts": 8,
+      "current_forwards": 8,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-25T19:15:38+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512828",
+      "image": "telegram-images/512828.jpg"
     },
     {
       "id": "512616",
@@ -74,6 +90,22 @@
       "image": "telegram-images/512686.jpg"
     },
     {
+      "id": "512717",
+      "title": "34 Parnavaz Mepe Avenue",
+      "price": 650,
+      "area": 65,
+      "district": "Digomi",
+      "metro": "Didube",
+      "rooms": 2,
+      "floor": "9/10",
+      "daily_reposts": 5,
+      "current_forwards": 5,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-25T15:15:32+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512717",
+      "image": "telegram-images/512717.jpg"
+    },
+    {
       "id": "512536",
       "title": "105 Gorgasali St",
       "price": 550,
@@ -106,38 +138,6 @@
       "image": "telegram-images/512757.jpg"
     },
     {
-      "id": "512717",
-      "title": "34 Parnavaz Mepe Avenue",
-      "price": 650,
-      "area": 65,
-      "district": "Digomi",
-      "metro": "Didube",
-      "rooms": 2,
-      "floor": "9/10",
-      "daily_reposts": 4,
-      "current_forwards": 4,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-25T15:15:32+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512717",
-      "image": "telegram-images/512717.jpg"
-    },
-    {
-      "id": "512807",
-      "title": "36 Ana Politkovskaia St",
-      "price": 550,
-      "area": 43,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-25T18:15:33+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512807",
-      "image": "telegram-images/512807.jpg"
-    },
-    {
       "id": "512747",
       "title": "26d Shalva Nutsubidze St",
       "price": 750,
@@ -146,28 +146,28 @@
       "metro": "",
       "rooms": 2,
       "floor": "6/9",
-      "daily_reposts": 3,
-      "current_forwards": 3,
+      "daily_reposts": 4,
+      "current_forwards": 4,
       "baseline_forwards": 0,
       "published_at": "2026-08-25T16:15:40+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512747",
       "image": "telegram-images/512747.jpg"
     },
     {
-      "id": "512696",
-      "title": "79a Rafael Agladze St",
-      "price": 700,
-      "area": 62,
-      "district": "",
-      "metro": "Didube",
-      "rooms": 1,
-      "floor": "12/12",
-      "daily_reposts": 3,
-      "current_forwards": 3,
+      "id": "512656",
+      "title": "37m Ilia Chavchavadze Avenue",
+      "price": 3700,
+      "area": 140,
+      "district": "Vake",
+      "metro": "Rustaveli",
+      "rooms": 2,
+      "floor": "17/25",
+      "daily_reposts": 4,
+      "current_forwards": 4,
       "baseline_forwards": 0,
-      "published_at": "2026-08-25T14:17:23+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512696",
-      "image": "telegram-images/512696.jpg"
+      "published_at": "2026-08-25T14:15:11+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/512656",
+      "image": "telegram-images/512656.jpg"
     }
   ]
 }
