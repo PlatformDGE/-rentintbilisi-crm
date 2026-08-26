@@ -7,7 +7,7 @@
   "period_end": "2026-08-26T22:00:00+04:00",
   "status": "active",
   "baseline_created_late": true,
-  "updated_at": "2026-08-26T13:50:13+04:00",
+  "updated_at": "2026-08-26T14:40:44+04:00",
   "items": [
     {
       "id": "513109",
@@ -18,12 +18,28 @@
       "metro": "Rustaveli",
       "rooms": 4,
       "floor": "5/9",
-      "daily_reposts": 6,
-      "current_forwards": 6,
+      "daily_reposts": 10,
+      "current_forwards": 10,
       "baseline_forwards": 0,
       "published_at": "2026-08-26T13:15:35+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/513109",
       "image": "telegram-images/513109.jpg"
+    },
+    {
+      "id": "513119",
+      "title": "45 Viktor Dolidze St",
+      "price": 600,
+      "area": 80,
+      "district": "Saburtalo",
+      "metro": "",
+      "rooms": 1,
+      "floor": "2/3",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-26T13:45:35+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/513119",
+      "image": "telegram-images/513119.jpg"
     },
     {
       "id": "513079",
@@ -74,22 +90,6 @@
       "image": "telegram-images/512828.jpg"
     },
     {
-      "id": "513119",
-      "title": "45 Viktor Dolidze St",
-      "price": 600,
-      "area": 80,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "2/3",
-      "daily_reposts": 2,
-      "current_forwards": 2,
-      "baseline_forwards": 0,
-      "published_at": "2026-08-26T13:45:35+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/513119",
-      "image": "telegram-images/513119.jpg"
-    },
-    {
       "id": "513059",
       "title": "18g Ateni Street",
       "price": 950,
@@ -104,6 +104,22 @@
       "published_at": "2026-08-26T11:45:26+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/513059",
       "image": "telegram-images/513059.jpg"
+    },
+    {
+      "id": "513049",
+      "title": "4 Ivan Turgenev Street",
+      "price": 650,
+      "area": 50,
+      "district": "Chugureti",
+      "metro": "Marjanishvili",
+      "rooms": 1,
+      "floor": "1/2",
+      "daily_reposts": 2,
+      "current_forwards": 2,
+      "baseline_forwards": 0,
+      "published_at": "2026-08-26T11:31:06+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/513049",
+      "image": "telegram-images/513049.jpg"
     },
     {
       "id": "512989",
@@ -136,22 +152,6 @@
       "published_at": "2026-08-25T20:14:22+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/512868",
       "image": "telegram-images/512868.jpg"
-    },
-    {
-      "id": "512818",
-      "title": "46b Ketevan Dedofali Ave",
-      "price": 550,
-      "area": 50,
-      "district": "Avlabari",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "",
-      "daily_reposts": 1,
-      "current_forwards": 6,
-      "baseline_forwards": 5,
-      "published_at": "2026-08-25T18:45:33+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/512818",
-      "image": "telegram-images/512818.jpg"
     },
     {
       "id": "512939",
