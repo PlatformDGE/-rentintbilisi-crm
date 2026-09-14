@@ -125,6 +125,86 @@
     "522708": {
       "baseline_forwards": 2,
       "published_at": "2026-09-13T21:35:20+04:00"
+    },
+    "523221": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T21:45:45+04:00"
+    },
+    "523211": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T21:38:20+04:00"
+    },
+    "523201": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T21:15:46+04:00"
+    },
+    "523191": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T20:45:42+04:00"
+    },
+    "523181": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T20:15:36+04:00"
+    },
+    "523171": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T20:08:44+04:00"
+    },
+    "523161": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T19:45:41+04:00"
+    },
+    "523140": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T19:15:39+04:00"
+    },
+    "523130": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T18:45:39+04:00"
+    },
+    "523120": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T18:40:18+04:00"
+    },
+    "523110": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T18:15:39+04:00"
+    },
+    "523100": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T18:09:44+04:00"
+    },
+    "523090": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T17:58:04+04:00"
+    },
+    "523080": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T17:45:34+04:00"
+    },
+    "523070": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T17:27:22+04:00"
+    },
+    "523060": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T17:15:34+04:00"
+    },
+    "523050": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T17:11:01+04:00"
+    },
+    "523040": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T16:54:31+04:00"
+    },
+    "523030": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T16:45:32+04:00"
+    },
+    "523020": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-14T16:42:38+04:00"
     }
   }
 }
