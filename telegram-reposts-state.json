@@ -125,6 +125,66 @@
     "523181": {
       "baseline_forwards": 7,
       "published_at": "2026-09-14T20:15:36+04:00"
+    },
+    "523677": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T20:15:43+04:00"
+    },
+    "523667": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T19:45:41+04:00"
+    },
+    "523656": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T19:15:38+04:00"
+    },
+    "523646": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T18:45:36+04:00"
+    },
+    "523635": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T18:15:34+04:00"
+    },
+    "523624": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T17:49:37+04:00"
+    },
+    "523604": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T17:45:34+04:00"
+    },
+    "523594": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T17:44:05+04:00"
+    },
+    "523554": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T17:02:07+04:00"
+    },
+    "523534": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T16:59:27+04:00"
+    },
+    "523524": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T16:52:15+04:00"
+    },
+    "523514": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T16:45:35+04:00"
+    },
+    "523504": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T16:15:39+04:00"
+    },
+    "523494": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T15:45:33+04:00"
+    },
+    "523484": {
+      "baseline_forwards": 0,
+      "published_at": "2026-09-15T15:38:59+04:00"
     }
   }
 }
