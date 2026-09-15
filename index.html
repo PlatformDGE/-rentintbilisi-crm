@@ -6,8 +6,14 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#081225">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rent CRM">
 <meta name="rit-crm-build" content="true">
 <title>Rent in Tbilisi</title>
+<link rel="manifest" href="manifest.webmanifest">
 <script>if(window.TelegramWebviewProxy||/Telegram/i.test(navigator.userAgent)){document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>')}</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -24,7 +30,7 @@
   --r:12px;--rsm:8px;--rlg:18px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%;}
+html,body{height:100%;min-height:100dvh;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 
 /* SPLASH */
@@ -33,7 +39,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 @keyframes ld{from{width:0}to{width:100%}}
 
 /* APP */
-.app{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;}
+.app{position:fixed;inset:0;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px);}
 .screens{flex:1;overflow:hidden;position:relative;}
 .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:none;flex-direction:column;background:var(--bg);overscroll-behavior:contain;touch-action:pan-y;}
 .screen.active{display:flex;animation:fu .2s ease;}
@@ -2127,9 +2133,9 @@ function openAccountSheet(){
   if(user){
     var name=[user.first_name,user.last_name].filter(Boolean).join(' ')||'Пользователь Telegram';
     var avatar=user.photo_url?'<img src="'+uiEscape(user.photo_url)+'" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover">':'<div class="account-avatar">'+uiEscape((user.first_name||'TG').slice(0,2).toUpperCase())+'</div>';
-    card.innerHTML='<div class="account-row">'+avatar+'<div><h3>'+uiEscape(name)+'</h3><p>'+(user.username?'@'+uiEscape(user.username):'Telegram ID: '+uiEscape(user.id))+'</p></div></div><button class="account-action" onclick="exitTelegram()">Выйти из приложения</button>';
+    card.innerHTML='<div class="account-row">'+avatar+'<div><h3>'+uiEscape(name)+'</h3><p>'+(user.username?'@'+uiEscape(user.username):'Telegram ID: '+uiEscape(user.id))+'</p></div></div><button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="exitTelegram()">Выйти из приложения</button>';
   }else{
-    card.innerHTML='<div class="account-row"><div class="account-avatar">IK</div><div><h3>Ираклий</h3><p>Откройте CRM через Telegram для автоматического входа</p></div></div><button class="account-action" onclick="openTelegramLogin()">Открыть Telegram</button>';
+    card.innerHTML='<div class="account-row"><div class="account-avatar">IK</div><div><h3>Ираклий</h3><p>Откройте CRM через Telegram для автоматического входа</p></div></div><button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="openTelegramLogin()">Открыть Telegram</button>';
   }
   openSheet('account-sheet');
 }
@@ -2137,6 +2143,14 @@ function openTelegramLogin(){
   var url='https://t.me/real_estating_bot';
   var tg=window.Telegram&&window.Telegram.WebApp;
   if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank','noopener');
+}
+function toggleFullscreen(){
+  var tg=window.Telegram&&window.Telegram.WebApp;
+  if(tg&&tg.expand){tg.expand();showToast('Полный экран включён');return;}
+  var root=document.documentElement;
+  if(document.fullscreenElement){if(document.exitFullscreen)document.exitFullscreen();return;}
+  if(root.requestFullscreen){root.requestFullscreen().then(function(){showToast('Полный экран включён');}).catch(function(){showToast('Добавьте CRM на экран телефона для полного режима');});}
+  else showToast('Добавьте CRM на экран телефона для полного режима');
 }
 function exitTelegram(){
   var tg=window.Telegram&&window.Telegram.WebApp;
