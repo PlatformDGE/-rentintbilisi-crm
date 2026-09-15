@@ -11,7 +11,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rent CRM">
-<meta name="rit-crm-build" content="true">
 <title>Rent in Tbilisi</title>
 <link rel="manifest" href="manifest.webmanifest">
 <script>if(window.TelegramWebviewProxy||/Telegram/i.test(navigator.userAgent)){document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>')}</script>
@@ -32,6 +31,7 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;min-height:100dvh;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+html:not(.access-granted) .app{visibility:hidden;}
 
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:999;background:#1d3560;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;transition:opacity .5s;overflow:hidden;}
@@ -386,7 +386,8 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   <div style="font-size:48px;margin-bottom:20px;">🔒</div>
   <div style="font-family:var(--font-head,sans-serif);font-size:20px;font-weight:800;color:var(--text);margin-bottom:10px;">Нет доступа</div>
   <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:24px;" id="access-reason">Обратитесь к администратору платформы</div>
-  <div style="font-size:12px;color:var(--text3);">@davidtibelashvili</div>
+  <button class="account-action" onclick="openTelegramLogin()" style="max-width:280px;margin-bottom:14px;">Открыть через Telegram</button>
+  <div style="font-size:12px;color:var(--text3);">Доступ выдаётся администратором платформы</div>
 </div>
 
 <div class="app">
@@ -395,13 +396,13 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
     <button class="unity-nav-btn" id="unity-forward" onclick="navForward()" aria-label="Вперёд">›</button>
     <div class="unity-nav-logo"><img src="Logo_rent.png" alt="Rent in Tbilisi"></div><div class="unity-nav-title"><strong id="unity-title">Главная</strong><span>RENT IN TBILISI · CRM 90/10</span></div>
     <button class="unity-nav-btn" onclick="goTab('home')" aria-label="На главную">⌂</button>
-    <button class="unity-nav-btn" onclick="openAccountSheet()" aria-label="Telegram-профиль" style="font-size:11px;font-weight:800;">IK</button>
+    <button class="unity-nav-btn" id="unity-profile" onclick="openAccountSheet()" aria-label="Telegram-профиль" style="font-size:11px;font-weight:800;">IK</button>
   </header>
   <div class="screens" id="screens">
 
     <div class="screen active" id="tab-home">
       <div class="crm-home">
-        <header class="crm-home-top"><div class="crm-home-copy"><h1>Доброе утро, Иракли</h1><p>Единый рабочий центр</p></div><div class="test-mode">TEST MODE</div><div class="crm-avatar">IK</div></header>
+        <header class="crm-home-top"><div class="crm-home-copy"><h1 id="home-greeting">Доброе утро</h1><p>Единый рабочий центр</p></div><div class="test-mode">TEST MODE</div><div class="crm-avatar" id="home-avatar">IK</div></header>
         <section class="crm-home-hero"><h2>Все рабочие инструменты — в одном месте</h2><p>Единая рабочая платформа команды: публикации, отчёты, договоры и сделки без лишних переходов.</p><div class="crm-hero-actions"><button class="primary" onclick="goTab('posts')">Добавить объект</button><button onclick="goTab('cabinet')">Личный кабинет</button></div></section>
         <div class="crm-section-head"><h3>Telegram-аналитика</h3><span>интерес аудитории</span></div>
         <section class="home-telegram" id="telegram-top10"><div class="home-telegram-head"><div><span class="telegram-test-badge" hidden>ТЕСТ</span><h3 class="telegram-panel-title">Топ-10 объектов</h3><p class="telegram-panel-period">Сегодня, 10:00–22:00</p><p class="telegram-panel-notice"></p><span class="telegram-top10-updated"></span></div><button onclick="loadTelegramTop10()">Обновить</button></div><div class="telegram-top10-content"><div class="telegram-state">Загружаем данные Telegram…</div></div></section>
@@ -1761,6 +1762,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
     <button class="bni nav-add" id="nav-posts" onclick="openQuickAdd()"><span class="bni-ic">＋</span><span class="bni-lb">Добавить</span></button>
     <button class="bni" id="nav-calendar" onclick="goTab('calendar')"><span class="bni-ic">□</span><span class="bni-lb">Календарь</span></button>
     <button class="bni" id="nav-cabinet" onclick="goTab('cabinet')"><span class="bni-ic">◉</span><span class="bni-lb">Профиль</span></button>
+    <button class="bni" id="nav-admin" onclick="goTab('admin')" style="display:none"><span class="bni-ic">⚙</span><span class="bni-lb">Admin</span></button>
   </nav>
 </div>
 
@@ -2018,6 +2020,7 @@ function navForward(){if(NAV_HISTORY.index>=NAV_HISTORY.items.length-1)return;NA
 // screenId: 'tab-deals' | 'tab-reports' | 'form-daily' | etc.
 // fromTab:  optional — sets prevTab for goBack()
 function navigate(screenId, fromTab, historyTraversal) {
+  if(screenId==='tab-admin'&&!isAdmin()){showToast('Нет доступа к админ-панели');return;}
   // Guard: protect against non-existent screens
   var target = document.getElementById(screenId);
   if (!target) { console.warn('navigate: screen not found:', screenId); return; }
@@ -2129,11 +2132,12 @@ function selectCalendarDay(button,iso){
 function openAccountSheet(){
   var card=document.getElementById('account-card');
   if(!card)return;
-  var tg=window.Telegram&&window.Telegram.WebApp,user=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
+  var user=CURRENT_USER||readTelegramUser();
   if(user){
     var name=[user.first_name,user.last_name].filter(Boolean).join(' ')||'Пользователь Telegram';
     var avatar=user.photo_url?'<img src="'+uiEscape(user.photo_url)+'" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover">':'<div class="account-avatar">'+uiEscape((user.first_name||'TG').slice(0,2).toUpperCase())+'</div>';
-    card.innerHTML='<div class="account-row">'+avatar+'<div><h3>'+uiEscape(name)+'</h3><p>'+(user.username?'@'+uiEscape(user.username):'Telegram ID: '+uiEscape(user.id))+'</p></div></div><button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="exitTelegram()">Выйти из приложения</button>';
+    var adminAction=isAdmin()?'<button class="account-action" style="margin-bottom:8px;background:linear-gradient(135deg,#6d4cc7,#344c9f)" onclick="closeSheet(\'account-sheet\');goTab(\'admin\')">Открыть админ-панель</button>':'';
+    card.innerHTML='<div class="account-row">'+avatar+'<div><h3>'+uiEscape(name)+'</h3><p>'+(user.username?'@'+uiEscape(user.username):'Telegram ID: '+uiEscape(user.id))+'</p></div></div>'+adminAction+'<button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="exitTelegram()">Выйти из приложения</button>';
   }else{
     card.innerHTML='<div class="account-row"><div class="account-avatar">IK</div><div><h3>Ираклий</h3><p>Откройте CRM через Telegram для автоматического входа</p></div></div><button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="openTelegramLogin()">Открыть Telegram</button>';
   }
@@ -2805,7 +2809,10 @@ function submitCalc() {
 
 function send(type,data,onSuccess,onError) {
   haptic('medium');
-  var payload = JSON.stringify({type:type, data:data});
+  var protectedAdminActions=['admin_add_agent','admin_add_recruit','admin_toggle_agent','admin_toggle_recruit','promote_recruit','ticker_add','ticker_delete'];
+  if(protectedAdminActions.indexOf(type)!==-1&&!isAdmin()){showToast('Нет доступа к этому действию');if(onError)onError('forbidden');return;}
+  var tg=window.Telegram&&window.Telegram.WebApp;
+  var payload = JSON.stringify({type:type,data:data,telegram_init_data:tg&&tg.initData||''});
   var cbName = 'sendCb'+Date.now();
   var url = API_URL + '?action=submit&payload=' + encodeURIComponent(payload) + '&callback=' + cbName;
   window[cbName] = function(resp){
@@ -3286,37 +3293,22 @@ function loadAnalytics() {
 // ADMIN
 // ═══════════════════════════════════════════════════
 var ADMIN_ID = '6577307207';
+var SUPER_IDS = ['6577307207','6014886676','114756692'];
+var SUPER_NAMES = ['davidtibelashvili','kvirkvel1a'];
+var CURRENT_USER = null;
 var adminLvl = 70;
 var dashSettings = {'agent-listings':true,districts:true,rooms:true,weekly:true,monthly:true,agents:false,lastdeals:true};
 try{var _ds=JSON.parse(localStorage.getItem('dashSettings')||'{}');if(_ds.agents){_ds.agents=false;localStorage.setItem('dashSettings',JSON.stringify(_ds));}}catch(e){}
 
 function isAdmin(){
-  var SUPER_IDS=['6577307207','6014886676','114756692'];
-  var SUPER_NAMES=['kvirkvel1a'];
-  try{
-    var tg=window.Telegram&&window.Telegram.WebApp;
-    if(tg){
-      if(tg.initDataUnsafe&&tg.initDataUnsafe.user){
-        var uid=String(tg.initDataUnsafe.user.id);
-        var uname=tg.initDataUnsafe.user.username||'';
-        if(SUPER_IDS.indexOf(uid)!==-1||SUPER_NAMES.indexOf(uname)!==-1) return true;
-      }
-      if(tg.initData){
-        var params=new URLSearchParams(tg.initData);
-        var userStr=params.get('user');
-        if(userStr){
-          var user=JSON.parse(decodeURIComponent(userStr));
-          if(SUPER_IDS.indexOf(String(user.id))!==-1||SUPER_NAMES.indexOf(user.username||'')!==-1) return true;
-        }
-      }
-    }
-  }catch(e){}
-  return false;
+  var user=CURRENT_USER||readTelegramUser();
+  if(!user)return false;
+  return SUPER_IDS.indexOf(String(user.id||''))!==-1||SUPER_NAMES.indexOf(String(user.username||'').toLowerCase())!==-1;
 }
 
 function initAdmin(){
-  loadTickerList();
   if(!isAdmin()) return;
+  loadTickerList();
   var btn=document.getElementById('nav-admin');
   if(btn) btn.style.display='flex';
 }
@@ -3637,100 +3629,69 @@ function adminToggleRecruit(tg){
 // ═══════════════════════════════════════════════════
 // ACCESS CONTROL
 // ═══════════════════════════════════════════════════
-var SUPER_IDS = ['6577307207','6014886676','114756692'];
-var SUPER_NAMES = ['kvirkvel1a'];
-
-function checkAccess() {
-  var tg = window.Telegram && window.Telegram.WebApp;
-  var userId = null;
-  var username = '';
-
-  if (tg) {
-    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      userId = String(tg.initDataUnsafe.user.id);
-      username = (tg.initDataUnsafe.user.username || '').toLowerCase();
-    }
-    if (!userId && tg.initData && tg.initData.length > 0) {
-      try {
-        var params = new URLSearchParams(tg.initData);
-        var userStr = params.get('user');
-        if (userStr) {
-          var user = JSON.parse(decodeURIComponent(userStr));
-          userId = String(user.id);
-          username = (user.username || '').toLowerCase();
-        }
-      } catch(e) {}
-    }
+function readTelegramUser(){
+  var tg=window.Telegram&&window.Telegram.WebApp;
+  if(!tg)return null;
+  if(tg.initDataUnsafe&&tg.initDataUnsafe.user)return tg.initDataUnsafe.user;
+  if(tg.initData){
+    try{
+      var params=new URLSearchParams(tg.initData),raw=params.get('user');
+      if(raw)return JSON.parse(decodeURIComponent(raw));
+    }catch(e){}
   }
-
-  // When embedded in the CRM shell, the CRM itself is the trusted entry point.
-  // Keep Telegram access control unchanged for the standalone mini-app.
-  if (!userId && !username && (window.self !== window.top || document.querySelector('meta[name="rit-crm-build"]'))) {
-    document.documentElement.classList.add('crm-embedded');
-    return;
-  }
-
-  // No Telegram context (standalone browser) — block
-  if (!userId && !username) {
-    showNoAccess('Откройте приложение через Telegram бота');
-    return;
-  }
-
-  // SuperAdmin/SysAdmin by ID — allow immediately
-  if (SUPER_IDS.indexOf(userId) !== -1) { initAdmin(); return; }
-  // SuperAdmin by username
-  var superNames = ['davidtibelashvili', 'kvirkvel1a'];
-  if (username && superNames.indexOf(username) !== -1) { initAdmin(); return; }
-
-  // Wait for agents/recruits to load then check username
-  function verifyUsername() {
-    var allUsernames = [];
-    (AGENTS || []).forEach(function(a) {
-      if (a.telegram) allUsernames.push(a.telegram.replace('@','').toLowerCase());
-    });
-    (RECRUITS || []).forEach(function(r) {
-      if (r.telegram) allUsernames.push(r.telegram.replace('@','').toLowerCase());
-    });
-    if (username && allUsernames.indexOf(username) !== -1) return; // allowed
-    if (userId && SUPER_IDS.indexOf(userId) !== -1) return; // allowed by ID
-    // Not found
-    showNoAccess('Вы не являетесь участником платформы');
-  }
-
-  // Check after data loads (max 15 seconds)
-  var tries = 0;
-  var timer = setInterval(function() {
-    tries++;
-    if (AGENTS.length > 0 || RECRUITS.length > 0) {
-      clearInterval(timer);
-      verifyUsername();
-    } else if (tries > 10) { // 5 seconds
-      clearInterval(timer);
-      // Last resort — check via GAS
-      var cb = '__access_'+Date.now();
-      window[cb] = function(d) {
-        delete window[cb];
-        var sc2=document.getElementById('sc-'+cb); if(sc2) sc2.remove();
-        if (d && d.agents) { AGENTS = d.agents; RECRUITS = d.recruits || []; }
-        verifyUsername();
-      };
-      var sc = document.createElement('script');
-      sc.id = 'sc-' + cb;
-      sc.src = API_URL + '?action=getLists&callback=' + cb;
-      sc.onerror = function() { delete window[cb]; var s=document.getElementById('sc-'+cb); if(s) s.remove(); verifyUsername(); };
-      document.head.appendChild(sc);
-    }
-  }, 500);
+  return null;
 }
 
-function showNoAccess(msg) {
-  document.getElementById('access-reason').textContent = msg || 'Нет доступа';
-  var noAcc = document.getElementById('screen-no-access');
-  if (noAcc) { noAcc.style.cssText += ';display:flex!important;flex-direction:column;align-items:center;justify-content:center;'; }
-  var app = document.querySelector('.app');
-  if (app) app.style.display = 'none';
-  var nav = document.querySelector('.bnav');
-  if (nav) nav.style.display = 'none';
+function normalizeTelegram(value){return String(value||'').replace(/^@/,'').trim().toLowerCase();}
+function getGreeting(){var hour=new Date().getHours();return hour<6?'Доброй ночи':hour<12?'Доброе утро':hour<18?'Добрый день':'Добрый вечер';}
+
+function grantAccess(user,member){
+  CURRENT_USER=user;
+  document.documentElement.classList.add('access-granted');
+  var app=document.querySelector('.app');if(app){app.style.display='flex';app.style.visibility='visible';}
+  var noAcc=document.getElementById('screen-no-access');if(noAcc)noAcc.style.display='none';
+  var firstName=String(user.first_name||member&&member.name||user.username||'Пользователь').trim().split(/\s+/)[0];
+  var initials=firstName.slice(0,2).toUpperCase();
+  var greeting=document.getElementById('home-greeting');if(greeting)greeting.textContent=getGreeting()+', '+firstName;
+  var avatar=document.getElementById('home-avatar');if(avatar)avatar.textContent=initials;
+  var profile=document.getElementById('unity-profile');if(profile)profile.textContent=initials;
+  if(isAdmin())initAdmin();
+}
+
+function checkAccess(){
+  var user=readTelegramUser();
+  if(!user){showNoAccess('Откройте CRM через Telegram — вход из обычного браузера закрыт');return;}
+  CURRENT_USER=user;
+  var userId=String(user.id||''),username=normalizeTelegram(user.username);
+  if(SUPER_IDS.indexOf(userId)!==-1||SUPER_NAMES.indexOf(username)!==-1){grantAccess(user,{name:user.first_name||user.username});return;}
+  if(!username){showNoAccess('В Telegram должен быть указан username, добавленный администратором');return;}
+
+  var cb='__authorize_'+Date.now(),finished=false;
+  function finish(){var sc=document.getElementById('sc-'+cb);if(sc)sc.remove();delete window[cb];}
+  function deny(message){if(finished)return;finished=true;finish();showNoAccess(message);}
+  window[cb]=function(data){
+    if(finished)return;finished=true;finish();
+    var agents=Array.isArray(data&&data.agents)?data.agents:[];
+    var recruits=Array.isArray(data&&data.recruits)?data.recruits:[];
+    var members=agents.concat(recruits);
+    var member=members.find(function(record){return normalizeTelegram(record.telegram)===username;});
+    if(member){grantAccess(user,member);return;}
+    showNoAccess('Ваш Telegram-аккаунт не найден в списке активных пользователей');
+  };
+  var sc=document.createElement('script');
+  sc.id='sc-'+cb;
+  sc.src=API_URL+'?action=getLists&callback='+cb+'&_='+Date.now();
+  sc.onerror=function(){deny('Не удалось проверить доступ. Попробуйте открыть CRM ещё раз');};
+  document.head.appendChild(sc);
+  setTimeout(function(){deny('Сервер авторизации не ответил. Попробуйте открыть CRM ещё раз');},12000);
+}
+
+function showNoAccess(msg){
+  document.documentElement.classList.remove('access-granted');
+  var reason=document.getElementById('access-reason');if(reason)reason.textContent=msg||'Нет доступа';
+  var noAcc=document.getElementById('screen-no-access');
+  if(noAcc){noAcc.style.cssText+=';display:flex!important;flex-direction:column;align-items:center;justify-content:center;';}
+  var app=document.querySelector('.app');if(app)app.style.display='none';
 }
 
 
