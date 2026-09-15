@@ -46,7 +46,7 @@ const seed = {
 };
 
 const navItems = [
-  ['dashboard','🏠','Главная'],['properties','🏢','Объекты'],['owners','👑','Собственники'],['clients','🧑‍💼','Клиенты'],['reports','📋','Отчеты'],['contracts','📄','Договоры'],['agents','👥','Агенты'],['map','🗺️','Карта'],['analytics','📈','Аналитика'],['settings','⚙️','Настройки']
+  ['dashboard','🏠','Главная'],['platform','✦','Platform 90/10'],['properties','🏢','Объекты'],['owners','👑','Собственники'],['clients','🧑‍💼','Клиенты'],['reports','📋','Отчеты'],['contracts','📄','Договоры'],['agents','👥','Агенты'],['map','🗺️','Карта'],['analytics','📈','Аналитика'],['settings','⚙️','Настройки']
 ];
 const storeKey = 'rit_crm_airbnb_ru_v5';
 function normalizeDb(data){
@@ -111,8 +111,14 @@ function chip(v){
 function toast(t){ const el=$('#toast'); if(el){ el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1700); } }
 function updateSideStats(){ const el=$('#todayStats'); if(el) el.textContent = `${db.tasks.length} задач`; }
 function count(p){ let k={properties:'properties',owners:'owners',clients:'clients',reports:'reports',agents:'agents'}[p]; return k?`<b>${db[k].length}</b>`:''; }
-function buildNav(){ const el=$('#nav'); if(el){ el.innerHTML = navItems.map(n=>`<button class="nav-item ${page===n[0]?'active':''}" onclick="go('${n[0]}')"><span>${n[1]}</span><span>${n[2]}</span>${count(n[0])}</button>`).join(''); } }
-function subtitle(p){ return {dashboard:'Главный экран компании',properties:'Объекты, статусы, цены и ответственные агенты',owners:'База собственников и история общения',clients:'Клиенты, заявки, показы',reports:'Отчеты агентов и контроль работы',contracts:'Генерация договора и предпросмотр',agents:'Уровни, комиссии, рекруты',map:'Визуальная карта объектов',analytics:'KPI, конверсия, доходы',settings:'Настройки, экспорт, интеграции'}[p] || ''; }
+function buildNav(){
+  const el=$('#nav');
+  if(el) el.innerHTML = navItems.map(n=>`<button class="nav-item ${page===n[0]?'active':''}" onclick="go('${n[0]}')"><span>${n[1]}</span><span>${n[2]}</span>${count(n[0])}</button>`).join('');
+  const bottom=$('#bottomNav');
+  const mobileItems=navItems.filter(n=>['dashboard','platform','properties','clients','agents'].includes(n[0]));
+  if(bottom) bottom.innerHTML=mobileItems.map(n=>`<button class="bottom-nav-item ${page===n[0]?'active':''}" onclick="go('${n[0]}')"><span>${n[1]}</span><b>${n[2]}</b></button>`).join('');
+}
+function subtitle(p){ return {dashboard:'Главный экран компании',platform:'Полный рабочий контур мини-аппа',properties:'Объекты, статусы, цены и ответственные агенты',owners:'База собственников и история общения',clients:'Клиенты, заявки, показы',reports:'Отчеты агентов и контроль работы',contracts:'Генерация договора и предпросмотр',agents:'Уровни, комиссии, рекруты',map:'Визуальная карта объектов',analytics:'KPI, конверсия, доходы',settings:'Настройки, экспорт, интеграции'}[p] || ''; }
 function go(p){
   page=p;
   filter='all';
@@ -243,6 +249,16 @@ function dashboard(){
   </div>`;
 }
 
+function platform(){
+  return `<div class="platform-shell">
+    <div class="platform-toolbar">
+      <div><p class="eyebrow">Полная интеграция</p><h3>Rent in Tbilisi · Platform 90/10</h3></div>
+      <span class="live-dot"><i></i> LIVE</span>
+    </div>
+    <iframe class="platform-frame" src="platform-90-10.html" title="Rent in Tbilisi Platform 90/10" allow="clipboard-read; clipboard-write"></iframe>
+  </div>`;
+}
+
 function developmentPage(title, description){
   return `<div class="development-card">
     <div class="development-icon">🛠️</div>
@@ -274,7 +290,7 @@ function agents(){ return listPage('agents','Агенты и уровни',['А�
 function map(){ return developmentPage('Карта объектов', 'Карта будет обновлена с удобной географической навигацией и карточками объектов.'); }
 function analytics(){ return developmentPage('Аналитика', 'Сводки по сделкам, конверсии и доходам появятся в следующем обновлении интерфейса.'); }
 function settings(){ return `<div class="page-shell"><div class="content-grid"><div class="panel"><div class="panel-head"><div><p class="eyebrow">Система</p><h3>Настройки и резерв</h3></div></div><div class="module-grid"><button class="module-card" onclick="toast('Supabase будет следующим этапом')"><div class="module-icon">☁️</div><div><strong>Интеграция</strong><p>Готово к Supabase</p></div></button><button class="module-card" onclick="installHint()"><div class="module-icon">📱</div><div><strong>На телефон</strong><p>Добавить на главный экран</p></div></button><button class="module-card" onclick="copyBackup()"><div class="module-icon">🗂️</div><div><strong>Резерв</strong><p>Скопировать данные</p></div></button></div></div><div class="panel panel-lg"><div class="panel-head"><div><p class="eyebrow">Данные</p><h3>Экспорт и импорт</h3></div></div><div class="actions-row"><button class="btn primary" onclick="exportData()">Экспорт JSON</button><button class="btn secondary" onclick="importClick()">Импорт JSON</button><button class="btn secondary" onclick="resetData()">Сбросить демо</button></div><p class="muted">Все данные сохраняются в локальном хранилище браузера. Это безопасно для демонстрации и быстрого тестирования.</p><input type="file" id="importFile" hidden accept="application/json" onchange="importData(event)"></div></div></div>`; }
-function render(){ buildNav(); let pageRenderers={dashboard,properties,owners,clients,reports,contracts,agents,map,analytics,settings}; const contentEl=$('#content'); if(contentEl){ contentEl.innerHTML=pageRenderers[page]?pageRenderers[page]():developmentPage('Раздел', 'Содержимое временно недоступно'); } updateSideStats(); if(page==='dashboard'&&typeof window.loadTelegramTop10==='function') window.loadTelegramTop10(); }
+function render(){ buildNav(); let pageRenderers={dashboard,platform,properties,owners,clients,reports,contracts,agents,map,analytics,settings}; const contentEl=$('#content'); if(contentEl){ contentEl.innerHTML=pageRenderers[page]?pageRenderers[page]():developmentPage('Раздел', 'Содержимое временно недоступно'); } updateSideStats(); if(page==='dashboard'&&typeof window.loadTelegramTop10==='function') window.loadTelegramTop10(); }
 
 const config={
   property:{key:'properties',title:'Объект',fields:[['source_type','Источник','select','direct,myhome,ss,referral,import,other'],['source_url','Ссылка на источник'],['owner_name','Имя собственника'],['owner_phone','Телефон собственника'],['address','Адрес'],['district','Район'],['cadastral_code','Кадастровый код'],['price','Цена','number'],['rooms','Комнаты','number'],['area','Площадь м²','number'],['assigned_agent_id','Назначен агенту','select'],['notes','Заметки','textarea']]},
@@ -308,7 +324,7 @@ const menuBtn=$('#menuBtn'); if(menuBtn) menuBtn.onclick=()=>$('#side')?.classLi
 const overlay=$('#overlay'); if(overlay) overlay.onclick=closeDrawer;
 const newObjectBtn=$('#newObjectBtn'); if(newObjectBtn) newObjectBtn.onclick=()=>openForm('property');
 const themeBtn=$('#themeBtn'); if(themeBtn) themeBtn.onclick=()=>{ document.body.classList.toggle('dark'); localStorage.setItem('rit_theme', document.body.classList.contains('dark')?'dark':'light'); };
-if(localStorage.getItem('rit_theme')==='dark') document.body.classList.add('dark');
+if(localStorage.getItem('rit_theme')!=='light') document.body.classList.add('dark');
 const searchInput=$('#search'); if(searchInput) searchInput.oninput=e=>{ activeSearch=e.target.value.toLowerCase().trim(); if(!activeSearch){ render(); return; } let res=[]; ['properties','owners','clients','agents','reports','tasks'].forEach(k=>db[k].forEach(x=>{ let txt=Object.values(x).join(' ').toLowerCase(); if(txt.includes(activeSearch)) res.push([k,x]); })); const contentEl=$('#content'); if(contentEl){ contentEl.innerHTML=`<div class="page-shell"><div class="panel"><div class="panel-head"><div><p class="eyebrow">Результаты поиска</p><h3>${res.length} найдено</h3></div></div>${table(['Модуль','Название','Детали','Статус',''],res.map(([k,x])=>`<tr><td>${escapeHtml(k)}</td><td class="row-title">${escapeHtml(x.address||x.name||x.title||x.type)}</td><td>${escapeHtml(x.phone||x.request||x.target||x.agent||'')}</td><td>${chip(x.status||x.level||x.role||'результат')}</td><td class="table-actions"><button onclick="viewItem('${k}','${x.id}')">Открыть</button><button onclick="openForm('${typeByKey(k)}','${x.id}')">Редактировать</button></td></tr>`),'Ничего не найдено')}</div></div>`; } };
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();

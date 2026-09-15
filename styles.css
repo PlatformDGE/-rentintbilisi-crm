@@ -17,6 +17,15 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;min-height:100%}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;letter-spacing:-.02em}
+body.dark{--blue:#91aaff;--blue2:#567ad1;--bg:#081225;--card:#101c32;--text:#f3f6ff;--muted:#8793ab;--line:#263651;--soft:#111d34;--shadow:0 20px 70px rgba(0,0,0,.42)}
+body.dark::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 78% 8%,rgba(82,111,204,.16),transparent 30%),radial-gradient(circle at 12% 86%,rgba(83,214,170,.06),transparent 26%);z-index:0}
+body.dark .app-shell{position:relative;z-index:1}
+body.dark .side{background:rgba(12,12,20,.96);border-color:rgba(160,140,255,.13)}
+body.dark .top{background:rgba(7,7,13,.86);border-color:rgba(160,140,255,.12)}
+body.dark .nav-item:hover,body.dark .nav-item.active{background:linear-gradient(90deg,rgba(86,122,209,.22),rgba(86,122,209,.04));color:#b9c9ff;box-shadow:inset 2px 0 #718cff}
+body.dark .search,body.dark .icon-btn{background:#111d34;border-color:#2a3a59}
+body.dark .drawer{background:#0b1629}
+body.dark input,body.dark select,body.dark textarea{color:#f4f1ff}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 
@@ -78,19 +87,25 @@ button{cursor:pointer}
 .overlay.open{display:block}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(92vw,420px);background:var(--card);transform:translateX(100%);transition:transform .2s ease;z-index:35;padding:24px;box-shadow:-20px 0 60px rgba(15,23,42,.18)}
 .drawer.open{transform:translateX(0)}
+.bottom-nav{display:none}
 
 @media (max-width: 900px){
+  body{background:#e9edf3}
+  .app-shell{max-width:520px;margin:0 auto;background:var(--bg);box-shadow:0 0 42px rgba(20,42,72,.1)}
   .app-shell{display:block}
   .side{position:fixed;left:0;top:0;bottom:0;width:280px;transform:translateX(-100%);transition:transform .2s ease;box-shadow:16px 0 40px rgba(15,23,42,.12)}
   .side.open{transform:translateX(0)}
   .main{min-height:100vh}
   .top{
-    min-height:72px;
-    padding:14px 16px 12px;
+    min-height:172px;
+    padding:calc(26px + env(safe-area-inset-top)) 16px 20px;
     gap:12px;
     grid-template-columns:44px minmax(0, 1fr) 44px;
     grid-template-rows:auto auto;
     align-items:center;
+    background:linear-gradient(145deg,#1d3560,#294a78);
+    border:0;
+    border-radius:0 0 30px 30px;
   }
   .top .search{
     grid-column:1 / -1;
@@ -99,20 +114,27 @@ button{cursor:pointer}
     height:52px;
     padding:0 14px;
     border-radius:18px;
-    margin-top:6px;
+    margin-top:16px;
+    border:0;
+    box-shadow:0 5px 18px rgba(20,42,72,.14);
   }
   .title{min-width:0;display:flex;align-items:center;justify-content:center;grid-column:2}
   .title h1{display:none}
   .title p{display:none}
-  .mobile-brand{display:block;font-size:18px;font-weight:800;color:var(--blue);text-align:center;line-height:1.1;letter-spacing:-.02em}
+  .mobile-brand{display:block;font-size:18px;font-weight:800;color:#fff;text-align:center;line-height:1.1;letter-spacing:-.02em}
   .mobile{display:grid}
-  .icon-btn{width:44px;height:44px;border:1px solid #e4e4e4;background:#fff;color:var(--blue);box-shadow:none}
-  .content{padding:0 16px 24px}
-  .hero-card{display:none !important}
-  .dashboard-shell{gap:12px;padding-top:0}
-  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .icon-btn{width:44px;height:44px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12);color:#fff;box-shadow:none}
+  .content{padding:16px 16px calc(100px + env(safe-area-inset-bottom))}
+  .hero-card{display:flex !important}
+  .dashboard-shell{gap:14px;padding-top:0}
+  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .card.metric{padding:14px 14px}
   .card.metric b{font-size:20px}
+  .bottom-nav{position:fixed;display:flex;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;padding:8px 2px calc(8px + env(safe-area-inset-bottom));z-index:24;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+  .bottom-nav-item{flex:1;border:0;background:transparent;color:#8b95a5;padding:2px 0;font-size:9px;font-weight:700}
+  .bottom-nav-item span{display:block;font-size:20px;margin-bottom:3px}
+  .bottom-nav-item b{font-size:9px}
+  .bottom-nav-item.active{color:var(--blue)}
 }
 
 @media (max-width: 640px){
