@@ -5077,7 +5077,7 @@ function cabSubmitShowing(){
 function show(id) { var el=document.getElementById(id); if(el) el.style.display=''; }
 function hide(id) { var el=document.getElementById(id); if(el) el.style.display='none'; }
 
-function openCalc(){ goTab('calc'); draftRestore('calc'); setTimeout(moleculeCalc,0); }
+function openCalc(){ goTab('calc'); draftRestore('calc'); setTimeout(function(){moleculeOptions();moleculeCalc();},0); }
 function openGeneralReport(){
   navigate('form-general','deals');
   draftRestore('form-general');
