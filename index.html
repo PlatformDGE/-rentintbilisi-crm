@@ -975,6 +975,14 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
           </div>
           <p class="hint">Распределение всегда считается от чистой комиссии после согласованных расходов.</p>
         </div>
+        <div class="molecule-card" id="molecule-people-card">
+          <h3>Участники сделки <span style="color:#ffbd5a;font-size:11px">обязательно</span></h3>
+          <div class="molecule-two">
+            <div><label class="molecule-label">Агент</label><select id="mol-agent" onchange="moleculePeopleSync()"><option value="">Выбрать агента...</option></select></div>
+            <div><label class="molecule-label">Рекрут</label><select id="mol-recruit" onchange="moleculePeopleSync()"><option value="">Без рекрута</option></select></div>
+          </div>
+          <p class="hint" id="molecule-people-hint">Для каждого сценария система подскажет, кто должен быть указан.</p>
+        </div>
         <div class="molecule-card">
           <h3>2. Что происходит в сделке?</h3>
           <div class="molecule-grid">
@@ -2663,7 +2671,35 @@ var MOLECULA_PARTICIPATE={
   take_exclusive:['Чужой эксклюзив · полный цикл',40,'Куратор цикла']
 };
 function moleculeMoney(){return Math.max(0,parseFloat((document.getElementById('mol-commission')||{}).value)||0)}
+function moleculePopulatePeople(){
+  var a=document.getElementById('mol-agent'), r=document.getElementById('mol-recruit'); if(!a||!r)return;
+  var av=a.value, rv=r.value;
+  if(a.options.length<=1){a.innerHTML='<option value="">Выбрать агента...</option>'+(AGENTS||[]).map(function(x){return '<option value="'+(x.telegram||x.name)+'">'+x.name+(x.level?' · '+x.level+'%':'')+'</option>';}).join(''); if(av)a.value=av;}
+  if(r.options.length<=1){r.innerHTML='<option value="">Без рекрута</option>'+(RECRUITS||[]).map(function(x){return '<option value="'+x.name+'">'+x.name+'</option>';}).join(''); if(rv)r.value=rv;}
+}
+function moleculePeopleRule(){
+  var mode='agent', opt=(document.getElementById('mol-participate')||{}).value||'';
+  if(moleculeAxis==='participate' && (opt==='client_joint_showing'||opt==='client_transfer'||opt==='client_external')) mode='either';
+  if(moleculeAxis==='participate' && opt.indexOf('object_')===0) mode='both';
+  if(moleculeAxis==='transfer') mode='both';
+  return mode;
+}
+function moleculePeopleSync(){
+  moleculePopulatePeople();
+  var a=document.getElementById('mol-agent'),r=document.getElementById('mol-recruit'),ha=document.getElementById('rn-agent'),hr=document.getElementById('rn-recruit');
+  if(ha&&a)ha.value=a.value; if(hr&&r)hr.value=r.value;
+  var mode=moleculePeopleRule(), hint=document.getElementById('molecule-people-hint');
+  if(hint)hint.textContent=mode==='both'?'Для этого сценария нужны агент и рекрут.':mode==='either'?'Укажи агента или рекрута — достаточно одного участника.':'Для этого сценария нужен агент; рекрут необязателен.';
+}
+function moleculeValidatePeople(){
+  moleculePeopleSync(); var a=(document.getElementById('mol-agent')||{}).value||'',r=(document.getElementById('mol-recruit')||{}).value||'',mode=moleculePeopleRule();
+  if(mode==='both'&&(!a||!r)){showToast('Выбери агента и рекрута');return false;}
+  if(mode==='either'&&!a&&!r){showToast('Выбери агента или рекрута');return false;}
+  if(mode==='agent'&&!a){showToast('Выбери агента');return false;}
+  return true;
+}
 function moleculeSync(){
+  moleculePopulatePeople(); moleculePeopleSync();
   var base=moleculeMoney(), price=document.getElementById('rn-price'), pct=document.getElementById('rn-comm-pct');
   if(price){price.value=base;}
   if(pct){pct.value=100;}
@@ -2831,6 +2867,7 @@ function sub(type, directData) {
   else if(type==='showing'){const rEl=document.getElementById('sh-r'),mEl=document.getElementById('sh-m');data={recruit:rEl.options[rEl.selectedIndex].text,mentor:mEl.value,district_address:document.getElementById('sh-addr').value,ad_link_advertising:document.getElementById('sh-link').value,client_telegram:document.getElementById('sh-client').value,date:document.getElementById('sh-date').value,result:showRes};}
   else if(type==='stickers'){const rEl=document.getElementById('st-r'),mEl=document.getElementById('st-m');data={recruit:rEl.options[rEl.selectedIndex].text,mentor:mEl.value,district:document.getElementById('st-dist').value,stickers_count:document.getElementById('st-cnt').value,date:document.getElementById('st-date').value};}
   else if(type==='rental'){
+    if(!moleculeValidatePeople()) return;
     moleculeCalc();
     const aEl=document.getElementById('rn-agent');
     const rEl=document.getElementById('rn-recruit');
