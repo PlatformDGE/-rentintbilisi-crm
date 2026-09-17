@@ -296,6 +296,13 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 
 <style>
 .login-card{width:min(100%,380px);padding:26px 22px 22px;background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #2a3a59;border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.36)}.login-brand{width:62px;height:62px;margin:0 auto 16px;border-radius:18px;padding:5px;background:linear-gradient(135deg,#365a9b,#253e77);box-shadow:0 0 30px rgba(70,105,185,.28)}.login-brand img{width:100%;height:100%;object-fit:cover;border-radius:13px}.login-title{font-size:23px;font-weight:800;letter-spacing:-.03em}.login-subtitle{margin:8px 0 22px;color:#7f8aa2;font-size:12px;line-height:1.5}.login-label{display:block;margin:12px 0 6px;text-align:left;color:#aebbd2;font-size:11px;font-weight:700}.login-input{padding:13px 14px!important;background:#0b172b!important;border-color:#2a3a59!important}.login-submit{margin-top:18px}.login-message{min-height:18px;margin-top:14px;color:#7f8aa2;font-size:11px;line-height:1.45}.login-message.error{color:#ff8e86}.login-telegram{margin-top:12px;border:0;background:transparent;color:#8da7ff;font:600 11px Inter,sans-serif;cursor:pointer}
+  /* Molecula 90/10 calculator */
+  .molecule-calc{padding:16px 16px 28px;overflow:auto;height:100%;}
+  .molecule-hero{background:linear-gradient(135deg,rgba(44,74,145,.9),rgba(24,35,75,.95));border:1px solid rgba(126,179,255,.3);border-radius:24px;padding:20px;margin-bottom:14px;box-shadow:0 16px 40px rgba(0,0,0,.24)}
+  .molecule-kicker{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#9dbdff;font-weight:800}.molecule-hero h2{margin:6px 0 5px;font-size:25px;line-height:1.08}.molecule-hero p{margin:0;color:#c2d0ec;font-size:13px;line-height:1.5}
+  .molecule-card{background:var(--bg2);border:1px solid rgba(126,179,255,.16);border-radius:18px;padding:15px;margin-bottom:12px}.molecule-card h3{font-size:14px;margin:0 0 10px}.molecule-card .hint{font-size:11px;color:var(--text3);line-height:1.45;margin:8px 0 0}
+  .molecule-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.molecule-axis{padding:12px 10px;text-align:left;border-radius:14px;background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--text);cursor:pointer;font-family:inherit}.molecule-axis.active{background:rgba(77,119,219,.27);border-color:#79a6ff;box-shadow:0 0 0 1px rgba(121,166,255,.2)}.molecule-axis strong{display:block;font-size:13px}.molecule-axis span{display:block;color:var(--text3);font-size:10px;margin-top:4px;line-height:1.3}
+  .molecule-calc select,.molecule-calc input{width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid rgba(255,255,255,.13);color:var(--text);border-radius:11px;padding:11px 12px;font:inherit;outline:none}.molecule-calc input:focus,.molecule-calc select:focus{border-color:#79a6ff}.molecule-label{display:block;font-size:11px;color:var(--text2);margin:0 0 6px}.molecule-two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.molecule-dist{display:grid;gap:7px}.molecule-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:12px;padding:10px 12px;border:1px solid rgba(255,255,255,.06)}.molecule-row b{font-size:13px}.molecule-row em{font-style:normal;font-weight:800;color:#8fb4ff}.molecule-total{margin-top:9px;padding:10px 12px;border-radius:12px;background:rgba(48,209,88,.08);border:1px solid rgba(48,209,88,.25);display:flex;justify-content:space-between;color:#8ef0ae;font-weight:800}.molecule-note{font-size:11px;color:#b9c5df;line-height:1.5;padding:11px 12px;background:rgba(255,193,7,.07);border:1px solid rgba(255,193,7,.2);border-radius:12px}.molecule-actions{display:flex;gap:8px}.molecule-actions button{flex:1}.molecule-hidden-legacy{display:none!important}
 </style>
 </head>
 <body>
@@ -949,12 +956,42 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
     <div class="screen" id="tab-calc">
       <div style="padding:14px 16px 0;display:flex;align-items:center;gap:10px;">
         <button onclick="goBack()" style="background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;color:var(--text);padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit;">← Назад</button>
-        <div>
+      <div>
           <div style="font-size:18px;font-weight:800;margin-bottom:1px;">💰 Калькулятор сделки</div>
           <div style="font-size:11px;color:var(--text2);">Calculator + Report + T0</div>
         </div>
       </div>
-      <div class="pad pb">
+      <div class="molecule-calc" id="molecule-calc">
+        <div class="molecule-hero">
+          <div class="molecule-kicker">Rent in Tbilisi · Molecula</div>
+          <h2>Система 90/10</h2>
+          <p>Процент — это объём ответственности. Выбери роль в конкретной сделке и получи прозрачное распределение комиссии.</p>
+        </div>
+        <div class="molecule-card">
+          <h3>1. База расчёта</h3>
+          <div class="molecule-two">
+            <div><label class="molecule-label">Чистая комиссия, $</label><input id="mol-commission" type="number" min="0" placeholder="1000" oninput="moleculeCalc()"></div>
+            <div><label class="molecule-label">Сделок в потоке / эксклюзивов</label><input id="mol-count" type="number" min="0" value="1" oninput="moleculeCalc()"></div>
+          </div>
+          <p class="hint">Распределение всегда считается от чистой комиссии после согласованных расходов.</p>
+        </div>
+        <div class="molecule-card">
+          <h3>2. Что происходит в сделке?</h3>
+          <div class="molecule-grid">
+            <button class="molecule-axis active" data-axis="make" onclick="setMoleculeAxis('make')"><strong>🏠 Делаю</strong><span>свой объект и полный цикл</span></button>
+            <button class="molecule-axis" data-axis="participate" onclick="setMoleculeAxis('participate')"><strong>🤝 Участвую</strong><span>чужой объект или клиент</span></button>
+            <button class="molecule-axis" data-axis="transfer" onclick="setMoleculeAxis('transfer')"><strong>🎓 Передаю</strong><span>обучение и поток сделок</span></button>
+            <button class="molecule-axis" data-axis="create" onclick="setMoleculeAxis('create')"><strong>✨ Создаю</strong><span>новое направление</span></button>
+            <button class="molecule-axis" data-axis="external" onclick="setMoleculeAxis('external')" style="grid-column:span 2"><strong>🌐 Внешний контур</strong><span>эксперимент с Verified Exclusive</span></button>
+          </div>
+        </div>
+        <div class="molecule-card" id="molecule-options"></div>
+        <div class="molecule-card"><h3>Распределение комиссии</h3><div class="molecule-dist" id="molecule-dist"></div><div class="molecule-total"><span>Итого</span><span id="molecule-total">100%</span></div></div>
+        <div class="molecule-note" id="molecule-note"></div>
+        <div class="molecule-card"><h3>Данные сделки</h3><div class="field"><label class="fl">Ссылка на объект</label><input id="mol-link" type="url" placeholder="https://t.me/..." oninput="moleculeSync()"></div><div class="field"><label class="fl">Кадастровый номер</label><input id="mol-cadastral" placeholder="01.10..." oninput="moleculeSync()"></div><div class="field"><label class="fl">Комментарий</label><input id="mol-comment" placeholder="Что важно зафиксировать" oninput="moleculeSync()"></div></div>
+        <div class="molecule-actions"><button class="tb" onclick="goBack()">← Назад</button><button class="sbtn" onclick="sub('rental')">🚀 Зафиксировать сделку</button></div>
+      </div>
+      <div class="pad pb molecule-hidden-legacy">
 
         <!-- 1. ОБЪЕКТ -->
         <div class="section"><div class="sl">1. Объект</div>
@@ -2613,6 +2650,62 @@ function calcRental() {
   rnUpd();
 }
 
+/* Molecula 90/10 calculator: one source of truth for the PDF ladder. */
+var moleculeAxis='make', MOLECULA_ROWS=[];
+var MOLECULA_PARTICIPATE={
+  object_recruit_joint:['Объект рекрута · показ + договор',20,'Рекрут / участник'],
+  object_recruit_sign:['Объект рекрута · только подписание',10,'Рекрут / участник'],
+  object_agent_joint:['Объект агента · показ + договор',20,'Участник'],
+  object_agent_sign:['Объект агента · только подписание',10,'Участник'],
+  client_joint_showing:['Клиент · совместный показ',20,'Источник клиента'],
+  client_transfer:['Клиент · передача контакта',10,'Источник клиента'],
+  client_external:['Клиент со стороны · внешний источник',30,'Внешний источник'],
+  take_exclusive:['Чужой эксклюзив · полный цикл',40,'Куратор цикла']
+};
+function moleculeMoney(){return Math.max(0,parseFloat((document.getElementById('mol-commission')||{}).value)||0)}
+function moleculeSync(){
+  var base=moleculeMoney(), price=document.getElementById('rn-price'), pct=document.getElementById('rn-comm-pct');
+  if(price){price.value=base;}
+  if(pct){pct.value=100;}
+  var l=document.getElementById('mol-link'),rl=document.getElementById('rn-link'); if(l&&rl)rl.value=l.value;
+  var c=document.getElementById('mol-cadastral'),rc=document.getElementById('rn-cadastral'); if(c&&rc)rc.value=c.value;
+  var cm=document.getElementById('mol-comment'),tc=document.getElementById('t0-comment'); if(cm&&tc)tc.value=cm.value;
+}
+function moleculeRows(){
+  var n=Math.max(0,parseInt((document.getElementById('mol-count')||{}).value)||0), opt=(document.getElementById('mol-participate')||{}).value||'object_recruit_joint', role=(document.getElementById('mol-transfer')||{}).value||'mentor', lev=parseInt((document.getElementById('mol-agent-level')||{}).value)||50;
+  var rows=[];
+  if(moleculeAxis==='make'){var p=n>100?90:n>10?70:50; rows=[['Агент · собственный цикл',p,'#55e6a5'],['Платформа',100-p,'#8795b8']];}
+  if(moleculeAxis==='participate'){var d=MOLECULA_PARTICIPATE[opt]||MOLECULA_PARTICIPATE.object_recruit_joint, owner=(opt==='client_external'||opt==='take_exclusive')?50:50; rows=[[d[2],d[1],'#55e6a5'],['Владелец объекта / агент',owner,'#8fb4ff'],['Платформа',100-d[1]-owner,'#8795b8']];}
+  if(moleculeAxis==='transfer'){
+    if(role==='mentor') rows=[['Наставник · полный цикл',50,'#55e6a5'],['Платформа',50,'#8795b8']];
+    else if(role==='stream'){var share=lev===70?15:25; rows=[['Передающий поток',share,'#55e6a5'],['Агент полного цикла',lev,'#8fb4ff'],['Платформа',100-share-lev,'#8795b8']];}
+    else {var keeper=Math.min(5,Math.max(1,Math.floor(n/100)||1)); rows=[['Хранитель потока',keeper,'#55e6a5'],['Платформа',100-keeper,'#8795b8']];}
+  }
+  if(moleculeAxis==='create'){if(role==='test')rows=[['Инициатор теста',50,'#55e6a5'],['Платформа',50,'#8795b8']];else{var creator=lev===70?15:25;rows=[['Создатель направления',creator,'#55e6a5'],['Агент полного цикла',lev,'#8fb4ff'],['Платформа',100-creator-lev,'#8795b8']];}}
+  if(moleculeAxis==='external'){rows=[['Внешний агент',50,'#55e6a5'],['Внутренний куратор',25,'#f5bd5b'],['Платформа',25,'#8795b8']];}
+  return rows;
+}
+function moleculeOptions(){
+  var box=document.getElementById('molecule-options'); if(!box)return;
+  var html='<h3>3. Детали сценария</h3>';
+  if(moleculeAxis==='make') html+='<label class="molecule-label">Эксклюзивные сделки агента</label><p class="hint">1–10: 50% · 11–100: 70% · после 100: 90%. Неэксклюзивные сделки не ограничены.</p>';
+  if(moleculeAxis==='participate') html+='<label class="molecule-label">Вариант участия</label><select id="mol-participate" onchange="moleculeCalc()">'+Object.keys(MOLECULA_PARTICIPATE).map(function(k){return '<option value="'+k+'">'+MOLECULA_PARTICIPATE[k][0]+' — '+MOLECULA_PARTICIPATE[k][1]+'%</option>';}).join('')+'</select><p class="hint">Ставка зависит от объёма участия, а не от статуса рекрута или агента.</p>';
+  if(moleculeAxis==='transfer') html+='<label class="molecule-label">Роль в передаче</label><select id="mol-transfer" onchange="moleculeCalc()"><option value="mentor">Обучаю агента полному циклу · 50%</option><option value="stream">Передаю поток · 25% с агентом 50% / 15% с агентом 70%</option><option value="keeper">Хранитель потока · 1% +1% за 100 сделок, максимум 5%</option></select>';
+  if(moleculeAxis==='create') html+='<label class="molecule-label">Состояние направления</label><select id="mol-transfer" onchange="moleculeCalc()"><option value="test">Тест направления · инициатор</option><option value="after">После успешного теста · 25% / 15%</option></select>';
+  if(moleculeAxis==='external') html+='<div class="molecule-note">Экспериментальный контур. Целевая модель после подтверждения доверия: внешний агент 50% · внутренний куратор 25% · платформа 25%.</div>';
+  if(moleculeAxis==='transfer'||moleculeAxis==='create') html+='<div style="margin-top:10px"><label class="molecule-label">Уровень агента полного цикла</label><select id="mol-agent-level" onchange="moleculeCalc()"><option value="50">50%</option><option value="70">70%</option></select></div>';
+  box.innerHTML=html;
+}
+function setMoleculeAxis(axis){moleculeAxis=axis;document.querySelectorAll('.molecule-axis').forEach(function(b){b.classList.toggle('active',b.dataset.axis===axis)});moleculeOptions();moleculeCalc();}
+function moleculeCalc(){
+  moleculeSync();
+  var rows=moleculeRows(); MOLECULA_ROWS=rows.map(function(r){return {n:r[0],p:r[1],c:r[2],val:Math.round(moleculeMoney()*r[1]/100)}});
+  var dist=document.getElementById('molecule-dist'); if(dist)dist.innerHTML=MOLECULA_ROWS.map(function(r){return '<div class="molecule-row"><b>'+r.n+'</b><em>'+r.p+'% · $'+r.val+'</em></div>';}).join('');
+  var total=MOLECULA_ROWS.reduce(function(s,r){return s+r.p},0); var tot=document.getElementById('molecule-total');if(tot)tot.textContent=total+'%';
+  var note=document.getElementById('molecule-note');if(note){var names={make:'Личная лестница: делаешь полный цикл сам.',participate:'Участие в чужой сделке: оплачивается конкретный объём работы.',transfer:'Передача способности и потока: это отдельная ось, не ступень.',create:'Новое направление проходит тест, затем получает свою модель.',external:'Первые 10 циклов — накопление доверия; доля куратора ещё тестируется.'};note.textContent=names[moleculeAxis];}
+}
+function rnCalcDist(comm){return MOLECULA_ROWS.length?MOLECULA_ROWS.map(function(r){return {n:r.n,p:r.p,c:r.c,val:Math.round(comm*r.p/100)}}):[];}
+
 function fmtDate(d){
   if(!d) return '—';
   var p=d.split('-');
@@ -2738,6 +2831,7 @@ function sub(type, directData) {
   else if(type==='showing'){const rEl=document.getElementById('sh-r'),mEl=document.getElementById('sh-m');data={recruit:rEl.options[rEl.selectedIndex].text,mentor:mEl.value,district_address:document.getElementById('sh-addr').value,ad_link_advertising:document.getElementById('sh-link').value,client_telegram:document.getElementById('sh-client').value,date:document.getElementById('sh-date').value,result:showRes};}
   else if(type==='stickers'){const rEl=document.getElementById('st-r'),mEl=document.getElementById('st-m');data={recruit:rEl.options[rEl.selectedIndex].text,mentor:mEl.value,district:document.getElementById('st-dist').value,stickers_count:document.getElementById('st-cnt').value,date:document.getElementById('st-date').value};}
   else if(type==='rental'){
+    moleculeCalc();
     const aEl=document.getElementById('rn-agent');
     const rEl=document.getElementById('rn-recruit');
     const mEl=document.getElementById('rn-mentor');
@@ -2766,7 +2860,9 @@ function sub(type, directData) {
     var realPlatAmt  = platRow  ? (platRow.val||0)   : plat;
     data={
       agent:agentName, recruit:recruitName, mentor:mentorName,
-      agent_level:rnLvl, scenario:rnSc,
+      agent_level:rnLvl, scenario:rnSc, molecule_axis:moleculeAxis,
+      molecule_scenario_label:(document.getElementById('molecule-note')||{}).textContent||'',
+      molecule_count:parseInt((document.getElementById('mol-count')||{}).value)||0,
       comm_pct:commPct,
       recruit_commission: recruitAmt,
       recruit_pct: recruitPct,
@@ -2778,6 +2874,7 @@ function sub(type, directData) {
       is_exclusive:rnExcl, deal_type:rnType, deal_subtype:rnSub, is_rerented:rnIsRerented,
       rent_price:price, commission_pct:commPct,
       commission_total:comm, commission_platform:realPlatAmt, commission_agent:realAgentAmt,
+      molecule_distribution:JSON.stringify(MOLECULA_ROWS),
       client_name:document.getElementById('rn-cname').value,
       client_phone:document.getElementById('rn-cphone').value,
       owner_name:document.getElementById('rn-oname').value,
@@ -4943,7 +5040,7 @@ function cabSubmitShowing(){
 function show(id) { var el=document.getElementById(id); if(el) el.style.display=''; }
 function hide(id) { var el=document.getElementById(id); if(el) el.style.display='none'; }
 
-function openCalc(){ goTab('calc'); draftRestore('calc'); }
+function openCalc(){ goTab('calc'); draftRestore('calc'); setTimeout(moleculeCalc,0); }
 function openGeneralReport(){
   navigate('form-general','deals');
   draftRestore('form-general');
