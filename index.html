@@ -3958,7 +3958,7 @@ function loadData(){
       useFallback();
       // НЕ удаляем window[cbName] — если GAS ответит позже, данные обновятся автоматически
     }
-  }, 8000); // GAS cold start — fallback faster
+  }, 2500); // Не держим интерфейс заложником медленного GAS: fallback появляется быстро
 }
 
 // ─── FALLBACK VERSION ────────────────────────────────────
