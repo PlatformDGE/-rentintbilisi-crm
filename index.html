@@ -433,7 +433,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
             <div class="home-kpi"><div class="home-kpi-label">Репосты сегодня</div><div class="home-kpi-value" id="home-kpi-reposts">—</div><div class="home-kpi-sub" id="home-kpi-reposts-sub">топ-10 объектов</div></div>
           </div>
           <div class="home-dashboard-foot"><div class="home-signal"><div class="home-signal-row"><span>Заполненность топ-10</span><strong id="home-signal-top10">—</strong></div><div class="home-signal-bar"><i id="home-signal-top10-bar" style="width:0%"></i></div></div><div class="home-signal"><div class="home-signal-row"><span>Объекты с фото</span><strong id="home-signal-photo">—</strong></div><div class="home-signal-bar"><i id="home-signal-photo-bar" style="width:0%"></i></div></div></div>
-          <div class="home-agent-ranking"><h4>Топ‑10 агентов по сдачам · с 1 числа</h4><div id="home-agent-ranking-list"><div class="telegram-state" style="padding:8px 0">Загрузка рейтинга…</div></div></div>
+          <div class="home-agent-ranking"><h4>Топ‑5 агентов по сдачам · с 1 числа</h4><div id="home-agent-ranking-list"><div class="telegram-state" style="padding:8px 0">Загрузка рейтинга…</div></div><button type="button" id="home-agent-toggle" onclick="toggleHomeAgentRanking()" style="display:none;width:100%;margin-top:8px;padding:8px;border:1px solid #2a3a59;border-radius:10px;background:#172643;color:#b9c9ff;font:600 10px inherit;cursor:pointer">Посмотреть всех</button></div>
         </section>
         <div class="crm-section-head"><h3>Telegram-аналитика</h3><span>интерес аудитории</span></div>
         <section class="home-telegram" id="telegram-top10"><div class="home-telegram-head"><div><span class="telegram-test-badge" hidden>ТЕСТ</span><h3 class="telegram-panel-title">Топ-10 репостов</h3><p class="telegram-panel-period">Сегодня, 10:00–22:00</p><p class="telegram-panel-notice"></p><span class="telegram-top10-updated"></span></div><button type="button" onclick="loadTelegramTop10()">Обновить</button></div><div class="telegram-top10-content"><div class="telegram-state">Загружаем данные Telegram…</div></div></section>
@@ -3018,6 +3018,7 @@ var dashChartComm = null;
 var dashChartRooms = null;
 var dashAutoTimer = null;
 var DEALS_SHEET_CSV='https://docs.google.com/spreadsheets/d/1M7kg2FgI8eke8_Iy4NofsKzC3NrKetLl3dniKJRxYrU/gviz/tq?tqx=out:csv&gid=1237308535&tq='+encodeURIComponent('select A,C');
+var HOME_AGENT_ALL=[];
 
 // ── Статика из канала (3081 постов) ─────────────────
 var STATIC = {
@@ -3157,10 +3158,16 @@ function parseSimpleCsv(text){
   if(cell!==''||row.length){row.push(cell);if(row.some(function(v){return v.trim()!=='';}))rows.push(row);} return rows;
 }
 function renderHomeAgentRanking(agentList){
+  HOME_AGENT_ALL=(agentList||[]).slice().sort(function(a,b){return b.deals-a.deals;});
   var rank=document.getElementById('home-agent-ranking-list');if(!rank)return;
-  agentList=(agentList||[]).slice().sort(function(a,b){return b.deals-a.deals;}).slice(0,10);
-  var maxDeals=agentList.length?agentList[0].deals:0;
-  rank.innerHTML=agentList.length?agentList.map(function(agent,i){var pct=maxDeals?Math.round(agent.deals/maxDeals*100):0;return '<div class="home-agent-row"><span class="home-agent-rank">'+(i+1)+'</span><span class="home-agent-name">'+uiEscape(agent.name)+'</span><span class="home-agent-bar"><i style="width:'+pct+'%"></i></span><span class="home-agent-count">'+agent.deals+'</span></div>';}).join(''):'<div class="telegram-state" style="padding:8px 0">Нет сделок с 1 числа</div>';
+  var expanded=rank.getAttribute('data-expanded')==='1', visible=expanded?HOME_AGENT_ALL:HOME_AGENT_ALL.slice(0,5);
+  var maxDeals=HOME_AGENT_ALL.length?HOME_AGENT_ALL[0].deals:0;
+  rank.innerHTML=visible.length?visible.map(function(agent,i){var pct=maxDeals?Math.round(agent.deals/maxDeals*100):0;return '<div class="home-agent-row"><span class="home-agent-rank">'+(i+1)+'</span><span class="home-agent-name">'+uiEscape(agent.name)+'</span><span class="home-agent-bar"><i style="width:'+pct+'%"></i></span><span class="home-agent-count">'+agent.deals+'</span></div>';}).join(''):'<div class="telegram-state" style="padding:8px 0">Нет сделок с 1 числа</div>';
+  var toggle=document.getElementById('home-agent-toggle');if(toggle){toggle.style.display=HOME_AGENT_ALL.length>5?'block':'none';toggle.textContent=expanded?'Скрыть остальных':'Посмотреть всех';}
+}
+function toggleHomeAgentRanking(){
+  var rank=document.getElementById('home-agent-ranking-list');if(!rank)return;
+  rank.setAttribute('data-expanded',rank.getAttribute('data-expanded')==='1'?'0':'1');renderHomeAgentRanking(HOME_AGENT_ALL);
 }
 function loadSheetMonthStats(){
   return fetch(DEALS_SHEET_CSV+'&_='+Date.now(),{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error('Sheets HTTP '+response.status);return response.text();}).then(function(text){
