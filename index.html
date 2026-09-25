@@ -1836,7 +1836,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   </nav>
 </div>
 
-<div class="sheet-overlay" id="quick-sheet" onclick="if(event.target===this)closeSheet('quick-sheet')"><div class="action-sheet"><div class="sheet-handle"></div><div class="sheet-title"><h2>Добавить</h2><button class="sheet-close" onclick="closeSheet('quick-sheet')">×</button></div><div class="action-grid"><button class="action-item" onclick="quickAction('object')"><i>＋</i><span><strong>Объект</strong><small>Создать публикацию</small></span></button><button class="action-item" onclick="quickAction('deal')"><i>◎</i><span><strong>Сделку</strong><small>Расчёт и T0</small></span></button><button class="action-item" onclick="quickAction('report')"><i>▦</i><span><strong>Отчёт</strong><small>Общий отчёт</small></span></button><button class="action-item" onclick="quickAction('showing')"><i>⌂</i><span><strong>Показ</strong><small>Добавить в работу</small></span></button><button class="action-item" onclick="quickAction('check')"><i>⌕</i><span><strong>Проверку</strong><small>Найти дубликат</small></span></button></div></div></div>
+<div class="sheet-overlay" id="quick-sheet" onclick="if(event.target===this)closeSheet('quick-sheet')"><div class="action-sheet"><div class="sheet-handle"></div><div class="sheet-title"><h2>Добавить</h2><button class="sheet-close" onclick="closeSheet('quick-sheet')">×</button></div><div class="action-grid"><button class="action-item" onclick="quickAction('object')"><i>＋</i><span><strong>Объект</strong><small>Создать публикацию</small></span></button><button class="action-item" onclick="quickAction('deal')"><i>◎</i><span><strong>Сделку</strong><small>Расчёт и T0</small></span></button><button class="action-item" onclick="quickAction('contract')"><i>▤</i><span><strong>Договор</strong><small>Создать договор</small></span></button><button class="action-item" onclick="quickAction('report')"><i>▦</i><span><strong>Отчёт</strong><small>Общий отчёт</small></span></button><button class="action-item" onclick="quickAction('showing')"><i>⌂</i><span><strong>Показ</strong><small>Добавить в работу</small></span></button><button class="action-item" onclick="quickAction('check')"><i>⌕</i><span><strong>Проверку</strong><small>Найти дубликат</small></span></button></div></div></div>
 
 <div class="sheet-overlay" id="account-sheet" onclick="if(event.target===this)closeSheet('account-sheet')"><div class="action-sheet"><div class="sheet-handle"></div><div class="sheet-title"><h2>Telegram-профиль</h2><button class="sheet-close" onclick="closeSheet('account-sheet')">×</button></div><div class="account-card" id="account-card"></div></div></div>
 
@@ -2150,6 +2150,7 @@ function quickAction(type){
   closeSheet('quick-sheet');
   if(type==='object'){goTab('posts');return;}
   if(type==='deal'){openCalc();return;}
+  if(type==='contract'){goTab('contract');return;}
   if(type==='report'){openGeneralReport();return;}
   if(type==='showing'){openForm('showing');return;}
   if(type==='check'){openCheckProperty();}
