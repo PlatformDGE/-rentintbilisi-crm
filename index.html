@@ -535,14 +535,6 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;" id="ds-rooms"></div>
         </div>
 
-        <!-- АГЕНТЫ — ОБЪЕКТЫ В КАНАЛЕ -->
-        <div class="section" id="dash-sec-agent-listings">
-          <div class="sl">Агенты — активные объекты в канале</div>
-          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;" id="ds-agent-listings">
-            <div style="padding:14px;text-align:center;color:var(--text3);font-size:13px;">Загрузка...</div>
-          </div>
-        </div>
-
         <!-- ОБЪЕКТЫ ЗА НЕДЕЛЮ -->
         <div class="section" id="dash-sec-weekly">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -1612,10 +1604,6 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
             <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:0.5px solid var(--border);">
               <span style="font-size:13px;color:var(--text);">Тип квартир</span>
               <div id="sw-rooms" onclick="toggleDashSec('rooms')" style="width:44px;height:26px;border-radius:13px;background:var(--green);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;"><div style="position:absolute;top:3px;left:21px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:0.5px solid var(--border);">
-              <span style="font-size:13px;color:var(--text);">Агенты — объекты в канале</span>
-              <div id="sw-agent-listings" onclick="toggleDashSec('agent-listings')" style="width:44px;height:26px;border-radius:13px;background:var(--green);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;"><div style="position:absolute;top:3px;left:21px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div></div>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:0.5px solid var(--border);">
               <span style="font-size:13px;color:var(--text);">Объектов за неделю (топик 3)</span>
@@ -3341,42 +3329,6 @@ function renderDash() {
     }
   }
 
-  // Агенты — объекты в канале (из Listings)
-  var alEl = document.getElementById('ds-agent-listings');
-  if (alEl) {
-    // Приоритет: activeListings (канал) → listings (топик) → STATIC
-    var byAgent = (dashData.analytics && dashData.analytics.activeListings && dashData.analytics.activeListings.byAgent)
-      ? dashData.analytics.activeListings.byAgent
-      : (dashData.analytics && dashData.analytics.listings && dashData.analytics.listings.byAgent)
-      ? dashData.analytics.listings.byAgent
-      : (STATIC.listings && STATIC.listings.byAgent) ? STATIC.listings.byAgent : {};
-    var totalActive = (dashData.analytics && dashData.analytics.activeListings)
-      ? getCanonicalActiveListings(dashData.analytics) : null;
-    var alTitle = document.querySelector('#dash-sec-agent-listings .sl');
-    if (alTitle && totalActive !== null) alTitle.textContent = 'Агенты — активные объекты в двух каналах (' + totalActive + ')';
-    var agentNames = Object.keys(byAgent).sort(function(a,b){return byAgent[b]-byAgent[a];});
-    if (!agentNames.length) { alEl.innerHTML = skBars(6); }
-    else {
-      var maxA = byAgent[agentNames[0]]||1;
-      var aColors2=['var(--green)','var(--accent2)','#7eb3ff','var(--amber)','#a89fff','#60a5fa','#34d399','#f97316','#94a3b8','#c084fc'];
-      alEl.innerHTML = agentNames.slice(0,12).map(function(name,i){
-        var cnt = byAgent[name]||0;
-        var pct = Math.round(cnt/maxA*100);
-        var c = aColors2[i%aColors2.length];
-        return '<div style="display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:0.5px solid var(--border);">'
-          +'<div style="width:26px;height:26px;border-radius:50%;background:rgba(124,111,255,.15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:'+c+';flex-shrink:0;">'+name[0].toUpperCase()+'</div>'
-          +'<div style="flex:1;">'
-          +'<div style="display:flex;justify-content:space-between;margin-bottom:3px;">'
-          +'<span style="font-size:12px;font-weight:600;color:var(--text);">@'+name+'</span>'
-          +'<span style="font-size:12px;font-weight:700;color:'+c+';">'+cnt+' объектов</span>'
-          +'</div>'
-          +'<div style="height:3px;background:var(--bg3);border-radius:2px;">'
-          +'<div style="height:100%;background:'+c+';border-radius:2px;width:'+pct+'%;opacity:.7;"></div>'
-          +'</div></div></div>';
-      }).join('');
-    }
-  }
-
   // Агенты — сделки + комиссия агент vs платформа
   var adEl = document.getElementById('ds-agents-rows');
   if (adEl) {
@@ -3564,7 +3516,7 @@ var CURRENT_AUTH_MODE = '';
 var PLATFORM_USERS_SHEET = 'https://docs.google.com/spreadsheets/d/1M7kg2FgI8eke8_Iy4NofsKzC3NrKetLl3dniKJRxYrU/gviz/tq?tqx=out:csv&sheet=Platform_Desk_Users';
 var LOGIN_SESSION_KEY = 'rent_crm_login_session';
 var adminLvl = 70;
-var dashSettings = {'agent-listings':true,districts:true,rooms:true,weekly:true,monthly:true,agents:false,lastdeals:true};
+var dashSettings = {districts:true,rooms:true,weekly:true,monthly:true,agents:false,lastdeals:true};
 try{var _ds=JSON.parse(localStorage.getItem('dashSettings')||'{}');if(_ds.agents){_ds.agents=false;localStorage.setItem('dashSettings',JSON.stringify(_ds));}}catch(e){}
 
 function isAdmin(){
@@ -3717,7 +3669,7 @@ function renderWeekly() {
 }
 
 function updateSwitches(){
-  var keys=['agent-listings','districts','rooms','weekly','monthly','agents','lastdeals'];
+  var keys=['districts','rooms','weekly','monthly','agents','lastdeals'];
   keys.forEach(function(k){
     var sw=document.getElementById('sw-'+k);
     if(!sw) return;
@@ -3752,7 +3704,6 @@ function saveDashSettings(){
     if(cb) dashSettings[k]=cb.checked;
   });
   updateSwitches();
-  applyDashSection('dash-sec-agent-listings', dashSettings['agent-listings']);
   applyDashSection('dash-sec-weekly',         dashSettings.weekly);
   applyDashSection('dash-sec-districts',      dashSettings.districts);
   applyDashSection('dash-sec-rooms',          dashSettings.rooms);
