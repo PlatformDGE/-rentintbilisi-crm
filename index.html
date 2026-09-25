@@ -1813,7 +1813,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   </div><!-- /cabinet -->
 
   <div class="screen" id="tab-objects">
-    <div class="hub-page"><div class="hub-head"><div><h2>Объекты</h2><p>Актуальные публикации и интерес аудитории</p></div><button class="sbtn" style="width:auto;padding:10px 13px" onclick="goTab('posts')">+ Объект</button></div><label class="hub-search">⌕ <input id="object-search" placeholder="Адрес, район, цена…" oninput="filterObjectFeed(this.value)"></label><div class="object-feed" id="object-feed"><div class="telegram-state">Загружаем объекты…</div></div></div>
+    <div class="hub-page"><div class="hub-head"><div><h2>Объекты</h2><p>Актуальные публикации из каналов</p></div><button class="sbtn" style="width:auto;padding:10px 13px" onclick="goTab('posts')">+ Объект</button></div><label class="hub-search">⌕ <input id="object-search" placeholder="Адрес, район, цена…" oninput="filterObjectFeed(this.value)"></label><select id="object-agent-filter" onchange="filterObjectFeed()" style="width:100%;margin:8px 0 12px;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font:inherit"><option value="">Все хэштеги</option></select><div class="object-feed" id="object-feed"><div class="telegram-state">Загружаем объекты…</div></div></div>
   </div>
 
   <div class="screen" id="tab-calendar">
@@ -1830,8 +1830,8 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
     <button class="bni on" id="nav-home" onclick="goTab('home')"><span class="bni-ic">⌂</span><span class="bni-lb">Главная</span></button>
     <button class="bni" id="nav-objects" onclick="goTab('objects')"><span class="bni-ic">▦</span><span class="bni-lb">Объекты</span></button>
     <button class="bni nav-add" id="nav-posts" onclick="openQuickAdd()"><span class="bni-ic">＋</span><span class="bni-lb">Добавить</span></button>
-    <button class="bni" id="nav-calendar" onclick="goTab('calendar')"><span class="bni-ic">□</span><span class="bni-lb">Календарь</span></button>
-    <button class="bni" id="nav-cabinet" onclick="goTab('cabinet')"><span class="bni-ic">◉</span><span class="bni-lb">Профиль</span></button>
+    <button class="bni" id="nav-deals" onclick="goTab('deals')"><span class="bni-ic">◒</span><span class="bni-lb">Сделки</span></button>
+    <button class="bni" id="nav-stats" onclick="goTab('stats')"><span class="bni-ic">◎</span><span class="bni-lb">Команда</span></button>
     <button class="bni" id="nav-admin" onclick="goTab('admin')" style="display:none"><span class="bni-ic">⚙</span><span class="bni-lb">Admin</span></button>
   </nav>
 </div>
@@ -2168,10 +2168,22 @@ function renderObjectFeed(items){
   }).join('');
 }
 function filterObjectFeed(query){
-  var needle=String(query||'').trim().toLocaleLowerCase('ru');
-  renderObjectFeed(!needle?OBJECT_FEED:OBJECT_FEED.filter(function(item){
-    return [item.title,item.district,item.metro,item.price,item.area,item.rooms].join(' ').toLocaleLowerCase('ru').indexOf(needle)!==-1;
+  var searchEl=document.getElementById('object-search'),filterEl=document.getElementById('object-agent-filter');
+  var needle=String(query!=null?query:(searchEl?searchEl.value:'')||'').trim().toLocaleLowerCase('ru'), selected=String(filterEl?filterEl.value:'').replace(/^[@#]/,'').toLocaleLowerCase('ru');
+  renderObjectFeed(OBJECT_FEED.filter(function(item){
+    var text=[item.title,item.district,item.metro,item.price,item.area,item.rooms,item.agent,item.hashtag,item.tag,item.author].join(' ').replace(/[@#]/g,'').toLocaleLowerCase('ru');
+    return (!needle||text.indexOf(needle)!==-1)&&(!selected||text.indexOf(selected)!==-1);
   }));
+}
+function renderObjectAgentFilter(){
+  var select=document.getElementById('object-agent-filter');if(!select)return;
+  var values={};
+  (Array.isArray(AGENTS)?AGENTS:[]).forEach(function(agent){
+    var name=agent&&(agent.name||agent.telegram);if(name)values[String(name).replace(/^[@#]/,'')]=true;
+    if(agent&&agent.telegram)values[String(agent.telegram).replace(/^[@#]/,'')]=true;
+  });
+  OBJECT_FEED.forEach(function(item){[item.hashtag,item.tag,item.agent,item.author].forEach(function(v){if(v){String(v).split(/[\s,]+/).forEach(function(part){part=part.trim().replace(/^[@#]/,'');if(part)values[part]=true;});}});});
+  var current=select.value;select.innerHTML='<option value="">Все хэштеги</option>'+Object.keys(values).sort(function(a,b){return a.localeCompare(b,'ru');}).map(function(v){return '<option value="'+uiEscape(v)+'">#'+uiEscape(v)+'</option>';}).join('');if(current)select.value=current;
 }
 function loadObjectFeed(){
   var feed=document.getElementById('object-feed');
@@ -2179,6 +2191,7 @@ function loadObjectFeed(){
   feed.innerHTML='<div class="telegram-state">Загружаем объекты…</div>';
   fetch('telegram-top10.json?t='+Date.now(),{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error('HTTP '+response.status);return response.json();}).then(function(payload){
     OBJECT_FEED=Array.isArray(payload.items)?payload.items:[];
+    renderObjectAgentFilter();
     var search=document.getElementById('object-search');
     filterObjectFeed(search?search.value:'');
   }).catch(function(error){console.error('Object feed loading failed',error);feed.innerHTML='<div class="telegram-state telegram-state-error">Не удалось загрузить объекты. Попробуйте ещё раз.</div>';});
