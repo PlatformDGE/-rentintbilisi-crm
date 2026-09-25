@@ -303,6 +303,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   .molecule-card{background:var(--bg2);border:1px solid rgba(126,179,255,.16);border-radius:18px;padding:15px;margin-bottom:12px}.molecule-card h3{font-size:14px;margin:0 0 10px}.molecule-card .hint{font-size:11px;color:var(--text3);line-height:1.45;margin:8px 0 0}
   .molecule-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.molecule-axis{padding:12px 10px;text-align:left;border-radius:14px;background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--text);cursor:pointer;font-family:inherit}.molecule-axis.active{background:rgba(77,119,219,.27);border-color:#79a6ff;box-shadow:0 0 0 1px rgba(121,166,255,.2)}.molecule-axis strong{display:block;font-size:13px}.molecule-axis span{display:block;color:var(--text3);font-size:10px;margin-top:4px;line-height:1.3}
   .molecule-calc select,.molecule-calc input{width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid rgba(255,255,255,.13);color:var(--text);border-radius:11px;padding:11px 12px;font:inherit;outline:none}.molecule-calc input:focus,.molecule-calc select:focus{border-color:#79a6ff}.molecule-label{display:block;font-size:11px;color:var(--text2);margin:0 0 6px}.molecule-two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.molecule-dist{display:grid;gap:7px}.molecule-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:12px;padding:10px 12px;border:1px solid rgba(255,255,255,.06)}.molecule-row b{font-size:13px}.molecule-row em{font-style:normal;font-weight:800;color:#8fb4ff}.molecule-total{margin-top:9px;padding:10px 12px;border-radius:12px;background:rgba(48,209,88,.08);border:1px solid rgba(48,209,88,.25);display:flex;justify-content:space-between;color:#8ef0ae;font-weight:800}.molecule-note{font-size:11px;color:#b9c5df;line-height:1.5;padding:11px 12px;background:rgba(255,193,7,.07);border:1px solid rgba(255,193,7,.2);border-radius:12px}.molecule-actions{display:flex;gap:8px}.molecule-actions button{flex:1}.molecule-hidden-legacy{display:none!important}
+  .home-dashboard{background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #263651;border-radius:22px;padding:15px;margin-bottom:15px;box-shadow:0 18px 45px rgba(0,0,0,.18)}.home-dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}.home-dashboard-head h3{margin:0;font-size:17px}.home-dashboard-head span{font-size:10px;color:#7f8aa2}.home-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.home-kpi{min-width:0;background:#14213a;border:1px solid #263651;border-radius:15px;padding:11px 12px}.home-kpi-label{font-size:9px;color:#7f8aa2;text-transform:uppercase;letter-spacing:.06em}.home-kpi-value{font-size:23px;font-weight:800;letter-spacing:-.04em;margin-top:4px}.home-kpi-sub{font-size:9px;color:#7f8aa2;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-dashboard-foot{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.home-signal{background:#14213a;border-radius:14px;padding:10px 11px}.home-signal-row{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#aebbd2}.home-signal-row strong{color:#53d6aa}.home-signal-bar{height:4px;border-radius:4px;background:#0b172b;margin-top:7px;overflow:hidden}.home-signal-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#53d6aa,#8da7ff)}
   @media(max-width:480px){.molecule-calc{padding:12px 10px 24px}.molecule-card{padding:13px;margin-bottom:10px}.molecule-hero{padding:16px;border-radius:19px}.molecule-hero h2{font-size:22px}.molecule-two{grid-template-columns:1fr;gap:9px}.molecule-grid{gap:7px}.molecule-axis{min-height:72px;padding:10px 9px}.molecule-axis strong{font-size:12px}.molecule-row{gap:8px;align-items:flex-start}.molecule-row em{white-space:nowrap;font-size:12px}.molecule-actions{position:sticky;bottom:0;padding:8px 0 0;background:linear-gradient(transparent,var(--bg) 35%);z-index:2}}
 </style>
 </head>
@@ -423,6 +424,16 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
       <div class="crm-home">
         <header class="crm-home-top"><div class="crm-home-copy"><h1 id="home-greeting">Доброе утро</h1><p>Единый рабочий центр</p></div><div class="test-mode">TEST MODE</div><div class="crm-avatar" id="home-avatar">IK</div></header>
         <section class="crm-home-hero"><h2>Все рабочие инструменты — в одном месте</h2><p>Единая рабочая платформа команды: публикации, отчёты, договоры и сделки без лишних переходов.</p><div class="crm-hero-actions"><button class="primary" onclick="goTab('posts')">Добавить объект</button><button onclick="goTab('cabinet')">Личный кабинет</button></div></section>
+        <section class="home-dashboard" id="home-dashboard">
+          <div class="home-dashboard-head"><div><h3>Рабочий дашборд</h3><span>данные CRM и Telegram</span></div><button class="home-dashboard-refresh" type="button" onclick="refreshHomeDashboard()">↻</button></div>
+          <div class="home-kpi-grid">
+            <div class="home-kpi"><div class="home-kpi-label">Сделки</div><div class="home-kpi-value" id="home-kpi-deals">—</div><div class="home-kpi-sub" id="home-kpi-deals-sub">за текущий период</div></div>
+            <div class="home-kpi"><div class="home-kpi-label">Комиссия платформы</div><div class="home-kpi-value" id="home-kpi-platform">—</div><div class="home-kpi-sub">по подтверждённым сделкам</div></div>
+            <div class="home-kpi"><div class="home-kpi-label">Активные объекты</div><div class="home-kpi-value" id="home-kpi-listings">—</div><div class="home-kpi-sub">в Telegram-канале</div></div>
+            <div class="home-kpi"><div class="home-kpi-label">Репосты сегодня</div><div class="home-kpi-value" id="home-kpi-reposts">—</div><div class="home-kpi-sub" id="home-kpi-reposts-sub">топ-10 объектов</div></div>
+          </div>
+          <div class="home-dashboard-foot"><div class="home-signal"><div class="home-signal-row"><span>Заполненность топ-10</span><strong id="home-signal-top10">—</strong></div><div class="home-signal-bar"><i id="home-signal-top10-bar" style="width:0%"></i></div></div><div class="home-signal"><div class="home-signal-row"><span>Объекты с фото</span><strong id="home-signal-photo">—</strong></div><div class="home-signal-bar"><i id="home-signal-photo-bar" style="width:0%"></i></div></div></div>
+        </section>
         <div class="crm-section-head"><h3>Telegram-аналитика</h3><span>интерес аудитории</span></div>
         <section class="home-telegram" id="telegram-top10"><div class="home-telegram-head"><div><span class="telegram-test-badge" hidden>ТЕСТ</span><h3 class="telegram-panel-title">Топ-10 репостов</h3><p class="telegram-panel-period">Сегодня, 10:00–22:00</p><p class="telegram-panel-notice"></p><span class="telegram-top10-updated"></span></div><button type="button" onclick="loadTelegramTop10()">Обновить</button></div><div class="telegram-top10-content"><div class="telegram-state">Загружаем данные Telegram…</div></div></section>
         <div class="crm-section-head"><h3>Рабочие модули</h3><span>нажимай, чтобы открыть</span></div>
@@ -3112,7 +3123,23 @@ function skBar(){
 }
 function skBars(n){var h='';for(var i=0;i<n;i++)h+=skBar();return h;}
 
+function refreshHomeDashboard(){
+  var fil=getFilteredPlatform(), analytics=dashData.analytics||{}, active=analytics.activeListings||{}, items=[];
+  function put(id,value){var el=document.getElementById(id);if(el)el.textContent=value;}
+  put('home-kpi-deals',fil.deals||'0');
+  put('home-kpi-platform',fil.platform?'$'+fil.platform:'$0');
+  put('home-kpi-listings',active.total||((analytics.listings||{}).total)||'0');
+  fetch('telegram-top10.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(payload){
+    items=Array.isArray(payload.items)?payload.items.slice(0,10):[];
+    var reposts=items.reduce(function(sum,item){return sum+(Number(item.daily_reposts)||0);},0), photo=items.filter(function(item){return !!item.image;}).length;
+    put('home-kpi-reposts',reposts.toLocaleString('ru-RU')); put('home-kpi-reposts-sub',items.length?items.length+' объектов в рейтинге':'ожидаем данные Telegram');
+    put('home-signal-top10',items.length+'/10'); var topBar=document.getElementById('home-signal-top10-bar');if(topBar)topBar.style.width=Math.min(100,items.length*10)+'%';
+    put('home-signal-photo',items.length?Math.round(photo/items.length*100)+'%':'—'); var photoBar=document.getElementById('home-signal-photo-bar');if(photoBar)photoBar.style.width=items.length?Math.round(photo/items.length*100)+'%':'0%';
+  }).catch(function(){put('home-kpi-reposts','—');put('home-kpi-reposts-sub','данные пока недоступны');});
+}
+
 function renderDash() {
+  refreshHomeDashboard();
   var rs = (dashData.rentalStats) || {};
   var ac = dashData.agentCounters || {};
   var fil = getFilteredPlatform();
