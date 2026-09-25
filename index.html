@@ -3342,7 +3342,7 @@ function renderDash() {
   // Агенты — сделки + комиссия агент vs платформа
   var adEl = document.getElementById('ds-agents-rows');
   if (adEl) {
-    var agSrc = (rs.topAgents && rs.topAgents.length) ? rs.topAgents : STATIC.platform.agents;
+    var agSrc = getMonthAgentRanking(dashData.analytics||{});
     // Build full agent stats with agent_comm
     var agStats = [];
     agSrc.forEach(function(a) {
