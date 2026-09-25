@@ -429,7 +429,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
           <div class="home-kpi-grid">
             <div class="home-kpi"><div class="home-kpi-label">Сделки</div><div class="home-kpi-value" id="home-kpi-deals">—</div><div class="home-kpi-sub" id="home-kpi-deals-sub">за текущий период</div></div>
             <div class="home-kpi"><div class="home-kpi-label">Комиссия платформы</div><div class="home-kpi-value" id="home-kpi-platform">—</div><div class="home-kpi-sub">по подтверждённым сделкам</div></div>
-            <div class="home-kpi"><div class="home-kpi-label">Активные объекты</div><div class="home-kpi-value" id="home-kpi-listings">—</div><div class="home-kpi-sub">в Telegram-канале</div></div>
+            <div class="home-kpi"><div class="home-kpi-label">Активные объекты</div><div class="home-kpi-value" id="home-kpi-listings">—</div><div class="home-kpi-sub">в двух Telegram-каналах</div></div>
             <div class="home-kpi"><div class="home-kpi-label">Репосты сегодня</div><div class="home-kpi-value" id="home-kpi-reposts">—</div><div class="home-kpi-sub" id="home-kpi-reposts-sub">топ-10 объектов</div></div>
           </div>
           <div class="home-dashboard-foot"><div class="home-signal"><div class="home-signal-row"><span>Заполненность топ-10</span><strong id="home-signal-top10">—</strong></div><div class="home-signal-bar"><i id="home-signal-top10-bar" style="width:0%"></i></div></div><div class="home-signal"><div class="home-signal-row"><span>Объекты с фото</span><strong id="home-signal-photo">—</strong></div><div class="home-signal-bar"><i id="home-signal-photo-bar" style="width:0%"></i></div></div></div>
@@ -470,7 +470,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
             <div style="position:absolute;top:0;right:0;width:50px;height:50px;background:radial-gradient(circle at top right,rgba(34,197,94,.15),transparent 70%);"></div>
             <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Сделок</div>
             <div style="font-size:26px;font-weight:800;color:var(--green);letter-spacing:-1px;" id="ds-deals">—</div>
-            <div style="font-size:9px;color:var(--text3);margin-top:2px;" id="ds-deals-sub">за период</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:2px;" id="ds-deals-sub">с начала месяца</div>
           </div>
           <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;position:relative;overflow:hidden;">
             <div style="position:absolute;top:0;right:0;width:50px;height:50px;background:radial-gradient(circle at top right,rgba(124,111,255,.15),transparent 70%);"></div>
@@ -3054,6 +3054,17 @@ function setDashPeriod(p) {
   renderDash();
 }
 
+// Текущий остаток объявлений только из двух подключённых Telegram-каналов.
+// API может отдавать каналы как массивом, так и объектом — поддерживаем оба формата.
+function getCurrentTwoChannelListings(active){
+  active=active||{};
+  var groups=active.channels||active.byChannel||active.twoChannels;
+  if(Array.isArray(groups)) return groups.reduce(function(sum,group){return sum+(Number(group.currentTotal!=null?group.currentTotal:(group.active!=null?group.active:(group.total!=null?group.total:group.count)))||0);},0);
+  if(groups&&typeof groups==='object') return Object.keys(groups).slice(0,2).reduce(function(sum,key){var group=groups[key]||{};return sum+(Number(group.currentTotal!=null?group.currentTotal:(group.active!=null?group.active:(group.total!=null?group.total:group.count)))||0);},0);
+  var explicit=active.two_channel_current_total!=null?active.two_channel_current_total:(active.currentTotal!=null?active.currentTotal:(active.activeTotal!=null?active.activeTotal:null));
+  return explicit!=null?Number(explicit)||0:Number(active.total_current!=null?active.total_current:(active.total||0));
+}
+
 function getFilteredPlatform() {
   var bmd = ((dashData.rentalStats||{}).byMonthData) || {};
   var now = new Date();
@@ -3086,6 +3097,13 @@ function getFilteredPlatform() {
     });
   }
   return {deals:deals, platform:Math.round(platform), comm:Math.round(comm), price:Math.round(price)};
+}
+
+function getMonthToDatePlatform(){
+  var bmd=((dashData.rentalStats||{}).byMonthData)||{}, now=new Date(), key=(now.getMonth()+1)+'/'+now.getFullYear(), m=bmd[key];
+  if(m) return {deals:Number(m.deals)||0,platform:Math.round(Number(m.platform)||0),comm:Math.round(Number(m.commission)||0),price:Math.round(Number(m.price)||0)};
+  var fallback=(STATIC.platform.monthly||[]).find(function(item){return item.month===key;});
+  return fallback?{deals:Number(fallback.deals)||0,platform:Math.round(Number(fallback.platform)||0),comm:Math.round(Number(fallback.commission)||0),price:Math.round(Number(fallback.price)||0)}:{deals:0,platform:0,comm:0,price:0};
 }
 
 // ── SKELETON HELPERS ────────────────────────────────
@@ -3124,11 +3142,11 @@ function skBar(){
 function skBars(n){var h='';for(var i=0;i<n;i++)h+=skBar();return h;}
 
 function refreshHomeDashboard(){
-  var fil=getFilteredPlatform(), analytics=dashData.analytics||{}, active=analytics.activeListings||{}, items=[];
+  var fil=getMonthToDatePlatform(), analytics=dashData.analytics||{}, active=analytics.activeListings||{}, items=[];
   function put(id,value){var el=document.getElementById(id);if(el)el.textContent=value;}
   put('home-kpi-deals',fil.deals||'0');
   put('home-kpi-platform',fil.platform?'$'+fil.platform:'$0');
-  put('home-kpi-listings',active.total||((analytics.listings||{}).total)||'0');
+  put('home-kpi-listings',getCurrentTwoChannelListings(active)||'0');
   fetch('telegram-top10.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(payload){
     items=Array.isArray(payload.items)?payload.items.slice(0,10):[];
     var reposts=items.reduce(function(sum,item){return sum+(Number(item.daily_reposts)||0);},0), photo=items.filter(function(item){return !!item.image;}).length;
@@ -3142,12 +3160,12 @@ function renderDash() {
   refreshHomeDashboard();
   var rs = (dashData.rentalStats) || {};
   var ac = dashData.agentCounters || {};
-  var fil = getFilteredPlatform();
+  var fil = getMonthToDatePlatform();
 
   // Метрики
   function set(id, val) { var e=document.getElementById(id); if(e) e.textContent=val; }
   set('ds-deals', fil.deals||'—');
-  set('ds-deals-sub', fil.deals ? 'за период' : 'нет данных');
+  set('ds-deals-sub', fil.deals ? 'с начала месяца' : 'нет данных');
   set('ds-platform', fil.platform ? '$'+fil.platform : '—');
   set('ds-total-comm', fil.comm ? '$'+fil.comm : '—');
   set('ds-total-comm-sub', fil.deals ? 'ср. $'+Math.round(fil.comm/fil.deals)+'/сд. · '+fil.deals+' сделок' : '');
@@ -3157,7 +3175,7 @@ function renderDash() {
   // Метрики канала из Active_Listings
   var actL = dashData.analytics && dashData.analytics.activeListings;
   if (actL) {
-    set('ds-ch-total', actL.total || '—');
+    set('ds-ch-total', getCurrentTwoChannelListings(actL) || '0');
     // Avg price from listings data
     var listData = dashData.analytics && dashData.analytics.listings;
     set('ds-ch-price', actL.avgPrice ? '$'+actL.avgPrice : '—');
@@ -3274,9 +3292,9 @@ function renderDash() {
       ? dashData.analytics.listings.byAgent
       : (STATIC.listings && STATIC.listings.byAgent) ? STATIC.listings.byAgent : {};
     var totalActive = (dashData.analytics && dashData.analytics.activeListings)
-      ? dashData.analytics.activeListings.total : null;
+      ? getCurrentTwoChannelListings(dashData.analytics.activeListings) : null;
     var alTitle = document.querySelector('#dash-sec-agent-listings .sl');
-    if (alTitle && totalActive !== null) alTitle.textContent = 'Агенты — активные объекты в канале (' + totalActive + ')';
+    if (alTitle && totalActive !== null) alTitle.textContent = 'Агенты — активные объекты в двух каналах (' + totalActive + ')';
     var agentNames = Object.keys(byAgent).sort(function(a,b){return byAgent[b]-byAgent[a];});
     if (!agentNames.length) { alEl.innerHTML = skBars(6); }
     else {
