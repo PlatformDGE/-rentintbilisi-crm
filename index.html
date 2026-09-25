@@ -433,7 +433,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
             <div class="home-kpi"><div class="home-kpi-label">Репосты сегодня</div><div class="home-kpi-value" id="home-kpi-reposts">—</div><div class="home-kpi-sub" id="home-kpi-reposts-sub">топ-10 объектов</div></div>
           </div>
           <div class="home-dashboard-foot"><div class="home-signal"><div class="home-signal-row"><span>Заполненность топ-10</span><strong id="home-signal-top10">—</strong></div><div class="home-signal-bar"><i id="home-signal-top10-bar" style="width:0%"></i></div></div><div class="home-signal"><div class="home-signal-row"><span>Объекты с фото</span><strong id="home-signal-photo">—</strong></div><div class="home-signal-bar"><i id="home-signal-photo-bar" style="width:0%"></i></div></div></div>
-          <div class="home-agent-ranking"><h4>Топ‑10 агентов по сдачам</h4><div id="home-agent-ranking-list"><div class="telegram-state" style="padding:8px 0">Загрузка рейтинга…</div></div></div>
+          <div class="home-agent-ranking"><h4>Топ‑10 агентов по сдачам · с 1 числа</h4><div id="home-agent-ranking-list"><div class="telegram-state" style="padding:8px 0">Загрузка рейтинга…</div></div></div>
         </section>
         <div class="crm-section-head"><h3>Telegram-аналитика</h3><span>интерес аудитории</span></div>
         <section class="home-telegram" id="telegram-top10"><div class="home-telegram-head"><div><span class="telegram-test-badge" hidden>ТЕСТ</span><h3 class="telegram-panel-title">Топ-10 репостов</h3><p class="telegram-panel-period">Сегодня, 10:00–22:00</p><p class="telegram-panel-notice"></p><span class="telegram-top10-updated"></span></div><button type="button" onclick="loadTelegramTop10()">Обновить</button></div><div class="telegram-top10-content"><div class="telegram-state">Загружаем данные Telegram…</div></div></section>
@@ -3150,13 +3150,19 @@ function skBar(){
 }
 function skBars(n){var h='';for(var i=0;i<n;i++)h+=skBar();return h;}
 
+function getMonthAgentRanking(analytics){
+  var now=new Date(), month=now.getMonth()+1, year=String(now.getFullYear()).slice(-2), deals=((analytics||{}).deals||{}).lastDeals||[], counts={};
+  deals.forEach(function(item){var m=String(item.date||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);if(!m)return;var yy=m[3].length===2?m[3]:m[3].slice(-2);if(Number(m[2])!==month||yy!==year)return;var name=String(item.agent||item.name||'').replace(/\s*\((?:рекрут|агент)\)\s*$/i,'').trim();if(name)counts[name]=(counts[name]||0)+1;});
+  var result=Object.keys(counts).map(function(name){return{name:name,deals:counts[name]};}).sort(function(a,b){return b.deals-a.deals;});
+  return result;
+}
 function refreshHomeDashboard(){
   var fil=getMonthToDatePlatform(), analytics=dashData.analytics||{}, active=analytics.activeListings||{}, items=[];
   function put(id,value){var el=document.getElementById(id);if(el)el.textContent=value;}
   put('home-kpi-deals',fil.deals||'0');
   put('home-kpi-platform',fil.platform?'$'+fil.platform:'$0');
   put('home-kpi-listings',getCanonicalActiveListings(analytics)||'0');
-  var agentList=(analytics.deals&&analytics.deals.topAgents)||analytics.topAgents||[], rank=document.getElementById('home-agent-ranking-list');
+  var agentList=getMonthAgentRanking(analytics), rank=document.getElementById('home-agent-ranking-list');
   if(rank){
     agentList=agentList.slice().sort(function(a,b){return Number(b.deals!=null?b.deals:b.count||0)-Number(a.deals!=null?a.deals:a.count||0);}).slice(0,10);
     var maxDeals=agentList.length?Number(agentList[0].deals!=null?agentList[0].deals:agentList[0].count||0):0;
@@ -3402,8 +3408,8 @@ function renderDash() {
         + '</div>';
     } else {
     var lastDeals = STATIC.platform.lastDeals;
-    // Filter: valid price + last 30 days only
-    var cutoff = new Date(); cutoff.setDate(cutoff.getDate()-30);
+    // Фильтр: только сделки с первого числа текущего месяца
+    var monthStart = new Date(new Date().getFullYear(),new Date().getMonth(),1); monthStart.setHours(0,0,0,0);
     lastDeals = (lastDeals||[]).filter(function(d){
       if ((d.price||0)===0 && (d.commission||0)===0) return false;
       // parse date dd.MM.yy or timestamp
@@ -3411,8 +3417,8 @@ function renderDash() {
       var parts = ds.split('.');
       if (parts.length===3){
         var dt = new Date('20'+parts[2]+'-'+parts[1]+'-'+parts[0]);
-        if (!isNaN(dt) && dt < cutoff) return false;
-      }
+        if (!isNaN(dt) && dt < monthStart) return false;
+      } else if (ds) { var isoDate=new Date(ds); if (!isNaN(isoDate) && isoDate < monthStart) return false; }
       return true;
     }).slice(0,10);
     if (lastDeals && lastDeals.length) {
