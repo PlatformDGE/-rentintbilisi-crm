@@ -3017,6 +3017,7 @@ var dashData = {};
 var dashChartComm = null;
 var dashChartRooms = null;
 var dashAutoTimer = null;
+var DEALS_SHEET_CSV='https://docs.google.com/spreadsheets/d/1M7kg2FgI8eke8_Iy4NofsKzC3NrKetLl3dniKJRxYrU/gviz/tq?tqx=out:csv&gid=1237308535&tq='+encodeURIComponent('select A,C');
 
 // ── Статика из канала (3081 постов) ─────────────────
 var STATIC = {
@@ -3150,6 +3151,27 @@ function skBar(){
 }
 function skBars(n){var h='';for(var i=0;i<n;i++)h+=skBar();return h;}
 
+function parseSimpleCsv(text){
+  var rows=[],row=[],cell='',quoted=false;
+  for(var i=0;i<text.length;i++){var ch=text[i],next=text[i+1];if(ch==='"'){if(quoted&&next==='"'){cell+='"';i++;}else quoted=!quoted;}else if(ch===','&&!quoted){row.push(cell);cell='';}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(cell);if(row.some(function(v){return v.trim()!=='';}))rows.push(row);row=[];cell='';}else cell+=ch;}
+  if(cell!==''||row.length){row.push(cell);if(row.some(function(v){return v.trim()!=='';}))rows.push(row);} return rows;
+}
+function renderHomeAgentRanking(agentList){
+  var rank=document.getElementById('home-agent-ranking-list');if(!rank)return;
+  agentList=(agentList||[]).slice().sort(function(a,b){return b.deals-a.deals;}).slice(0,10);
+  var maxDeals=agentList.length?agentList[0].deals:0;
+  rank.innerHTML=agentList.length?agentList.map(function(agent,i){var pct=maxDeals?Math.round(agent.deals/maxDeals*100):0;return '<div class="home-agent-row"><span class="home-agent-rank">'+(i+1)+'</span><span class="home-agent-name">'+uiEscape(agent.name)+'</span><span class="home-agent-bar"><i style="width:'+pct+'%"></i></span><span class="home-agent-count">'+agent.deals+'</span></div>';}).join(''):'<div class="telegram-state" style="padding:8px 0">Нет сделок с 1 числа</div>';
+}
+function loadSheetMonthStats(){
+  return fetch(DEALS_SHEET_CSV+'&_='+Date.now(),{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error('Sheets HTTP '+response.status);return response.text();}).then(function(text){
+    var now=new Date(),month=now.getMonth()+1,year=now.getFullYear(),counts={},total=0;
+    parseSimpleCsv(text).forEach(function(row){var date=String(row[0]||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);if(!date||Number(date[2])!==month||Number(date[3])!==year)return;var name=String(row[1]||'').trim();if(!name)return;counts[name]=(counts[name]||0)+1;total++;});
+    var list=Object.keys(counts).map(function(name){return{name:name,deals:counts[name]};});
+    var deals=document.getElementById('home-kpi-deals');if(deals)deals.textContent=String(total);var sub=document.getElementById('home-kpi-deals-sub');if(sub)sub.textContent='из Google Sheets · с 1 числа';
+    var ds=document.getElementById('ds-deals');if(ds)ds.textContent=String(total);var dss=document.getElementById('ds-deals-sub');if(dss)dss.textContent='из Google Sheets · с 1 числа';
+    renderHomeAgentRanking(list);return list;
+  }).catch(function(error){console.warn('Deals sheet loading failed',error);return [];});
+}
 function getMonthAgentRanking(analytics){
   var now=new Date(), month=now.getMonth()+1, year=String(now.getFullYear()).slice(-2), deals=((analytics||{}).deals||{}).lastDeals||[], counts={};
   deals.forEach(function(item){var m=String(item.date||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);if(!m)return;var yy=m[3].length===2?m[3]:m[3].slice(-2);if(Number(m[2])!==month||yy!==year)return;var name=String(item.agent||item.name||'').replace(/\s*\((?:рекрут|агент)\)\s*$/i,'').trim();if(name)counts[name]=(counts[name]||0)+1;});
@@ -3162,12 +3184,7 @@ function refreshHomeDashboard(){
   put('home-kpi-deals',fil.deals||'0');
   put('home-kpi-platform',fil.platform?'$'+fil.platform:'$0');
   put('home-kpi-listings',getCanonicalActiveListings(analytics)||'0');
-  var agentList=getMonthAgentRanking(analytics), rank=document.getElementById('home-agent-ranking-list');
-  if(rank){
-    agentList=agentList.slice().sort(function(a,b){return Number(b.deals!=null?b.deals:b.count||0)-Number(a.deals!=null?a.deals:a.count||0);}).slice(0,10);
-    var maxDeals=agentList.length?Number(agentList[0].deals!=null?agentList[0].deals:agentList[0].count||0):0;
-    rank.innerHTML=agentList.length?agentList.map(function(agent,i){var deals=Number(agent.deals!=null?agent.deals:agent.count||0),pct=maxDeals?Math.round(deals/maxDeals*100):0;return '<div class="home-agent-row"><span class="home-agent-rank">'+(i+1)+'</span><span class="home-agent-name">'+uiEscape(agent.name||agent.agent||'—')+'</span><span class="home-agent-bar"><i style="width:'+pct+'%"></i></span><span class="home-agent-count">'+deals+'</span></div>';}).join(''):'<div class="telegram-state" style="padding:8px 0">Нет данных о сдачах</div>';
-  }
+  loadSheetMonthStats();
   fetch('telegram-top10.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(payload){
     items=Array.isArray(payload.items)?payload.items.slice(0,10):[];
     var reposts=items.reduce(function(sum,item){return sum+(Number(item.daily_reposts)||0);},0), photo=items.filter(function(item){return !!item.image;}).length;
