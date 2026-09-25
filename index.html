@@ -283,7 +283,7 @@ input:checked + .adm-sw-sl{background:var(--green);}
 input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 
 /* CRM HOME — approved dark navy reference */
-.crm-home{padding:26px 18px 110px;background:#081225;min-height:100%}.crm-home-top{display:flex;align-items:center;gap:12px;margin:8px 0 22px}.crm-home-copy{min-width:0;flex:1}.crm-home-copy h1{font-size:25px;line-height:1.12;margin:0 0 5px;letter-spacing:-.045em}.crm-home-copy p{font-size:13px;color:#8793ab;margin:0}.test-mode{padding:8px 12px;border:1px solid rgba(255,190,82,.52);border-radius:999px;color:#ffc25c;background:rgba(255,183,68,.08);font-size:10px;font-weight:800;letter-spacing:.08em;white-space:nowrap}.crm-avatar{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#18366b;border:1px solid #31558e;color:#fff;font-weight:800;box-shadow:0 0 24px rgba(70,117,221,.18)}
+.crm-home{padding:26px 18px 110px;background:#081225;min-height:100%}.crm-home-top{display:flex;align-items:center;gap:12px;margin:8px 0 22px}.crm-home-copy{min-width:0;flex:1}.crm-home-copy h1{font-size:25px;line-height:1.12;margin:0 0 5px;letter-spacing:-.045em}.crm-home-copy p{font-size:13px;color:#8793ab;margin:0}.crm-home-copy .home-date{font-size:11px;color:#aebbd2;margin-top:5px;text-transform:capitalize}.test-mode{padding:8px 12px;border:1px solid rgba(255,190,82,.52);border-radius:999px;color:#ffc25c;background:rgba(255,183,68,.08);font-size:10px;font-weight:800;letter-spacing:.08em;white-space:nowrap}.crm-avatar{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#18366b;border:1px solid #31558e;color:#fff;font-weight:800;box-shadow:0 0 24px rgba(70,117,221,.18)}
 .crm-home-hero{position:relative;overflow:hidden;padding:27px 24px;border-radius:24px;background:linear-gradient(135deg,#27467f,#202d5b);border:1px solid rgba(118,152,224,.35);box-shadow:0 20px 60px rgba(0,0,0,.25)}.crm-home-hero::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-120px;background:rgba(89,119,207,.25)}.crm-home-hero>*{position:relative;z-index:1}.crm-home-hero h2{font-size:25px;line-height:1.24;margin:0 0 13px;max-width:390px;letter-spacing:-.04em}.crm-home-hero p{color:#b4bfd4;font-size:14px;line-height:1.55;margin:0;max-width:440px}.crm-hero-actions{display:flex;gap:10px;margin-top:22px}.crm-hero-actions button{border-radius:12px;padding:13px 16px;border:1px solid rgba(255,255,255,.19);background:rgba(255,255,255,.07);color:#fff;font-weight:750;font-size:13px;cursor:pointer}.crm-hero-actions .primary{background:#fff;color:#0d1930;border-color:#fff}
 .crm-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:27px 2px 12px}.crm-section-head h3{font-size:19px;margin:0;letter-spacing:-.03em}.crm-section-head span{font-size:11px;color:#7f8aa2}.crm-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}.crm-kpi{position:relative;padding:18px;border-radius:20px;background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #24324d;min-height:120px;box-shadow:inset 0 1px rgba(255,255,255,.025),0 16px 36px rgba(0,0,0,.14)}.crm-kpi i{position:absolute;right:17px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--dot);box-shadow:0 0 13px var(--dot)}.crm-kpi small{display:block;color:#8995ae;font-size:12px;font-weight:650}.crm-kpi b{display:block;font-size:31px;margin:14px 0 5px}.crm-kpi em{font-style:normal;color:#7f8aa2;font-size:11px}
 .crm-modules{display:grid;grid-template-columns:1fr 1fr;gap:10px}.crm-module{display:flex;align-items:center;gap:11px;padding:14px;border-radius:17px;border:1px solid #263651;background:#101c32;color:#fff;text-align:left;cursor:pointer}.crm-module strong{display:block;font-size:13px}.crm-module>span>span{font-size:10px;color:#8390aa}.crm-module-icon{width:38px;height:38px;display:grid!important;place-items:center;border-radius:12px;background:#1b315c;color:#aebfff!important;font-size:18px!important;flex-shrink:0}@media(min-width:700px){.crm-home{max-width:720px;margin:auto;padding-left:26px;padding-right:26px}.crm-home-copy h1{font-size:31px}.crm-home-hero h2{font-size:30px}.crm-kpis{grid-template-columns:repeat(4,1fr)}.crm-kpi{min-height:135px}.crm-modules{grid-template-columns:repeat(3,1fr)}}
@@ -412,9 +412,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 
 <div class="app">
   <header class="unity-nav" id="unity-nav">
-    <button class="unity-nav-btn" id="unity-back" onclick="navBack()" aria-label="Назад">‹</button>
-    <button class="unity-nav-btn" id="unity-forward" onclick="navForward()" aria-label="Вперёд">›</button>
-    <div class="unity-nav-logo"><img src="Logo_rent.png" alt="Rent in Tbilisi"></div><div class="unity-nav-title"><strong id="unity-title">Главная</strong><span>RENT IN TBILISI · CRM 90/10</span></div>
+    <div class="unity-nav-logo"><img src="Logo_rent.png" alt="Rent in Tbilisi"></div><div class="unity-nav-title"><strong id="unity-title">Главная</strong><span>Molecula / Rent in Tbilisi ecosystem</span></div>
     <button class="unity-nav-btn" onclick="goTab('home')" aria-label="На главную">⌂</button>
     <button class="unity-nav-btn" id="unity-profile" onclick="openAccountSheet()" aria-label="Telegram-профиль" style="font-size:11px;font-weight:800;">IK</button>
   </header>
@@ -422,8 +420,8 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 
     <div class="screen active" id="tab-home">
       <div class="crm-home">
-        <header class="crm-home-top"><div class="crm-home-copy"><h1 id="home-greeting">Доброе утро</h1><p>Единый рабочий центр</p></div><div class="test-mode">TEST MODE</div><div class="crm-avatar" id="home-avatar">IK</div></header>
-        <section class="crm-home-hero"><h2>Все рабочие инструменты — в одном месте</h2><p>Единая рабочая платформа команды: публикации, отчёты, договоры и сделки без лишних переходов.</p><div class="crm-hero-actions"><button class="primary" onclick="goTab('posts')">Добавить объект</button><button onclick="goTab('cabinet')">Личный кабинет</button></div></section>
+        <header class="crm-home-top"><div class="crm-home-copy"><h1 id="home-greeting">Доброе утро</h1><p>Единый рабочий центр</p><p class="home-date" id="home-date"></p></div><div class="test-mode">TEST MODE</div><div class="crm-avatar" id="home-avatar">IK</div></header>
+        <section class="crm-home-hero"><h2>Все рабочие инструменты — в одном месте</h2><p>Единая рабочая платформа команды: публикации, отчёты, договоры и сделки без лишних переходов.</p><div class="crm-hero-actions"><button class="primary" onclick="goTab('posts')">Добавить объект</button></div></section>
         <section class="home-dashboard" id="home-dashboard">
           <div class="home-dashboard-head"><div><h3>Рабочий дашборд</h3><span>данные CRM и Telegram</span></div><button class="home-dashboard-refresh" type="button" onclick="refreshHomeDashboard()">↻</button></div>
           <div class="home-kpi-grid">
@@ -3909,6 +3907,7 @@ function grantAccess(user,member){
   var firstName=String(user.first_name||member&&member.name||user.username||'Пользователь').trim().split(/\s+/)[0];
   var initials=firstName.slice(0,2).toUpperCase();
   var greeting=document.getElementById('home-greeting');if(greeting)greeting.textContent=getGreeting()+', '+firstName;
+  var homeDate=document.getElementById('home-date');if(homeDate){var now=new Date();homeDate.textContent=now.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
   var avatar=document.getElementById('home-avatar');if(avatar)avatar.textContent=initials;
   var profile=document.getElementById('unity-profile');if(profile)profile.textContent=initials;
   if(isAdmin())initAdmin();
