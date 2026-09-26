@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -71,4 +73,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add telegram-top10.json telegram-reposts-state.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
-          git push
+          branch="${GITHUB_REF_NAME:-main}"
+          for attempt in 1 2 3; do
+            if git push origin "HEAD:${branch}"; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Push failed after ${attempt} attempts" >&2
+              exit 1
+            fi
+            git fetch origin "${branch}"
+            git rebase "origin/${branch}"
+          done
