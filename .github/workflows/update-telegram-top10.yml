@@ -83,5 +83,8 @@ jobs:
               exit 1
             fi
             git fetch origin "${branch}"
-            git rebase "origin/${branch}"
+            if ! git rebase "origin/${branch}"; then
+              git rebase --abort || true
+              exit 1
+            fi
           done
