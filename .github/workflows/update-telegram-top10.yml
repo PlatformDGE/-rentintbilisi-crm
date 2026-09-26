@@ -67,17 +67,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
+          if [ -z "${branch}" ] || ! git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+            branch="$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
+          fi
+          git checkout -B "${branch}"
           git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
           if git diff --cached --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
-          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
-          if [ -z "${branch}" ] || ! git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
-            branch="$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
-          fi
-          git checkout -B "${branch}" "origin/${branch}"
-          git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
           for attempt in 1 2 3; do
             if git push origin "${branch}"; then
