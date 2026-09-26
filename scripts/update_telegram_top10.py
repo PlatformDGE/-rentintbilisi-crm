@@ -358,7 +358,12 @@ async def update():
         return 0
 
     credentials = required_environment()
-    async with TelegramClient(StringSession(credentials["session"]), credentials["api_id"], credentials["api_hash"]) as client:
+    client = TelegramClient(StringSession(credentials["session"]), credentials["api_id"], credentials["api_hash"])
+    await client.connect()
+    if not await client.is_user_authorized():
+        await client.disconnect()
+        raise RuntimeError("TELEGRAM_SESSION не авторизована или истекла. Обновите GitHub Secret TELEGRAM_SESSION.")
+    try:
         messages = await collect_messages(client)
         if not messages:
             raise RuntimeError("Среди последних публикаций не найдено объектов недвижимости")
@@ -375,6 +380,8 @@ async def update():
         await sync_images(client, ranking)
         save_json(STATE_PATH, state)
         save_json(OUTPUT_PATH, build_payload(now, start, end, status, state, ranking))
+    finally:
+        await client.disconnect()
     print(f"Сохранено {len(ranking)} объектов; status={status}; baseline_created_late={state['baseline_created_late']}")
     return 0
 
