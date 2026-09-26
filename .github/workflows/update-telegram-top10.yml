@@ -77,7 +77,10 @@ jobs:
             exit 0
           fi
           git stash push --include-untracked --message telegram-sync -- telegram-top10.json telegram-reposts-state.json telegram-images
-          git checkout -B "${branch}" "origin/${branch}"
+          if ! git checkout -B "${branch}" "origin/${branch}"; then
+            echo "Failed to check out Telegram ranking target branch ${branch}" >&2
+            exit 1
+          fi
           if ! git stash apply; then
             echo "Failed to restore generated Telegram ranking changes after checking out ${branch}" >&2
             exit 1
