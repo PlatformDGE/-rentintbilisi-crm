@@ -820,14 +820,38 @@ async function fileToBase64(file) {
 
 // Отправить через Cloudflare Worker
 async function gasRequest(payload) {
-  const resp = await fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-  const text = await resp.text();
-  try { return JSON.parse(text); }
-  catch(e) { return { ok: false, error: 'Bad response: ' + text.substring(0, 100) }; }
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 90000);
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    const text = await resp.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      return { ok: false, description: `Сервис вернул некорректный ответ (${resp.status})` };
+    }
+    if (!resp.ok || data.ok === false) {
+      return {
+        ...data,
+        ok: false,
+        description: data.description || data.error || `Ошибка сервиса (${resp.status})`
+      };
+    }
+    return data;
+  } catch (e) {
+    if (e.name === 'AbortError') {
+      return { ok: false, description: 'Сервис не ответил за 90 секунд. Попробуйте ещё раз.' };
+    }
+    return { ok: false, description: `Ошибка соединения: ${e.message}` };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // Отправить документ (фото оригинал) через GAS
@@ -887,12 +911,20 @@ function handlePhotos(files) {
   const current = media.filter(m => m.type === 'photo').length;
   const allowed = 9 - current;
   if (allowed <= 0) { alert('Максимум 9 фото'); return; }
+  const existing = new Set(media
+    .filter(m => m.type === 'photo')
+    .map(m => `${m.file.name}|${m.file.size}|${m.file.lastModified}`));
   let added = 0;
+  let skipped = 0;
   for (const file of files) {
     if (added >= allowed) { alert(`Добавлено ${added} из ${files.length} — достигнут лимит 9 фото`); break; }
+    const key = `${file.name}|${file.size}|${file.lastModified}`;
+    if (existing.has(key)) { skipped++; continue; }
+    existing.add(key);
     media.push({ file, url: URL.createObjectURL(file), type: 'photo', id: Date.now() + Math.random() });
     added++;
   }
+  if (!added && skipped) alert('Эти фото уже добавлены — дубли пропущены.');
   renderGrid();
 }
 
@@ -1088,18 +1120,18 @@ async function publishPost() {
     for (let i = 0; i < photos.length; i++) {
       setBtns(`⏳ Фото ${i+1}/${photos.length}...`, '#888', true);
       const d = await gasSendDocument(CHANNEL_ID, photos[i].file, TOPIC_ORIGINALS);
-      if (!d.ok) { alert('Ошибка фото ' + (i+1) + ': ' + d.description); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
+      if (!d || !d.ok) { alert('Ошибка фото ' + (i+1) + ': ' + (d?.description || d?.error || 'неизвестная ошибка')); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
     }
 
     if (videos.length > 0) {
       setBtns('⏳ Видео оригинал...', '#888', true);
       const d = await gasSendVideo(CHANNEL_ID, videos[0].file, dims, TOPIC_ORIGINALS);
-      if (!d.ok) { alert('Ошибка видео: ' + d.description); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
+      if (!d || !d.ok) { alert('Ошибка видео: ' + (d?.description || d?.error || 'неизвестная ошибка')); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
     }
 
     setBtns('⏳ Текст...', '#888', true);
     const txtData = await gasSendMessage(CHANNEL_ID, htmlText, TOPIC_ORIGINALS);
-    if (!txtData.ok) { alert('Ошибка текста: ' + txtData.description); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
+    if (!txtData || !txtData.ok) { alert('Ошибка текста: ' + (txtData?.description || txtData?.error || 'неизвестная ошибка')); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
     const msgId = txtData.result.message_id;
     const chanId = CHANNEL_ID.replace('-100', '');
     const postLink = `https://t.me/c/${chanId}/${msgId}`;
@@ -1113,7 +1145,7 @@ async function publishPost() {
         setBtns(`⏳ Альбом фото ${i+1}/${watermarkedPhotos.length}...`, '#888', true);
         const caption = i === 0 ? plainText.substring(0, 1024) : undefined;
         const d = await gasSendPhoto(CHANNEL_ID, watermarkedPhotos[i], caption, TOPIC_ALBUM);
-        if (!d.ok) { alert('Ошибка альбом фото ' + (i+1) + ': ' + d.description); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
+        if (!d || !d.ok) { alert('Ошибка альбом фото ' + (i+1) + ': ' + (d?.description || d?.error || 'неизвестная ошибка')); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
       }
 
       if (videos.length > 0) {
