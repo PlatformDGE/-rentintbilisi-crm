@@ -76,9 +76,11 @@ jobs:
           if [ -z "${branch}" ] || ! git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
             branch="$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
           fi
+          git checkout -B "${branch}" "origin/${branch}"
+          git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
           for attempt in 1 2 3; do
-            if git push origin "HEAD:${branch}"; then
+            if git push origin "${branch}"; then
               exit 0
             fi
             if [ "$attempt" -eq 3 ]; then
