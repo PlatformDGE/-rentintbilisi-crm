@@ -65,13 +65,13 @@ jobs:
           exit 1
       - name: Commit updated data
         run: |
-          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
+          if git diff --cached --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add telegram-top10.json telegram-reposts-state.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
           branch="${GITHUB_REF_NAME:-main}"
           for attempt in 1 2 3; do
