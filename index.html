@@ -431,7 +431,6 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
             <div class="home-kpi"><div class="home-kpi-label">Активные объекты</div><div class="home-kpi-value" id="home-kpi-listings">—</div><div class="home-kpi-sub">в двух Telegram-каналах</div></div>
             <div class="home-kpi"><div class="home-kpi-label">Репосты сегодня</div><div class="home-kpi-value" id="home-kpi-reposts">—</div><div class="home-kpi-sub" id="home-kpi-reposts-sub">топ-10 объектов</div></div>
           </div>
-          <div class="home-dashboard-foot"><div class="home-signal"><div class="home-signal-row"><span>Заполненность топ-10</span><strong id="home-signal-top10">—</strong></div><div class="home-signal-bar"><i id="home-signal-top10-bar" style="width:0%"></i></div></div><div class="home-signal"><div class="home-signal-row"><span>Объекты с фото</span><strong id="home-signal-photo">—</strong></div><div class="home-signal-bar"><i id="home-signal-photo-bar" style="width:0%"></i></div></div></div>
           <div class="home-agent-ranking"><h4>Топ‑5 агентов по сдачам · с 1 числа</h4><div id="home-agent-ranking-list"><div class="telegram-state" style="padding:8px 0">Загрузка рейтинга…</div></div><button type="button" id="home-agent-toggle" onclick="toggleHomeAgentRanking()" style="display:none;width:100%;margin-top:8px;padding:8px;border:1px solid #2a3a59;border-radius:10px;background:#172643;color:#b9c9ff;font:600 10px inherit;cursor:pointer">Посмотреть всех</button></div>
         </section>
         <div class="crm-section-head"><h3>Telegram-аналитика</h3><span>интерес аудитории</span></div>
@@ -3206,10 +3205,8 @@ function refreshHomeDashboard(){
   loadSheetMonthStats();
   fetch('telegram-top10.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(payload){
     items=Array.isArray(payload.items)?payload.items.slice(0,10):[];
-    var reposts=items.reduce(function(sum,item){return sum+(Number(item.daily_reposts)||0);},0), photo=items.filter(function(item){return !!item.image;}).length;
+    var reposts=items.reduce(function(sum,item){return sum+(Number(item.daily_reposts)||0);},0);
     put('home-kpi-reposts',reposts.toLocaleString('ru-RU')); put('home-kpi-reposts-sub',items.length?items.length+' объектов в рейтинге':'ожидаем данные Telegram');
-    put('home-signal-top10',items.length+'/10'); var topBar=document.getElementById('home-signal-top10-bar');if(topBar)topBar.style.width=Math.min(100,items.length*10)+'%';
-    put('home-signal-photo',items.length?Math.round(photo/items.length*100)+'%':'—'); var photoBar=document.getElementById('home-signal-photo-bar');if(photoBar)photoBar.style.width=items.length?Math.round(photo/items.length*100)+'%':'0%';
   }).catch(function(){put('home-kpi-reposts','—');put('home-kpi-reposts-sub','данные пока недоступны');});
 }
 
