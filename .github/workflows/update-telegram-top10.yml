@@ -72,8 +72,11 @@ jobs:
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
+          branch="$(git branch -r --points-at HEAD | sed 's/^[*[:space:]]*//' | grep -v -- '->' | grep -v '^origin/HEAD$' | head -n1 | sed 's|^origin/||')"
+          if [ -z "${branch}" ]; then
+            branch="$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
+          fi
           git commit -m "Update daily Telegram repost ranking"
-          branch="${GITHUB_REF_NAME:-main}"
           for attempt in 1 2 3; do
             if git push origin "HEAD:${branch}"; then
               exit 0
