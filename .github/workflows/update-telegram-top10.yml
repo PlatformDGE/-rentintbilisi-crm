@@ -52,7 +52,15 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           TELEGRAM_TEST_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.test_mode || 'false' }}
-        run: python scripts/update_telegram_top10.py
+        run: |
+          for attempt in 1 2 3; do
+            echo "Telegram sync attempt ${attempt}/3"
+            if python scripts/update_telegram_top10.py; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 20; fi
+          done
+          exit 1
       - name: Commit updated data
         run: |
           if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then

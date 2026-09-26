@@ -87,7 +87,14 @@
     if (period) period.textContent = copy.period;
     if (period) period.classList.toggle('telegram-test-note', copy.isTest);
     if (badge) badge.hidden = !copy.isTest;
-    if (notice) notice.textContent = !copy.isTest && payload.baseline_created_late ? 'Отсчёт сегодня начат позже 10:00' : '';
+    if (notice) {
+      const count = Array.isArray(payload.items) ? payload.items.length : 0;
+      if (copy.isTest) notice.textContent = `${count} объектов в тестовом рейтинге`;
+      else if (payload.status === 'before_window') notice.textContent = 'Сбор начнётся в 10:00 · обновление каждый час до 22:00';
+      else if (payload.status === 'active') notice.textContent = `Сбор идёт · ${count} объектов · обновление каждый час до 22:00`;
+      else if (payload.status === 'finished') notice.textContent = `Итоговый рейтинг за окно 10:00–22:00 · ${count} объектов`;
+      else notice.textContent = payload.baseline_created_late ? 'Отсчёт сегодня начат позже 10:00' : '';
+    }
     if (updated) {
       const date = new Date(payload.updated_at);
       updated.textContent = Number.isNaN(date.getTime()) ? '' : `Обновлено: ${date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tbilisi' })}`;
