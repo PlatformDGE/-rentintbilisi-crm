@@ -5,9 +5,9 @@
   "date": "2026-09-26",
   "period_start": "2026-09-26T10:00:00+04:00",
   "period_end": "2026-09-26T22:00:00+04:00",
-  "status": "active",
+  "status": "finished",
   "baseline_created_late": true,
-  "updated_at": "2026-09-26T20:12:47+04:00",
+  "updated_at": "2026-09-26T23:39:17+04:00",
   "items": [
     {
       "id": "528751",
@@ -18,28 +18,12 @@
       "metro": "Vazha-Pshavela",
       "rooms": 1,
       "floor": "13/17",
-      "daily_reposts": 16,
-      "current_forwards": 16,
+      "daily_reposts": 19,
+      "current_forwards": 19,
       "baseline_forwards": 0,
       "published_at": "2026-09-26T16:08:49+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/528751",
       "image": "telegram-images/528751.jpg"
-    },
-    {
-      "id": "528612",
-      "title": "Lech Kachinski 8a",
-      "price": 550,
-      "area": 40,
-      "district": "Ortachala",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "4/6",
-      "daily_reposts": 6,
-      "current_forwards": 6,
-      "baseline_forwards": 0,
-      "published_at": "2026-09-26T11:34:42+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/528612",
-      "image": "telegram-images/528612.jpg"
     },
     {
       "id": "528672",
@@ -56,6 +40,22 @@
       "published_at": "2026-09-26T12:57:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/528672",
       "image": "telegram-images/528672.jpg"
+    },
+    {
+      "id": "528881",
+      "title": "5 Ioane Petritsi St",
+      "price": 550,
+      "area": 75,
+      "district": "Digomi",
+      "metro": "Didube",
+      "rooms": 2,
+      "floor": "",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-09-26T19:45:41+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/528881",
+      "image": "telegram-images/528881.jpg"
     },
     {
       "id": "528801",
@@ -90,6 +90,22 @@
       "image": "telegram-images/528761.jpg"
     },
     {
+      "id": "528713",
+      "title": "16 Bochorma St",
+      "price": 750,
+      "area": 60,
+      "district": "Isani",
+      "metro": "300 Aragveli",
+      "rooms": 1,
+      "floor": "11/22",
+      "daily_reposts": 4,
+      "current_forwards": 4,
+      "baseline_forwards": 0,
+      "published_at": "2026-09-26T14:36:52+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/528713",
+      "image": "telegram-images/528713.jpg"
+    },
+    {
       "id": "528871",
       "title": "3 Giorgi Chitaia St",
       "price": 1300,
@@ -104,6 +120,22 @@
       "published_at": "2026-09-26T19:15:34+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/528871",
       "image": "telegram-images/528871.jpg"
+    },
+    {
+      "id": "528841",
+      "title": "8 Marika Baratashvili Dead End",
+      "price": 700,
+      "area": 70,
+      "district": "Saburtalo",
+      "metro": "Delisi",
+      "rooms": 2,
+      "floor": "2/9",
+      "daily_reposts": 3,
+      "current_forwards": 3,
+      "baseline_forwards": 0,
+      "published_at": "2026-09-26T18:15:42+04:00",
+      "post_url": "https://t.me/rent_tbilisi_ge/528841",
+      "image": "telegram-images/528841.jpg"
     },
     {
       "id": "528771",
@@ -122,22 +154,6 @@
       "image": "telegram-images/528771.jpg"
     },
     {
-      "id": "528713",
-      "title": "16 Bochorma St",
-      "price": 750,
-      "area": 60,
-      "district": "Isani",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "11/22",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-09-26T14:36:52+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/528713",
-      "image": "telegram-images/528713.jpg"
-    },
-    {
       "id": "528703",
       "title": "43 Nino Zhvania St",
       "price": 900,
@@ -152,22 +168,6 @@
       "published_at": "2026-09-26T14:15:33+04:00",
       "post_url": "https://t.me/rent_tbilisi_ge/528703",
       "image": "telegram-images/528703.jpg"
-    },
-    {
-      "id": "528662",
-      "title": "16 Kote Marjanishvili St",
-      "price": 400,
-      "area": 24,
-      "district": "Chugureti",
-      "metro": "Marjanishvili",
-      "rooms": 1,
-      "floor": "2/14",
-      "daily_reposts": 3,
-      "current_forwards": 3,
-      "baseline_forwards": 0,
-      "published_at": "2026-09-26T12:45:37+04:00",
-      "post_url": "https://t.me/rent_tbilisi_ge/528662",
-      "image": "telegram-images/528662.jpg"
     }
   ]
 }
