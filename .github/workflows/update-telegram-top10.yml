@@ -78,10 +78,11 @@ jobs:
           fi
           git stash push --include-untracked --message telegram-sync -- telegram-top10.json telegram-reposts-state.json telegram-images
           git checkout -B "${branch}" "origin/${branch}"
-          if ! git stash pop; then
+          if ! git stash apply; then
             echo "Failed to restore generated Telegram ranking changes after checking out ${branch}" >&2
             exit 1
           fi
+          git stash drop
           git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
           for attempt in 1 2 3; do
@@ -95,6 +96,7 @@ jobs:
             git fetch origin "${branch}"
             if ! git rebase "origin/${branch}"; then
               git rebase --abort || true
+              echo "Failed to rebase Telegram ranking update onto origin/${branch}" >&2
               exit 1
             fi
           done
