@@ -1702,6 +1702,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
         <div id="cab-progress-wrap" style="display:none;margin-top:12px;background:rgba(255,255,255,.2);border-radius:4px;height:4px;">
           <div id="cab-progress-bar" style="background:#fff;border-radius:4px;height:4px;width:0%;transition:width .5s;"></div>
         </div>
+        <div id="cab-contact-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:13px;"></div>
       </div>
 
       <!-- Счётчики рекрута -->
@@ -3938,7 +3939,7 @@ function loginWithPassword(){
 }
 
 function grantAccess(user,member){
-  CURRENT_USER=user;
+  CURRENT_USER=Object.assign({},user,{name:(member&&member.name)||user.name||user.first_name||user.username||'',profile:member||null});
   CURRENT_ROLE=String(member&&member.role||'');
   CURRENT_AUTH_MODE=String(user&&user.authMode||'telegram');
   document.documentElement.classList.add('access-granted');
@@ -4882,6 +4883,7 @@ function loadCabinet(){
 
   _cabIsSA=SUPER_IDS_CAB.indexOf(tgId)!==-1||SUPER_UN_CAB.indexOf((tgUn||'').toLowerCase())!==-1;
 
+  var profileName=(CURRENT_USER&&((CURRENT_USER.profile&&CURRENT_USER.profile.name)||CURRENT_USER.name||CURRENT_USER.first_name))||'';
   if(_cabIsSA){
     cabShow('list');
     cabLoadAgentList();
@@ -4894,11 +4896,18 @@ function loadCabinet(){
       cabShow('detail');
       if(_cabCurrentAgent) cabLoadCalendar(_cabCurrentAgent);
     });
+  } else if(profileName){
+    cabShow('loading');
+    cabFetchAgent(profileName,'','',function(d){
+      if(!d||d.error){cabShow('detail');cabSet('cab-name',profileName);cabSet('cab-level-label','Профиль агента');cabSet('cab-deals-count','—');return;}
+      _cabCurrentAgent=d.agent?d.agent.name:profileName;
+      cabRenderDetail(d);cabShow('detail');
+      if(_cabCurrentAgent) cabLoadCalendar(_cabCurrentAgent);
+    });
   } else {
-    // В браузере без Telegram — показываем детальный вид для теста
     cabShow('detail');
-    cabSet('cab-name','Тест');
-    cabSet('cab-level-label','🏆 Агент · 90%');
+    cabSet('cab-name','Профиль не найден');
+    cabSet('cab-level-label','Войдите через Telegram или пароль');
     cabSet('cab-deals-count','—');
   }
 }
@@ -4975,10 +4984,21 @@ function cabRenderDetail(d){
   var lvl=parseInt(ag.level)||50,dc=cn.deals||0;
   var prog=lvl>=90?100:lvl>=70?Math.round((dc-11)/90*100):Math.round(dc/11*100);
   prog=Math.min(100,Math.max(0,prog));
-  cabSet('cab-avatar',(ag.name||'?').substring(0,2).toUpperCase());
+  var profileUser=CURRENT_USER||{};
+  var photo=ag.photo_url||ag.avatar_url||ag.avatar||ag.photo||profileUser.photo_url||'';
+  var phone=ag.phone||ag.phone_number||ag.mobile||ag.telephone||(profileUser.profile&&profileUser.profile.phone)||'';
+  var birth=ag.birth_date||ag.birthday||ag.date_of_birth||ag.dob||(profileUser.profile&&profileUser.profile.birth_date)||'';
+  var tg=ag.telegram||ag.username||profileUser.username||(profileUser.profile&&profileUser.profile.telegram)||'';
+  var avatarEl=document.getElementById('cab-avatar');
+  if(avatarEl)avatarEl.innerHTML=photo?'<img src="'+uiEscape(photo)+'" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">':uiEscape((ag.name||'?').substring(0,2).toUpperCase());
   cabSet('cab-name',ag.name||'—');
   cabSet('cab-level-label',(ag.type==='recruit'?'📋 Рекрут':'🏆 Агент')+' · '+lvl+'%');
   cabSet('cab-next-val',cn.nextAt||'');
+  var contact=document.getElementById('cab-contact-grid');
+  if(contact){
+    var contactItem=function(icon,label,value){return '<div style="padding:8px 9px;border-radius:10px;background:rgba(255,255,255,.12);min-width:0;"><div style="font-size:9px;color:rgba(255,255,255,.68);">'+icon+' '+label+'</div><div style="font-size:11px;color:#fff;font-weight:700;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+uiEscape(value||'Не заполнено')+'</div></div>';};
+    contact.innerHTML=contactItem('📞','Телефон',phone)+contactItem('🎂','Дата рождения',birth)+contactItem('✈️','Telegram',tg?String(tg).replace(/^@/,'@'):'Не указан')+contactItem('🪪','ID агента',ag.id||profileUser.id||'—');
+  }
   // Анимируем счётчик сделок
   var cabEl=document.getElementById('cab-deals-count');
   if(cabEl){cabEl.textContent='0';setTimeout(function(){animateCounter('cab-deals-count',dc,900);},300);}
