@@ -219,6 +219,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);}
 .std-item:last-child{border-bottom:none;}
 .std-item strong{color:var(--text);}
 .knowledge-toolbar{display:grid;gap:9px;margin-bottom:12px}.knowledge-search{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#101c32;border:1px solid #263651;border-radius:14px}.knowledge-search span{font-size:15px;color:#8da7ff}.knowledge-search input{padding:0!important;border:0!important;background:transparent!important;font-size:12px!important}.knowledge-filters{display:flex;gap:6px;overflow:auto;padding-bottom:2px}.knowledge-filter{flex:0 0 auto;border:1px solid #2a3a59;border-radius:999px;background:#101c32;color:#9eabc2;padding:7px 10px;font:700 10px inherit;cursor:pointer}.knowledge-filter.on{background:#294477;border-color:#6c8ff1;color:#fff}.knowledge-list{display:grid;gap:9px}.knowledge-card{background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #263651;border-radius:17px;overflow:hidden}.knowledge-card button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:13px;border:0;background:transparent;color:#f3f6ff;cursor:pointer;font:700 12px inherit}.knowledge-card button span:first-child{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:#1d3158;color:#9eb5ff;font-size:16px}.knowledge-card button span:nth-child(2){flex:1}.knowledge-card button span:last-child{color:#7f8aa2;font-size:16px;transition:transform .2s}.knowledge-card.open button span:last-child{transform:rotate(180deg)}.knowledge-body{display:none;padding:0 13px 13px 53px;color:#aebbd2;font-size:11px;line-height:1.6}.knowledge-card.open .knowledge-body{display:block}.knowledge-body strong{color:#fff}.knowledge-empty{padding:28px 14px;text-align:center;color:#7f8aa2;font-size:12px}
+.ladder-wrap{margin:0 0 14px;padding:14px;border:1px solid #2a3c61;border-radius:18px;background:linear-gradient(145deg,#111d36,#0d172b);box-shadow:0 12px 28px rgba(0,0,0,.14)}.ladder-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}.ladder-head h3{margin:0;font-size:14px;color:#f6f8ff}.ladder-head p{margin:4px 0 0;color:#8fa2c0;font-size:10px;line-height:1.4}.ladder-badge{padding:6px 8px;border:1px solid rgba(91,216,174,.32);border-radius:999px;background:rgba(91,216,174,.1);color:#5bd8ae;font-size:9px;font-weight:800;white-space:nowrap}.ladder-track{position:relative;display:grid;gap:8px}.ladder-track:before{content:"";position:absolute;left:18px;top:18px;bottom:18px;width:2px;background:linear-gradient(#6f8cff,#5bd8ae);opacity:.42}.ladder-step{position:relative;display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:9px;width:100%;padding:10px;border:1px solid #2a3a59;border-radius:14px;background:#111d32;color:#eef3ff;text-align:left;cursor:pointer;transition:.2s}.ladder-step:hover,.ladder-step.active{border-color:#7895ff;background:linear-gradient(100deg,#1b2f55,#14223b);transform:translateX(2px)}.ladder-dot{z-index:1;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;background:#263d71;border:2px solid #7693ff;color:#fff;font-size:11px;font-weight:800}.ladder-step.active .ladder-dot{background:#5bd8ae;border-color:#b7ffe9;color:#09251e;box-shadow:0 0 16px rgba(91,216,174,.42)}.ladder-copy strong{display:block;font-size:11px}.ladder-copy span{display:block;margin-top:3px;color:#97a9c6;font-size:9px;line-height:1.35}.ladder-pct{font-size:11px;font-weight:800;color:#ffc45b}.ladder-detail{margin-top:10px;padding:11px 12px;border-radius:12px;background:rgba(40,64,111,.42);border:1px solid #385488;color:#c7d5f0;font-size:10px;line-height:1.55}.ladder-detail strong{color:#fff}.ladder-progress{height:5px;margin-top:10px;border-radius:999px;background:#1b2a45;overflow:hidden}.ladder-progress i{display:block;height:100%;width:25%;border-radius:inherit;background:linear-gradient(90deg,#6f8cff,#5bd8ae);transition:width .25s ease}
 
 /* QUIZ */
 .quiz-wrap{padding:16px;}
@@ -1430,6 +1431,15 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
           <button class="sbtn" style="width:auto;padding:8px 14px;font-size:13px;" onclick="startQuiz()">🎯 Викторина</button>
         </div>
         <div class="pad pb" id="std-content">
+          <div class="ladder-wrap" id="standards-ladder">
+            <div class="ladder-head">
+              <div><h3>🪜 Лестница роста 90/10</h3><p>Нажми на уровень, чтобы увидеть критерии и следующий шаг.</p></div>
+              <span class="ladder-badge">ИНТЕРАКТИВНО</span>
+            </div>
+            <div class="ladder-track" id="ladder-track"></div>
+            <div class="ladder-detail" id="ladder-detail"></div>
+            <div class="ladder-progress"><i id="ladder-progress-bar"></i></div>
+          </div>
           <div class="std-section">
             <div class="std-title">💡 Главный принцип</div>
             <div class="std-item"><strong>Эксклюзив = доверительное управление.</strong> Только эксклюзивные объекты идут в зачёт системы 90/10 и в рост агента.</div>
@@ -4572,6 +4582,23 @@ function closeQuiz(){
 }
 function showStandards(){ closeQuiz(); }
 
+var LADDER_LEVEL=0;
+var GROWTH_LADDER=[
+  {title:'Старт', short:'Первые шаги в системе', pct:'50%', icon:'1', text:'Освой базовый процесс: объект, фото, показ и фиксация результата. На этом уровне важно провести первые 10 сделок по стандарту и не уводить клиента мимо платформы.'},
+  {title:'Стабильный агент', short:'11–100 сделок', pct:'70%', icon:'2', text:'Поддерживай стабильный поток эксклюзивных объектов и закрывай сделки с заполненными T0/T14. Следующий шаг — доказать качество процесса, а не только количество.'},
+  {title:'Агент 90/10', short:'100+ сделок', pct:'90%', icon:'3', text:'Высший уровень зрелости: прозрачная работа с собственником, клиентом и командой. Агент получает 90%, платформа сохраняет 10% за инфраструктуру и развитие.'},
+  {title:'Наставник', short:'Передаёшь систему дальше', pct:'25%', icon:'4', text:'Обучи рекрута полному циклу: по 15 практик расклейки, фото, показов и договоров. За первые 10 сделок агента-рекрута наставник получает 25%, далее — 15%.'}
+];
+function renderGrowthLadder(){
+  var track=document.getElementById('ladder-track'), detail=document.getElementById('ladder-detail'), bar=document.getElementById('ladder-progress-bar');
+  if(!track||!detail)return;
+  track.innerHTML=GROWTH_LADDER.map(function(item,i){return '<button type="button" class="ladder-step '+(i===LADDER_LEVEL?'active':'')+'" onclick="selectLadderLevel('+i+')"><span class="ladder-dot">'+item.icon+'</span><span class="ladder-copy"><strong>'+item.title+'</strong><span>'+item.short+'</span></span><span class="ladder-pct">'+item.pct+'</span></button>';}).join('');
+  var current=GROWTH_LADDER[LADDER_LEVEL];
+  detail.innerHTML='<strong>'+current.title+' · '+current.pct+'</strong><br>'+current.text;
+  if(bar)bar.style.width=((LADDER_LEVEL+1)/GROWTH_LADDER.length*100)+'%';
+}
+function selectLadderLevel(level){ LADDER_LEVEL=level; renderGrowthLadder(); }
+
 
 function loadNews(){
   var BOT_TOKEN='8692499827:AAHsM_Ttebgn6wDJfsBUMKn0hESHbSI-5uc';
@@ -4647,6 +4674,7 @@ function switchStatsTab(tab) {
     document.getElementById('spanel-'+t).style.display = t===tab ? 'block' : 'none';
   });
   if(tab==='agents'||tab==='recruits') renderStats();
+  if(tab==='standards') renderGrowthLadder();
   if(tab==='knowledge') renderKnowledge();
   if(tab==='news') loadNews();
 }
