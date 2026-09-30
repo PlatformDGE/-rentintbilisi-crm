@@ -299,6 +299,14 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 #splash .sp-sep{width:54px;height:2px;background:linear-gradient(90deg,#0b3766 0 58%,#e8001a 58%);margin:12px 0;border-radius:2px;}
 #splash .sp-title{color:#0b3766;}
 #splash .sp-sub{font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;color:rgba(11,55,102,.58);letter-spacing:6px;}
+#splash .sp-category-cloud{position:absolute;z-index:2;top:clamp(34px,10vh,96px);left:50%;transform:translateX(-50%);width:min(94vw,560px);display:flex;justify-content:center;align-items:center;gap:9px 10px;flex-wrap:wrap;pointer-events:none;}
+#splash .sp-category{display:inline-flex;align-items:center;justify-content:center;padding:8px 13px;border:1px solid rgba(11,55,102,.15);border-radius:999px;background:rgba(255,255,255,.78);color:#0b3766;font-size:11px;font-weight:800;letter-spacing:.08em;box-shadow:0 8px 24px rgba(11,55,102,.08);backdrop-filter:blur(8px);animation:spFloat 6.5s ease-in-out infinite;}
+#splash .sp-category:nth-child(even){color:#c40018;border-color:rgba(232,0,26,.18);animation-duration:7.3s;animation-delay:-2.1s;}
+#splash .sp-category:nth-child(3){animation-delay:-3.6s;}
+#splash .sp-category:nth-child(4){animation-delay:-1.2s;}
+#splash .sp-category:nth-child(5){animation-delay:-4.4s;}
+@keyframes spFloat{0%,100%{transform:translate3d(0,0,0);opacity:.78;}50%{transform:translate3d(0,-9px,0);opacity:1;}}
+@media(max-width:480px){#splash .sp-category-cloud{top:7%;gap:7px}.sp-category{font-size:10px!important;padding:7px 10px!important}.sp-logo-outer{margin-top:22px;}}
 @keyframes spLogoIn{from{opacity:0;transform:scale(0.82) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
 @keyframes spTextIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
@@ -306,6 +314,13 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <canvas id="mol"></canvas>
+<div class="sp-category-cloud" aria-label="Направления Homes in Georgia">
+  <span class="sp-category">RENT</span>
+  <span class="sp-category">SALE</span>
+  <span class="sp-category">COMMERCIAL</span>
+  <span class="sp-category">CARS</span>
+  <span class="sp-category">DEVELOPMENT</span>
+</div>
 <div class="sp-content">
   <div class="sp-logo-outer">
     <div class="sp-ring">
