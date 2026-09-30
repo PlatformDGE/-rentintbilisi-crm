@@ -18,7 +18,7 @@ from update_telegram_top10 import parse_property, required_environment
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
 MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "300"))
-MAX_OBJECTS = int(os.environ.get("CATALOG_MAX_OBJECTS", "80"))
+MAX_OBJECTS = int(os.environ.get("CATALOG_MAX_OBJECTS", "20"))
 CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi"}
 
 
