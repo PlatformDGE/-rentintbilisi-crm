@@ -18,7 +18,6 @@ from update_telegram_top10 import parse_property, required_environment
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
 MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "300"))
-MAX_OBJECTS = int(os.environ.get("CATALOG_MAX_OBJECTS", "20"))
 CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi"}
 
 
@@ -61,7 +60,10 @@ async def collect_channel(client, channel, kind):
         })
 
     rows.sort(key=lambda item: item["published_at"], reverse=True)
-    return rows[:MAX_OBJECTS]
+    # Keep every active, parseable publication from the requested message window.
+    # Pagination is handled by the public site, so the catalog is not artificially
+    # truncated to a small “top N” sample.
+    return rows
 
 
 async def download_photos(client, rows, kind):
