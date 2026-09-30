@@ -8,6 +8,8 @@ import os
 from pathlib import Path
 import re
 import shutil
+from urllib.parse import parse_qs, unquote, urlparse
+from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 from telethon import TelegramClient
@@ -18,7 +20,7 @@ from update_telegram_top10 import parse_property, required_environment
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
 MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "300"))
-CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi"}
+CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}
 
 
 def iso(value):
@@ -28,6 +30,44 @@ def iso(value):
 def map_url(text):
     match = re.search(r"https?://(?:www\.)?(?:google\.[^\s]+/maps[^\s]*|maps\.app\.goo\.gl/[^\s]+)", text or "", re.I)
     return match.group(0).rstrip(".,)") if match else ""
+
+
+def map_details(url):
+    """Extract coordinates/address from a Google Maps link for the public map."""
+    if not url:
+        return {"lat": None, "lon": None, "location": ""}
+    candidates = [url]
+    if "maps.app.goo.gl" in url or "goo.gl/maps" in url:
+        try:
+            request = Request(url, headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
+            with urlopen(request, timeout=8) as response:
+                candidates.insert(0, response.geturl())
+        except Exception:
+            pass
+    for candidate in candidates:
+        parsed = urlparse(candidate)
+        raw = unquote(candidate)
+        coordinate = re.search(r"@(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)", raw)
+        if not coordinate:
+            query = parse_qs(parsed.query)
+            for key in ("q", "query", "ll"):
+                value = (query.get(key) or [""])[0]
+                coordinate = re.search(r"(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)", value)
+                if coordinate:
+                    break
+        location = ""
+        query = parse_qs(parsed.query)
+        for key in ("query", "q", "destination", "daddr"):
+            if query.get(key):
+                value = unquote(query[key][0]).replace("+", " ").strip()
+                if value and not re.fullmatch(r"-?\d+(?:\.\d+)?,\s*-?\d+(?:\.\d+)?", value):
+                    location = value
+                    break
+        if coordinate:
+            return {"lat": float(coordinate.group(1)), "lon": float(coordinate.group(2)), "location": location}
+        if location:
+            return {"lat": None, "lon": None, "location": location}
+    return {"lat": None, "lon": None, "location": ""}
 
 
 def load_text(message):
@@ -49,13 +89,18 @@ async def collect_channel(client, channel, kind):
         if property_data is None:
             continue
         photos = [item for item in group if item.photo][:9]
+        source_map_url = map_url(text)
+        location = map_details(source_map_url)
         rows.append({
             **property_data,
             "type": kind,
             "channel": channel,
             "post_url": f"https://t.me/{channel}/{text_message.id}",
             "published_at": iso(group[0].date),
-            "map_url": map_url(text),
+            "map_url": source_map_url,
+            "location": location["location"],
+            "lat": location["lat"],
+            "lon": location["lon"],
             "_messages": photos,
         })
 

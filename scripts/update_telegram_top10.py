@@ -142,7 +142,7 @@ def parse_property(message_id, text):
     metro = find_named(text, METROS)
     title = extract_title(text, district, rooms, message_id)
     word_signal = bool(re.search(
-        r"\b(apartment|flat|house|rent|sale|квартир\w*|аренд\w*|продаж\w*)\b",
+        r"\b(apartment|flat|house|rent|sale|car|cars|auto|vehicle|квартир\w*|аренд\w*|продаж\w*|авто\w*|машин\w*)\b",
         text,
         re.I,
     ))
