@@ -68,18 +68,27 @@ async def download_photos(client, rows, kind):
     target_dir = ROOT / "site" / "media" / kind
     target_dir.mkdir(parents=True, exist_ok=True)
     wanted = set()
-    for row in rows:
-        photos = []
-        for index, message in enumerate(row.pop("_messages", []), start=1):
-            filename = f"{row['id']}-{index}.jpg"
-            target = target_dir / filename
-            wanted.add(filename)
+    semaphore = asyncio.Semaphore(8)
+
+    async def download_one(row, index, message):
+        filename = f"{row['id']}-{index}.jpg"
+        target = target_dir / filename
+        async with semaphore:
             try:
                 await client.download_media(message, file=str(target))
-                if target.exists():
-                    photos.append(f"media/{kind}/{filename}")
+                return filename if target.exists() else ""
             except Exception as error:
                 print(f"photo {row['id']}#{index}: {error}")
+                return ""
+
+    for row in rows:
+        messages = list(enumerate(row.pop("_messages", []), start=1))
+        filenames = await asyncio.gather(*(download_one(row, index, message) for index, message in messages))
+        photos = []
+        for filename in filenames:
+            if filename:
+                wanted.add(filename)
+                photos.append(f"media/{kind}/{filename}")
         row["photos"] = photos
         row["image"] = photos[0] if photos else ""
     for old in target_dir.iterdir():
