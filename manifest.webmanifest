@@ -1,7 +1,7 @@
 {
-  "name": "Rent in Tbilisi CRM",
-  "short_name": "Rent CRM",
-  "description": "Единый рабочий центр Rent in Tbilisi",
+  "name": "Homes in Georgia CRM",
+  "short_name": "Homes CRM",
+  "description": "Единый рабочий центр Homes in Georgia",
   "start_url": "./",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
