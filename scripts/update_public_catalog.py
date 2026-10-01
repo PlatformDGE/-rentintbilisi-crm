@@ -72,15 +72,22 @@ def map_details(url):
 
 def load_text(message):
     parts = [(message.message or "").strip()]
-    for entity in (getattr(message, "entities", None) or []):
-        url = getattr(entity, "url", None)
-        if url:
-            parts.append(url)
-    for row in (getattr(message, "buttons", None) or []):
-        for button in row:
-            url = getattr(button, "url", None)
+    try:
+        for entity in (getattr(message, "entities", None) or []):
+            url = getattr(entity, "url", None)
             if url:
                 parts.append(url)
+    except Exception:
+        pass
+    try:
+        for row in (getattr(message, "buttons", None) or []):
+            buttons = row if isinstance(row, (list, tuple)) else [row]
+            for button in buttons:
+                url = getattr(button, "url", None)
+                if url:
+                    parts.append(url)
+    except Exception:
+        pass
     return "\n".join(part for part in parts if part).strip()
 
 
