@@ -71,7 +71,17 @@ def map_details(url):
 
 
 def load_text(message):
-    return (message.message or "").strip()
+    parts = [(message.message or "").strip()]
+    for entity in (getattr(message, "entities", None) or []):
+        url = getattr(entity, "url", None)
+        if url:
+            parts.append(url)
+    for row in (getattr(message, "buttons", None) or []):
+        for button in row:
+            url = getattr(button, "url", None)
+            if url:
+                parts.append(url)
+    return "\n".join(part for part in parts if part).strip()
 
 
 async def collect_channel(client, channel, kind):
