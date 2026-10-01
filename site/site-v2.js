@@ -1,15 +1,38 @@
 (function(){
+  const blueMapStyle=document.createElement('style');blueMapStyle.textContent='.homes-map-marker span{background:#1c63bc!important}';document.head.appendChild(blueMapStyle);
   const config={rent:{label:'Rent',channel:'rent_tbilisi_ge',map:'Tbilisi, Georgia'},sale:{label:'Sale',channel:'sale_in_tbilisi',map:'Tbilisi, Georgia'},cars:{label:'Cars',channel:'carsintbilisi',map:'Tbilisi, Georgia'},commercial:{label:'Commercial',channel:'',map:'Tbilisi, Georgia'},development:{label:'Development',channel:'',map:'Tbilisi, Georgia'}};
-  let kind='rent',items=[],visibleCount=24,mapInstance,markerLayer;
+  let kind='rent',items=[],sourceItems=[],visibleCount=24,mapInstance,markerLayer;
   const $=id=>document.getElementById(id);
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  function ensureFilters(){
+    const grid=$('grid');
+    if(!grid||$('filter-panel')) return;
+    const panel=document.createElement('div');
+    panel.id='filter-panel'; panel.className='filter-panel glass'; panel.setAttribute('aria-label','Фильтры каталога');
+    panel.innerHTML='<label class="filter-field"><span>Район</span><select id="filter-district"><option value="">Все районы</option></select></label><label class="filter-field"><span>Комнаты</span><select id="filter-rooms"><option value="">Любое количество</option></select></label><label class="filter-field"><span>Цена</span><select id="filter-price"><option value="">Любая цена</option><option value="0-800">До $800</option><option value="800-1500">$800–1 500</option><option value="1500-3000">$1 500–3 000</option><option value="3000-999999999">От $3 000</option></select></label><button class="filter-reset" id="filter-reset" type="button">Сбросить</button>';
+    grid.parentNode.insertBefore(panel,grid);
+    ['filter-district','filter-rooms','filter-price'].forEach(id=>$(id).addEventListener('change',()=>{applyFilters();render()}));
+    $('filter-reset').addEventListener('click',()=>{['filter-district','filter-rooms','filter-price'].forEach(id=>$(id).value='');applyFilters();render()});
+  }
+  function applyFilters(){
+    const district=$('filter-district')?.value||'',rooms=$('filter-rooms')?.value||'',price=$('filter-price')?.value||'';
+    items=sourceItems.filter(x=>{const districtOk=!district||String(x.district||'')===district;const roomsOk=!rooms||String(Number(x.rooms))===rooms;const value=displayPrice(x.price);const parts=price?price.split('-').map(Number):[];const priceOk=!price||(value>=parts[0]&&value<=parts[1]);return districtOk&&roomsOk&&priceOk});
+  }
+  function updateFilterOptions(){
+    const districts=[...new Set(items.map(x=>String(x.district||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+    const rooms=[...new Set(items.map(x=>Number(x.rooms)).filter(x=>Number.isFinite(x)&&x>0&&x<20))].sort((a,b)=>a-b);
+    const district=$('filter-district'),room=$('filter-rooms');
+    if(district){const value=district.value;district.innerHTML='<option value="">Все районы</option>'+districts.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');district.value=value}
+    if(room){const value=room.value;room.innerHTML='<option value="">Любое количество</option>'+rooms.map(x=>'<option value="'+x+'">'+x+' '+(x===1?'комната':'комнаты')+'</option>').join('');room.value=value}
+  }
   function wire(){
+    ensureFilters();
     document.querySelectorAll('[data-kind]').forEach(button=>{const clone=button.cloneNode(true);button.replaceWith(clone);clone.addEventListener('click',()=>setKind(clone.dataset.kind));});
     const search=$('search');if(search){const clone=search.cloneNode(true);search.replaceWith(clone);clone.addEventListener('input',render);}
     const sort=$('sort');if(sort){const clone=sort.cloneNode(true);sort.replaceWith(clone);clone.addEventListener('change',render);}
   }
-  function setKind(next){kind=next;items=[];visibleCount=24;document.querySelectorAll('[data-kind]').forEach(b=>b.classList.toggle('active',b.dataset.kind===kind));load();}
-  function load(){const c=config[kind];$('source-label').textContent=c.channel?'Источник: Telegram · '+c.channel:'Канал будет добавлен';$('map-title').textContent='Карта '+c.label;$('map-badge').textContent=c.map+' · актуальные объекты';$('catalog-title').textContent=c.label;if(c.channel){$('grid').innerHTML='<div class="empty"><b>Загружаем актуальные объекты</b>Обновляем канал '+esc(c.channel)+'…</div>';fetch('data/'+kind+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()).then(data=>{items=Array.isArray(data.items)?data.items:[];loadStories();render()}).catch(()=>{items=[];render()})}else render()}
+  function setKind(next){kind=next;items=[];sourceItems=[];visibleCount=24;document.querySelectorAll('[data-kind]').forEach(b=>b.classList.toggle('active',b.dataset.kind===kind));load();}
+  function load(){const c=config[kind];ensureFilters();$('source-label').textContent=c.channel?'Источник: Telegram · '+c.channel:'Канал будет добавлен';$('map-title').textContent='Карта '+c.label;$('map-badge').textContent=c.map+' · актуальные объекты';$('catalog-title').textContent=c.label;if(c.channel){$('grid').innerHTML='<div class="empty"><b>Загружаем актуальные объекты</b>Обновляем канал '+esc(c.channel)+'…</div>';fetch('data/'+kind+'.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()).then(data=>{sourceItems=Array.isArray(data.items)?data.items:[];items=sourceItems.slice();updateFilterOptions();loadStories();render()}).catch(()=>{sourceItems=[];items=[];updateFilterOptions();render()})}else{sourceItems=[];items=[];updateFilterOptions();render()}}
   function updateMap(rows,c){
     if(!window.L||!$("map")) return;
     if(!mapInstance){mapInstance=L.map("map",{zoomControl:true,scrollWheelZoom:false}).setView([41.7151,44.8271],11);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap contributors"}).addTo(mapInstance);markerLayer=L.layerGroup().addTo(mapInstance)}
