@@ -1,5 +1,5 @@
 (function(){
-  const blueMapStyle=document.createElement('style');blueMapStyle.textContent='.homes-map-marker span{background:#1c63bc!important}';document.head.appendChild(blueMapStyle);
+  const blueMapStyle=document.createElement('style');blueMapStyle.textContent='.homes-map-marker span{background:#1c63bc!important}.story-ring{display:block;margin:0 auto}';document.head.appendChild(blueMapStyle);
   const config={rent:{label:'Rent',channel:'rent_tbilisi_ge',map:'Tbilisi, Georgia'},sale:{label:'Sale',channel:'sale_in_tbilisi',map:'Tbilisi, Georgia'},cars:{label:'Cars',channel:'carsintbilisi',map:'Tbilisi, Georgia'},commercial:{label:'Commercial',channel:'',map:'Tbilisi, Georgia'},development:{label:'Development',channel:'',map:'Tbilisi, Georgia'}};
   let kind='rent',items=[],sourceItems=[],visibleCount=24,mapInstance,markerLayer;
   const $=id=>document.getElementById(id);
