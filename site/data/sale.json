@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-10-01T00:29:31+04:00",
+  "updated_at": "2026-10-01T09:13:17+04:00",
   "items": [
     {
       "id": "71784",
@@ -18,6 +18,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71784",
       "published_at": "2026-09-30T21:31:01+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71784-1.jpg",
         "media/sale/71784-2.jpg",
@@ -45,6 +48,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71774",
       "published_at": "2026-09-30T20:32:01+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71774-1.jpg",
         "media/sale/71774-2.jpg",
@@ -72,6 +78,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71764",
       "published_at": "2026-09-30T18:44:10+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71764-1.jpg",
         "media/sale/71764-2.jpg",
@@ -99,6 +108,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71744",
       "published_at": "2026-09-30T17:55:31+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71744-1.jpg",
         "media/sale/71744-2.jpg",
@@ -126,6 +138,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71734",
       "published_at": "2026-09-30T17:40:36+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71734-1.jpg",
         "media/sale/71734-2.jpg",
@@ -153,6 +168,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71724",
       "published_at": "2026-09-30T16:50:33+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71724-1.jpg",
         "media/sale/71724-2.jpg",
@@ -180,6 +198,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71714",
       "published_at": "2026-09-30T16:09:19+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71714-1.jpg",
         "media/sale/71714-2.jpg",
@@ -207,6 +228,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71704",
       "published_at": "2026-09-30T15:47:32+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71704-1.jpg",
         "media/sale/71704-2.jpg",
@@ -234,6 +258,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71694",
       "published_at": "2026-09-30T14:40:38+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71694-1.jpg",
         "media/sale/71694-2.jpg",
@@ -261,6 +288,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71684",
       "published_at": "2026-09-30T13:40:37+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71684-1.jpg",
         "media/sale/71684-2.jpg",
@@ -288,6 +318,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71674",
       "published_at": "2026-09-30T12:05:29+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71674-1.jpg",
         "media/sale/71674-2.jpg",
@@ -315,6 +348,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71664",
       "published_at": "2026-09-30T11:05:27+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71664-1.jpg",
         "media/sale/71664-2.jpg",
@@ -342,6 +378,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71654",
       "published_at": "2026-09-30T10:10:25+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71654-1.jpg",
         "media/sale/71654-2.jpg",
@@ -369,6 +408,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71644",
       "published_at": "2026-09-30T09:05:10+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71644-1.jpg",
         "media/sale/71644-2.jpg",
@@ -396,6 +438,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71634",
       "published_at": "2026-09-29T18:45:24+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71634-1.jpg",
         "media/sale/71634-2.jpg",
@@ -423,6 +468,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71624",
       "published_at": "2026-09-29T17:25:01+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71624-1.jpg",
         "media/sale/71624-2.jpg",
@@ -450,6 +498,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71614",
       "published_at": "2026-09-29T16:08:05+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71614-1.jpg",
         "media/sale/71614-2.jpg",
@@ -477,6 +528,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71604",
       "published_at": "2026-09-29T14:42:21+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71604-1.jpg",
         "media/sale/71604-2.jpg",
@@ -504,6 +558,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71594",
       "published_at": "2026-09-29T13:01:59+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71594-1.jpg",
         "media/sale/71594-2.jpg",
@@ -531,6 +588,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71584",
       "published_at": "2026-09-29T11:33:48+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71584-1.jpg",
         "media/sale/71584-2.jpg",
@@ -558,6 +618,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71574",
       "published_at": "2026-09-29T10:32:04+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71574-1.jpg",
         "media/sale/71574-2.jpg",
@@ -585,6 +648,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71564",
       "published_at": "2026-09-29T09:30:24+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71564-1.jpg",
         "media/sale/71564-2.jpg",
@@ -612,6 +678,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71554",
       "published_at": "2026-09-28T18:36:53+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71554-1.jpg",
         "media/sale/71554-2.jpg",
@@ -639,6 +708,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71544",
       "published_at": "2026-09-28T17:35:34+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71544-1.jpg",
         "media/sale/71544-2.jpg",
@@ -666,6 +738,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71534",
       "published_at": "2026-09-28T16:26:36+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71534-1.jpg",
         "media/sale/71534-2.jpg",
@@ -693,6 +768,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71524",
       "published_at": "2026-09-28T15:35:34+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71524-1.jpg",
         "media/sale/71524-2.jpg",
@@ -720,6 +798,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71514",
       "published_at": "2026-09-28T14:35:35+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71514-1.jpg",
         "media/sale/71514-2.jpg",
@@ -747,6 +828,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71504",
       "published_at": "2026-09-28T14:27:58+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71504-1.jpg",
         "media/sale/71504-2.jpg",
@@ -774,6 +858,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/71494",
       "published_at": "2026-09-28T13:35:31+04:00",
       "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/71494-1.jpg",
         "media/sale/71494-2.jpg",
@@ -786,33 +873,6 @@
         "media/sale/71494-9.jpg"
       ],
       "image": "media/sale/71494-1.jpg"
-    },
-    {
-      "id": "71484",
-      "title": "18 Nikolai Gogol St.",
-      "price": 150,
-      "area": 135,
-      "district": "Chugureti",
-      "metro": "Station Square",
-      "rooms": 3,
-      "floor": "",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/71484",
-      "published_at": "2026-09-28T12:32:14+04:00",
-      "map_url": "",
-      "photos": [
-        "media/sale/71484-1.jpg",
-        "media/sale/71484-2.jpg",
-        "media/sale/71484-3.jpg",
-        "media/sale/71484-4.jpg",
-        "media/sale/71484-5.jpg",
-        "media/sale/71484-6.jpg",
-        "media/sale/71484-7.jpg",
-        "media/sale/71484-8.jpg",
-        "media/sale/71484-9.jpg"
-      ],
-      "image": "media/sale/71484-1.jpg"
     }
   ]
 }
