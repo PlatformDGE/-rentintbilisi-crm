@@ -19,7 +19,7 @@ from update_telegram_top10 import parse_property, required_environment
 
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
-MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "2000"))
+MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "300"))
 CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}
 
 
@@ -71,24 +71,7 @@ def map_details(url):
 
 
 def load_text(message):
-    parts = [(message.message or "").strip()]
-    try:
-        for entity in (getattr(message, "entities", None) or []):
-            url = getattr(entity, "url", None)
-            if url:
-                parts.append(url)
-    except Exception:
-        pass
-    try:
-        for row in (getattr(message, "buttons", None) or []):
-            buttons = row if isinstance(row, (list, tuple)) else [row]
-            for button in buttons:
-                url = getattr(button, "url", None)
-                if url:
-                    parts.append(url)
-    except Exception:
-        pass
-    return "\n".join(part for part in parts if part).strip()
+    return (message.message or "").strip()
 
 
 async def collect_channel(client, channel, kind):
