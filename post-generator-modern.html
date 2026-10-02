@@ -818,16 +818,45 @@ async function fileToBase64(file) {
   });
 }
 
-// Отправить через Cloudflare Worker
+// Отправка напрямую через Telegram Bot API.
+// Это исключает конфликт общей Telethon-сессии Railway/Worker.
 async function gasRequest(payload) {
-  const resp = await fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-  const text = await resp.text();
-  try { return JSON.parse(text); }
-  catch(e) { return { ok: false, error: 'Bad response: ' + text.substring(0, 100) }; }
+  const actionMap = { sendDocument: 'sendDocument', sendPhoto: 'sendPhoto', sendVideo: 'sendVideo', sendMessage: 'sendMessage' };
+  const method = actionMap[payload.action];
+  if (!method) return { ok: false, description: 'Неизвестное действие Telegram: ' + payload.action };
+  const endpoint = `https://api.telegram.org/bot${BOT_TOKEN}/${method}`;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 120000);
+  try {
+    const form = new FormData();
+    form.append('chat_id', payload.chatId);
+    if (payload.topicId) form.append('message_thread_id', payload.topicId);
+    if (method === 'sendMessage') {
+      form.append('text', payload.text || '');
+      if (payload.parseMode) form.append('parse_mode', payload.parseMode);
+    } else {
+      const binary = atob(payload.fileBase64 || '');
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const blob = new Blob([bytes], { type: payload.mimeType || 'application/octet-stream' });
+      const field = method === 'sendDocument' ? 'document' : method === 'sendPhoto' ? 'photo' : 'video';
+      form.append(field, blob, payload.fileName || 'upload');
+      if (payload.caption) { form.append('caption', payload.caption); form.append('parse_mode', 'HTML'); }
+      if (method === 'sendVideo') {
+        if (payload.width) form.append('width', payload.width);
+        if (payload.height) form.append('height', payload.height);
+        if (payload.duration) form.append('duration', payload.duration);
+      }
+    }
+    const resp = await fetch(endpoint, { method: 'POST', body: form, signal: controller.signal });
+    const data = await resp.json().catch(() => ({}));
+    if (!resp.ok || !data.ok) return { ok: false, description: data.description || `Telegram API: HTTP ${resp.status}` };
+    return data;
+  } catch (e) {
+    return { ok: false, description: e.name === 'AbortError' ? 'Telegram не ответил за 120 секунд.' : `Ошибка соединения: ${e.message}` };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // Отправить документ (фото оригинал) через GAS
