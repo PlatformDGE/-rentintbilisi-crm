@@ -24,14 +24,16 @@
     .pin.sale-pin .pin-icon{background:rgba(255,255,255,.38)}
     .pin .pin-price{font-weight:850}
     .pin .pin-index{display:none}
+    .map-wrap.is-3d .google-map{transform:perspective(900px) rotateX(7deg) scale(1.06);transform-origin:center bottom;filter:saturate(.9) contrast(1.02) drop-shadow(0 18px 24px rgba(11,43,102,.2))}
+    .map-wrap.is-3d .map-glass{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(13,63,130,.22))}
   </style>
 </head>
 <body>
 <div class="phone">
   <header class="topbar"><button class="close" type="button" onclick="history.back()">Закрыть</button><div class="brand"><img src="../homes-in-georgia.jpg" alt="Homes in Georgia"><div><strong>Homes in Georgia 🇬🇪</strong><small>клиентская карта · CRM отдельно</small></div></div><button class="more" type="button" aria-label="Меню">•••</button></header>
   <main class="content">
-    <section id="mapView" class="view active"><div class="map-wrap"><div class="map-surface"></div><div class="map-label one">САБУРТАЛО</div><div class="map-label two">ВАКЕ</div><div class="map-label three">ДИДУБЕ</div><div class="map-label four">ТЕМИРЛИКИ</div><div class="markers" id="markers"></div><div class="map-controls"><div class="switch" id="modeSwitch"><button class="active" data-mode="rent">Rent</button><button data-mode="sale">Sale</button></div><button class="filter-btn" id="mapFilter" type="button" aria-label="Открыть фильтры">☷</button></div><div class="zoom"><button type="button">＋</button><button type="button">−</button><button type="button">3D</button></div><div class="map-note" id="mapNote">Данные направления · <span id="mapSource">rent_tbilisi_ge</span></div><div class="direction-bar"><button class="active" data-mode="rent">Rent</button><button data-mode="sale">Sale</button><button data-mode="cars">Cars</button><button data-mode="development">Development</button></div></div></section>
-    <section id="listView" class="view"><div class="toolbar"><img class="wordmark" src="../homes-in-georgia.jpg" alt="Homes in Georgia"><div class="switch"><button class="active" data-mode="rent">Rent</button><button data-mode="sale">Sale</button></div><button class="filter-btn" id="listFilter" type="button" aria-label="Открыть фильтры">☷</button></div><div class="direction-bar" style="position:static;padding:0 15px 12px;background:var(--page)"><button class="active" data-mode="rent">Rent</button><button data-mode="sale">Sale</button><button data-mode="cars">Cars</button><button data-mode="development">Development</button></div><div class="listing" id="listing"><div class="loading">Загружаем данные каналов…</div></div></section>
+    <section id="mapView" class="view active"><div class="map-wrap"><div class="map-surface"></div><div class="map-label one">САБУРТАЛО</div><div class="map-label two">ВАКЕ</div><div class="map-label three">ДИДУБЕ</div><div class="map-label four">ТЕМИРЛИКИ</div><div class="markers" id="markers"></div><div class="map-controls"><button class="filter-btn" id="mapFilter" type="button" aria-label="Открыть фильтры">☷</button></div><div class="zoom"><button type="button">＋</button><button type="button">−</button><button type="button" class="three-d">3D</button></div><div class="map-note" id="mapNote">Данные направления · <span id="mapSource">rent_tbilisi_ge</span></div><div class="direction-bar"><button class="active" data-mode="rent">Rent</button><button data-mode="sale">Sale</button><button data-mode="commercial">Commercial</button><button data-mode="cars">Cars</button><button data-mode="development">Development</button></div></div></section>
+    <section id="listView" class="view"><div class="toolbar"><img class="wordmark" src="../homes-in-georgia.jpg" alt="Homes in Georgia"><button class="filter-btn" id="listFilter" type="button" aria-label="Открыть фильтры">☷</button></div><div class="direction-bar" style="position:static;padding:0 15px 12px;background:var(--page)"><button class="active" data-mode="rent">Rent</button><button data-mode="sale">Sale</button><button data-mode="commercial">Commercial</button><button data-mode="cars">Cars</button><button data-mode="development">Development</button></div><div class="listing" id="listing"><div class="loading">Загружаем данные каналов…</div></div></section>
     <section id="moreView" class="view more-view"><div class="more-hero"><img src="../homes-in-georgia.jpg" alt="Homes in Georgia"><h2>Homes in Georgia</h2><p>Rent · Sale · Cars · Commercial · Development</p></div><div class="menu"><button type="button" onclick="alert('Раздел CRM подключается к профилю агента')">Личный кабинет <span>›</span></button><button type="button" onclick="alert('Контакт менеджера будет взят из CRM')">Связаться с менеджером <span>›</span></button><button type="button" onclick="alert('Избранное будет общим с CRM')">Избранные объекты <span>›</span></button><button type="button" onclick="alert('Синхронизация направлений запускается отдельно')">Статус направлений <span>›</span></button></div></section>
   </main>
   <nav class="bottomnav"><button class="active" data-view="mapView"><span class="ico">⌖</span>Карта</button><button data-view="listView"><span class="ico">▤</span>Объявления</button><button data-view="moreView"><span class="ico">•••</span>Больше</button></nav>
@@ -41,7 +43,7 @@
 <script>
 const state={mode:'rent',items:[],filters:{sort:'date',type:'all',rooms:'all',district:'all',min:'',max:''},detail:null,detailPhoto:0};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const cfg={rent:{label:'Rent',channel:'rent_tbilisi_ge'},sale:{label:'Sale',channel:'sale_in_tbilisi'},cars:{label:'Cars',channel:'carsintbilisi'},development:{label:'Development',channel:''}};
+const cfg={rent:{label:'Rent',channel:'rent_tbilisi_ge'},sale:{label:'Sale',channel:'sale_in_tbilisi'},commercial:{label:'Commercial',channel:''},cars:{label:'Cars',channel:'carsintbilisi'},development:{label:'Development',channel:''}};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const price=v=>{const n=Number(v||0);return state.mode==='sale'&&n>0&&n<10000?n*1000:n};
 const pretty=n=>Number(n||0).toLocaleString('en-US');
@@ -67,10 +69,15 @@ $$('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));$$('.bottomn
   if(zoom&&!zoom.querySelector('.measure')){const b=document.createElement('button');b.className='measure';b.type='button';b.textContent='⌁';b.setAttribute('aria-label','Измерить расстояние');zoom.appendChild(b);}
   const wrap=document.querySelector('.map-wrap');
   if(wrap&&!document.getElementById('measureLayer')){const layer=document.createElement('div');layer.className='measure-layer';layer.id='measureLayer';wrap.appendChild(layer);}
+  const threeD=zoom?.querySelector('.three-d');
+  if(threeD&&wrap){threeD.setAttribute('aria-label','Включить 3D режим');}
+  document.addEventListener('click',e=>{if(e.target?.matches?.('.three-d')&&wrap){const on=wrap.classList.toggle('is-3d');e.target.textContent=on?'2D':'3D';e.target.setAttribute('aria-label',on?'Выйти из 3D режима':'Включить 3D режим');}});
   const note=document.getElementById('mapNote');
   if(note)note.innerHTML='<span class="glass-caption">⌁ Карта Google · актуальные объекты · <b id="mapSource">rent_tbilisi_ge</b></span>';
   const filterPanel=document.querySelector('#filterSheet .sheet-panel');
   const apply=document.getElementById('applyFilters');
+  const typeGroup=document.querySelector('#filterSheet [data-filter="type"]');
+  if(typeGroup&&!typeGroup.querySelector('[data-value="commercial"]'))typeGroup.insertAdjacentHTML('beforeend','<button class="chip" data-value="commercial">Commercial</button>');
   if(filterPanel&&apply&&!filterPanel.querySelector('.channel-filter-note')){
     apply.insertAdjacentHTML('beforebegin',`
       <div class="section-title">Тип объекта</div>
