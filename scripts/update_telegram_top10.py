@@ -160,7 +160,16 @@ def parse_property(message_id, text):
     ))
     address_signal = bool(re.search(r"\b(?:st(?:reet)?|ave(?:nue)?|road|ул\.?|проспект)\b", title, re.I))
     signals = [price is not None, area is not None, rooms is not None, bool(floor), bool(district), address_signal, word_signal]
-    if sum(signals) < 2:
+    # Channel posts are not always formatted consistently. Keep an object when
+    # it carries a strong listing marker even if area/floor/room fields are
+    # missing; otherwise the public map silently loses valid homes and shops.
+    strong_object_signal = bool(re.search(
+        r"#?(?:apartment|flat|house|commercial|villa|cottage|sale|rent|bed|studio|land|квартир\w*|дом\w*|коммер\w*|аренд\w*|продаж\w*)\b|"
+        r"(?:for\s+(?:rent|sale)|📍|м2|m²|sqm|sq\.?\s*m)",
+        text,
+        re.I,
+    ))
+    if sum(signals) < 2 and not strong_object_signal:
         return None
     return {
         "id": str(message_id),
