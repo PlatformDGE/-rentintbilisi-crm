@@ -5663,9 +5663,6 @@ function standardsOptions(){
   box.innerHTML=html;standardsPopulatePeople();
 }
 function standardsCalc(){
-  var dealType=(document.getElementById('std-type')||{}).value||'rent';
-  var subtypeLabel=document.getElementById('std-subtype-label');
-  if(subtypeLabel)subtypeLabel.style.display=dealType==='sale'?'none':'block';
   var price=Math.max(0,parseFloat((document.getElementById('std-price')||{}).value)||0),pct=standardsCommissionPct(),commission=STANDARDS_SCENARIO==='rerented'?0:Math.round(price*pct/100),rows=standardsRows();
   var out=document.getElementById('std-commission');if(out)out.textContent='$'+commission.toLocaleString('en-US');
   var pctOut=document.getElementById('std-commission-pct');if(pctOut)pctOut.textContent=pct+'% commission';
