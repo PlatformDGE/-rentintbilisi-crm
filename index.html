@@ -337,6 +337,24 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   #tab-deals #ds-comm-chart{filter:saturate(1.12)}
   #tab-deals #ds-agents-rows>div,#tab-deals #ds-last-deals>div{border-color:#22304b!important}
   @media(max-width:480px){#tab-deals .pad{padding-left:12px!important;padding-right:12px!important}#tab-deals .pad>div:has(#ds-deals){gap:8px!important}#tab-deals .pad>div:has(#ds-deals)>div{padding:13px!important}#tab-deals .pad>div:has(#ds-ch-total)>div:nth-child(2){gap:5px!important}}
+  /* Exact home-dashboard shell for deals analytics */
+  .deals-dashboard-screen{background:#081225!important}
+  .deals-dashboard-head{background:rgba(8,18,37,.96)!important;border-bottom:1px solid #22304b!important}
+  .deals-dashboard-head>div:first-child{max-width:720px;margin:0 auto}
+  .deals-dashboard-body{max-width:720px!important;padding:14px 16px 112px!important}
+  .deals-dashboard-body .deals-kpi-grid{padding:15px!important;border-radius:22px!important;background:linear-gradient(145deg,#111d34,#0d182c)!important;border:1px solid #263651!important;box-shadow:0 18px 45px rgba(0,0,0,.18)!important}
+  .deals-dashboard-body .deals-kpi-grid>div{min-height:112px!important;background:#14213a!important;border:1px solid #263651!important;border-radius:15px!important;padding:14px!important;box-shadow:none!important}
+  .deals-dashboard-body .deals-kpi-grid>div:nth-child(3){min-height:100px!important}
+  .deals-dashboard-body .deals-kpi-grid>div>div:nth-child(2){font-size:29px!important;line-height:1!important;margin:13px 0 6px!important}
+  .deals-dashboard-body .deals-kpi-grid>div>div:last-child{color:#7f8aa2!important;font-size:10px!important}
+  .deals-channel-card{padding:15px!important;border-radius:22px!important;background:linear-gradient(145deg,#111d34,#0d182c)!important;border:1px solid #263651!important;box-shadow:0 18px 45px rgba(0,0,0,.18)!important}
+  .deals-channel-card>div:first-child{color:#aebbd2!important;font-size:11px!important;letter-spacing:.06em!important;margin-bottom:11px!important}
+  .deals-channel-card>div:nth-child(2)>div{background:#14213a!important;border:1px solid #263651!important;border-radius:15px!important;padding:13px 10px!important}
+  .deals-dashboard-body .section{background:linear-gradient(145deg,#111d34,#0d182c)!important;border:1px solid #263651!important;border-radius:22px!important;padding:15px!important;box-shadow:0 18px 45px rgba(0,0,0,.14)!important}
+  .deals-dashboard-body .section .sl{font-size:13px!important;color:#dce6fa!important}
+  .deals-dashboard-body .section>div[style*="background:var(--bg2)"]{background:#14213a!important;border:1px solid #263651!important;border-radius:15px!important}
+  .deals-dashboard-body #ds-rooms>div{background:#14213a!important;border:1px solid #263651!important;border-radius:15px!important}
+  .deals-dashboard-body #ds-weekly-listings,.deals-dashboard-body #ds-last-deals{background:#14213a!important;border-color:#263651!important;border-radius:15px!important}
 </style>
 </head>
 <body>
@@ -492,8 +510,8 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
     </div>
 
     <!-- ═══ DASHBOARD ═══ -->
-    <div class="screen" id="tab-deals">
-      <div style="padding:12px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border);">
+    <div class="screen deals-dashboard-screen" id="tab-deals">
+      <div class="deals-dashboard-head" style="padding:12px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border);">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div>
             <div style="font-size:19px;font-weight:800;letter-spacing:-.3px;">Рабочий дашборд</div>
@@ -507,7 +525,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
           </div>
         </div>
       </div>
-      <div class="pad pb">
+      <div class="pad pb deals-dashboard-body">
 
         <!-- БЕГУЩАЯ СТРОКА (срочные сообщения от администратора) -->
         <div class="ticker-wrap" id="dash-ticker" style="display:none;">
@@ -515,7 +533,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
         </div>
 
         <!-- МЕТРИКИ ПЛАТФОРМЫ -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
+        <div class="deals-kpi-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;">
           <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;position:relative;overflow:hidden;">
             <div style="position:absolute;top:0;right:0;width:50px;height:50px;background:radial-gradient(circle at top right,rgba(34,197,94,.15),transparent 70%);"></div>
             <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Сделок</div>
@@ -551,7 +569,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
         <!-- ══════════════════════════════════════════════ -->
 
         <!-- МЕТРИКИ КАНАЛА -->
-        <div style="margin-bottom:10px;">
+        <div class="deals-channel-card" style="margin-bottom:10px;">
           <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">📡 Канал @rent_tbilisi_ge</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
             <div style="background:var(--bg2);border:1px solid rgba(74,144,217,.2);border-radius:var(--r);padding:10px 11px;text-align:center;">
