@@ -8,7 +8,8 @@ import os
 from pathlib import Path
 import re
 import shutil
-from urllib.parse import parse_qs, unquote, urlparse
+import time
+from urllib.parse import parse_qs, quote, unquote, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -70,6 +71,27 @@ def map_details(url):
     return {"lat": None, "lon": None, "location": ""}
 
 
+def geocode_address(address, district=""):
+    """Resolve a Telegram address to coordinates for the public client map."""
+    query = ", ".join(value for value in (address, district, "Tbilisi, Georgia") if value)
+    if not query:
+        return {"lat": None, "lon": None, "location": ""}
+    try:
+        request = Request(
+            "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=ge&q="
+            + quote(query),
+            headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"},
+        )
+        with urlopen(request, timeout=12) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        if payload:
+            item = payload[0]
+            return {"lat": float(item["lat"]), "lon": float(item["lon"]), "location": item.get("display_name", "")}
+    except Exception as error:
+        print(f"geocode {query}: {error}")
+    return {"lat": None, "lon": None, "location": ""}
+
+
 def load_text(message):
     return (message.message or "").strip()
 
@@ -91,6 +113,9 @@ async def collect_channel(client, channel, kind):
         photos = [item for item in group if item.photo][:9]
         source_map_url = map_url(text)
         location = map_details(source_map_url)
+        if location["lat"] is None:
+            location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
+            time.sleep(1.05)
         rows.append({
             **property_data,
             "type": kind,
