@@ -29,7 +29,10 @@
         "media/sale/71784-8.jpg",
         "media/sale/71784-9.jpg"
       ],
-      "image": "media/sale/71784-1.jpg"
+      "image": "media/sale/71784-1.jpg",
+      "lat": 41.71667,
+      "lon": 44.75,
+      "location": "Saburtalo"
     },
     {
       "id": "71774",
@@ -56,7 +59,10 @@
         "media/sale/71774-8.jpg",
         "media/sale/71774-9.jpg"
       ],
-      "image": "media/sale/71774-1.jpg"
+      "image": "media/sale/71774-1.jpg",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "location": "tbilisi"
     },
     {
       "id": "71764",
@@ -83,7 +89,10 @@
         "media/sale/71764-8.jpg",
         "media/sale/71764-9.jpg"
       ],
-      "image": "media/sale/71764-1.jpg"
+      "image": "media/sale/71764-1.jpg",
+      "lat": 41.735221939106,
+      "lon": 44.720099124101,
+      "location": "avto varazis kucha, tbilisi"
     },
     {
       "id": "71744",
@@ -110,7 +119,10 @@
         "media/sale/71744-8.jpg",
         "media/sale/71744-9.jpg"
       ],
-      "image": "media/sale/71744-1.jpg"
+      "image": "media/sale/71744-1.jpg",
+      "lat": 41.77278,
+      "lon": 44.73208,
+      "location": "Digomi"
     },
     {
       "id": "71734",
@@ -137,7 +149,10 @@
         "media/sale/71734-8.jpg",
         "media/sale/71734-9.jpg"
       ],
-      "image": "media/sale/71734-1.jpg"
+      "image": "media/sale/71734-1.jpg",
+      "lat": 41.723173048471,
+      "lon": 44.704544671043,
+      "location": "50 ana p'olit'k'ovsk'aias kucha, tbilisi"
     },
     {
       "id": "71724",
@@ -194,7 +209,10 @@
         "media/sale/71714-8.jpg",
         "media/sale/71714-9.jpg"
       ],
-      "image": "media/sale/71714-1.jpg"
+      "image": "media/sale/71714-1.jpg",
+      "lat": 41.77278,
+      "lon": 44.73208,
+      "location": "Digomi"
     },
     {
       "id": "71704",
@@ -221,7 +239,10 @@
         "media/sale/71704-8.jpg",
         "media/sale/71704-9.jpg"
       ],
-      "image": "media/sale/71704-1.jpg"
+      "image": "media/sale/71704-1.jpg",
+      "lat": 41.654941091153,
+      "lon": 44.660470916266,
+      "location": "27 samp'ant'ebis kucha"
     },
     {
       "id": "71694",
@@ -308,7 +329,10 @@
         "media/sale/71674-8.jpg",
         "media/sale/71674-9.jpg"
       ],
-      "image": "media/sale/71674-1.jpg"
+      "image": "media/sale/71674-1.jpg",
+      "lat": 41.71667,
+      "lon": 44.75,
+      "location": "Saburtalo"
     },
     {
       "id": "71664",
@@ -365,7 +389,10 @@
         "media/sale/71654-8.jpg",
         "media/sale/71654-9.jpg"
       ],
-      "image": "media/sale/71654-1.jpg"
+      "image": "media/sale/71654-1.jpg",
+      "lat": 41.712251161294,
+      "lon": 44.763990343049,
+      "location": "zura avalishvilis kucha, tbilisi"
     },
     {
       "id": "71644",
@@ -392,7 +419,10 @@
         "media/sale/71644-8.jpg",
         "media/sale/71644-9.jpg"
       ],
-      "image": "media/sale/71644-1.jpg"
+      "image": "media/sale/71644-1.jpg",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "location": "tbilisi"
     },
     {
       "id": "71634",
@@ -479,7 +509,10 @@
         "media/sale/71614-8.jpg",
         "media/sale/71614-9.jpg"
       ],
-      "image": "media/sale/71614-1.jpg"
+      "image": "media/sale/71614-1.jpg",
+      "lat": 41.71667,
+      "lon": 44.75,
+      "location": "Saburtalo"
     },
     {
       "id": "71604",
@@ -506,7 +539,10 @@
         "media/sale/71604-8.jpg",
         "media/sale/71604-9.jpg"
       ],
-      "image": "media/sale/71604-1.jpg"
+      "image": "media/sale/71604-1.jpg",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "location": "tbilisi"
     },
     {
       "id": "71594",
@@ -623,7 +659,10 @@
         "media/sale/71564-8.jpg",
         "media/sale/71564-9.jpg"
       ],
-      "image": "media/sale/71564-1.jpg"
+      "image": "media/sale/71564-1.jpg",
+      "lat": 41.77278,
+      "lon": 44.73208,
+      "location": "Dighomi"
     },
     {
       "id": "71554",
@@ -650,7 +689,10 @@
         "media/sale/71554-8.jpg",
         "media/sale/71554-9.jpg"
       ],
-      "image": "media/sale/71554-1.jpg"
+      "image": "media/sale/71554-1.jpg",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "location": "tbilisi"
     },
     {
       "id": "71544",
@@ -677,7 +719,10 @@
         "media/sale/71544-8.jpg",
         "media/sale/71544-9.jpg"
       ],
-      "image": "media/sale/71544-1.jpg"
+      "image": "media/sale/71544-1.jpg",
+      "lat": 41.706390386311,
+      "lon": 44.775848903123,
+      "location": "1 shroshis kucha, tbilisi"
     },
     {
       "id": "71534",
@@ -704,7 +749,10 @@
         "media/sale/71534-8.jpg",
         "media/sale/71534-9.jpg"
       ],
-      "image": "media/sale/71534-1.jpg"
+      "image": "media/sale/71534-1.jpg",
+      "lat": 41.71667,
+      "lon": 44.75,
+      "location": "Saburtalo"
     },
     {
       "id": "71524",
@@ -791,7 +839,10 @@
         "media/sale/71504-8.jpg",
         "media/sale/71504-9.jpg"
       ],
-      "image": "media/sale/71504-1.jpg"
+      "image": "media/sale/71504-1.jpg",
+      "lat": 41.690303996037,
+      "lon": 44.826417214447,
+      "location": "53 mghvdeli teodore chikhradzis kucha, tbilisi"
     },
     {
       "id": "71494",
@@ -818,7 +869,10 @@
         "media/sale/71494-8.jpg",
         "media/sale/71494-9.jpg"
       ],
-      "image": "media/sale/71494-1.jpg"
+      "image": "media/sale/71494-1.jpg",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "location": "tbilisi"
     },
     {
       "id": "71484",

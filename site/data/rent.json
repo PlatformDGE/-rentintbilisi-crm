@@ -149,7 +149,10 @@
         "media/rent/530961-8.jpg",
         "media/rent/530961-9.jpg"
       ],
-      "image": "media/rent/530961-1.jpg"
+      "image": "media/rent/530961-1.jpg",
+      "lat": 41.7272342,
+      "lon": 44.7569622,
+      "location": "Nikolos Kipshidze Bust"
     },
     {
       "id": "530951",
@@ -356,7 +359,10 @@
         "media/rent/530891-8.jpg",
         "media/rent/530891-9.jpg"
       ],
-      "image": "media/rent/530891-1.jpg"
+      "image": "media/rent/530891-1.jpg",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "location": "tbilisi"
     },
     {
       "id": "530881",
@@ -383,7 +389,10 @@
         "media/rent/530881-8.jpg",
         "media/rent/530881-9.jpg"
       ],
-      "image": "media/rent/530881-1.jpg"
+      "image": "media/rent/530881-1.jpg",
+      "lat": 41.71667,
+      "lon": 44.75,
+      "location": "Saburtalo"
     },
     {
       "id": "530871",
@@ -410,7 +419,10 @@
         "media/rent/530871-8.jpg",
         "media/rent/530871-9.jpg"
       ],
-      "image": "media/rent/530871-1.jpg"
+      "image": "media/rent/530871-1.jpg",
+      "lat": 41.720729601439,
+      "lon": 44.706005102352,
+      "location": "34 ana p'olit'k'ovsk'aias kucha, tbilisi"
     },
     {
       "id": "530861",
@@ -467,7 +479,10 @@
         "media/rent/530851-8.jpg",
         "media/rent/530851-9.jpg"
       ],
-      "image": "media/rent/530851-1.jpg"
+      "image": "media/rent/530851-1.jpg",
+      "lat": 41.77278,
+      "lon": 44.73208,
+      "location": "Digomi"
     },
     {
       "id": "530841",
@@ -614,7 +629,10 @@
         "media/rent/530801-8.jpg",
         "media/rent/530801-9.jpg"
       ],
-      "image": "media/rent/530801-1.jpg"
+      "image": "media/rent/530801-1.jpg",
+      "lat": 41.720822593277,
+      "lon": 44.74022402793,
+      "location": "8 marik'a baratashvilis chikhi, tbilisi"
     },
     {
       "id": "530791",
@@ -821,7 +839,10 @@
         "media/rent/530731-8.jpg",
         "media/rent/530731-9.jpg"
       ],
-      "image": "media/rent/530731-1.jpg"
+      "image": "media/rent/530731-1.jpg",
+      "lat": 41.6955359,
+      "lon": 44.6977337,
+      "location": "ts'q'neti"
     },
     {
       "id": "530721",
