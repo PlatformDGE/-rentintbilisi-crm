@@ -109,6 +109,18 @@ def extract_title(text, district, rooms, message_id):
     return f"Telegram-объект №{message_id}"
 
 
+def detect_property_type(text):
+    """Normalize Telegram hashtags/text to the icon category used by the client map."""
+    value = (text or "").lower()
+    if re.search(r"#?commercial|#?коммер|office|магазин|офис", value, re.I):
+        return "commercial"
+    if re.search(r"#?house|#?дом|villa|cottage|коттедж", value, re.I):
+        return "house"
+    if re.search(r"#?car|#?auto|#?машин|vehicle|toyota|mercedes|bmw", value, re.I):
+        return "car"
+    return "apartment"
+
+
 def parse_property(message_id, text):
     text = text or ""
     if not text.strip() or re.search(
@@ -153,6 +165,7 @@ def parse_property(message_id, text):
     return {
         "id": str(message_id),
         "title": title,
+        "property_type": detect_property_type(text),
         "price": price,
         "area": area,
         "district": district,
