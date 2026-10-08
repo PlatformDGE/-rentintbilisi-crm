@@ -20,7 +20,9 @@ from update_telegram_top10 import parse_property, required_environment
 
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
-MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "300"))
+# 0 means full channel history. Set CATALOG_MESSAGE_LIMIT only for a deliberate
+# bounded backfill; the public catalog itself must not silently truncate objects.
+MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "0"))
 CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}
 
 
@@ -112,7 +114,7 @@ def load_text(message):
 
 async def collect_channel(client, channel, kind):
     groups = {}
-    async for message in client.iter_messages(channel, limit=MESSAGE_LIMIT):
+    async for message in client.iter_messages(channel, limit=(MESSAGE_LIMIT or None)):
         key = str(message.grouped_id or message.id)
         groups.setdefault(key, []).append(message)
 
