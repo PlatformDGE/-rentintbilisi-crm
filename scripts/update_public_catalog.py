@@ -184,11 +184,20 @@ async def main():
         raise RuntimeError("TELEGRAM_SESSION не авторизована")
     try:
         now = datetime.now(TZ)
+        completed = 0
         for kind, channel in CHANNELS.items():
-            rows = await collect_channel(client, channel, kind)
-            await download_photos(client, rows, kind)
-            save_catalog(kind, channel, rows, iso(now))
-            print(f"{kind}: {len(rows)} active objects")
+            try:
+                rows = await collect_channel(client, channel, kind)
+                await download_photos(client, rows, kind)
+                save_catalog(kind, channel, rows, iso(now))
+                completed += 1
+                print(f"{kind}: {len(rows)} active objects")
+            except Exception as error:
+                # A temporary permission/network error in one direction must not
+                # prevent the other public channels from refreshing.
+                print(f"{kind}: skipped after channel error: {error}")
+        if not completed:
+            raise RuntimeError("Не удалось обновить ни один Telegram-канал")
     finally:
         await client.disconnect()
 
