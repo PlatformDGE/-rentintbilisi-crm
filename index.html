@@ -355,6 +355,27 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   .deals-dashboard-body .section>div[style*="background:var(--bg2)"]{background:#14213a!important;border:1px solid #263651!important;border-radius:15px!important}
   .deals-dashboard-body #ds-rooms>div{background:#14213a!important;border:1px solid #263651!important;border-radius:15px!important}
   .deals-dashboard-body #ds-weekly-listings,.deals-dashboard-body #ds-last-deals{background:#14213a!important;border-color:#263651!important;border-radius:15px!important}
+  /* Compact mobile deals dashboard */
+  .deals-dashboard-head{padding:10px 12px 9px!important}
+  .deals-dashboard-head>div:first-child{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
+  .deals-dashboard-head>div:first-child>div:nth-child(3){grid-column:1/-1;justify-content:flex-start!important;padding-top:2px}
+  .deals-dashboard-head>div:first-child>div:first-child>div:first-child{font-size:16px!important;letter-spacing:-.02em!important}
+  .deals-dashboard-body{max-width:640px!important;padding:10px 11px 100px!important}
+  .deals-dashboard-body .deals-kpi-grid{padding:9px!important;gap:7px!important;border-radius:16px!important;margin-bottom:9px!important;box-shadow:none!important}
+  .deals-dashboard-body .deals-kpi-grid>div{min-height:78px!important;height:78px!important;border-radius:11px!important;padding:10px!important}
+  .deals-dashboard-body .deals-kpi-grid>div:nth-child(3){min-height:78px!important;height:78px!important}
+  .deals-dashboard-body .deals-kpi-grid>div>div:first-child{font-size:8px!important;letter-spacing:.04em!important;margin-bottom:0!important;color:#8795ad!important}
+  .deals-dashboard-body .deals-kpi-grid>div>div:nth-child(2){font-size:22px!important;line-height:1!important;margin:8px 0 3px!important;color:#dce6fa!important}
+  .deals-dashboard-body .deals-kpi-grid>div>div:last-child{font-size:8px!important;color:#71809a!important}
+  .deals-dashboard-body .deals-channel-card,.deals-dashboard-body .section{padding:11px!important;border-radius:15px!important;box-shadow:none!important;margin-bottom:9px!important}
+  .deals-dashboard-body .deals-channel-card>div:first-child,.deals-dashboard-body .section .sl{font-size:10px!important;margin-bottom:8px!important;letter-spacing:.04em!important}
+  .deals-dashboard-body .deals-channel-card>div:nth-child(2){gap:5px!important}
+  .deals-dashboard-body .deals-channel-card>div:nth-child(2)>div{padding:9px 5px!important;border-radius:10px!important}
+  .deals-dashboard-body .deals-channel-card>div:nth-child(2)>div>div:nth-child(2){font-size:17px!important;color:#c9d7f2!important}
+  .deals-dashboard-body #ds-rooms{gap:5px!important}
+  .deals-dashboard-body #ds-rooms>div{padding:9px 6px!important;border-radius:10px!important}
+  .deals-dashboard-body #ds-comm-chart{height:112px!important}
+  @media(max-width:480px){.deals-dashboard-body .deals-kpi-grid>div{padding:9px!important}.deals-dashboard-body .section{padding:10px!important}.deals-dashboard-head>div:first-child>div:nth-child(2){padding:7px 9px!important;font-size:10px!important}}
 </style>
 </head>
 <body>
@@ -517,7 +538,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
             <div style="font-size:19px;font-weight:800;letter-spacing:-.3px;">Рабочий дашборд</div>
             <div style="font-size:10px;color:var(--text3);margin-top:3px;" id="dash-updated">сделки и аналитика · загрузка...</div>
           </div>
-          <button onclick="openCalc()" style="padding:8px 11px;border-radius:10px;border:1px solid #567ad1;background:linear-gradient(135deg,#365a9b,#253e77);color:#fff;font:700 11px inherit;cursor:pointer;">+ Deal</button>
+          <button onclick="openCalc()" style="padding:8px 11px;border-radius:10px;border:1px solid #567ad1;background:linear-gradient(135deg,#365a9b,#253e77);color:#fff;font:700 11px inherit;cursor:pointer;">+ Сделка</button>
           <div style="display:flex;gap:3px;">
             <button onclick="setDashPeriod('month')" id="dp-month" style="font-size:10px;padding:4px 8px;border-radius:var(--rsm);border:1px solid var(--accent);background:var(--glow);color:var(--accent2);cursor:pointer;font-family:inherit;font-weight:600;">Месяц</button>
             <button onclick="setDashPeriod('quarter')" id="dp-quarter" style="font-size:10px;padding:4px 8px;border-radius:var(--rsm);border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;font-weight:600;">3 мес.</button>
