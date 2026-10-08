@@ -20,6 +20,19 @@ def geocode(query):
     return float(items[0]["lat"]), float(items[0]["lon"]), items[0].get("display_name", "")
 
 
+def geocode_arcgis(query):
+    """Fallback for Georgian street names that Nominatim does not index."""
+    url = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&maxLocations=1&SingleLine=" + quote(query)
+    request = Request(url, headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
+    with urlopen(request, timeout=20) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+    candidates = payload.get("candidates", [])
+    if not candidates or float(candidates[0].get("score", 0)) < 70:
+        return None
+    item = candidates[0]
+    return float(item["location"]["y"]), float(item["location"]["x"]), item.get("address", query)
+
+
 def main():
     changed = 0
     for kind in ("rent", "sale"):
@@ -36,6 +49,11 @@ def main():
             except Exception as error:
                 print(f"{kind}/{item.get('id')}: {error}")
                 result = None
+            if not result:
+                try:
+                    result = geocode_arcgis(query)
+                except Exception as error:
+                    print(f"{kind}/{item.get('id')} ArcGIS: {error}")
             if result:
                 item["lat"], item["lon"], item["location"] = result
                 changed += 1

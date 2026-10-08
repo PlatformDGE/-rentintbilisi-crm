@@ -89,6 +89,20 @@ def geocode_address(address, district=""):
             return {"lat": float(item["lat"]), "lon": float(item["lon"]), "location": item.get("display_name", "")}
     except Exception as error:
         print(f"geocode {query}: {error}")
+    # ArcGIS covers Georgian street transliterations that are absent in OSM.
+    try:
+        fallback = Request(
+            "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&maxLocations=1&SingleLine="
+            + quote(query),
+            headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"},
+        )
+        with urlopen(fallback, timeout=12) as response:
+            candidates = json.loads(response.read().decode("utf-8")).get("candidates", [])
+        if candidates and float(candidates[0].get("score", 0)) >= 70:
+            item = candidates[0]
+            return {"lat": float(item["location"]["y"]), "lon": float(item["location"]["x"]), "location": item.get("address", query)}
+    except Exception as error:
+        print(f"geocode ArcGIS {query}: {error}")
     return {"lat": None, "lon": None, "location": ""}
 
 
