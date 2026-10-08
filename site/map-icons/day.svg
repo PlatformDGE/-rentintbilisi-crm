@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Слой_1" data-name=" Слой 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360.7 452.25">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 3px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
+        stroke: #fff;
+      }
+
+      .cls-1, .cls-2, .cls-5, .cls-6, .cls-8, .cls-7 {
+        fill: #039158;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-9 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        stroke-width: 7px;
+      }
+
+      .cls-3, .cls-4 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-4 {
+        stroke-width: 10px;
+      }
+
+      .cls-5 {
+        font-size: 25.75px;
+      }
+
+      .cls-5, .cls-6, .cls-8 {
+        font-family: Athelas-Regular, Athelas;
+      }
+
+      .cls-6, .cls-8 {
+        font-size: 25.75px;
+      }
+
+      .cls-8 {
+        stroke: #039158;
+      }
+
+      .cls-7 {
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <circle class="cls-9" cx="292.8" cy="65.66" r="57.19"/>
+  <path class="cls-2" d="M307.52,70.03c-35.11-35.12-81.15-52.69-127.17-52.69s-92.06,17.57-127.18,52.69c-70.23,70.23-70.23,184.11,0,254.35l127.18,127.16,127.17-127.16c35.12-35.12,52.68-81.15,52.68-127.18s-17.56-92.06-52.68-127.17h0Z"/>
+  <rect class="cls-4" x="113.55" y="105.62" width="135.11" height="182.43" rx="4" ry="4"/>
+  <rect class="cls-3" x="162.95" y="242.78" width="34.8" height="40.1"/>
+  <rect class="cls-9" x="131.5" y="131.45" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="208.01" y="165.7" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="169.75" y="130.49" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="131.5" y="165.7" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="170.09" y="165.22" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="131.5" y="199.95" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="169.75" y="199.95" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="208.01" y="199.95" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <rect class="cls-9" x="208.01" y="130.49" width="22.71" height="21.1" rx="4.02" ry="4.02"/>
+  <path class="cls-1" d="M292.8,1.5c-34.28,0-62.07,28.57-62.07,63.81s27.79,63.81,62.07,63.81,62.07-28.57,62.07-63.81S327.08,1.5,292.8,1.5ZM292.8,120.46c-29.63,0-53.65-24.69-53.65-55.15s24.02-55.15,53.65-55.15,53.65,24.69,53.65,55.15-24.02,55.15-53.65,55.15Z"/>
+  <path class="cls-7" d="M297.71,65.31c0,2.79-2.2,5.06-4.92,5.05s-4.91-2.35-4.91-5.13c.01-10.96,2.72-32.73,4.11-39.74.18-.9,1.43-.9,1.61,0,1.39,7.05,4.11,28.97,4.11,39.82Z"/>
+  <path class="cls-7" d="M297.71,69.33c7.94-.49,16.53-2.26,21.22-3.24.7-.15.7-1.18,0-1.33-4.41-.92-12.44-2.54-19.99-3.15.06,1.24.09,2.45.09,3.62,0,1.53-.31,2.97-1.32,4.1Z"/>
+  <text class="cls-6" transform="translate(287.88 114.05) scale(.97 1)"><tspan x="0" y="0">6</tspan></text>
+  <text class="cls-5" transform="translate(244.46 70.36) scale(.97 1)"><tspan x="0" y="0">9</tspan></text>
+  <text class="cls-8" transform="translate(334.59 70.41) scale(.97 1)"><tspan x="0" y="0">3</tspan></text>
+</svg>
