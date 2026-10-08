@@ -311,6 +311,33 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   .home-dashboard{background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #263651;border-radius:22px;padding:15px;margin-bottom:15px;box-shadow:0 18px 45px rgba(0,0,0,.18)}.home-dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}.home-dashboard-head h3{margin:0;font-size:17px}.home-dashboard-head span{font-size:10px;color:#7f8aa2}.home-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.home-kpi{min-width:0;background:#14213a;border:1px solid #263651;border-radius:15px;padding:11px 12px}.home-kpi-label{font-size:9px;color:#7f8aa2;text-transform:uppercase;letter-spacing:.06em}.home-kpi-value{font-size:23px;font-weight:800;letter-spacing:-.04em;margin-top:4px}.home-kpi-sub{font-size:9px;color:#7f8aa2;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-dashboard-foot{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.home-signal{background:#14213a;border-radius:14px;padding:10px 11px}.home-signal-row{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#aebbd2}.home-signal-row strong{color:#53d6aa}.home-signal-bar{height:4px;border-radius:4px;background:#0b172b;margin-top:7px;overflow:hidden}.home-signal-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#53d6aa,#8da7ff)}.home-agent-ranking{margin-top:10px;background:#14213a;border:1px solid #263651;border-radius:15px;padding:11px}.home-agent-ranking h4{margin:0 0 9px;font-size:11px;color:#aebbd2;text-transform:uppercase;letter-spacing:.06em}.home-agent-row{display:flex;align-items:center;gap:8px;margin:7px 0}.home-agent-rank{width:18px;color:#7f8aa2;font-size:9px;text-align:center}.home-agent-name{width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:#dce6fa}.home-agent-bar{height:5px;flex:1;border-radius:4px;background:#0b172b;overflow:hidden}.home-agent-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#8da7ff,#53d6aa)}.home-agent-count{width:35px;text-align:right;font-size:10px;font-weight:800;color:#53d6aa}
   @media(max-width:480px){.molecule-calc{padding:12px 10px 24px}.molecule-card{padding:13px;margin-bottom:10px}.molecule-hero{padding:16px;border-radius:19px}.molecule-hero h2{font-size:22px}.molecule-two{grid-template-columns:1fr;gap:9px}.molecule-grid{gap:7px}.molecule-axis{min-height:72px;padding:10px 9px}.molecule-axis strong{font-size:12px}.molecule-row{gap:8px;align-items:flex-start}.molecule-row em{white-space:nowrap;font-size:12px}.molecule-actions{position:sticky;bottom:0;padding:8px 0 0;background:linear-gradient(transparent,var(--bg) 35%);z-index:2}}
 </style>
+<style>
+  /* Deals dashboard visual system: match the CRM home glass cards */
+  #tab-deals{background:#081225;overflow:auto}
+  #tab-deals>div:first-child{background:rgba(8,18,37,.86)!important;border-bottom:1px solid #263651!important;padding:17px 16px 12px!important;backdrop-filter:blur(18px)}
+  #tab-deals>div:first-child>div:first-child{max-width:760px;margin:0 auto;display:grid!important;grid-template-columns:1fr auto;gap:10px;align-items:center}
+  #tab-deals>div:first-child>div:first-child>div:last-child{grid-column:1/-1;display:flex;justify-content:flex-end;gap:5px}
+  #tab-deals>div:first-child [onclick="openCalc()"]{border-radius:13px!important;border:1px solid #5f82d8!important;background:linear-gradient(135deg,#365a9b,#253e77)!important;box-shadow:0 8px 24px rgba(53,91,169,.28);padding:10px 13px!important}
+  #tab-deals .pad{max-width:760px;margin:0 auto;padding:12px 16px 112px!important}
+  #tab-deals .pad>div:has(#ds-deals){display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin-bottom:14px!important}
+  #tab-deals .pad>div:has(#ds-deals)>div{border:1px solid #263651!important;border-radius:19px!important;background:linear-gradient(145deg,#111d34,#0d182c)!important;padding:15px!important;box-shadow:inset 0 1px rgba(255,255,255,.025),0 12px 28px rgba(0,0,0,.16)}
+  #tab-deals .pad>div:has(#ds-deals)>div:nth-child(3){grid-column:span 2}
+  #tab-deals .pad>div:has(#ds-deals)>div>div:first-child{font-size:10px!important;color:#8995ae!important;letter-spacing:.07em}
+  #tab-deals .pad>div:has(#ds-deals)>div>div:nth-child(2){font-size:29px!important;margin:11px 0 4px!important}
+  #tab-deals .pad>div:has(#ds-ch-total){padding:15px!important;border-radius:20px!important;border:1px solid #263651!important;background:linear-gradient(145deg,#111d34,#0d182c)!important;box-shadow:0 12px 28px rgba(0,0,0,.14)}
+  #tab-deals .pad>div:has(#ds-ch-total)>div:first-child{margin-bottom:11px!important;color:#9fb0ce!important}
+  #tab-deals .pad>div:has(#ds-ch-total)>div:nth-child(2){display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:8px!important}
+  #tab-deals .pad>div:has(#ds-ch-total)>div:nth-child(2)>div{border:1px solid rgba(126,157,224,.18)!important;border-radius:14px!important;background:#14213a!important;padding:12px 8px!important}
+  #tab-deals .section{border:1px solid #263651!important;border-radius:20px!important;background:linear-gradient(145deg,#111d34,#0d182c)!important;padding:15px!important;margin-bottom:12px!important;box-shadow:0 12px 28px rgba(0,0,0,.14)}
+  #tab-deals .section .sl{color:#f1f5ff!important;font-size:13px!important;margin-bottom:10px!important;letter-spacing:.01em}
+  #tab-deals .section>div[style*="background:var(--bg2)"]{background:#0f1b31!important;border:1px solid #263651!important;border-radius:14px!important}
+  #tab-deals #ds-districts,#tab-deals #ds-weekly-listings,#tab-deals #ds-last-deals{background:#0f1b31!important;border-color:#263651!important;border-radius:14px!important}
+  #tab-deals #ds-rooms{gap:8px!important}
+  #tab-deals #ds-rooms>div{background:#14213a!important;border:1px solid #263651!important;border-radius:14px!important;padding:12px 8px!important}
+  #tab-deals #ds-comm-chart{filter:saturate(1.12)}
+  #tab-deals #ds-agents-rows>div,#tab-deals #ds-last-deals>div{border-color:#22304b!important}
+  @media(max-width:480px){#tab-deals .pad{padding-left:12px!important;padding-right:12px!important}#tab-deals .pad>div:has(#ds-deals){gap:8px!important}#tab-deals .pad>div:has(#ds-deals)>div{padding:13px!important}#tab-deals .pad>div:has(#ds-ch-total)>div:nth-child(2){gap:5px!important}}
+</style>
 </head>
 <body>
 
