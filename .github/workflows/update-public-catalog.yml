@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: "0 6-18 * * *"
   workflow_dispatch:
+  push:
+    paths:
+      - "scripts/update_public_catalog.py"
+      - ".github/workflows/update-public-catalog.yml"
 
 permissions:
   contents: write
