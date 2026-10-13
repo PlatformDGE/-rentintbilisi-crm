@@ -123,12 +123,6 @@ def detect_property_type(text):
 
 def parse_property(message_id, text):
     text = text or ""
-    if not text.strip() or re.search(
-        r"\b(?:found\s+(?:a\s+)?tenant|already\s+(?:rented|sold)|сдан[аоы]?|продан[аоы]?)\b",
-        text,
-        re.I,
-    ):
-        return None
 
     price = first_number(text, [
         r"\$[ \t]*(\d[\d \t,.]*)",
@@ -160,17 +154,9 @@ def parse_property(message_id, text):
     ))
     address_signal = bool(re.search(r"\b(?:st(?:reet)?|ave(?:nue)?|road|ул\.?|проспект)\b", title, re.I))
     signals = [price is not None, area is not None, rooms is not None, bool(floor), bool(district), address_signal, word_signal]
-    # Channel posts are not always formatted consistently. Keep an object when
-    # it carries a strong listing marker even if area/floor/room fields are
-    # missing; otherwise the public map silently loses valid homes and shops.
-    strong_object_signal = bool(re.search(
-        r"#?(?:apartment|flat|house|commercial|villa|cottage|sale|rent|bed|studio|land|квартир\w*|дом\w*|коммер\w*|аренд\w*|продаж\w*)\b|"
-        r"(?:for\s+(?:rent|sale)|📍|м2|m²|sqm|sq\.?\s*m)",
-        text,
-        re.I,
-    ))
-    if sum(signals) < 2 and not strong_object_signal:
-        return None
+    # The public catalogue is intentionally exhaustive: every Telegram post
+    # (including posts with sparse formatting or status text) remains visible.
+    # Optional fields are simply left empty when a post does not contain them.
     return {
         "id": str(message_id),
         "title": title,
@@ -181,6 +167,7 @@ def parse_property(message_id, text):
         "metro": metro,
         "rooms": rooms,
         "floor": floor,
+        "source_text": text,
     }
 
 

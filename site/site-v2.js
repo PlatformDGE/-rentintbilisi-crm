@@ -5,6 +5,10 @@
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   function wire(){
     const directions=document.querySelector('.directions');if(directions&&!directions.querySelector('[data-kind="all"]'))directions.insertAdjacentHTML('afterbegin','<button class="direction active" data-kind="all">ALL</button>');
+    const mapHead=document.querySelector('.map-head');
+    if(mapHead&&!mapHead.querySelector('.full-map-link')){
+      const link=document.createElement('a');link.className='full-map-link';link.href='./tbilisi-rent-replica.html?map=1';link.textContent='Полная карта ↗';link.style.cssText='margin-left:auto;display:inline-flex;align-items:center;padding:8px 11px;border-radius:999px;background:#edf4ff;border:1px solid #d6e2f2;color:#174ea6;text-decoration:none;font-size:12px;font-weight:750;white-space:nowrap';mapHead.appendChild(link);
+    }
     document.querySelectorAll('[data-kind]').forEach(button=>{const clone=button.cloneNode(true);button.replaceWith(clone);clone.addEventListener('click',()=>setKind(clone.dataset.kind));});
     const search=$('search');if(search){const clone=search.cloneNode(true);search.replaceWith(clone);clone.addEventListener('input',render);}
     const sort=$('sort');if(sort){const clone=sort.cloneNode(true);sort.replaceWith(clone);clone.addEventListener('change',render);}
