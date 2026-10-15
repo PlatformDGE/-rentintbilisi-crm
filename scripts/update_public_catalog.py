@@ -113,6 +113,17 @@ def load_text(message):
 
 
 async def collect_channel(client, channel, kind):
+    # Reuse coordinates already published in the previous catalog. Geocoding
+    # every historical post on every run makes an hourly refresh unnecessarily
+    # slow and can trigger provider rate limits.
+    previous = {}
+    previous_path = ROOT / "site" / "data" / f"{kind}.json"
+    try:
+        payload = json.loads(previous_path.read_text(encoding="utf-8"))
+        previous = {str(item.get("id")): item for item in payload.get("items", [])}
+    except (OSError, json.JSONDecodeError, AttributeError):
+        previous = {}
+
     groups = {}
     async for message in client.iter_messages(channel, limit=(MESSAGE_LIMIT or None)):
         key = str(message.grouped_id or message.id)
@@ -129,6 +140,15 @@ async def collect_channel(client, channel, kind):
         photos = [item for item in group if item.photo][:9]
         source_map_url = map_url(text)
         location = map_details(source_map_url)
+        cached = previous.get(str(text_message.id), {})
+        if location["lat"] is None and cached.get("lat") is not None:
+            # Telegram message IDs are stable. Keep the last known point when
+            # a post has no inline map link today.
+            location = {
+                "lat": cached.get("lat"),
+                "lon": cached.get("lon"),
+                "location": cached.get("location", ""),
+            }
         if location["lat"] is None:
             location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
             time.sleep(1.05)
@@ -161,6 +181,8 @@ async def download_photos(client, rows, kind):
     async def download_one(row, index, message):
         filename = f"{row['id']}-{index}.jpg"
         target = target_dir / filename
+        if target.exists() and target.stat().st_size > 0:
+            return filename
         async with semaphore:
             try:
                 await client.download_media(message, file=str(target))
@@ -193,7 +215,15 @@ def save_catalog(kind, channel, rows, updated_at):
 
 async def main():
     credentials = required_environment()
-    client = TelegramClient(StringSession(credentials["session"]), credentials["api_id"], credentials["api_hash"])
+    client = TelegramClient(
+        StringSession(credentials["session"]),
+        credentials["api_id"],
+        credentials["api_hash"],
+        # This job only reads channel history. Disabling unsolicited updates
+        # prevents stale MTProto update packets from blocking the catalog scan.
+        receive_updates=False,
+        catch_up=False,
+    )
     await client.connect()
     if not await client.is_user_authorized():
         await client.disconnect()
