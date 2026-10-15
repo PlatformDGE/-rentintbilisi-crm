@@ -1,6 +1,6 @@
 // Bump whenever the single-page CRM shell changes so returning users do not
 // remain on an older cached team/rating layout.
-const CACHE_NAME = 'rit-crm-v6';
+const CACHE_NAME = 'rit-crm-v7';
 
 const STATIC_FILES = [
   './',
@@ -46,6 +46,13 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
+
+  // The public marketplace has its own release lifecycle. Never let the CRM
+  // shell service worker cache or rewrite marketplace pages/assets under
+  // /site/, otherwise visitors can remain on an older catalogue design.
+  if (url.origin === self.location.origin && url.pathname.includes('/site/')) {
+    return;
+  }
 
   if (
     request.mode === 'navigate' ||
