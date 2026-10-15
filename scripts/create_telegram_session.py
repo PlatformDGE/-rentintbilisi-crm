@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a Telethon StringSession for the TELEGRAM_SESSION GitHub secret."""
+"""Create a Telethon StringSession for the TELEGRAM_CRM_SESSION GitHub secret."""
 
 import asyncio
 import getpass
@@ -13,7 +13,7 @@ async def main():
     api_hash = getpass.getpass("TELEGRAM_API_HASH: ").strip()
     async with TelegramClient(StringSession(), api_id, api_hash) as client:
         await client.start()
-        print("\nСохраните строку ниже как GitHub secret TELEGRAM_SESSION:\n")
+        print("\nСохраните строку ниже как GitHub secret TELEGRAM_CRM_SESSION:\n")
         print(client.session.save())
 
 
