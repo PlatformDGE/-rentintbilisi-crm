@@ -20,10 +20,23 @@ from update_telegram_top10 import parse_property, required_environment
 
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
-# 0 means full channel history. Set CATALOG_MESSAGE_LIMIT only for a deliberate
-# bounded backfill; the public catalog itself must not silently truncate objects.
 MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "0"))
-CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}def valid_tbilisi_point(lat, lon):    """Reject malformed or far-away geocoder results before publishing them."""    try:        lat, lon = float(lat), float(lon)    except (TypeError, ValueError):        return False    if not (-90 <= lat <= 90 and -180 <= lon <= 180):        return False    from math import atan2, cos, pi, sin, sqrt    d_lat = (lat - 41.7151) * pi / 180    d_lon = (lon - 44.8271) * pi / 180    a = sin(d_lat / 2) ** 2 + cos(41.7151 * pi / 180) * cos(lat * pi / 180) * sin(d_lon / 2) ** 2    distance_km = 6371 * 2 * atan2(sqrt(a), sqrt(1 - a))    return distance_km <= 60
+CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}
+
+
+def valid_tbilisi_point(lat, lon):
+    """Accept only coordinates within 60 km of central Tbilisi."""
+    try:
+        lat, lon = float(lat), float(lon)
+    except (TypeError, ValueError):
+        return False
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+        return False
+    from math import atan2, cos, pi, sin, sqrt
+    d_lat = (lat - 41.7151) * pi / 180
+    d_lon = (lon - 44.8271) * pi / 180
+    a = sin(d_lat / 2) ** 2 + cos(41.7151 * pi / 180) * cos(lat * pi / 180) * sin(d_lon / 2) ** 2
+    return 6371 * 2 * atan2(sqrt(a), sqrt(1 - a)) <= 60
 
 
 def iso(value):
@@ -36,7 +49,6 @@ def map_url(text):
 
 
 def map_details(url):
-    """Extract coordinates/address from a Google Maps link for the public map."""
     if not url:
         return {"lat": None, "lon": None, "location": ""}
     candidates = [url]
@@ -67,42 +79,37 @@ def map_details(url):
                     location = value
                     break
         if coordinate:
-            return {"lat": float(coordinate.group(1)), "lon": float(coordinate.group(2)), "location": location}
+            lat, lon = float(coordinate.group(1)), float(coordinate.group(2))
+            return {"lat": lat, "lon": lon, "location": location} if valid_tbilisi_point(lat, lon) else {"lat": None, "lon": None, "location": location}
         if location:
             return {"lat": None, "lon": None, "location": location}
     return {"lat": None, "lon": None, "location": ""}
 
 
 def geocode_address(address, district=""):
-    """Resolve a Telegram address to coordinates for the public client map."""
     query = ", ".join(value for value in (address, district, "Tbilisi, Georgia") if value)
     if not query:
         return {"lat": None, "lon": None, "location": ""}
     try:
-        request = Request(
-            "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=ge&q="
-            + quote(query),
-            headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"},
-        )
+        request = Request("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=ge&q=" + quote(query), headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
         with urlopen(request, timeout=12) as response:
             payload = json.loads(response.read().decode("utf-8"))
         if payload:
             item = payload[0]
-            return {"lat": float(item["lat"]), "lon": float(item["lon"]), "location": item.get("display_name", "")}
+            lat, lon = float(item["lat"]), float(item["lon"])
+            if valid_tbilisi_point(lat, lon):
+                return {"lat": lat, "lon": lon, "location": item.get("display_name", "")}
     except Exception as error:
         print(f"geocode {query}: {error}")
-    # ArcGIS covers Georgian street transliterations that are absent in OSM.
     try:
-        fallback = Request(
-            "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&maxLocations=1&SingleLine="
-            + quote(query),
-            headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"},
-        )
+        fallback = Request("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&maxLocations=1&SingleLine=" + quote(query), headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
         with urlopen(fallback, timeout=12) as response:
             candidates = json.loads(response.read().decode("utf-8")).get("candidates", [])
         if candidates and float(candidates[0].get("score", 0)) >= 70:
             item = candidates[0]
-            return {"lat": float(item["location"]["y"]), "lon": float(item["location"]["x"]), "location": item.get("address", query)}
+            lat, lon = float(item["location"]["y"]), float(item["location"]["x"])
+            if valid_tbilisi_point(lat, lon):
+                return {"lat": lat, "lon": lon, "location": item.get("address", query)}
     except Exception as error:
         print(f"geocode ArcGIS {query}: {error}")
     return {"lat": None, "lon": None, "location": ""}
@@ -113,22 +120,16 @@ def load_text(message):
 
 
 async def collect_channel(client, channel, kind):
-    # Reuse coordinates already published in the previous catalog. Geocoding
-    # every historical post on every run makes an hourly refresh unnecessarily
-    # slow and can trigger provider rate limits.
     previous = {}
     previous_path = ROOT / "site" / "data" / f"{kind}.json"
     try:
         payload = json.loads(previous_path.read_text(encoding="utf-8"))
         previous = {str(item.get("id")): item for item in payload.get("items", [])}
     except (OSError, json.JSONDecodeError, AttributeError):
-        previous = {}
-
+        pass
     groups = {}
     async for message in client.iter_messages(channel, limit=(MESSAGE_LIMIT or None)):
-        key = str(message.grouped_id or message.id)
-        groups.setdefault(key, []).append(message)
-
+        groups.setdefault(str(message.grouped_id or message.id), []).append(message)
     rows = []
     for group in groups.values():
         group.sort(key=lambda item: (item.date, item.id))
@@ -142,33 +143,12 @@ async def collect_channel(client, channel, kind):
         location = map_details(source_map_url)
         cached = previous.get(str(text_message.id), {})
         if location["lat"] is None and valid_tbilisi_point(cached.get("lat"), cached.get("lon")):
-            # Telegram message IDs are stable. Keep the last known point when
-            # a post has no inline map link today.
-            location = {
-                "lat": cached.get("lat"),
-                "lon": cached.get("lon"),
-                "location": cached.get("location", ""),
-            }
+            location = {"lat": cached.get("lat"), "lon": cached.get("lon"), "location": cached.get("location", "")}
         if location["lat"] is None:
             location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
             time.sleep(1.05)
-        rows.append({
-            **property_data,
-            "type": kind,
-            "channel": channel,
-            "post_url": f"https://t.me/{channel}/{text_message.id}",
-            "published_at": iso(group[0].date),
-            "map_url": source_map_url,
-            "location": location["location"],
-            "lat": location["lat"],
-            "lon": location["lon"],
-            "_messages": photos,
-        })
-
+        rows.append({**property_data, "type": kind, "channel": channel, "post_url": f"https://t.me/{channel}/{text_message.id}", "published_at": iso(group[0].date), "map_url": source_map_url, "location": location["location"], "lat": location["lat"], "lon": location["lon"], "_messages": photos})
     rows.sort(key=lambda item: item["published_at"], reverse=True)
-    # Keep every active, parseable publication from the requested message window.
-    # Pagination is handled by the public site, so the catalog is not artificially
-    # truncated to a small “top N” sample.
     return rows
 
 
@@ -177,7 +157,6 @@ async def download_photos(client, rows, kind):
     target_dir.mkdir(parents=True, exist_ok=True)
     wanted = set()
     semaphore = asyncio.Semaphore(8)
-
     async def download_one(row, index, message):
         filename = f"{row['id']}-{index}.jpg"
         target = target_dir / filename
@@ -190,17 +169,13 @@ async def download_photos(client, rows, kind):
             except Exception as error:
                 print(f"photo {row['id']}#{index}: {error}")
                 return ""
-
     for row in rows:
-        messages = list(enumerate(row.pop("_messages", []), start=1))
-        filenames = await asyncio.gather(*(download_one(row, index, message) for index, message in messages))
+        filenames = await asyncio.gather(*(download_one(row, index, message) for index, message in enumerate(row.pop("_messages", []), start=1)))
         photos = []
         for filename in filenames:
             if filename:
-                wanted.add(filename)
-                photos.append(f"media/{kind}/{filename}")
-        row["photos"] = photos
-        row["image"] = photos[0] if photos else ""
+                wanted.add(filename); photos.append(f"media/{kind}/{filename}")
+        row["photos"] = photos; row["image"] = photos[0] if photos else ""
     for old in target_dir.iterdir():
         if old.is_file() and old.name not in wanted:
             old.unlink()
@@ -209,38 +184,24 @@ async def download_photos(client, rows, kind):
 def save_catalog(kind, channel, rows, updated_at):
     path = ROOT / "site" / "data" / f"{kind}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = {"kind": kind, "channel": channel, "source": "active_channel", "updated_at": updated_at, "items": rows}
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps({"kind": kind, "channel": channel, "source": "active_channel", "updated_at": updated_at, "items": rows}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 async def main():
     credentials = required_environment()
-    client = TelegramClient(
-        StringSession(credentials["session"]),
-        credentials["api_id"],
-        credentials["api_hash"],
-        # This job only reads channel history. Disabling unsolicited updates
-        # prevents stale MTProto update packets from blocking the catalog scan.
-        receive_updates=False,
-        catch_up=False,
-    )
+    client = TelegramClient(StringSession(credentials["session"]), credentials["api_id"], credentials["api_hash"], receive_updates=False, catch_up=False)
     await client.connect()
     if not await client.is_user_authorized():
-        await client.disconnect()
-        raise RuntimeError("TELEGRAM_SESSION не авторизована")
+        await client.disconnect(); raise RuntimeError("TELEGRAM_SESSION не авторизована")
     try:
-        now = datetime.now(TZ)
-        completed = 0
+        now = datetime.now(TZ); completed = 0
         for kind, channel in CHANNELS.items():
             try:
                 rows = await collect_channel(client, channel, kind)
                 await download_photos(client, rows, kind)
-                save_catalog(kind, channel, rows, iso(now))
-                completed += 1
+                save_catalog(kind, channel, rows, iso(now)); completed += 1
                 print(f"{kind}: {len(rows)} active objects")
             except Exception as error:
-                # A temporary permission/network error in one direction must not
-                # prevent the other public channels from refreshing.
                 print(f"{kind}: skipped after channel error: {error}")
         if not completed:
             raise RuntimeError("Не удалось обновить ни один Telegram-канал")
