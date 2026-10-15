@@ -23,7 +23,7 @@ TZ = ZoneInfo("Asia/Tbilisi")
 # 0 means full channel history. Set CATALOG_MESSAGE_LIMIT only for a deliberate
 # bounded backfill; the public catalog itself must not silently truncate objects.
 MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "0"))
-CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}
+CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}def valid_tbilisi_point(lat, lon):    """Reject malformed or far-away geocoder results before publishing them."""    try:        lat, lon = float(lat), float(lon)    except (TypeError, ValueError):        return False    if not (-90 <= lat <= 90 and -180 <= lon <= 180):        return False    from math import atan2, cos, pi, sin, sqrt    d_lat = (lat - 41.7151) * pi / 180    d_lon = (lon - 44.8271) * pi / 180    a = sin(d_lat / 2) ** 2 + cos(41.7151 * pi / 180) * cos(lat * pi / 180) * sin(d_lon / 2) ** 2    distance_km = 6371 * 2 * atan2(sqrt(a), sqrt(1 - a))    return distance_km <= 60
 
 
 def iso(value):
@@ -141,7 +141,7 @@ async def collect_channel(client, channel, kind):
         source_map_url = map_url(text)
         location = map_details(source_map_url)
         cached = previous.get(str(text_message.id), {})
-        if location["lat"] is None and cached.get("lat") is not None:
+        if location["lat"] is None and valid_tbilisi_point(cached.get("lat"), cached.get("lon")):
             # Telegram message IDs are stable. Keep the last known point when
             # a post has no inline map link today.
             location = {
