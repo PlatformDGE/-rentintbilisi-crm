@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -63,12 +65,41 @@ jobs:
           exit 1
       - name: Commit updated data
         run: |
-          if git diff --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
+          if [ -z "${branch}" ] || ! git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+            branch="$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
+          fi
+          git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
+          if git diff --cached --quiet -- telegram-top10.json telegram-reposts-state.json telegram-images; then
             echo "Telegram repost ranking has not changed"
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add telegram-top10.json telegram-reposts-state.json telegram-images
+          git stash push --include-untracked --message telegram-sync -- telegram-top10.json telegram-reposts-state.json telegram-images
+          if ! git checkout -B "${branch}" "origin/${branch}"; then
+            echo "Failed to check out Telegram ranking target branch ${branch}" >&2
+            exit 1
+          fi
+          if ! git stash apply; then
+            echo "Failed to restore generated Telegram ranking changes after checking out ${branch}" >&2
+            exit 1
+          fi
+          git stash drop
+          git add -A -- telegram-top10.json telegram-reposts-state.json telegram-images
           git commit -m "Update daily Telegram repost ranking"
-          git push
+          for attempt in 1 2 3; do
+            if git push origin "${branch}"; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Push failed after ${attempt} attempts" >&2
+              exit 1
+            fi
+            git fetch origin "${branch}"
+            if ! git rebase "origin/${branch}"; then
+              git rebase --abort || true
+              echo "Failed to rebase Telegram ranking update onto origin/${branch}" >&2
+              exit 1
+            fi
+          done
