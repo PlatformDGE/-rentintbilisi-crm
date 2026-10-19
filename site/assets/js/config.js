@@ -33,8 +33,8 @@ export const SERVICES = {
   sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'building', 'condition', 'flags'] },
   new: { group: 'realty', icon: 'crane', filters: ['price', 'beds', 'area', 'district', 'metro', 'condition', 'flags'] },
   commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'condition', 'flags'] },
-  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'gearbox', 'fuel', 'year', 'flags'] },
-  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
+  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'flags'] },
+  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
 };
 
 export const GROUPS = {
@@ -57,3 +57,7 @@ export const AMENITY_ORDER = ['conditioner', 'wifi', 'dishwasher', 'washer', 'ov
 export const FILTER_AMENITIES = ['conditioner', 'dishwasher', 'washer', 'balcony', 'terrace', 'elevator', 'parking', 'oven', 'wifi', 'courtyard'];
 
 export const MAP_CENTER = [41.7151, 44.8271];
+
+// MapTiler key is public by design (it ships to the browser); it is restricted
+// to the site's domain in the MapTiler dashboard (Account → API keys).
+export const MAPTILER_KEY = '8rgCgBliYpwKCmMzEVV8';

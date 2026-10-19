@@ -2,7 +2,7 @@ import { t } from '../i18n.js';
 import { icon } from '../icons.js';
 import { SERVICES, GROUPS, telegramHref, CONTACT } from '../config.js';
 import { esc, rail, serviceIcon } from '../components.js';
-import { countBy, compactMoney, num, priceLabel, itemsFor } from '../store.js';
+import { countBy, compactMoney, num, priceLabel, itemsFor, recentIds } from '../store.js';
 
 /** Budget steps from the real price distribution of a service (rounded quantiles). */
 function budgets(pool) {
@@ -12,30 +12,23 @@ function budgets(pool) {
   return [...new Set([0.25, 0.5, 0.7, 0.85, 0.95].map(q => nice(prices[Math.floor(q * (prices.length - 1))])))];
 }
 
-function heroSearch(data, group, service) {
+const allServices = () => Object.values(GROUPS).flatMap(g => g.services);
+
+/** One-line search: direction, district, budget. Fields adapt to the chosen direction. */
+function searchForm(data, service) {
   const svc = SERVICES[service];
   const pool = svc.live ? itemsFor(data, service) : [];
   const districts = countBy(pool, 'district').slice(0, 14);
-  const kinds = [...new Set(pool.map(x => x.kind))].filter(k => k !== 'car');
-  const fields = svc.live ? `${districts.length ? `
-      <label class="hs-field"><span>${t('home.where')}</span>
-        <select name="district"><option value="">${t('home.where.any')}</option>${districts.map(([d, n]) => `<option value="${esc(d)}">${esc(d)} · ${n}</option>`).join('')}</select></label>` : ''}${kinds.length > 1 ? `
-      <label class="hs-field"><span>${t('home.type')}</span>
-        <select name="kind"><option value="">—</option>${kinds.map(k => `<option value="${k}">${t('kind.' + k)}</option>`).join('')}</select></label>` : ''}
-      <label class="hs-field"><span>${t('home.budget')}</span>
-        <select name="max"><option value="">${t('home.budget.any')}</option>${budgets(pool).map(v => `<option value="${v}">${compactMoney(v)}${pool[0]?.period ? ' ' + t('period.' + pool[0].period) : ''}</option>`).join('')}</select></label>`
-    : `<div class="hs-soon">${icon('bell')}<span>${esc(t('svc.' + service + '.desc'))}</span></div>`;
+  const steps = budgets(pool);
+  const period = pool.find(x => x.period)?.period;
   return `
-    <div class="hs-tabs" role="tablist">
-      ${Object.keys(GROUPS).map(g => `<button type="button" role="tab" class="seg${g === group ? ' on' : ''}" data-group="${g}" aria-selected="${g === group}">${icon(GROUPS[g].icon)}${t('group.' + g)}</button>`).join('')}
-    </div>
-    <div class="hs-services">
-      ${GROUPS[group].services.map(s => `<button type="button" class="hs-svc${s === service ? ' on' : ''}" data-svc="${s}">${t('svc.' + s + '.short')}${SERVICES[s].live ? '' : `<sup>${t('svc.soon')}</sup>`}</button>`).join('')}
-    </div>
-    <form class="hs-form" data-service="${service}">
-      ${fields}
-      <button class="btn btn-primary btn-lg" type="submit">${icon(svc.live ? 'search' : 'bell')}<span>${t(svc.live ? 'home.find' : 'home.show.soon')}</span></button>
-    </form>`;
+    <label class="hs-field hs-what"><span>${t('home.directions')}</span>
+      <select name="service">${allServices().map(s => `<option value="${s}"${s === service ? ' selected' : ''}>${t('svc.' + s)}${SERVICES[s].live ? '' : ' · ' + t('svc.soon')}</option>`).join('')}</select></label>
+    ${districts.length ? `<label class="hs-field"><span>${t('home.where')}</span>
+      <select name="district"><option value="">${t('home.where.any')}</option>${districts.map(([d, n]) => `<option value="${esc(d)}">${esc(d)} · ${n}</option>`).join('')}</select></label>` : ''}
+    ${steps.length ? `<label class="hs-field"><span>${t('home.budget')}</span>
+      <select name="max"><option value="">${t('home.budget.any')}</option>${steps.map(v => `<option value="${v}">${compactMoney(v)}${period ? ' ' + t('period.' + period) : ''}</option>`).join('')}</select></label>` : ''}
+    <button class="btn btn-primary btn-lg" type="submit">${icon(svc.live ? 'search' : 'bell')}<span>${t(svc.live ? 'home.find' : 'home.show.soon')}</span></button>`;
 }
 
 function mosaic(items) {
@@ -54,9 +47,9 @@ export function renderHome(root, data) {
   const districts = countBy(data.items, 'district');
   const nocom = Math.round((data.items.filter(x => x.no_commission).length / Math.max(1, live)) * 100);
   const fresh = s => itemsFor(data, s).slice().sort((a, b) => b._ts - a._ts).filter(x => x.photos?.length).slice(0, 12);
-  const heroPool = fresh('rent').concat(fresh('sale'));
+  const recent = recentIds().map(id => data.byId.get(id)).filter(Boolean);
   const districtPhoto = d => data.items.find(x => x.district === d && x.photos?.length)?.photos[0];
-  let group = 'realty', service = 'rent';
+  const firstLive = allServices().find(s => SERVICES[s].live) || 'rent';
 
   root.innerHTML = `
 <section class="hero">
@@ -65,40 +58,28 @@ export function renderHome(root, data) {
       <p class="eyebrow"><span class="cross"></span>${t('home.eyebrow')}</p>
       <h1 class="sr-only">${t('home.title')}</h1>
       <p class="lead">${t('home.lead')}</p>
-      <div class="hero-search" id="hero-search">${heroSearch(data, group, service)}</div>
+      <form class="hero-search hs-form" id="hero-search">${searchForm(data, firstLive)}</form>
+      <p class="hero-facts"><b>${num(live)}</b> ${t('home.stat.live')}<i></i><b>${districts.length}</b> ${t('home.stat.districts')}<i></i><b>${nocom}%</b> ${t('home.stat.commission')}</p>
     </div>
-    ${mosaic(heroPool)}
-  </div>
-  <div class="container">
-    <dl class="stats">
-      <div><dt>${num(live)}</dt><dd>${t('home.stat.live')}</dd></div>
-      <div><dt>${districts.length}</dt><dd>${t('home.stat.districts')}</dd></div>
-      <div><dt>${t('home.stat.hourly.value')}</dt><dd>${t('home.stat.hourly')}</dd></div>
-      <div><dt>${nocom}%</dt><dd>${t('home.stat.commission')}</dd></div>
-    </dl>
+    ${mosaic(fresh(firstLive).concat(fresh('sale')))}
   </div>
 </section>
 
-<section class="section">
+<section class="section directions-section">
   <div class="container">
-    <div class="section-head"><div><h2>${t('home.services.title')}</h2><p>${t('home.services.lead')}</p></div></div>
-    ${Object.entries(GROUPS).map(([g, def]) => `
-      <div class="svc-group">
-        <div class="svc-group-head">${icon(def.icon)}<div><h3>${t('group.' + g)}</h3><p>${t('group.' + g + '.desc')}</p></div></div>
-        <div class="svc-grid">
-          ${def.services.map(s => `
-            <a class="svc-tile${SERVICES[s].live ? '' : ' soon'}" href="#/${s}">
-              <span class="svc-ico">${icon(serviceIcon(s))}</span>
-              <span class="svc-name">${t('svc.' + s)}</span>
-              <span class="svc-desc">${t('svc.' + s + '.desc')}</span>
-              <span class="svc-meta">${SERVICES[s].live ? `<b>${t('cat.count', counts[s] || 0)}</b>` : `<em>${t('svc.soon')}</em>`}${icon('arrow')}</span>
-            </a>`).join('')}
-        </div>
-      </div>`).join('')}
+    <div class="directions" role="list">
+      ${allServices().map(s => `
+        <a role="listitem" class="direction${SERVICES[s].live ? '' : ' soon'}" href="#/${s}">
+          <span class="svc-ico">${icon(serviceIcon(s))}</span>
+          <b>${t('svc.' + s + '.short')}</b>
+          <small>${SERVICES[s].live ? t('cat.count', counts[s] || 0) : t('svc.soon')}</small>
+        </a>`).join('')}
+    </div>
   </div>
 </section>
 
-${Object.keys(SERVICES).filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home.fresh.' + s), fresh(s), '#/' + s)).join('')}
+${rail('rail-recent', t('home.recent'), recent, '')}
+${allServices().filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home.fresh.' + s), fresh(s), '#/' + s)).join('')}
 
 <section class="section">
   <div class="container">
@@ -115,10 +96,9 @@ ${Object.keys(SERVICES).filter(s => SERVICES[s].live).map(s => rail('rail-' + s,
 
 <section class="section">
   <div class="container">
-    <div class="section-head"><h2>${t('home.why.title')}</h2></div>
     <div class="why">
       ${[['shield', 1], ['percent', 2], ['send', 3], ['star', 4]].map(([ic, n]) => `
-        <div class="why-item"><span>${icon(ic)}</span><h3>${t(`home.why.${n}.t`)}</h3><p>${t(`home.why.${n}.d`)}</p></div>`).join('')}
+        <div class="why-item"><span>${icon(ic)}</span><div><h3>${t(`home.why.${n}.t`)}</h3><p>${t(`home.why.${n}.d`)}</p></div></div>`).join('')}
     </div>
   </div>
 </section>
@@ -132,22 +112,15 @@ ${Object.keys(SERVICES).filter(s => SERVICES[s].live).map(s => rail('rail-' + s,
   </div>
 </section>`;
 
-  const box = root.querySelector('#hero-search');
-  box.addEventListener('click', e => {
-    const g = e.target.closest('[data-group]');
-    const s = e.target.closest('[data-svc]');
-    if (!g && !s) return;
-    if (g) { group = g.dataset.group; service = GROUPS[group].services[0]; }
-    if (s) service = s.dataset.svc;
-    box.innerHTML = heroSearch(data, group, service);
+  const form = root.querySelector('#hero-search');
+  form.addEventListener('change', e => {
+    if (e.target.name === 'service') form.innerHTML = searchForm(data, e.target.value);
   });
-  box.addEventListener('submit', e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const form = e.target;
-    const svc = form.dataset.service;
+    const svc = form.service.value;
     const q = new URLSearchParams();
     if (form.district?.value) q.set('district', form.district.value);
-    if (form.kind?.value) q.set('kind', form.kind.value);
     if (form.max?.value) q.set('price', '-' + form.max.value);
     location.hash = `#/${svc}${q.toString() ? '?' + q : ''}`;
   });

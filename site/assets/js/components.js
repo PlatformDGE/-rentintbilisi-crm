@@ -9,7 +9,7 @@ export const listingTitle = x => x.headline || x.title;
 
 export function facts(x) {
   if (x.kind === 'car') {
-    return [x.year, x.mileage ? `${num(x.mileage)} km` : '', x.gearbox ? t('gearbox.' + x.gearbox) : '', x.fuel ? t('fuel.' + x.fuel) : ''].filter(Boolean).map(String);
+    return [x.year, x.body ? t('body.' + x.body) : '', x.mileage ? `${num(x.mileage)} km` : '', x.gearbox ? t('gearbox.' + x.gearbox) : '', x.fuel ? t('fuel.' + x.fuel) : ''].filter(Boolean).map(String);
   }
   return [
     x.rooms != null ? t('card.beds', x.rooms) : x.kind !== 'apartment' ? t('kind.' + x.kind) : '',
@@ -51,7 +51,7 @@ export function card(x, { eager = false } = {}) {
     <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}${x.no_commission ? `<span class="pill-ok">${t('card.nocommission')}</span>` : ''}</div>
     <h3>${esc(listingTitle(x))}</h3>
     <p class="card-facts">${facts(x).map(esc).join('<i></i>')}</p>
-    <p class="card-loc">${icon('pin')}<span>${esc([x.district, x.metro && x.metro !== x.district ? x.metro : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>
+    <p class="card-loc">${icon('pin')}<span>${esc(x.pickup || [x.district, x.metro && x.metro !== x.district ? x.metro : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>
   </a>
 </article>`;
 }

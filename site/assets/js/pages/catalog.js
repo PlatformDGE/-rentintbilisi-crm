@@ -5,7 +5,7 @@ import { esc, card, empty, skeletons } from '../components.js';
 import { openFilterSheet } from '../filters.js';
 import { createMap } from '../map.js';
 import {
-  itemsFor, parseFilters, filtersToParams, applyFilters, sortItems, activeCount, compactMoney, num,
+  itemsFor, parseFilters, filtersToParams, applyFilters, sortItems, activeCount, compactMoney, num, RANGE_KEYS,
 } from '../store.js';
 
 const PAGE = 24;
@@ -28,11 +28,13 @@ export function renderCatalog(root, data, serviceId, params) {
     ...(isCar ? ['year'] : ['area']),
     ...(base.some(x => x.ppsqm_usd) ? ['ppsqm'] : [])];
   const hasMap = base.some(x => Number.isFinite(x.lat));
+  // The most used filters get their own pill button; the rest live under "Filters".
+  const pills = ['price', 'beds', 'deal', 'district', 'body', 'year', 'gearbox']
+    .filter(k => (svc.filters || []).includes(k)).slice(0, 3);
 
   root.innerHTML = `
 <section class="catalog">
   <div class="container cat-top">
-    <nav class="crumbs" aria-label="breadcrumbs"><a href="#/">${t('nav.home')}</a>${icon('right')}<span>${t('group.' + group)}</span></nav>
     <div class="cat-title"><h1>${t('svc.' + serviceId)}</h1><span class="cat-count" aria-live="polite"></span></div>
     <div class="svc-tabs" role="tablist">
       ${tabs.map(s => `<a role="tab" class="svc-tab${s === serviceId ? ' on' : ''}" href="#/${s}" aria-selected="${s === serviceId}">${icon(SERVICES[s].icon)}${t('svc.' + s + '.short')}${SERVICES[s].live ? '' : `<sup>${t('svc.soon')}</sup>`}</a>`).join('')}
@@ -41,13 +43,13 @@ export function renderCatalog(root, data, serviceId, params) {
   <div class="toolbar-wrap">
     <div class="container toolbar">
       <label class="search">${icon('search')}<input type="search" value="${esc(f.q)}" placeholder="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}" aria-label="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}"></label>
-      ${(svc.filters || []).includes('beds') ? `<div class="quick" role="group" aria-label="${esc(t('f.beds'))}">
-        ${[['0', t('f.studio')], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4+']].map(([v, l]) => `<button type="button" class="chip" data-beds="${v}">${esc(l)}</button>`).join('')}
-      </div>` : ''}
-      <button type="button" class="btn btn-outline filters-btn">${icon('sliders')}<span>${t('cat.filters')}</span><b class="nbadge"></b></button>
-      <div class="select sort">${icon('down')}<select aria-label="${esc(t('cat.sort'))}">
-        ${sortOptions.map(s => `<option value="${s}">${t('cat.sort.' + s)}</option>`).join('')}
-      </select></div>
+      <div class="pills" role="group" aria-label="${esc(t('cat.filters'))}">
+        <button type="button" class="pill filters-btn" aria-label="${esc(t('cat.filters.all'))}">${icon('sliders')}<span>${t('cat.filters')}</span><b class="nbadge"></b></button>
+        ${pills.map(k => `<button type="button" class="pill" data-pill="${k}"><span></span>${icon('down')}</button>`).join('')}
+        <div class="select sort pill-select">${icon('down')}<select aria-label="${esc(t('cat.sort'))}">
+          ${sortOptions.map(s => `<option value="${s}">${t('cat.sort.' + s)}</option>`).join('')}
+        </select></div>
+      </div>
       <div class="view-toggle" role="group"${hasMap ? '' : ' hidden'}>
         <button type="button" data-setview="list" aria-label="${esc(t('cat.view.list'))}">${icon('list')}<span>${t('cat.view.list')}</span></button>
         <button type="button" data-setview="map" aria-label="${esc(t('cat.view.map'))}">${icon('map')}<span>${t('cat.view.map')}</span></button>
@@ -57,7 +59,7 @@ export function renderCatalog(root, data, serviceId, params) {
   <div class="container active-row" hidden></div>
   <div class="cat-body">
     <div class="results"><div class="grid">${skeletons(6)}</div><div class="sentinel"></div></div>
-    <div class="map-pane"><div class="map" id="cat-map"></div><div class="map-note"></div></div>
+    <div class="map-pane"><div class="map" id="cat-map"></div><div class="map-note"></div><div class="map-peek" hidden></div></div>
   </div>
   ${hasMap ? '<button type="button" class="fab-view"></button>' : ''}
 </section>`;
@@ -86,6 +88,7 @@ export function renderCatalog(root, data, serviceId, params) {
     f.deal.forEach(k => add(t('deal.' + k), x => { x.deal = x.deal.filter(v => v !== k); }));
     f.gearbox.forEach(k => add(t('gearbox.' + k), x => { x.gearbox = x.gearbox.filter(v => v !== k); }));
     f.fuel.forEach(k => add(t('fuel.' + k), x => { x.fuel = x.fuel.filter(v => v !== k); }));
+    f.body.forEach(k => add(t('body.' + k), x => { x.body = x.body.filter(v => v !== k); }));
     f.beds.forEach(b => add(b === '0' ? t('f.studio') : t('card.beds', +b) + (b === '4' ? '+' : ''), x => { x.beds = x.beds.filter(v => v !== b); }));
     f.kind.forEach(k => add(t('kind.' + k), x => { x.kind = x.kind.filter(v => v !== k); }));
     f.district.forEach(d => add(d, x => { x.district = x.district.filter(v => v !== d); }));
@@ -100,14 +103,28 @@ export function renderCatalog(root, data, serviceId, params) {
     return chips;
   }
 
+  function pillLabel(k) {
+    const range = (v, fmt) => (v[0] != null && v[1] != null ? `${fmt(v[0])}–${fmt(v[1])}` : v[0] != null ? `${t('f.from')} ${fmt(v[0])}` : `${t('f.to')} ${fmt(v[1])}`);
+    const list = (vals, fmt) => (vals.length > 2 ? `${fmt(vals[0])} +${vals.length - 1}` : vals.map(fmt).join(', '));
+    const set = Array.isArray(f[k]) && (RANGE_KEYS.includes(k) ? f[k].some(v => v != null) : f[k].length);
+    if (!set) return [t(k === 'price' ? 'f.price' : k === 'beds' ? 'f.beds' : 'f.' + k), false];
+    if (k === 'price') return [range(f.price, compactMoney), true];
+    if (k === 'year') return [range(f.year, v => Math.round(v)), true];
+    if (k === 'beds') return [list([...f.beds].sort(), b => (b === '0' ? t('f.studio') : b === '4' ? '4+' : b)) + ' ' + t('f.beds.short'), true];
+    if (k === 'deal') return [list(f.deal, v => t('deal.' + v)), true];
+    if (k === 'gearbox') return [list(f.gearbox, v => t('gearbox.' + v)), true];
+    if (k === 'body') return [list(f.body, v => t('body.' + v)), true];
+    return [list(f[k], v => v), true];
+  }
+
   function renderChrome() {
     const n = activeCount(f);
     $('.nbadge').textContent = n || '';
-    $('.filters-btn').classList.toggle('has', n > 0);
-    root.querySelectorAll('[data-beds]').forEach(b => {
-      const on = f.beds.includes(b.dataset.beds);
+    $('.filters-btn').classList.toggle('on', n > 0);
+    root.querySelectorAll('[data-pill]').forEach(b => {
+      const [label, on] = pillLabel(b.dataset.pill);
+      b.querySelector('span').textContent = label;
       b.classList.toggle('on', on);
-      b.setAttribute('aria-pressed', on);
     });
     const chips = activeChips();
     const row = $('.active-row');
@@ -119,6 +136,19 @@ export function renderCatalog(root, data, serviceId, params) {
     section.dataset.view = view;
     root.querySelectorAll('[data-setview]').forEach(b => b.classList.toggle('on', b.dataset.setview === view));
     if ($('.fab-view')) $('.fab-view').innerHTML = view === 'map' ? `${icon('list')}<span>${t('cat.view.list')}</span>` : `${icon('map')}<span>${t('cat.view.map')}</span>`;
+  }
+
+  // "Nothing found": offer to drop the single filter that brings back the most offers.
+  function suggestions() {
+    const chips = activeChips();
+    const options = chips.map((c, i) => {
+      const next = structuredClone(f);
+      c.fn(next);
+      return { i, label: c.label, n: applyFilters(base, next).length };
+    }).filter(o => o.n > 0).sort((a, b) => b.n - a.n).slice(0, 3);
+    if (f.q && applyFilters(base, { ...f, q: '' }).length) options.unshift({ i: 'q', label: `«${f.q}»`, n: applyFilters(base, { ...f, q: '' }).length });
+    return `<div class="suggest">${options.map(o => `<button type="button" class="chip" data-suggest="${o.i}">${icon('x')}${esc(t('cat.drop', o.label, o.n))}</button>`).join('')}
+      ${activeCount(f) || f.q ? `<button type="button" class="btn btn-primary" data-clear>${t('cat.reset')}</button>` : ''}</div>`;
   }
 
   function page() {
@@ -134,7 +164,7 @@ export function renderCatalog(root, data, serviceId, params) {
     shown = 0;
     grid.innerHTML = '';
     if (!rows.length) {
-      grid.innerHTML = empty(t('cat.empty.t'), t('cat.empty.d'), activeCount(f) || f.q ? `<button type="button" class="btn btn-primary" data-clear>${t('cat.reset')}</button>` : '');
+      grid.innerHTML = empty(t('cat.empty.t'), t('cat.empty.d'), suggestions());
     } else page();
     if (view === 'map') ensureMap().then(() => syncMap());
   }
@@ -147,8 +177,16 @@ export function renderCatalog(root, data, serviceId, params) {
     $('.map-note').hidden = missing <= 0;
   }
 
+  // Phones: tapping a price pin shows that listing as a card at the bottom of the map.
+  function peek(x) {
+    const box = $('.map-peek');
+    box.innerHTML = x ? card(x) : '';
+    box.hidden = !x;
+    $('.catalog').classList.toggle('peeking', !!x);
+  }
+
   function ensureMap() {
-    mapReady ??= createMap($('#cat-map')).then(ctl => { mapCtl = ctl; return ctl; }).catch(() => null);
+    mapReady ??= createMap($('#cat-map'), { onSelect: desktop() ? null : peek }).then(ctl => { mapCtl = ctl; return ctl; }).catch(() => null);
     return mapReady.then(ctl => { ctl?.invalidate(); return ctl; });
   }
 
@@ -160,13 +198,19 @@ export function renderCatalog(root, data, serviceId, params) {
   });
   sort.addEventListener('change', () => commit({ ...f, sort: sort.value }));
   root.addEventListener('click', e => {
-    const beds = e.target.closest('[data-beds]');
-    if (beds) {
-      const v = beds.dataset.beds;
-      return commit({ ...f, beds: f.beds.includes(v) ? f.beds.filter(x => x !== v) : [...f.beds, v] });
+    const pill = e.target.closest('[data-pill]');
+    if (pill) {
+      return openFilterSheet({ serviceId, base, filters: f, only: pill.dataset.pill, anchor: pill, onApply: next => commit(next, { replace: false }) });
     }
     if (e.target.closest('.filters-btn')) {
       return openFilterSheet({ serviceId, base, filters: f, onApply: next => commit(next, { replace: false }) });
+    }
+    const sug = e.target.closest('[data-suggest]');
+    if (sug) {
+      if (sug.dataset.suggest === 'q') { search.value = ''; return commit({ ...f, q: '' }); }
+      const next = structuredClone(f);
+      activeChips()[+sug.dataset.suggest].fn(next);
+      return commit(next);
     }
     const chip = e.target.closest('[data-chip]');
     if (chip) {
@@ -207,6 +251,7 @@ export function renderCatalog(root, data, serviceId, params) {
   io.observe($('.sentinel'));
 
   render();
+  $('.pills').scrollLeft = 0;
 
   return {
     // Called by the router when only the query changed (back/forward).
