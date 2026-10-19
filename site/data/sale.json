@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-10-19T23:06:06+04:00",
+  "updated_at": "2026-10-20T01:03:59+04:00",
   "items": [
     {
       "id": "73810",
@@ -84,9 +84,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/73790",
       "published_at": "2026-10-19T15:49:18+04:00",
       "map_url": "",
-      "location": "sadgeri",
-      "lat": 41.8115685,
-      "lon": 43.4133687,
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/73790-1.jpg",
         "media/sale/73790-2.jpg",
@@ -883,9 +883,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/73531",
       "published_at": "2026-10-17T13:18:29+04:00",
       "map_url": "",
-      "location": "vak'ijvari",
-      "lat": 41.9096457,
-      "lon": 42.1570254,
+      "location": "",
+      "lat": null,
+      "lon": null,
       "photos": [
         "media/sale/73531-1.jpg",
         "media/sale/73531-2.jpg",
