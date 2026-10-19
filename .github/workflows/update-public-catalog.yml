@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - "scripts/update_public_catalog.py"
+      - "scripts/build_site_listings.py"
       - ".github/workflows/update-public-catalog.yml"
 
 permissions:
@@ -34,6 +35,8 @@ jobs:
           # untouched for the legacy post-generator integration.
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_CRM_SESSION }}
         run: python scripts/update_public_catalog.py
+      - name: Build website listings feed
+        run: python scripts/build_site_listings.py
       - name: Publish catalog data
         run: |
           git config user.name "github-actions[bot]"

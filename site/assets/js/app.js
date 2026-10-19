@@ -1,0 +1,185 @@
+import { t, getLang, setLang, languages } from './i18n.js';
+import { icon, logo } from './icons.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, markLive } from './config.js';
+import { esc, installInteractions, serviceIcon } from './components.js';
+import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
+import { renderHome } from './pages/home.js';
+import { renderCatalog } from './pages/catalog.js';
+import { renderListing } from './pages/listing.js';
+import { renderSoon, renderFavorites, renderNotFound } from './pages/misc.js';
+
+const header = document.getElementById('header');
+const main = document.getElementById('main');
+const footer = document.getElementById('footer');
+const tabbar = document.getElementById('tabbar');
+let current = null; // { key, page }
+let data = null;
+
+function megaMenu(group) {
+  return `<div class="mega" role="menu">
+    ${GROUPS[group].services.map(s => `<a role="menuitem" href="#/${s}" class="mega-item">
+      <span class="svc-ico">${icon(serviceIcon(s))}</span>
+      <span><b>${t('svc.' + s)}${SERVICES[s].live ? '' : `<sup>${t('svc.soon')}</sup>`}</b><small>${t('svc.' + s + '.desc')}</small></span>
+    </a>`).join('')}
+  </div>`;
+}
+
+function renderHeader() {
+  const favs = favIds().length;
+  header.innerHTML = `
+  <div class="container nav">
+    <a class="brand" href="#/" aria-label="Homes in Georgia">${logo()}</a>
+    <nav class="nav-main" aria-label="main">
+      ${Object.keys(GROUPS).map(g => `<div class="nav-drop"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">${t('nav.' + g)}${icon('down')}</button>${megaMenu(g)}</div>`).join('')}
+    </nav>
+    <div class="nav-tools">
+      <div class="select mini">${icon('down')}<select id="cur" aria-label="Currency">${CURRENCIES.map(c => `<option${c === getCurrency() ? ' selected' : ''}>${c}</option>`).join('')}</select></div>
+      <div class="select mini">${icon('down')}<select id="lang" aria-label="Language">${languages.map(l => `<option value="${l}"${l === getLang() ? ' selected' : ''}>${l.toUpperCase()}</option>`).join('')}</select></div>
+      <a class="icon-btn fav-link" href="#/favorites" aria-label="${esc(t('nav.favorites'))}">${icon('heart')}<b class="nbadge">${favs || ''}</b></a>
+      <a class="btn btn-primary nav-cta" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('nav.contact')}</span></a>
+      <button type="button" class="icon-btn burger" aria-label="${esc(t('nav.menu'))}" aria-expanded="false">${icon('menu')}</button>
+    </div>
+  </div>
+  <div class="drawer" hidden>
+    <div class="container">
+      ${Object.keys(GROUPS).map(g => `<p class="drawer-h">${t('group.' + g)}</p>${megaMenu(g)}`).join('')}
+      <div class="drawer-contact">
+        <a class="btn btn-primary btn-block" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener">${icon('send')}<span>Telegram</span></a>
+        <a class="btn btn-outline btn-block" href="${phoneHref()}">${icon('phone')}<span>${esc(CONTACT.phone)}</span></a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function rateLine() {
+  const r = data?.rates_usd;
+  if (!r || data.rates_source !== 'NBG') return '';
+  const fmt = v => v.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
+  const date = data.rates_date ? new Date(data.rates_date).toLocaleDateString(getLang() === 'ru' ? 'ru-RU' : 'en-GB') : '';
+  return '<br>' + esc(t('footer.rates', date, fmt(1 / r.GEL), fmt(r.EUR / r.GEL)));
+}
+
+function renderFooter() {
+  footer.innerHTML = `
+  <div class="container foot">
+    <div class="foot-brand">${logo('logo-light')}<p>${t('footer.about')}</p></div>
+    ${Object.keys(GROUPS).map(g => `<div><h4>${t('group.' + g)}</h4>${GROUPS[g].services.map(s => `<a href="#/${s}">${t('svc.' + s)}</a>`).join('')}</div>`).join('')}
+    <div><h4>${t('footer.channels')}</h4>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}
+      <h4>${t('footer.contact')}</h4><a href="${phoneHref()}">${esc(CONTACT.phone)}</a><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></div>
+  </div>
+  <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}${rateLine()}</span></div>`;
+}
+
+function renderTabbar(route) {
+  const items = [['#/', 'home', t('nav.home'), route === ''], ['#/all', 'search', t('nav.search'), route === 'all' || (SERVICES[route] && true)],
+    ['#/favorites', 'heart', t('nav.favorites'), route === 'favorites'], [telegramHref(CONTACT.telegram), 'send', t('nav.contact'), false]];
+  tabbar.innerHTML = items.map(([href, ic, label, on]) =>
+    `<a href="${href}"${href.startsWith('http') ? ' target="_blank" rel="noopener"' : ''} class="${on ? 'on' : ''}">${icon(ic)}<span>${esc(label)}</span>${ic === 'heart' && favIds().length ? '<b class="dot"></b>' : ''}</a>`).join('');
+}
+
+function parseHash() {
+  const raw = location.hash.replace(/^#\/?/, '');
+  const [path, query = ''] = raw.split('?');
+  return { parts: path.split('/').filter(Boolean), params: new URLSearchParams(query), path };
+}
+
+async function route() {
+  const { parts, params, path } = parseHash();
+  const [first = '', second] = parts;
+  const key = first === 'listing' ? path : first;
+
+  // Same catalog, only filters changed (back/forward): update in place.
+  if (current && current.key === key && current.page?.update) {
+    current.page.update(params);
+    return;
+  }
+  current?.page?.destroy?.();
+  document.querySelectorAll('.sheet-wrap, .lightbox').forEach(el => el.remove());
+  document.body.classList.remove('locked');
+  document.title = 'Homes in Georgia — ' + t('brand.tagline');
+  header.querySelector('.drawer')?.setAttribute('hidden', '');
+  document.body.classList.remove('menu-open');
+  renderTabbar(first);
+
+  const view = document.createElement('div');
+  view.className = 'view';
+  main.replaceChildren(view);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  current = { key, page: null };
+
+  // The feed also decides which services are live, so every page waits for it.
+  if (!data) {
+    view.innerHTML = `<div class="container page-pad loading">${t('loading')}</div>`;
+    try {
+      data = await loadFeed();
+      setRates(data.rates_usd);
+      markLive(data.counts);
+      renderHeader();
+      renderFooter();
+    } catch {
+      view.innerHTML = `<div class="container page-pad loading">${t('error')}</div>`;
+      return;
+    }
+    if (!main.contains(view)) return; // navigated away while loading
+  }
+
+  if (first === '') renderHome(view, data);
+  else if (first === 'all') { current.page = renderCatalog(view, data, 'all', params); document.title = t('svc.all') + ' · Homes in Georgia'; }
+  else if (SERVICES[first]?.live) { current.page = renderCatalog(view, data, first, params); document.title = t('svc.' + first) + ' · Homes in Georgia'; }
+  else if (SERVICES[first]) { renderSoon(view, first); document.title = t('svc.' + first) + ' · Homes in Georgia'; }
+  else if (first === 'listing' && second) renderListing(view, data, decodeURIComponent(second));
+  else if (first === 'favorites') renderFavorites(view, data);
+  else renderNotFound(view);
+  view.focus?.({ preventScroll: true });
+}
+
+function rerenderAll() {
+  renderHeader();
+  renderFooter();
+  current = null;
+  route();
+}
+
+header.addEventListener('change', e => {
+  if (e.target.id === 'lang') { setLang(e.target.value); rerenderAll(); }
+  if (e.target.id === 'cur') { setCurrency(e.target.value); rerenderAll(); }
+});
+header.addEventListener('click', e => {
+  const burger = e.target.closest('.burger');
+  if (burger) {
+    const drawer = header.querySelector('.drawer');
+    const open = drawer.hasAttribute('hidden');
+    drawer.toggleAttribute('hidden', !open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.classList.toggle('menu-open', open);
+    return;
+  }
+  const drop = e.target.closest('.nav-link');
+  if (drop) {
+    const wrap = drop.parentElement;
+    const open = !wrap.classList.contains('open');
+    header.querySelectorAll('.nav-drop').forEach(d => { d.classList.remove('open'); d.querySelector('.nav-link').setAttribute('aria-expanded', 'false'); });
+    wrap.classList.toggle('open', open);
+    drop.setAttribute('aria-expanded', open);
+    return;
+  }
+  if (e.target.closest('.mega-item')) header.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('open'));
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-drop')) header.querySelectorAll('.nav-drop.open').forEach(d => d.classList.remove('open'));
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') header.querySelectorAll('.nav-drop.open').forEach(d => d.classList.remove('open'));
+});
+window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+onFavChange(n => {
+  const badge = header.querySelector('.fav-link .nbadge');
+  if (badge) badge.textContent = n || '';
+  renderTabbar(parseHash().parts[0] || '');
+});
+
+window.addEventListener('hashchange', route);
+installInteractions();
+renderHeader();
+renderFooter();
+route();

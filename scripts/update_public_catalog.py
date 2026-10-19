@@ -21,7 +21,20 @@ from update_telegram_top10 import parse_property, required_environment
 ROOT = Path(__file__).resolve().parents[1]
 TZ = ZoneInfo("Asia/Tbilisi")
 MESSAGE_LIMIT = int(os.environ.get("CATALOG_MESSAGE_LIMIT", "0"))
-CHANNELS = {"rent": "rent_tbilisi_ge", "sale": "sale_in_tbilisi", "cars": "carsintbilisi"}
+# Every Homes in Georgia channel feeds one website catalogue (site/data/<kind>.json).
+# sale_in_tbilisi stays as an extra resale source next to homesingeorgia.
+CHANNELS = {
+    "rent": "rent_tbilisi_ge",
+    "sale": "sale_in_tbilisi",
+    "homes": "homesingeorgia",
+    "commercial": "commercialingeorgia",
+    "daily": "dayrentingeorgia",
+    "new": "DevelopmentIngeorgia",
+    "car-rent": "CarsRentInGeorgia",
+    "car-sale": "CarsSaleInGeorgia",
+}
+# Car posts have no street address, so they are never geocoded.
+NO_MAP_KINDS = {"car-rent", "car-sale"}
 
 
 def valid_tbilisi_point(lat, lon):
@@ -144,7 +157,7 @@ async def collect_channel(client, channel, kind):
         cached = previous.get(str(text_message.id), {})
         if location["lat"] is None and valid_tbilisi_point(cached.get("lat"), cached.get("lon")):
             location = {"lat": cached.get("lat"), "lon": cached.get("lon"), "location": cached.get("location", "")}
-        if location["lat"] is None:
+        if location["lat"] is None and kind not in NO_MAP_KINDS:
             location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
             time.sleep(1.05)
         rows.append({**property_data, "type": kind, "channel": channel, "post_url": f"https://t.me/{channel}/{text_message.id}", "published_at": iso(group[0].date), "map_url": source_map_url, "location": location["location"], "lat": location["lat"], "lon": location["lon"], "_messages": photos})
