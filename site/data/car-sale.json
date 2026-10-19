@@ -1,0 +1,52 @@
+{
+  "kind": "car-sale",
+  "channel": "CarsSaleInGeorgia",
+  "source": "active_channel",
+  "updated_at": "2026-10-20T01:23:15+04:00",
+  "items": [
+    {
+      "id": "3",
+      "title": "Telegram-объект №3",
+      "property_type": "apartment",
+      "price": null,
+      "area": null,
+      "district": "",
+      "metro": "",
+      "rooms": null,
+      "floor": "",
+      "source_text": "",
+      "type": "car-sale",
+      "channel": "CarsSaleInGeorgia",
+      "post_url": "https://t.me/CarsSaleInGeorgia/3",
+      "published_at": "2026-10-12T23:38:35+04:00",
+      "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
+      "photos": [],
+      "image": ""
+    },
+    {
+      "id": "1",
+      "title": "Telegram-объект №1",
+      "property_type": "apartment",
+      "price": null,
+      "area": null,
+      "district": "",
+      "metro": "",
+      "rooms": null,
+      "floor": "",
+      "source_text": "",
+      "type": "car-sale",
+      "channel": "CarsSaleInGeorgia",
+      "post_url": "https://t.me/CarsSaleInGeorgia/1",
+      "published_at": "2026-10-12T23:32:22+04:00",
+      "map_url": "",
+      "location": "",
+      "lat": null,
+      "lon": null,
+      "photos": [],
+      "image": ""
+    }
+  ]
+}

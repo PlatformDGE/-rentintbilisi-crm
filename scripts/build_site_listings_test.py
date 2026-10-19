@@ -94,16 +94,28 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertEqual((sale["deal"], sale.get("period"), sale["price"]), ("sale", None, 240000))
         self.assertEqual(sale["ppsqm_usd"], 2000)
 
+    def test_commercial_posts_from_rent_channel_move_to_commercial(self):
+        item = normalize(raw("🏢 #4Bed #Commercial for #Rent\n🏠 200 sq.m\n💰 4500$ + Deposit 4500$"), "rent", NOW)
+        self.assertEqual((item["service"], item["deal"], item["period"]), ("commercial", "rent", "month"))
+
     def test_daily_rent_is_priced_per_night(self):
         item = normalize(raw("📍 Old Tbilisi\n🏢 #1Bed apartment\n💰 60$ per night"), "daily", NOW)
         self.assertEqual((item["service"], item["period"], item["price"]), ("daily", "night", 60))
+        messy = normalize({**raw("#OldTbilisi 🚇 #LibertySquare 📍18 Atoneli Street\n🏢 #2Bed\n💰 55$ / 1 day"),
+                           "title": "#OldTbilisi 🚇 #LibertySquare 📍18 Atoneli Street"}, "daily", NOW)
+        self.assertEqual(messy["title"], "18 Atoneli Street")
 
     def test_car_posts_get_car_fields_and_no_map(self):
-        text = "🚗 Toyota Camry 2019\nHybrid | Automatic\n85 000 km\n💰 45$ / day"
+        text = ("#Jeep Compass 🚙 #SUV📍 7 Solomon Zaldastanishvili St\n\n🛣️ #DailyRent #2017 | #Automatic ⛽ #Petrol\n"
+                "🪫 Fuel Use: 8 L / 100 km\n👨‍👩‍👦 Capacity: 5 seats | Trunk: 350 L\n💰 50$/ day\nBasic Insurance: 10$")
         item = normalize(raw(text, lat=41.7, lon=44.8), "car-rent", NOW)
-        self.assertEqual(item["title"], "Toyota Camry 2019")
-        self.assertEqual((item["kind"], item["period"], item["price"]), ("car", "day", 45))
-        self.assertEqual((item["year"], item["mileage"], item["gearbox"], item["fuel"]), (2019, 85000, "auto", "hybrid"))
+        self.assertEqual(item["title"], "Jeep Compass")
+        self.assertEqual((item["kind"], item["period"], item["price"]), ("car", "day", 50))
+        self.assertEqual((item["year"], item["gearbox"], item["fuel"], item["body"], item["seats"]), (2017, "auto", "petrol", "suv", 5))
+        self.assertEqual(item["pickup"], "7 Solomon Zaldastanishvili St")
+        self.assertNotIn("mileage", item)  # "8 L / 100 km" is fuel use
+        sale = normalize(raw("BMW X5 2014\nDiesel | Automatic\n92 000 km\n💰 22.000$"), "car-sale", NOW)
+        self.assertEqual((sale["mileage"], sale["price"]), (92000, 22000))
         self.assertNotIn("district", item)
         self.assertNotIn("lat", item)
         hourly = normalize(raw("Kia Rio\n💰 10$ / hour"), "car-rent", NOW)

@@ -33,8 +33,8 @@ export const SERVICES = {
   sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'building', 'condition', 'flags'] },
   new: { group: 'realty', icon: 'crane', filters: ['price', 'beds', 'area', 'district', 'metro', 'condition', 'flags'] },
   commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'condition', 'flags'] },
-  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'gearbox', 'fuel', 'year', 'flags'] },
-  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
+  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'flags'] },
+  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
 };
 
 export const GROUPS = {

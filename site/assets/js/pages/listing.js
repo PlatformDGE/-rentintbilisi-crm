@@ -72,6 +72,9 @@ export function renderListing(root, data, id) {
 
   const factRows = x.kind === 'car' ? [
     ['calendar', t('l.year'), x.year || ''],
+    ['car', t('f.body'), x.body ? t('body.' + x.body) : ''],
+    ['users', t('l.seats'), x.seats || ''],
+    ['pin', t('l.pickup'), x.pickup || ''],
     ['gauge', t('l.mileage'), x.mileage ? `${num(x.mileage)} km` : ''],
     ['sliders', t('f.gearbox'), x.gearbox ? t('gearbox.' + x.gearbox) : ''],
     ['flame', t('f.fuel'), x.fuel ? t('fuel.' + x.fuel) : ''],

@@ -197,6 +197,10 @@ export function buildFilterSections(serviceId, base, draft) {
   if (want.has('area')) add(rangeControl('area', base.map(x => x.area), draft, { money: false, label: t('f.area') }), 'area');
   if (want.has('year')) add(rangeControl('year', base.map(x => x.year), draft, { money: false, plain: true, unit: '', label: t('f.year') }), 'year');
   if (want.has('mileage')) add(rangeControl('mileage', base.map(x => x.mileage), draft, { money: false, unit: 'km', label: t('f.mileage') }), 'mileage');
+  if (want.has('body')) {
+    const bd = present(base, 'body');
+    add(chipSection(t('f.body'), 'body', ['suv', 'sedan', 'hatchback', 'minivan', 'wagon', 'coupe', 'pickup', 'business'].filter(k => bd.has(k)).map(k => [k, t('body.' + k)]), draft), 'body');
+  }
   if (want.has('gearbox')) {
     const g = present(base, 'gearbox');
     add(chipSection(t('f.gearbox'), 'gearbox', ['auto', 'manual'].filter(k => g.has(k)).map(k => [k, t('gearbox.' + k)]), draft), 'gearbox');

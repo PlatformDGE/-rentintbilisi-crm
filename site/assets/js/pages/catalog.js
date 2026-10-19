@@ -29,7 +29,7 @@ export function renderCatalog(root, data, serviceId, params) {
     ...(base.some(x => x.ppsqm_usd) ? ['ppsqm'] : [])];
   const hasMap = base.some(x => Number.isFinite(x.lat));
   // The most used filters get their own pill button; the rest live under "Filters".
-  const pills = ['price', 'beds', 'deal', 'district', 'year', 'gearbox']
+  const pills = ['price', 'beds', 'deal', 'district', 'body', 'year', 'gearbox']
     .filter(k => (svc.filters || []).includes(k)).slice(0, 3);
 
   root.innerHTML = `
@@ -88,6 +88,7 @@ export function renderCatalog(root, data, serviceId, params) {
     f.deal.forEach(k => add(t('deal.' + k), x => { x.deal = x.deal.filter(v => v !== k); }));
     f.gearbox.forEach(k => add(t('gearbox.' + k), x => { x.gearbox = x.gearbox.filter(v => v !== k); }));
     f.fuel.forEach(k => add(t('fuel.' + k), x => { x.fuel = x.fuel.filter(v => v !== k); }));
+    f.body.forEach(k => add(t('body.' + k), x => { x.body = x.body.filter(v => v !== k); }));
     f.beds.forEach(b => add(b === '0' ? t('f.studio') : t('card.beds', +b) + (b === '4' ? '+' : ''), x => { x.beds = x.beds.filter(v => v !== b); }));
     f.kind.forEach(k => add(t('kind.' + k), x => { x.kind = x.kind.filter(v => v !== k); }));
     f.district.forEach(d => add(d, x => { x.district = x.district.filter(v => v !== d); }));
@@ -112,6 +113,7 @@ export function renderCatalog(root, data, serviceId, params) {
     if (k === 'beds') return [list([...f.beds].sort(), b => (b === '0' ? t('f.studio') : b === '4' ? '4+' : b)) + ' ' + t('f.beds.short'), true];
     if (k === 'deal') return [list(f.deal, v => t('deal.' + v)), true];
     if (k === 'gearbox') return [list(f.gearbox, v => t('gearbox.' + v)), true];
+    if (k === 'body') return [list(f.body, v => t('body.' + v)), true];
     return [list(f[k], v => v), true];
   }
 

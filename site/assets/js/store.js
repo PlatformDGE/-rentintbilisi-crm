@@ -105,7 +105,7 @@ export const isFresh = x => Date.now() - x._ts < 3 * 864e5;
 
 // ---------- filtering ----------
 // Filter state lives in the URL query: every key below is a query param.
-export const LIST_KEYS = ['beds', 'kind', 'deal', 'district', 'building', 'condition', 'amen', 'gearbox', 'fuel'];
+export const LIST_KEYS = ['beds', 'kind', 'deal', 'district', 'building', 'condition', 'amen', 'gearbox', 'fuel', 'body'];
 export const RANGE_KEYS = ['price', 'area', 'year', 'mileage'];
 export const FLAG_KEYS = ['pets', 'excl', 'nocom'];
 
@@ -159,6 +159,7 @@ export function applyFilters(items, f, skip = '') {
     && (!f.deal.length || f.deal.includes(x.deal))
     && (!f.gearbox.length || f.gearbox.includes(x.gearbox))
     && (!f.fuel.length || f.fuel.includes(x.fuel))
+    && (!f.body.length || f.body.includes(x.body))
     && (!f.beds.length || f.beds.some(b => (b === '4' ? x.rooms >= 4 : x.rooms === +b)))
     && (!f.kind.length || f.kind.includes(x.kind))
     && (skip === 'district' || !f.district.length || f.district.includes(x.district))

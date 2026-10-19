@@ -329,9 +329,20 @@ def period_of(text, service, deal):
     return "month"
 
 
-def car_details(text):
+CAR_BODIES = {
+    "suv": r"suv|crossover|кроссовер|внедорожник", "sedan": r"sedan|седан", "hatchback": r"hatchback|хэтчбек",
+    "minivan": r"minivan|минивэн", "wagon": r"wagon|универсал", "coupe": r"coupe|купе",
+    "pickup": r"pick-?up truck|pickup\b|пикап", "business": r"business\s*class|businessclass|bussunesclass",
+}
+
+
+def car_details(text, service):
     year = re.search(r"\b(19[89]\d|20[0-3]\d)\b", text)
-    mileage = re.search(r"(\d[\d ,.]*)\s*(?:km|км)\b", text, re.I)
+    # "8 L / 100 km" is fuel use, not mileage; rental cars carry no mileage.
+    mileage = re.search(r"(?<![/\d])(\d[\d ,.]*)\s*(?:km|км)\b(?!\s*/)", re.sub(r"/\s*100\s*km", "", text), re.I) if service == "car-sale" else None
+    head = text.split("\n", 1)[0].split("📍", 1)[0]
+    body = next((name for name, pattern in CAR_BODIES.items() if re.search(pattern, head, re.I)), "")
+    seats = re.search(r"(\d{1,2})\s*(?:seats|мест)", text, re.I)
     gearbox = "auto" if re.search(r"automatic|#auto\b|автомат|tiptronic|robot", text, re.I) else "manual" if re.search(r"manual|механ", text, re.I) else ""
     fuel = next((name for name, pattern in (("hybrid", r"hybrid|гибрид"), ("electric", r"electric|электро|\bEV\b"), ("diesel", r"diesel|дизель"),
                                               ("gas", r"\bgas\b|\blpg\b|газ"), ("petrol", r"petrol|gasoline|бензин")) if re.search(pattern, text, re.I)), "")
@@ -340,15 +351,36 @@ def car_details(text):
         "mileage": number(mileage.group(1)) if mileage else None,
         "gearbox": gearbox,
         "fuel": fuel,
+        "body": body,
+        "seats": int(seats.group(1)) if seats else None,
     }
 
 
 def car_title(text, fallback):
+    """'#Jeep Compass 🚙 #SUV📍 7 Solomon St' -> 'Jeep Compass' (body type and pick-up address dropped)."""
     for line in text.splitlines():
-        clean = EMOJI_RE.sub("", line).replace("#", "").strip(" -|:")
-        if len(clean) > 3 and not re.match(r"^(?:\+?\d|@|https?://)", clean):
-            return short_sentence(clean, 70)
+        head = line.split("📍", 1)[0]
+        for pattern in CAR_BODIES.values():
+            head = re.sub(r"#?\b(?:" + pattern + r")\b", "", head, flags=re.I)
+        clean = re.sub(r"\s+", " ", EMOJI_RE.sub("", head).replace("#", "")).strip(" -|:")
+        if len(clean) > 2 and not re.match(r"^(?:\+?\d|@|https?://)", clean):
+            return short_sentence(clean, 60)
     return fallback
+
+
+def clean_title(title, text):
+    """Channel titles can be the raw first line ('#OldTbilisi 🚇 #LibertySquare 📍18 Atoneli Street')."""
+    title = (title or "").strip()
+    if "📍" in title or "#" in title:
+        source = title if "📍" in title else next((line for line in text.splitlines() if "📍" in line), title)
+        title = source.split("📍", 1)[-1]
+        title = re.sub(r"\s+", " ", EMOJI_RE.sub("", title).replace("#", "")).strip(" -|:,")
+    return title or "Tbilisi"
+
+
+def pickup_address(text):
+    first = text.split("\n", 1)[0]
+    return EMOJI_RE.sub("", first.split("📍", 1)[1]).strip() if "📍" in first else ""
 
 
 def parse_dt(value):
@@ -378,6 +410,12 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     photos = [p for p in (raw.get("photos") or ([raw["image"]] if raw.get("image") else [])) if p]
     if not price and not photos:
         return None
+    # Service posts ("APARTMENTS ON MAP", "CARS ON MAP", announcements) carry no price.
+    if not price and (service in CAR_SERVICES or re.search(r"\bON MAP\b", text, re.I)):
+        return None
+    # Commercial posts in the rent / sale channels belong to the commercial catalogue.
+    if service in ("rent", "sale") and re.search(r"#commercial\b|commercial space|\boffice (?:space )?for\b", text, re.I):
+        service = "commercial"
 
     condition = detect(CONDITIONS, text)
     deal = deal_of(text, service)
@@ -395,7 +433,7 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
         "deal": deal,
         "period": period_of(text, service, deal),
         "kind": "car" if is_car else "commercial" if service == "commercial" else property_kind(text, raw.get("property_type")),
-        "title": car_title(text, raw.get("title") or "Car") if is_car else (raw.get("title") or "").strip() or "Tbilisi",
+        "title": car_title(text, raw.get("title") or "Car") if is_car else clean_title(raw.get("title"), text),
         "headline": "" if is_car else headline(text),
         "district": "" if is_car else raw.get("district") or "",
         "metro": "" if is_car else raw.get("metro") or "",
@@ -414,7 +452,8 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
         "condition": "" if is_car else condition,
         "heating": "" if is_car else detect(list(HEATING.items()), text),
         "amenities": [] if is_car else listed_features(text),
-        **(car_details(text) if is_car else {}),
+        **(car_details(text, service) if is_car else {}),
+        "pickup": pickup_address(text) if is_car else "",
         "pets": pets,
         "months": months,
         "tenants": tenants,
@@ -434,7 +473,7 @@ def dedupe(items):
     """Channels repost updates of the same object; keep the newest per address+price."""
     seen, result = set(), []
     for item in sorted(items, key=lambda x: x.get("published_at", ""), reverse=True):
-        key = (item["service"], item["title"].lower(), item.get("price"), item.get("area"))
+        key = (item["service"], item["title"].lower(), item.get("price"), item.get("area"), item.get("year"), item.get("pickup"))
         if key in seen:
             continue
         seen.add(key)
