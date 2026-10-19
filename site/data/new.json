@@ -1,0 +1,52 @@
+{
+  "kind": "new",
+  "channel": "DevelopmentIngeorgia",
+  "source": "active_channel",
+  "updated_at": "2026-10-20T01:23:15+04:00",
+  "items": [
+    {
+      "id": "8",
+      "title": "Telegram-объект №8",
+      "property_type": "apartment",
+      "price": null,
+      "area": null,
+      "district": "",
+      "metro": "",
+      "rooms": null,
+      "floor": "",
+      "source_text": "",
+      "type": "new",
+      "channel": "DevelopmentIngeorgia",
+      "post_url": "https://t.me/DevelopmentIngeorgia/8",
+      "published_at": "2026-10-12T23:38:44+04:00",
+      "map_url": "",
+      "location": "tbilisi",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "photos": [],
+      "image": ""
+    },
+    {
+      "id": "1",
+      "title": "Telegram-объект №1",
+      "property_type": "apartment",
+      "price": null,
+      "area": null,
+      "district": "",
+      "metro": "",
+      "rooms": null,
+      "floor": "",
+      "source_text": "",
+      "type": "new",
+      "channel": "DevelopmentIngeorgia",
+      "post_url": "https://t.me/DevelopmentIngeorgia/1",
+      "published_at": "2025-03-24T02:12:23+04:00",
+      "map_url": "",
+      "location": "tbilisi",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "photos": [],
+      "image": ""
+    }
+  ]
+}
