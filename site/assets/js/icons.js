@@ -51,10 +51,6 @@ export function icon(name, cls = '') {
   return `<svg class="i ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name] || P.sparkles}</svg>`;
 }
 
-export const logo = (cls = '') => `
-<svg class="logo ${cls}" viewBox="0 0 200 64" role="img" aria-label="Homes in Georgia">
-  <text x="0" y="38" class="logo-word">Homes</text>
-  <text x="1" y="58" class="logo-sub">IN</text>
-  <g class="logo-cross" transform="translate(26 47)"><rect x="3.4" y="0" width="3.2" height="12" rx=".4"/><rect x="0" y="4.4" width="10" height="3.2" rx=".4"/></g>
-  <text x="42" y="58" class="logo-sub">GEORGIA</text>
-</svg>`;
+// Vector logo traced from the brand files (site/assets/img/brand/).
+export const logo = (cls = '') =>
+  `<img class="logo ${cls}" src="assets/img/brand/${cls.includes('logo-light') ? 'logo-white' : 'logo'}.svg" alt="Homes in Georgia" width="132" height="40">`;

@@ -60,7 +60,7 @@ export function renderHome(root, data) {
   <div class="container hero-grid">
     <div class="hero-copy">
       <p class="eyebrow"><span class="cross"></span>${t('home.eyebrow')}</p>
-      <h1>${t('home.title')}</h1>
+      <h1 class="sr-only">${t('home.title')}</h1>
       <p class="lead">${t('home.lead')}</p>
       <div class="hero-search" id="hero-search">${heroSearch(data, group, service)}</div>
     </div>

@@ -14,13 +14,16 @@ import json
 from pathlib import Path
 import re
 import sys
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "site" / "data"
 
-# Approximate conversion used only for the shared price filter and sorting.
-# The card always shows the original price and currency from the post.
-USD_RATES = {"USD": 1.0, "GEL": 1 / 2.7, "EUR": 1.08}
+# Official National Bank of Georgia rates (GEL per unit of currency).
+# Used for the shared price filter, sorting and the visitor's display currency;
+# the listing page always shows the original price from the post as well.
+NBG_URL = "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/en/json/?currencies=USD&currencies=EUR"
+FALLBACK_RATES = {"USD": 1.0, "GEL": round(1 / 2.7, 6), "EUR": 1.08}
 
 # Long-term rentals are rented out quickly and the channel rarely links the
 # "rented" post back to the offer, so old offers are treated as expired.
@@ -112,12 +115,12 @@ def parse_money(segment):
 PER_SQM_RE = re.compile(r"per\s*(?:1\s*)?sq|/\s*m\b|/\s*m²|за\s*м", re.I)
 
 
-def parse_price_per_sqm(text):
+def parse_price_per_sqm(text, rates):
     for line in text.splitlines():
         if PER_SQM_RE.search(line):
             amount, currency = parse_money(line)
             if amount:
-                return round(amount * USD_RATES.get(currency, 1))
+                return round(amount * rates.get(currency, 1))
     return None
 
 
@@ -272,6 +275,27 @@ def completion(text):
     return match.group(1) if match else ""
 
 
+def parse_nbg(payload):
+    """NBG answer -> value of one unit in USD: {"USD": 1, "GEL": 0.37, "EUR": 1.08}."""
+    day = payload[0] if isinstance(payload, list) else payload
+    currencies = day.get("currencies") if isinstance(day, dict) and "currencies" in day else payload
+    gel_per = {c["code"]: float(c["rate"]) / float(c.get("quantity") or 1) for c in currencies}
+    usd = gel_per["USD"]
+    date = day.get("date") if isinstance(day, dict) and "currencies" in day else currencies[0].get("date", "")
+    return {"USD": 1.0, "GEL": round(1 / usd, 6), "EUR": round(gel_per["EUR"] / usd, 6)}, str(date or "")[:10]
+
+
+def fetch_nbg_rates(previous=None):
+    try:
+        request = Request(NBG_URL, headers={"User-Agent": "HomesInGeorgiaSite/1.0", "Accept": "application/json"})
+        with urlopen(request, timeout=15) as response:
+            rates, date = parse_nbg(json.load(response))
+        return {"rates": rates, "date": date, "source": "NBG"}
+    except Exception as error:  # network or format problem: keep the last known rates
+        print(f"NBG rates unavailable ({error}); using previous rates", file=sys.stderr)
+        return previous or {"rates": FALLBACK_RATES, "date": "", "source": "fallback"}
+
+
 def parse_dt(value):
     try:
         return datetime.fromisoformat(value)
@@ -279,7 +303,7 @@ def parse_dt(value):
         return None
 
 
-def normalize(raw, source, now):
+def normalize(raw, source, now, rates=FALLBACK_RATES):
     text = (raw.get("source_text") or "").replace("\r", "")
     if not text.strip() or CLOSED_RE.search(text):
         return None
@@ -308,7 +332,7 @@ def normalize(raw, source, now):
     area = parse_area(text)
     floor, floors = parse_floor(text)
     months, pets, tenants = terms(text)
-    price_usd = round(price * USD_RATES.get(currency, 1)) if price else None
+    price_usd = round(price * rates.get(currency, 1)) if price else None
     lat, lon = raw.get("lat"), raw.get("lon")
     item = {
         "id": f"{source}-{raw['id']}",
@@ -324,7 +348,7 @@ def normalize(raw, source, now):
         "currency": currency,
         "price_usd": price_usd,
         "deposit": deposit,
-        "ppsqm_usd": (round(price_usd / area) if price_usd and area else parse_price_per_sqm(text)) if service != "rent" else None,
+        "ppsqm_usd": (round(price_usd / area) if price_usd and area else parse_price_per_sqm(text, rates)) if service != "rent" else None,
         "rooms": rooms,
         "area": area,
         "floor": floor,
@@ -360,12 +384,13 @@ def dedupe(items):
     return result
 
 
-def build(sources, now=None):
+def build(sources, now=None, fx=None):
     now = now or datetime.now().astimezone()
+    fx = fx or {"rates": FALLBACK_RATES, "date": "", "source": "fallback"}
     items = []
     for source, payload in sources.items():
         for raw in payload.get("items", []):
-            item = normalize(raw, source, now)
+            item = normalize(raw, source, now, fx["rates"])
             if item:
                 items.append(item)
     items = dedupe(items)
@@ -374,7 +399,9 @@ def build(sources, now=None):
         counts[item["service"]] = counts.get(item["service"], 0) + 1
     return {
         "updated_at": max((p.get("updated_at") or "" for p in sources.values()), default=""),
-        "rates_usd": USD_RATES,
+        "rates_usd": fx["rates"],
+        "rates_date": fx["date"],
+        "rates_source": fx["source"],
         "counts": counts,
         "items": items,
     }
@@ -389,9 +416,19 @@ def main():
     if not sources:
         print("No raw catalog files found", file=sys.stderr)
         return 1
-    payload = build(sources)
-    (DATA / "listings.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    print("listings:", payload["counts"])
+    out = DATA / "listings.json"
+    previous = None
+    if out.exists():
+        try:
+            old = json.loads(out.read_text(encoding="utf-8"))
+            if old.get("rates_source") == "NBG":
+                previous = {"rates": old["rates_usd"], "date": old.get("rates_date", ""), "source": "NBG"}
+        except (ValueError, KeyError):
+            pass
+    fx = fetch_nbg_rates(previous)
+    payload = build(sources, fx=fx)
+    out.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    print("listings:", payload["counts"], "| rates:", fx["source"], fx["date"], fx["rates"])
     return 0
 
 

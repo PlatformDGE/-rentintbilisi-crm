@@ -51,6 +51,14 @@ function renderHeader() {
   </div>`;
 }
 
+function rateLine() {
+  const r = data?.rates_usd;
+  if (!r || data.rates_source !== 'NBG') return '';
+  const fmt = v => v.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
+  const date = data.rates_date ? new Date(data.rates_date).toLocaleDateString(getLang() === 'ru' ? 'ru-RU' : 'en-GB') : '';
+  return '<br>' + esc(t('footer.rates', date, fmt(1 / r.GEL), fmt(r.EUR / r.GEL)));
+}
+
 function renderFooter() {
   footer.innerHTML = `
   <div class="container foot">
@@ -59,7 +67,7 @@ function renderFooter() {
     <div><h4>${t('footer.channels')}</h4>${Object.values(CONTACT.channels).map(c => `<a href="${telegramHref(c)}" target="_blank" rel="noopener">@${c}</a>`).join('')}
       <h4>${t('footer.contact')}</h4><a href="${phoneHref()}">${esc(CONTACT.phone)}</a><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></div>
   </div>
-  <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}</span></div>`;
+  <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}${rateLine()}</span></div>`;
 }
 
 function renderTabbar(route) {
@@ -103,6 +111,7 @@ async function route() {
     try {
       data = await loadFeed();
       setRates(data.rates_usd);
+      renderFooter();
     } catch {
       view.innerHTML = `<div class="container page-pad loading">${t('error')}</div>`;
       return;

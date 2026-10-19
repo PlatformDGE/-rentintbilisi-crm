@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from build_site_listings import build, normalize, parse_price
+from build_site_listings import build, normalize, parse_nbg, parse_price
 
 NOW = datetime(2026, 10, 19, tzinfo=timezone.utc)
 RECENT = "2026-10-18T12:00:00+04:00"
@@ -72,6 +72,20 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertEqual(item["service"], "sale")
         self.assertEqual(item["condition"], "white_frame")
         self.assertEqual(item["ppsqm_usd"], 1200)
+
+    def test_nbg_rates_convert_to_usd(self):
+        payload = [{"date": "2026-10-19T00:00:00.000Z", "currencies": [
+            {"code": "USD", "quantity": 1, "rate": 2.7},
+            {"code": "EUR", "quantity": 1, "rate": 2.916},
+        ]}]
+        rates, date = parse_nbg(payload)
+        self.assertEqual(date, "2026-10-19")
+        self.assertAlmostEqual(rates["GEL"], 1 / 2.7, places=5)
+        self.assertAlmostEqual(rates["EUR"], 1.08, places=5)
+        fx = {"rates": rates, "date": date, "source": "NBG"}
+        item = normalize(raw(RENT_POST.replace("1500$ + Deposit 1500$", "2700 Gel")), "rent", NOW, rates)
+        self.assertEqual(item["price_usd"], 1000)
+        self.assertEqual(build({"rent": {"items": []}}, NOW, fx)["rates_source"], "NBG")
 
     def test_build_counts_and_dedupes_reposts(self):
         payload = build({"rent": {"updated_at": RECENT, "items": [raw(RENT_POST), {**raw(RENT_POST), "id": "2"}]}}, NOW)
