@@ -21,7 +21,9 @@ export const CHANNELS = {
 export const phoneHref = phone => 'tel:' + String(phone || CONTACT.phone).replace(/[^\d+]/g, '');
 export const whatsappHref = (phone, text = '') =>
   'https://wa.me/' + String(phone || CONTACT.phone).replace(/\D/g, '') + (text ? '?text=' + encodeURIComponent(text) : '');
-export const telegramHref = user => 'https://t.me/' + String(user || CONTACT.telegram).replace(/^@/, '');
+// `text` pre-fills the message in the chat (Telegram's ?text= username-link parameter).
+export const telegramHref = (user, text = '') =>
+  'https://t.me/' + String(user || CONTACT.telegram).replace(/^@/, '') + (text ? '?text=' + encodeURIComponent(text) : '');
 
 // A service turns into a live catalogue as soon as its channel has offers in
 // site/data/listings.json (see markLive); until then it shows a "coming soon" page.

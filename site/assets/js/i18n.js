@@ -121,7 +121,8 @@ const dict = {
     'l.heating': 'Отопление', 'l.term': 'Срок', 'l.term.value': m => m.map(x => x + ' мес').join(' · '),
     'l.pets': 'Животные', 'l.tenants': 'Жильцов', 'l.tenants.value': n => `до ${n}`, 'l.kind': 'Тип',
     'l.completion': 'Сдача', 'l.notfound': 'Объект не найден или уже сдан', 'l.back': 'Вернуться в каталог',
-    'l.msg': (title, url) => `Здравствуйте! Интересует объект «${title}» ${url}`,
+    'l.msg': (title, price, url) => `Здравствуйте! Интересует объект:\n${title} — ${price}\n${url}`,
+    'l.msg.copied': 'Ссылка на объект скопирована — если её нет в сообщении, вставьте в чат',
     'l.approx': 'цена в объявлении',
 
     'soon.badge': 'Скоро запуск', 'soon.lead': 'Мы готовим этот сервис. Оставьте заявку — подберём вариант вручную уже сейчас и сообщим о запуске.',
@@ -256,7 +257,8 @@ const dict = {
     'l.heating': 'Heating', 'l.term': 'Lease', 'l.term.value': m => m.map(x => x + ' mo').join(' · '),
     'l.pets': 'Pets', 'l.tenants': 'Tenants', 'l.tenants.value': n => `up to ${n}`, 'l.kind': 'Type',
     'l.completion': 'Completion', 'l.notfound': 'This listing was not found or is already taken', 'l.back': 'Back to catalogue',
-    'l.msg': (title, url) => `Hello! I am interested in “${title}” ${url}`,
+    'l.msg': (title, price, url) => `Hello! I am interested in this listing:\n${title} — ${price}\n${url}`,
+    'l.msg.copied': 'Listing link copied — paste it into the chat if it is not there',
     'l.approx': 'listed price',
 
     'soon.badge': 'Launching soon', 'soon.lead': 'We are preparing this service. Leave a request — we will find an option for you manually today and let you know at launch.',

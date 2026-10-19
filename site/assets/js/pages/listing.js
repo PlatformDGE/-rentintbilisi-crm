@@ -65,9 +65,14 @@ export function renderListing(root, data, id) {
   const photos = x.photos || [];
   const url = location.href;
   const agent = x.agent || {};
-  const tg = telegramHref(agent.telegram || CONTACT.telegram);
+  // The message carries the Telegram post link: in the chat it unfolds into the
+  // post with photos, so the agent sees the exact object at once.
+  const objectLink = x.post_url || url;
+  const symbol = { USD: '$', GEL: '₾', EUR: '€' }[x.currency] || '$';
+  const listedPrice = x.price ? `${symbol}${num(x.price)}${p.period ? ' ' + p.period : ''}` : p.main;
+  const message = t('l.msg', title, listedPrice, objectLink);
+  const tg = telegramHref(agent.telegram || CONTACT.telegram, message);
   const phone = agent.phone || CONTACT.phone;
-  const message = t('l.msg', title, url);
   document.title = `${title} · ${p.main} · Homes in Georgia`;
 
   const factRows = x.kind === 'car' ? [
@@ -167,6 +172,10 @@ export function renderListing(root, data, id) {
 </article>`;
 
   root.addEventListener('click', async e => {
+    // Also copy the link, for Telegram versions that ignore the pre-filled text.
+    if (e.target.closest('[data-lead="telegram"]')) {
+      navigator.clipboard?.writeText(objectLink).then(() => toast(t('l.msg.copied'))).catch(() => {});
+    }
     const more = e.target.closest('[data-expand]');
     if (more) {
       const box = more.previousElementSibling;
