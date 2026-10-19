@@ -3,7 +3,7 @@ import { icon } from '../icons.js';
 import { SERVICES, AMENITY_ORDER, CONTACT, telegramHref, phoneHref, whatsappHref } from '../config.js';
 import { esc, listingTitle, favButton, rail, empty, toast } from '../components.js';
 import { createMap } from '../map.js';
-import { priceLabel, money, ago, isFav, num } from '../store.js';
+import { priceLabel, money, ago, isFav, num, addRecent } from '../store.js';
 
 function lightbox(photos, start, title) {
   let i = start;
@@ -58,6 +58,7 @@ export function renderListing(root, data, id) {
     root.innerHTML = `<div class="container page-pad">${empty(t('l.notfound'), '', `<a class="btn btn-primary" href="#/rent">${t('l.back')}</a>`)}</div>`;
     return;
   }
+  addRecent(x.id);
   const svc = SERVICES[x.service];
   const title = listingTitle(x);
   const p = priceLabel(x);
@@ -126,8 +127,10 @@ export function renderListing(root, data, id) {
     <div class="l-grid">
       <div class="l-main">
         ${factRows.length ? `<section class="l-sec"><h2>${t('l.facts')}</h2><div class="facts">${factRows.map(([ic, k, v]) => `<div class="fact">${icon(ic)}<span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div></section>` : ''}
-        ${x.description ? `<section class="l-sec"><h2>${t('l.about')}</h2><p class="l-desc">${esc(x.description).replace(/\n/g, '<br>')}</p></section>` : ''}
-        ${amenities.length ? `<section class="l-sec"><h2>${t('l.amenities')}</h2><ul class="amenities">${amenities.map(a => `<li>${icon('check')}${t('am.' + a)}</li>`).join('')}</ul></section>` : ''}
+        ${x.description ? `<section class="l-sec"><h2>${t('l.about')}</h2><p class="l-desc clamp">${esc(x.description).replace(/\n/g, '<br>')}</p>
+          <button type="button" class="more-btn" data-expand="desc" hidden>${t('l.more')} ${icon('down')}</button></section>` : ''}
+        ${amenities.length ? `<section class="l-sec"><h2>${t('l.amenities')}</h2><ul class="amenities${amenities.length > 8 ? ' clamp' : ''}">${amenities.map(a => `<li>${icon('check')}${t('am.' + a)}</li>`).join('')}</ul>
+          ${amenities.length > 8 ? `<button type="button" class="more-btn" data-expand="amen">${t('l.amen.more', amenities.length)} ${icon('down')}</button>` : ''}</section>` : ''}
         ${terms.length ? `<section class="l-sec"><h2>${t('l.terms')}</h2><div class="facts">${terms.map(([ic, k, v]) => `<div class="fact">${icon(ic)}<span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div></section>` : ''}
         ${Number.isFinite(x.lat) ? `<section class="l-sec"><h2>${t('l.location')}</h2><div class="l-map" id="l-map"></div></section>` : ''}
         <p class="l-meta">${t('l.id')}: ${esc(x.id)} · ${t('l.published')}: ${esc(ago(x.published_at))}
@@ -161,6 +164,14 @@ export function renderListing(root, data, id) {
 </article>`;
 
   root.addEventListener('click', async e => {
+    const more = e.target.closest('[data-expand]');
+    if (more) {
+      const box = more.previousElementSibling;
+      const open = box.classList.toggle('open');
+      more.classList.toggle('up', open);
+      more.firstChild.textContent = open ? t('l.less') + ' ' : more.dataset.expand === 'amen' ? t('l.amen.more', amenities.length) + ' ' : t('l.more') + ' ';
+      return;
+    }
     const ph = e.target.closest('[data-photo]');
     if (ph && photos.length) return lightbox(photos, +ph.dataset.photo, title);
     if (e.target.closest('[data-share]')) {
@@ -169,6 +180,11 @@ export function renderListing(root, data, id) {
       try { await navigator.clipboard.writeText(url); toast(t('l.copied')); } catch {}
     }
   });
+
+  // Show "Show more" only when the description is actually cut.
+  const desc = root.querySelector('.l-desc');
+  if (desc && desc.scrollHeight > desc.clientHeight + 4) root.querySelector('[data-expand="desc"]').hidden = false;
+  else desc?.classList.remove('clamp');
 
   const mapEl = root.querySelector('#l-map');
   if (mapEl) {

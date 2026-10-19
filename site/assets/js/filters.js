@@ -182,70 +182,84 @@ export function buildFilterSections(serviceId, base, draft) {
   const svc = serviceOf(serviceId);
   const want = new Set(svc.filters || []);
   const sections = [];
-  const add = s => s && sections.push(s);
+  const add = (s, key) => { if (s) { s.dataset.key = key; sections.push(s); } };
   const period = base.find(x => x.period)?.period;
-  if (want.has('price')) add(rangeControl('price', base.map(x => x.price_usd), draft, { money: true, label: period ? `${t('f.price')} ${t('period.' + period)}` : t('f.price') }));
-  if (want.has('beds')) add(chipSection(t('f.beds'), 'beds', [['0', t('f.studio')], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4+']], draft));
+  if (want.has('price')) add(rangeControl('price', base.map(x => x.price_usd), draft, { money: true, label: period ? `${t('f.price')} ${t('period.' + period)}` : t('f.price') }), 'price');
+  if (want.has('beds')) add(chipSection(t('f.beds'), 'beds', [['0', t('f.studio')], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4+']], draft), 'beds');
   if (want.has('kind')) {
     const kinds = present(base, 'kind');
-    add(chipSection(t('f.kind'), 'kind', ['apartment', 'house', 'commercial', 'land'].filter(k => kinds.has(k)).map(k => [k, t('kind.' + k)]), draft));
+    add(chipSection(t('f.kind'), 'kind', ['apartment', 'house', 'commercial', 'land'].filter(k => kinds.has(k)).map(k => [k, t('kind.' + k)]), draft), 'kind');
   }
   if (want.has('deal')) {
     const d = present(base, 'deal');
-    add(chipSection(t('f.deal'), 'deal', ['rent', 'sale'].filter(k => d.has(k)).map(k => [k, t('deal.' + k)]), draft));
+    add(chipSection(t('f.deal'), 'deal', ['rent', 'sale'].filter(k => d.has(k)).map(k => [k, t('deal.' + k)]), draft), 'deal');
   }
-  if (want.has('area')) add(rangeControl('area', base.map(x => x.area), draft, { money: false, label: t('f.area') }));
-  if (want.has('year')) add(rangeControl('year', base.map(x => x.year), draft, { money: false, plain: true, unit: '', label: t('f.year') }));
-  if (want.has('mileage')) add(rangeControl('mileage', base.map(x => x.mileage), draft, { money: false, unit: 'km', label: t('f.mileage') }));
+  if (want.has('area')) add(rangeControl('area', base.map(x => x.area), draft, { money: false, label: t('f.area') }), 'area');
+  if (want.has('year')) add(rangeControl('year', base.map(x => x.year), draft, { money: false, plain: true, unit: '', label: t('f.year') }), 'year');
+  if (want.has('mileage')) add(rangeControl('mileage', base.map(x => x.mileage), draft, { money: false, unit: 'km', label: t('f.mileage') }), 'mileage');
   if (want.has('gearbox')) {
     const g = present(base, 'gearbox');
-    add(chipSection(t('f.gearbox'), 'gearbox', ['auto', 'manual'].filter(k => g.has(k)).map(k => [k, t('gearbox.' + k)]), draft));
+    add(chipSection(t('f.gearbox'), 'gearbox', ['auto', 'manual'].filter(k => g.has(k)).map(k => [k, t('gearbox.' + k)]), draft), 'gearbox');
   }
   if (want.has('fuel')) {
     const fu = present(base, 'fuel');
-    add(chipSection(t('f.fuel'), 'fuel', ['petrol', 'diesel', 'hybrid', 'electric', 'gas'].filter(k => fu.has(k)).map(k => [k, t('fuel.' + k)]), draft));
+    add(chipSection(t('f.fuel'), 'fuel', ['petrol', 'diesel', 'hybrid', 'electric', 'gas'].filter(k => fu.has(k)).map(k => [k, t('fuel.' + k)]), draft), 'fuel');
   }
   let district = null;
   if (want.has('district')) {
     district = chipSection(t('f.district'), 'district', countBy(base, 'district').map(([v, n]) => [v, v, n]), draft, { limit: 10 });
-    add(district);
+    add(district, 'district');
   }
-  if (want.has('metro')) add(selectSection(t('f.metro'), 'metro', countBy(base, 'metro'), draft, t('f.metro.any')));
+  if (want.has('metro')) add(selectSection(t('f.metro'), 'metro', countBy(base, 'metro'), draft, t('f.metro.any')), 'metro');
   if (want.has('building')) {
     const b = present(base, 'building');
-    add(chipSection(t('f.building'), 'building', ['new', 'old', 'historical'].filter(k => b.has(k)).map(k => [k, t('building.' + k)]), draft));
+    add(chipSection(t('f.building'), 'building', ['new', 'old', 'historical'].filter(k => b.has(k)).map(k => [k, t('building.' + k)]), draft), 'building');
   }
   if (want.has('condition')) {
     const c = present(base, 'condition');
     add(chipSection(t('f.condition'), 'condition', ['renovated', 'mixed', 'white_frame', 'black_frame', 'green_frame', 'under_construction', 'old']
-      .filter(k => c.has(k)).map(k => [k, t('cond.' + k)]), draft));
+      .filter(k => c.has(k)).map(k => [k, t('cond.' + k)]), draft), 'condition');
   }
-  if (want.has('amenities')) add(chipSection(t('f.amenities'), 'amen', FILTER_AMENITIES.map(k => [k, t('am.' + k)]), draft));
-  if (want.has('term')) add(chipSection(t('f.term'), 'term', [['short', t('term.short')], ['year', t('term.year')], ['long', t('term.long')]], draft, { multi: false }));
+  if (want.has('amenities')) add(chipSection(t('f.amenities'), 'amen', FILTER_AMENITIES.map(k => [k, t('am.' + k)]), draft), 'amen');
+  if (want.has('term')) add(chipSection(t('f.term'), 'term', [['short', t('term.short')], ['year', t('term.year')], ['long', t('term.long')]], draft, { multi: false }), 'term');
   const flags = [];
   if (want.has('pets')) flags.push(['pets', t('f.pets')]);
   if (want.has('flags')) flags.push(['nocom', t('f.commission')], ['excl', t('f.exclusive')]);
-  if (flags.length) add(toggleSection(t('f.flags'), flags, draft));
+  if (flags.length) add(toggleSection(t('f.flags'), flags, draft), 'flags');
   return { sections, district };
 }
 
-/** Bottom sheet on phones, side panel on desktop. Resolves with the new filters or null. */
-export function openFilterSheet({ serviceId, base, filters, onApply }) {
+export function clearFilter(f, key) {
+  if (LIST_KEYS.includes(key)) f[key] = [];
+  else if (RANGE_KEYS.includes(key)) f[key] = [null, null];
+  else if (key === 'flags') f.pets = f.excl = f.nocom = false;
+  else f[key] = '';
+}
+
+/**
+ * All filters: bottom sheet on phones, side panel on desktop.
+ * One filter (`only`): a small popover under its pill button on desktop,
+ * a short bottom sheet on phones.
+ */
+export function openFilterSheet({ serviceId, base, filters, onApply, only = '', anchor = null }) {
   const draft = structuredClone(filters);
+  const popover = !!(only && anchor && matchMedia('(min-width: 760px)').matches);
+  const { sections, district } = buildFilterSections(serviceId, base, draft);
+  const shown = only ? sections.filter(s => s.dataset.key === only) : sections;
+  const title = only ? shown[0]?.querySelector('h3')?.textContent || t('f.title') : t('f.title');
   const wrap = document.createElement('div');
-  wrap.className = 'sheet-wrap';
+  wrap.className = 'sheet-wrap' + (popover ? ' pop' : '') + (only ? ' single' : '');
   wrap.innerHTML = `
     <div class="sheet-backdrop" data-close></div>
     <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-      <header class="sheet-head"><span class="grab"></span><h2 id="sheet-title">${esc(t('f.title'))}</h2>
+      <header class="sheet-head"><span class="grab"></span><h2 id="sheet-title">${esc(title)}</h2>
         <button class="icon-btn" type="button" data-close aria-label="${esc(t('nav.close'))}">${icon('x')}</button></header>
       <div class="sheet-body"></div>
-      <footer class="sheet-foot"><button type="button" class="btn btn-ghost" data-reset>${esc(t('cat.reset'))}</button>
+      <footer class="sheet-foot"><button type="button" class="btn btn-ghost" data-reset>${esc(t(only ? 'f.clear' : 'cat.reset'))}</button>
         <button type="button" class="btn btn-primary" data-apply></button></footer>
     </aside>`;
   const body = wrap.querySelector('.sheet-body');
-  const { sections, district } = buildFilterSections(serviceId, base, draft);
-  sections.forEach(s => body.append(s));
+  shown.forEach(s => body.append(s));
   const applyBtn = wrap.querySelector('[data-apply]');
   const recount = () => {
     applyBtn.textContent = t('f.show', applyFilters(base, draft).length);
@@ -254,19 +268,30 @@ export function openFilterSheet({ serviceId, base, filters, onApply }) {
   body.addEventListener('change', recount);
   recount();
 
+  if (popover) {
+    const r = anchor.getBoundingClientRect();
+    const sheet = wrap.querySelector('.sheet');
+    sheet.style.top = Math.round(r.bottom + 8) + 'px';
+    sheet.style.left = Math.round(Math.min(r.left, window.innerWidth - 400)) + 'px';
+  }
+
   const close = () => {
     wrap.classList.remove('open');
     document.removeEventListener('keydown', onKey);
     document.body.classList.remove('locked');
-    setTimeout(() => wrap.remove(), 260);
+    setTimeout(() => wrap.remove(), 220);
   };
   const onKey = e => { if (e.key === 'Escape') close(); };
   wrap.addEventListener('click', e => {
     if (e.target.closest('[data-close]')) close();
     if (e.target.closest('[data-reset]')) {
-      LIST_KEYS.forEach(k => { draft[k] = []; });
-      RANGE_KEYS.forEach(k => { draft[k] = [null, null]; });
-      draft.metro = ''; draft.term = ''; draft.pets = draft.excl = draft.nocom = false;
+      if (only) {
+        clearFilter(draft, only);
+      } else {
+        LIST_KEYS.forEach(k => { draft[k] = []; });
+        RANGE_KEYS.forEach(k => { draft[k] = [null, null]; });
+        draft.metro = ''; draft.term = ''; draft.pets = draft.excl = draft.nocom = false;
+      }
       sections.forEach(s => s.reset?.());
       recount();
     }
@@ -274,6 +299,6 @@ export function openFilterSheet({ serviceId, base, filters, onApply }) {
   });
   document.addEventListener('keydown', onKey);
   document.body.append(wrap);
-  document.body.classList.add('locked');
+  if (!popover) document.body.classList.add('locked');
   requestAnimationFrame(() => { wrap.classList.add('open'); wrap.querySelector('.sheet-head .icon-btn').focus({ preventScroll: true }); });
 }

@@ -57,3 +57,7 @@ export const AMENITY_ORDER = ['conditioner', 'wifi', 'dishwasher', 'washer', 'ov
 export const FILTER_AMENITIES = ['conditioner', 'dishwasher', 'washer', 'balcony', 'terrace', 'elevator', 'parking', 'oven', 'wifi', 'courtyard'];
 
 export const MAP_CENTER = [41.7151, 44.8271];
+
+// MapTiler key is public by design (it ships to the browser); it is restricted
+// to the site's domain in the MapTiler dashboard (Account → API keys).
+export const MAPTILER_KEY = '8rgCgBliYpwKCmMzEVV8';

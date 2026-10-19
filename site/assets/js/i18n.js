@@ -63,6 +63,11 @@ const dict = {
     'home.owners.cta': 'Разместить объект',
 
     'cat.count': n => `${n} ${plural(n, 'объект', 'объекта', 'объектов')}`,
+    'cat.filters.all': 'Все фильтры', 'f.clear': 'Очистить', 'f.beds.short': 'сп.',
+    'cat.drop': (label, n) => `Убрать ${label} — ${n} ${plural(n, 'объект', 'объекта', 'объектов')}`,
+    'map.streets': 'Карта', 'map.satellite': 'Спутник',
+    'home.recent': 'Вы недавно смотрели', 'home.directions': 'Что ищете?',
+    'l.more': 'Показать всё', 'l.less': 'Свернуть', 'l.amen.more': n => `Все удобства (${n})`,
     'cat.search': 'Адрес, район, метро…', 'cat.search.car': 'Марка, модель, год…', 'cat.filters': 'Фильтры', 'cat.sort': 'Сортировка',
     'cat.sort.new': 'Сначала новые', 'cat.sort.cheap': 'Сначала дешёвые', 'cat.sort.expensive': 'Сначала дорогие',
     'cat.sort.area': 'По площади', 'cat.sort.ppsqm': 'Цена за м²',
@@ -192,6 +197,11 @@ const dict = {
     'home.owners.cta': 'List a property',
 
     'cat.count': n => `${n} ${n === 1 ? 'listing' : 'listings'}`,
+    'cat.filters.all': 'All filters', 'f.clear': 'Clear', 'f.beds.short': 'bd',
+    'cat.drop': (label, n) => `Remove ${label} — ${n} ${n === 1 ? 'listing' : 'listings'}`,
+    'map.streets': 'Map', 'map.satellite': 'Satellite',
+    'home.recent': 'Recently viewed', 'home.directions': 'What are you looking for?',
+    'l.more': 'Show more', 'l.less': 'Show less', 'l.amen.more': n => `All amenities (${n})`,
     'cat.search': 'Address, district, metro…', 'cat.search.car': 'Make, model, year…', 'cat.filters': 'Filters', 'cat.sort': 'Sort',
     'cat.sort.new': 'Newest first', 'cat.sort.cheap': 'Price: low to high', 'cat.sort.expensive': 'Price: high to low',
     'cat.sort.area': 'Largest first', 'cat.sort.ppsqm': 'Price per m²',

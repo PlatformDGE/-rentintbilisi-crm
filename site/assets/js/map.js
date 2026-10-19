@@ -1,6 +1,7 @@
-import { MAP_CENTER } from './config.js';
+import { MAP_CENTER, MAPTILER_KEY } from './config.js';
 import { compactMoney, priceLabel } from './store.js';
 import { esc, listingTitle, facts } from './components.js';
+import { t } from './i18n.js';
 
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
 const CLUSTER = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/';
@@ -26,16 +27,27 @@ function popup(x) {
   </a>`;
 }
 
-/** Leaflet map with price-pill markers, clustering and list ⇄ map highlighting. */
-export async function createMap(el, { interactive = true, zoom = 12 } = {}) {
+const MT_ATTRIBUTION = '<a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap</a>';
+const mapTiler = (L, style, ext = 'png') => L.tileLayer(`https://api.maptiler.com/maps/${style}/256/{z}/{x}/{y}{r}.${ext}?key=${MAPTILER_KEY}`, {
+  maxZoom: 20, attribution: MT_ATTRIBUTION, crossOrigin: true,
+});
+
+/**
+ * Leaflet map on MapTiler tiles with price-pill markers, clustering and
+ * list ⇄ map highlighting. `onSelect(item)` replaces the popup (used on phones
+ * to show a listing card at the bottom of the map).
+ */
+export async function createMap(el, { interactive = true, zoom = 12, onSelect = null } = {}) {
   const L = await loadLeaflet();
   const map = L.map(el, { zoomControl: false, scrollWheelZoom: interactive, dragging: interactive || !L.Browser.mobile, attributionControl: true })
     .setView(MAP_CENTER, zoom);
   L.control.zoom({ position: 'bottomright' }).addTo(map);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19, subdomains: 'abcd',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-  }).addTo(map);
+  map.attributionControl.setPrefix(false);
+  const streets = mapTiler(L, 'streets-v2').addTo(map);
+  if (interactive) {
+    L.control.layers({ [t('map.streets')]: streets, [t('map.satellite')]: mapTiler(L, 'hybrid', 'jpg') }, null, { position: 'topright' }).addTo(map);
+  }
+  if (onSelect) map.on('click', () => onSelect(null));
   const layer = L.markerClusterGroup({
     showCoverageOnHover: false, maxClusterRadius: 48, spiderfyOnMaxZoom: true,
     iconCreateFunction: c => L.divIcon({ html: `<span>${c.getChildCount()}</span>`, className: 'cluster', iconSize: [40, 40] }),
@@ -53,7 +65,9 @@ export async function createMap(el, { interactive = true, zoom = 12 } = {}) {
         const m = L.marker([x.lat, x.lon], {
           icon: L.divIcon({ className: 'pin', html: `<span>${esc(label)}</span>`, iconSize: null }),
           keyboard: true, title: listingTitle(x),
-        }).bindPopup(popup(x), { closeButton: false, className: 'pop', offset: [0, -6], maxWidth: 280 });
+        });
+        if (onSelect) m.on('click', () => onSelect(x));
+        else m.bindPopup(popup(x), { closeButton: false, className: 'pop', offset: [0, -6], maxWidth: 280 });
         markers.set(x.id, m);
         layer.addLayer(m);
       });

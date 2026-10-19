@@ -38,6 +38,16 @@ export function toggleFav(id) {
 }
 export const onFavChange = fn => favListeners.add(fn);
 
+const recent = read('hig:recent', []);
+export function addRecent(id) {
+  const i = recent.indexOf(id);
+  if (i >= 0) recent.splice(i, 1);
+  recent.unshift(id);
+  recent.length = Math.min(recent.length, 12);
+  write('hig:recent', recent);
+}
+export const recentIds = () => [...recent];
+
 export const CURRENCIES = ['USD', 'GEL', 'EUR'];
 let currency = read('hig:cur', 'USD');
 export const getCurrency = () => currency;
