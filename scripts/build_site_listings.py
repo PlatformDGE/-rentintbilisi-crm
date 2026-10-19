@@ -4,7 +4,7 @@
 Reads the raw channel exports written by update_public_catalog.py
 (site/data/rent.json, site/data/sale.json) and writes site/data/listings.json:
 only live offers, with price, rooms, area, amenities and terms parsed from the
-post text and every object assigned to a website service (rent / sale / new).
+post text and every object assigned to a website service (rent / sale).
 
 Pure standard library, so it runs in any workflow step without extra installs.
 """
@@ -70,8 +70,6 @@ CONDITIONS = [
 ]
 
 BUILDINGS = [("historical", r"#?historicalbuilding"), ("new", r"#?newbuilding|new building"), ("old", r"#?oldbuilding|old building")]
-
-NEW_DEVELOPMENT = {"under_construction", "black_frame", "white_frame", "green_frame"}
 
 
 def number(raw):
@@ -302,9 +300,9 @@ def normalize(raw, source, now):
         return None
 
     condition = detect(CONDITIONS, text)
+    # New developments will become a separate service with its own source;
+    # until then every sale post is shown as resale.
     service = source
-    if source == "sale" and (condition in NEW_DEVELOPMENT or re.search(r"scheduled completion|#underconstruction", text, re.I)):
-        service = "new"
 
     rooms = parse_rooms(text)
     area = parse_area(text)
@@ -340,7 +338,7 @@ def normalize(raw, source, now):
         "tenants": tenants,
         "exclusive": bool(re.search(r"#exclusive", text, re.I)),
         "no_commission": bool(re.search(r"0\s*%\s*commission", text, re.I)),
-        "completion": completion(text) if service == "new" else "",
+        "completion": completion(text) if condition in ("under_construction", "white_frame", "black_frame", "green_frame") else "",
         "description": description(text, headline(text)),
         "agent": agent(text),
         "photos": photos[:12],

@@ -21,8 +21,8 @@ export const SERVICES = {
   daily: { group: 'realty', icon: 'moon', live: false, period: 'night', channel: 'rent' },
   sale: { group: 'realty', icon: 'tag', live: true, period: '', channel: 'sale',
     filters: ['price', 'beds', 'kind', 'area', 'district', 'metro', 'building', 'condition', 'flags'] },
-  new: { group: 'realty', icon: 'crane', live: true, period: '', channel: 'sale',
-    filters: ['price', 'beds', 'kind', 'area', 'district', 'metro', 'condition', 'flags'] },
+  // Separate direction with its own source and contacts; launches later.
+  new: { group: 'realty', icon: 'crane', live: false, period: '', channel: '' },
   'car-rent': { group: 'auto', icon: 'car', live: false, period: 'day', channel: 'cars' },
   'car-hourly': { group: 'auto', icon: 'clock', live: false, period: 'hour', channel: 'cars' },
   'car-sale': { group: 'auto', icon: 'gauge', live: false, period: '', channel: 'cars' },

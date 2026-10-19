@@ -66,10 +66,11 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertEqual(parse_price("💰129.000$ |", "sale")[:2], (129000, "USD"))
         self.assertEqual(parse_price("💰129$", "sale")[:2], (129000, "USD"))
 
-    def test_frame_sale_goes_to_new_developments(self):
+    def test_frame_sale_stays_resale_until_developments_launch(self):
         text = "🏢 #2Bed #Apartment for #Sale\n✨ #NewBuilding | #WhiteFrame\n🏠 80 Sq.m | 3/11 Floor\n💰 96.000$"
         item = normalize(raw(text), "sale", NOW)
-        self.assertEqual(item["service"], "new")
+        self.assertEqual(item["service"], "sale")
+        self.assertEqual(item["condition"], "white_frame")
         self.assertEqual(item["ppsqm_usd"], 1200)
 
     def test_build_counts_and_dedupes_reposts(self):

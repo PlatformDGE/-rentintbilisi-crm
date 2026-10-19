@@ -7,7 +7,6 @@ import { countBy, compactMoney, num, priceLabel, itemsFor } from '../store.js';
 const BUDGETS = {
   rent: [500, 800, 1000, 1500, 2000, 3000],
   sale: [80000, 120000, 160000, 250000, 400000],
-  new: [70000, 100000, 150000, 250000],
 };
 
 function heroSearch(data, group, service) {
@@ -97,7 +96,6 @@ export function renderHome(root, data) {
 </section>
 
 ${rail('rail-rent', t('home.fresh.rent'), fresh('rent'), '#/rent')}
-${rail('rail-new', t('home.fresh.new'), fresh('new'), '#/new')}
 ${rail('rail-sale', t('home.fresh.sale'), fresh('sale'), '#/sale')}
 
 <section class="section">
