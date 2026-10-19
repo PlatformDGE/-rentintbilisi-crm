@@ -2,7 +2,11 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
+<<<<<<< HEAD
   "updated_at": "2026-10-20T02:01:27+04:00",
+=======
+  "updated_at": "2026-10-20T01:58:23+04:00",
+>>>>>>> origin/claude/code-structure-website-stsgxe
   "items": [
     {
       "id": "539606",
