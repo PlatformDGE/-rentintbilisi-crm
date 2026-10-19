@@ -4,7 +4,8 @@
 Reads the raw channel exports written by update_public_catalog.py
 (site/data/rent.json, site/data/sale.json) and writes site/data/listings.json:
 only live offers, with price, rooms, area, amenities and terms parsed from the
-post text and every object assigned to a website service (rent / sale).
+post text and every object assigned to a website service. Each Telegram channel
+is one source (see SOURCES); a service with no live offers stays "coming soon".
 
 Pure standard library, so it runs in any workflow step without extra installs.
 """
@@ -27,7 +28,22 @@ FALLBACK_RATES = {"USD": 1.0, "GEL": round(1 / 2.7, 6), "EUR": 1.08}
 
 # Long-term rentals are rented out quickly and the channel rarely links the
 # "rented" post back to the offer, so old offers are treated as expired.
-MAX_AGE_DAYS = {"rent": 75, "sale": 540}
+# source file (site/data/<source>.json) -> website service and how long an offer
+# stays live. Long-term rentals go fast and the channel rarely links the
+# "rented" post back to the offer, so old offers are treated as expired.
+SOURCES = {
+    "rent": ("rent", 75),
+    "sale": ("sale", 540),
+    "homes": ("sale", 540),
+    "commercial": ("commercial", 365),
+    "daily": ("daily", 365),
+    "new": ("new", 720),
+    "car-rent": ("car-rent", 365),
+    "car-sale": ("car-sale", 180),
+}
+CAR_SERVICES = {"car-rent", "car-sale"}
+# Sale posts sometimes abbreviate thousands: '💰129$' means 129 000.
+THOUSANDS_SERVICES = {"sale", "new"}
 
 CLOSED_RE = re.compile(
     r"#(?:Flat)?Rented\b|#Sold\b|#DepositPaid\b|found a tenant|has received a deposit|"
@@ -139,8 +155,7 @@ def parse_price(text, service):
             dep = re.search(r"deposit\s*" + AMOUNT + r"\s*" + CURRENCY + r"?|" + AMOUNT + r"\s*" + CURRENCY + r"?\s*deposit", line, re.I)
             if dep:
                 deposit = number(dep.group(1) or dep.group(3))
-            # Sale posts sometimes abbreviate thousands: '💰129$' means 129 000.
-            if service == "sale" and amount < 5000:
+            if service in THOUSANDS_SERVICES and amount < 5000:
                 amount *= 1000
             return amount, currency or "USD", deposit
     return None, None, None
@@ -296,6 +311,46 @@ def fetch_nbg_rates(previous=None):
         return previous or {"rates": FALLBACK_RATES, "date": "", "source": "fallback"}
 
 
+def deal_of(text, service):
+    if service in ("sale", "new", "car-sale"):
+        return "sale"
+    if service == "commercial":
+        return "sale" if re.search(r"for\s*#?sale|#sale\b|продаж", text, re.I) else "rent"
+    return "rent"
+
+
+def period_of(text, service, deal):
+    if deal == "sale":
+        return ""
+    if service == "daily":
+        return "night"
+    if service == "car-rent":
+        return "hour" if re.search(r"/\s*h(?:ou)?r\b|per\s*hour|hourly|в\s*час|/\s*час", text, re.I) else "day"
+    return "month"
+
+
+def car_details(text):
+    year = re.search(r"\b(19[89]\d|20[0-3]\d)\b", text)
+    mileage = re.search(r"(\d[\d ,.]*)\s*(?:km|км)\b", text, re.I)
+    gearbox = "auto" if re.search(r"automatic|#auto\b|автомат|tiptronic|robot", text, re.I) else "manual" if re.search(r"manual|механ", text, re.I) else ""
+    fuel = next((name for name, pattern in (("hybrid", r"hybrid|гибрид"), ("electric", r"electric|электро|\bEV\b"), ("diesel", r"diesel|дизель"),
+                                              ("gas", r"\bgas\b|\blpg\b|газ"), ("petrol", r"petrol|gasoline|бензин")) if re.search(pattern, text, re.I)), "")
+    return {
+        "year": int(year.group(1)) if year else None,
+        "mileage": number(mileage.group(1)) if mileage else None,
+        "gearbox": gearbox,
+        "fuel": fuel,
+    }
+
+
+def car_title(text, fallback):
+    for line in text.splitlines():
+        clean = EMOJI_RE.sub("", line).replace("#", "").strip(" -|:")
+        if len(clean) > 3 and not re.match(r"^(?:\+?\d|@|https?://)", clean):
+            return short_sentence(clean, 70)
+    return fallback
+
+
 def parse_dt(value):
     try:
         return datetime.fromisoformat(value)
@@ -307,8 +362,9 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     text = (raw.get("source_text") or "").replace("\r", "")
     if not text.strip() or CLOSED_RE.search(text):
         return None
+    service, max_age = SOURCES[source]
     published = parse_dt(raw.get("published_at"))
-    if published and now - published > timedelta(days=MAX_AGE_DAYS[source]):
+    if published and now - published > timedelta(days=max_age):
         return None
     # Service must be an actual offer, not a digest or announcement.
     if source == "rent" and not re.search(r"for\s*#?rent|#rent\b", text, re.I):
@@ -318,15 +374,14 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     if len(re.findall(r"💰", text)) > 3:  # multi-object digest posts
         return None
 
-    price, currency, deposit = parse_price(text, source)
+    price, currency, deposit = parse_price(text, service)
     photos = [p for p in (raw.get("photos") or ([raw["image"]] if raw.get("image") else [])) if p]
     if not price and not photos:
         return None
 
     condition = detect(CONDITIONS, text)
-    # New developments will become a separate service with its own source;
-    # until then every sale post is shown as resale.
-    service = source
+    deal = deal_of(text, service)
+    is_car = service in CAR_SERVICES
 
     rooms = parse_rooms(text)
     area = parse_area(text)
@@ -337,26 +392,29 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     item = {
         "id": f"{source}-{raw['id']}",
         "service": service,
-        "kind": property_kind(text, raw.get("property_type")),
-        "title": (raw.get("title") or "").strip() or "Tbilisi",
-        "headline": headline(text),
-        "district": raw.get("district") or "",
-        "metro": raw.get("metro") or "",
-        "lat": round(float(lat), 6) if lat is not None else None,
-        "lon": round(float(lon), 6) if lon is not None else None,
+        "deal": deal,
+        "period": period_of(text, service, deal),
+        "kind": "car" if is_car else "commercial" if service == "commercial" else property_kind(text, raw.get("property_type")),
+        "title": car_title(text, raw.get("title") or "Car") if is_car else (raw.get("title") or "").strip() or "Tbilisi",
+        "headline": "" if is_car else headline(text),
+        "district": "" if is_car else raw.get("district") or "",
+        "metro": "" if is_car else raw.get("metro") or "",
+        "lat": round(float(lat), 6) if lat is not None and not is_car else None,
+        "lon": round(float(lon), 6) if lon is not None and not is_car else None,
         "price": price,
         "currency": currency,
         "price_usd": price_usd,
         "deposit": deposit,
-        "ppsqm_usd": (round(price_usd / area) if price_usd and area else parse_price_per_sqm(text, rates)) if service != "rent" else None,
-        "rooms": rooms,
-        "area": area,
-        "floor": floor,
-        "floors": floors,
-        "building": detect(BUILDINGS, text),
-        "condition": condition,
-        "heating": detect(list(HEATING.items()), text),
-        "amenities": listed_features(text),
+        "ppsqm_usd": (round(price_usd / area) if price_usd and area else parse_price_per_sqm(text, rates)) if deal == "sale" and not is_car else None,
+        "rooms": None if is_car else rooms,
+        "area": None if is_car else area,
+        "floor": None if is_car else floor,
+        "floors": None if is_car else floors,
+        "building": "" if is_car else detect(BUILDINGS, text),
+        "condition": "" if is_car else condition,
+        "heating": "" if is_car else detect(list(HEATING.items()), text),
+        "amenities": [] if is_car else listed_features(text),
+        **(car_details(text) if is_car else {}),
         "pets": pets,
         "months": months,
         "tenants": tenants,
@@ -409,7 +467,7 @@ def build(sources, now=None, fx=None):
 
 def main():
     sources = {}
-    for source in ("rent", "sale"):
+    for source in SOURCES:
         path = DATA / f"{source}.json"
         if path.exists():
             sources[source] = json.loads(path.read_text(encoding="utf-8"))

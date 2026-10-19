@@ -2,7 +2,7 @@ import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { serviceOf, FILTER_AMENITIES } from './config.js';
 import { esc } from './components.js';
-import { applyFilters, countBy, compactMoney, fromUsd, toUsd, currencySymbol, num } from './store.js';
+import { applyFilters, countBy, compactMoney, fromUsd, toUsd, currencySymbol, num, LIST_KEYS, RANGE_KEYS } from './store.js';
 
 const BINS = 36;
 const RES = 1000;
@@ -34,7 +34,7 @@ function percentile(sorted, q) {
  * Dual-handle range with a live histogram. Two native range inputs keep
  * keyboard and screen-reader support; the histogram shows where offers are.
  */
-function rangeControl(key, values, draft, { money, label }) {
+function rangeControl(key, values, draft, { money, label, unit: unitLabel = 'm²', plain = false }) {
   const sorted = values.filter(v => v > 0).sort((a, b) => a - b);
   if (sorted.length < 3) return null;
   const min = Math.floor(sorted[0]);
@@ -43,8 +43,8 @@ function rangeControl(key, values, draft, { money, label }) {
   const bins = new Array(BINS).fill(0);
   sorted.forEach(v => { bins[Math.min(BINS - 1, Math.floor((sc.toPos(Math.min(v, max)) / RES) * BINS))]++; });
   const peak = Math.max(...bins);
-  const fmt = v => (money ? compactMoney(v) : num(v) + ' m²');
-  const unit = money ? currencySymbol() : 'm²';
+  const fmt = v => (money ? compactMoney(v) : plain ? String(Math.round(v)) : num(v) + ' ' + unitLabel);
+  const unit = money ? currencySymbol() : unitLabel;
   const display = v => (money ? Math.round(fromUsd(v)) : Math.round(v));
 
   const el = document.createElement('section');
@@ -88,8 +88,9 @@ function rangeControl(key, values, draft, { money, label }) {
     if (+lo.value > +hi.value - 10) {
       if (document.activeElement === lo) lo.value = +hi.value - 10; else hi.value = +lo.value + 10;
     }
-    const a = +lo.value <= 0 ? null : round(sc.toValue(+lo.value));
-    const b = +hi.value >= RES ? null : round(sc.toValue(+hi.value));
+    const snap = plain ? Math.round : round;
+    const a = +lo.value <= 0 ? null : snap(sc.toValue(+lo.value));
+    const b = +hi.value >= RES ? null : snap(sc.toValue(+hi.value));
     draft[key] = [a, b];
     nLo.value = a == null ? '' : display(a);
     nHi.value = b == null ? '' : display(b);
@@ -182,13 +183,28 @@ export function buildFilterSections(serviceId, base, draft) {
   const want = new Set(svc.filters || []);
   const sections = [];
   const add = s => s && sections.push(s);
-  if (want.has('price')) add(rangeControl('price', base.map(x => x.price_usd), draft, { money: true, label: t(svc.period === 'month' ? 'f.price.month' : 'f.price') }));
+  const period = base.find(x => x.period)?.period;
+  if (want.has('price')) add(rangeControl('price', base.map(x => x.price_usd), draft, { money: true, label: period ? `${t('f.price')} ${t('period.' + period)}` : t('f.price') }));
   if (want.has('beds')) add(chipSection(t('f.beds'), 'beds', [['0', t('f.studio')], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4+']], draft));
   if (want.has('kind')) {
     const kinds = present(base, 'kind');
     add(chipSection(t('f.kind'), 'kind', ['apartment', 'house', 'commercial', 'land'].filter(k => kinds.has(k)).map(k => [k, t('kind.' + k)]), draft));
   }
+  if (want.has('deal')) {
+    const d = present(base, 'deal');
+    add(chipSection(t('f.deal'), 'deal', ['rent', 'sale'].filter(k => d.has(k)).map(k => [k, t('deal.' + k)]), draft));
+  }
   if (want.has('area')) add(rangeControl('area', base.map(x => x.area), draft, { money: false, label: t('f.area') }));
+  if (want.has('year')) add(rangeControl('year', base.map(x => x.year), draft, { money: false, plain: true, unit: '', label: t('f.year') }));
+  if (want.has('mileage')) add(rangeControl('mileage', base.map(x => x.mileage), draft, { money: false, unit: 'km', label: t('f.mileage') }));
+  if (want.has('gearbox')) {
+    const g = present(base, 'gearbox');
+    add(chipSection(t('f.gearbox'), 'gearbox', ['auto', 'manual'].filter(k => g.has(k)).map(k => [k, t('gearbox.' + k)]), draft));
+  }
+  if (want.has('fuel')) {
+    const fu = present(base, 'fuel');
+    add(chipSection(t('f.fuel'), 'fuel', ['petrol', 'diesel', 'hybrid', 'electric', 'gas'].filter(k => fu.has(k)).map(k => [k, t('fuel.' + k)]), draft));
+  }
   let district = null;
   if (want.has('district')) {
     district = chipSection(t('f.district'), 'district', countBy(base, 'district').map(([v, n]) => [v, v, n]), draft, { limit: 10 });
@@ -248,8 +264,8 @@ export function openFilterSheet({ serviceId, base, filters, onApply }) {
   wrap.addEventListener('click', e => {
     if (e.target.closest('[data-close]')) close();
     if (e.target.closest('[data-reset]')) {
-      ['beds', 'kind', 'district', 'building', 'condition', 'amen'].forEach(k => { draft[k] = []; });
-      draft.price = [null, null]; draft.area = [null, null];
+      LIST_KEYS.forEach(k => { draft[k] = []; });
+      RANGE_KEYS.forEach(k => { draft[k] = [null, null]; });
       draft.metro = ''; draft.term = ''; draft.pets = draft.excl = draft.nocom = false;
       sections.forEach(s => s.reset?.());
       recount();

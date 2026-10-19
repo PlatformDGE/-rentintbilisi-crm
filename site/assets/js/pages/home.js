@@ -4,23 +4,26 @@ import { SERVICES, GROUPS, telegramHref, CONTACT } from '../config.js';
 import { esc, rail, serviceIcon } from '../components.js';
 import { countBy, compactMoney, num, priceLabel, itemsFor } from '../store.js';
 
-const BUDGETS = {
-  rent: [500, 800, 1000, 1500, 2000, 3000],
-  sale: [80000, 120000, 160000, 250000, 400000],
-};
+/** Budget steps from the real price distribution of a service (rounded quantiles). */
+function budgets(pool) {
+  const prices = pool.map(x => x.price_usd).filter(Boolean).sort((a, b) => a - b);
+  if (prices.length < 4) return [];
+  const nice = v => { const p = 10 ** Math.max(1, Math.floor(Math.log10(v)) - 1); return Math.round(v / p) * p; };
+  return [...new Set([0.25, 0.5, 0.7, 0.85, 0.95].map(q => nice(prices[Math.floor(q * (prices.length - 1))])))];
+}
 
 function heroSearch(data, group, service) {
   const svc = SERVICES[service];
   const pool = svc.live ? itemsFor(data, service) : [];
   const districts = countBy(pool, 'district').slice(0, 14);
-  const kinds = [...new Set(pool.map(x => x.kind))];
-  const fields = svc.live ? `
+  const kinds = [...new Set(pool.map(x => x.kind))].filter(k => k !== 'car');
+  const fields = svc.live ? `${districts.length ? `
       <label class="hs-field"><span>${t('home.where')}</span>
-        <select name="district"><option value="">${t('home.where.any')}</option>${districts.map(([d, n]) => `<option value="${esc(d)}">${esc(d)} · ${n}</option>`).join('')}</select></label>
+        <select name="district"><option value="">${t('home.where.any')}</option>${districts.map(([d, n]) => `<option value="${esc(d)}">${esc(d)} · ${n}</option>`).join('')}</select></label>` : ''}${kinds.length > 1 ? `
       <label class="hs-field"><span>${t('home.type')}</span>
-        <select name="kind"><option value="">—</option>${kinds.map(k => `<option value="${k}">${t('kind.' + k)}</option>`).join('')}</select></label>
+        <select name="kind"><option value="">—</option>${kinds.map(k => `<option value="${k}">${t('kind.' + k)}</option>`).join('')}</select></label>` : ''}
       <label class="hs-field"><span>${t('home.budget')}</span>
-        <select name="max"><option value="">${t('home.budget.any')}</option>${(BUDGETS[service] || []).map(v => `<option value="${v}">${compactMoney(v)}${svc.period === 'month' ? ' ' + t('period.month') : ''}</option>`).join('')}</select></label>`
+        <select name="max"><option value="">${t('home.budget.any')}</option>${budgets(pool).map(v => `<option value="${v}">${compactMoney(v)}${pool[0]?.period ? ' ' + t('period.' + pool[0].period) : ''}</option>`).join('')}</select></label>`
     : `<div class="hs-soon">${icon('bell')}<span>${esc(t('svc.' + service + '.desc'))}</span></div>`;
   return `
     <div class="hs-tabs" role="tablist">
@@ -95,8 +98,7 @@ export function renderHome(root, data) {
   </div>
 </section>
 
-${rail('rail-rent', t('home.fresh.rent'), fresh('rent'), '#/rent')}
-${rail('rail-sale', t('home.fresh.sale'), fresh('sale'), '#/sale')}
+${Object.keys(SERVICES).filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home.fresh.' + s), fresh(s), '#/' + s)).join('')}
 
 <section class="section">
   <div class="container">

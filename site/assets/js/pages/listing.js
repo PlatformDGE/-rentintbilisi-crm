@@ -69,11 +69,16 @@ export function renderListing(root, data, id) {
   const message = t('l.msg', title, url);
   document.title = `${title} · ${p.main} · Homes in Georgia`;
 
-  const factRows = [
+  const factRows = x.kind === 'car' ? [
+    ['calendar', t('l.year'), x.year || ''],
+    ['gauge', t('l.mileage'), x.mileage ? `${num(x.mileage)} km` : ''],
+    ['sliders', t('f.gearbox'), x.gearbox ? t('gearbox.' + x.gearbox) : ''],
+    ['flame', t('f.fuel'), x.fuel ? t('fuel.' + x.fuel) : ''],
+  ].filter(r => r[2] !== '') : [
     ['bed', t('l.rooms'), x.rooms != null ? (x.rooms === 0 ? t('f.studio') : x.rooms) : ''],
     ['area', t('l.area'), x.area ? `${num(x.area)} m²` : ''],
     ['layers', t('l.floor'), x.floor ? (x.floors ? `${x.floor} / ${x.floors}` : x.floor) : ''],
-    ['home', t('l.kind'), t('kind.' + x.kind)],
+    ['home', t('l.kind'), t('kind.' + x.kind) + (x.service === 'commercial' && x.deal ? ' · ' + t('deal.' + x.deal) : '')],
     ['building', t('l.building'), x.building ? t('building.' + x.building) : ''],
     ['brush', t('l.condition'), x.condition ? t('cond.' + x.condition) : ''],
     ['flame', t('l.heating'), x.heating ? t('heat.' + x.heating) : ''],
@@ -110,7 +115,7 @@ export function renderListing(root, data, id) {
           ${x.no_commission ? `<span class="badge badge-ok">${t('l.commission.none')}</span>` : ''}
         </div>
         <h1>${esc(title)}</h1>
-        <p class="l-addr">${icon('pin')}${esc([x.title !== title ? x.title : '', x.district].filter(Boolean).join(' · ') || 'Tbilisi')}${x.metro ? `<span class="metro">${icon('metro')}${esc(x.metro)}</span>` : ''}</p>
+        ${x.kind === 'car' ? '' : `<p class="l-addr">${icon('pin')}${esc([x.title !== title ? x.title : '', x.district].filter(Boolean).join(' · ') || t('city'))}${x.metro ? `<span class="metro">${icon('metro')}${esc(x.metro)}</span>` : ''}</p>`}
       </div>
       <div class="l-actions">
         <button type="button" class="btn btn-outline" data-share>${icon('share')}<span>${t('l.share')}</span></button>

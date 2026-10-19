@@ -1,5 +1,5 @@
 import { t, getLang } from './i18n.js';
-import { SERVICES } from './config.js';
+
 
 // ---------- data ----------
 let feed;
@@ -8,7 +8,7 @@ export function loadFeed() {
     .then(r => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
     .then(data => {
       data.items.forEach(x => {
-        x._text = [x.title, x.headline, x.district, x.metro, x.kind, x.description].filter(Boolean).join(' ').toLowerCase();
+        x._text = [x.title, x.headline, x.district, x.metro, x.kind, x.year, x.description].filter(Boolean).join(' ').toLowerCase();
         x._ts = Date.parse(x.published_at) || 0;
       });
       data.byId = new Map(data.items.map(x => [x.id, x]));
@@ -18,8 +18,9 @@ export function loadFeed() {
   return feed;
 }
 
+// "all" is the cross-service real-estate search, so cars stay out of it.
 export const itemsFor = (data, service) =>
-  service === 'all' ? data.items : data.items.filter(x => x.service === service);
+  data.items.filter(x => (service === 'all' ? x.kind !== 'car' : x.service === service));
 
 // ---------- persistent preferences ----------
 const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
@@ -72,7 +73,7 @@ export function compactMoney(amountUsd, cur = currency) {
 /** Price in the visitor's currency; exact when it matches the owner's currency. */
 export function priceLabel(x) {
   if (!x.price_usd) return { main: t('price.request'), period: '', approx: '' };
-  const period = SERVICES[x.service]?.period ? t('period.' + SERVICES[x.service].period) : '';
+  const period = x.period ? t('period.' + x.period) : '';
   const exact = x.currency === currency;
   const main = exact ? SYMBOL[currency] + num(x.price) : '≈ ' + money(x.price_usd);
   const approx = exact ? '' : `${SYMBOL[x.currency] || '$'}${num(x.price)}`;
@@ -94,8 +95,8 @@ export const isFresh = x => Date.now() - x._ts < 3 * 864e5;
 
 // ---------- filtering ----------
 // Filter state lives in the URL query: every key below is a query param.
-export const LIST_KEYS = ['beds', 'kind', 'district', 'building', 'condition', 'amen'];
-export const RANGE_KEYS = ['price', 'area'];
+export const LIST_KEYS = ['beds', 'kind', 'deal', 'district', 'building', 'condition', 'amen', 'gearbox', 'fuel'];
+export const RANGE_KEYS = ['price', 'area', 'year', 'mileage'];
 export const FLAG_KEYS = ['pets', 'excl', 'nocom'];
 
 export function parseFilters(params) {
@@ -143,6 +144,11 @@ export function applyFilters(items, f, skip = '') {
     (!words.length || words.every(w => x._text.includes(w)))
     && (skip === 'price' || inRange(x.price_usd, f.price))
     && (skip === 'area' || inRange(x.area, f.area))
+    && (skip === 'year' || inRange(x.year, f.year))
+    && (skip === 'mileage' || inRange(x.mileage, f.mileage))
+    && (!f.deal.length || f.deal.includes(x.deal))
+    && (!f.gearbox.length || f.gearbox.includes(x.gearbox))
+    && (!f.fuel.length || f.fuel.includes(x.fuel))
     && (!f.beds.length || f.beds.some(b => (b === '4' ? x.rooms >= 4 : x.rooms === +b)))
     && (!f.kind.length || f.kind.includes(x.kind))
     && (skip === 'district' || !f.district.length || f.district.includes(x.district))
@@ -161,6 +167,7 @@ const SORTS = {
   cheap: (a, b) => (a.price_usd ?? Infinity) - (b.price_usd ?? Infinity),
   expensive: (a, b) => (b.price_usd ?? -1) - (a.price_usd ?? -1),
   area: (a, b) => (b.area ?? -1) - (a.area ?? -1),
+  year: (a, b) => (b.year ?? -1) - (a.year ?? -1),
   ppsqm: (a, b) => (a.ppsqm_usd ?? Infinity) - (b.ppsqm_usd ?? Infinity),
 };
 export const sortItems = (rows, sort) => rows.sort(SORTS[sort] || SORTS.new);

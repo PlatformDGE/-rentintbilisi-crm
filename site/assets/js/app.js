@@ -1,6 +1,6 @@
 import { t, getLang, setLang, languages } from './i18n.js';
 import { icon, logo } from './icons.js';
-import { SERVICES, GROUPS, CONTACT, telegramHref, phoneHref } from './config.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, markLive } from './config.js';
 import { esc, installInteractions, serviceIcon } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
 import { renderHome } from './pages/home.js';
@@ -64,7 +64,7 @@ function renderFooter() {
   <div class="container foot">
     <div class="foot-brand">${logo('logo-light')}<p>${t('footer.about')}</p></div>
     ${Object.keys(GROUPS).map(g => `<div><h4>${t('group.' + g)}</h4>${GROUPS[g].services.map(s => `<a href="#/${s}">${t('svc.' + s)}</a>`).join('')}</div>`).join('')}
-    <div><h4>${t('footer.channels')}</h4>${Object.values(CONTACT.channels).map(c => `<a href="${telegramHref(c)}" target="_blank" rel="noopener">@${c}</a>`).join('')}
+    <div><h4>${t('footer.channels')}</h4>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}
       <h4>${t('footer.contact')}</h4><a href="${phoneHref()}">${esc(CONTACT.phone)}</a><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></div>
   </div>
   <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}${rateLine()}</span></div>`;
@@ -94,6 +94,8 @@ async function route() {
     return;
   }
   current?.page?.destroy?.();
+  document.querySelectorAll('.sheet-wrap, .lightbox').forEach(el => el.remove());
+  document.body.classList.remove('locked');
   document.title = 'Homes in Georgia — ' + t('brand.tagline');
   header.querySelector('.drawer')?.setAttribute('hidden', '');
   document.body.classList.remove('menu-open');
@@ -105,12 +107,14 @@ async function route() {
   window.scrollTo({ top: 0, behavior: 'instant' });
   current = { key, page: null };
 
-  const needsData = first === '' || first === 'all' || first === 'listing' || first === 'favorites' || SERVICES[first]?.live;
-  if (needsData && !data) {
+  // The feed also decides which services are live, so every page waits for it.
+  if (!data) {
     view.innerHTML = `<div class="container page-pad loading">${t('loading')}</div>`;
     try {
       data = await loadFeed();
       setRates(data.rates_usd);
+      markLive(data.counts);
+      renderHeader();
       renderFooter();
     } catch {
       view.innerHTML = `<div class="container page-pad loading">${t('error')}</div>`;

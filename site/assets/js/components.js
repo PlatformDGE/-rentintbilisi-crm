@@ -1,13 +1,16 @@
 import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { SERVICES } from './config.js';
-import { priceLabel, ago, isFav, toggleFav, isFresh, money } from './store.js';
+import { priceLabel, ago, isFav, toggleFav, isFresh, money, num } from './store.js';
 
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 export const listingTitle = x => x.headline || x.title;
 
 export function facts(x) {
+  if (x.kind === 'car') {
+    return [x.year, x.mileage ? `${num(x.mileage)} km` : '', x.gearbox ? t('gearbox.' + x.gearbox) : '', x.fuel ? t('fuel.' + x.fuel) : ''].filter(Boolean).map(String);
+  }
   return [
     x.rooms != null ? t('card.beds', x.rooms) : x.kind !== 'apartment' ? t('kind.' + x.kind) : '',
     x.area ? `${Math.round(x.area)} m²` : '',
@@ -27,8 +30,9 @@ export function card(x, { eager = false } = {}) {
     x.exclusive && `<span class="badge badge-accent">${t('card.exclusive')}</span>`,
     isFresh(x) && `<span class="badge">${t('card.new')}</span>`,
     x.completion && `<span class="badge">${esc(t('card.completion', x.completion))}</span>`,
+    x.service === 'commercial' && x.deal && `<span class="badge">${esc(t('deal.' + x.deal))}</span>`,
   ].filter(Boolean).join('');
-  const sub = x.service === 'rent' ? '' : x.ppsqm_usd ? `${money(x.ppsqm_usd)}/m²` : '';
+  const sub = x.ppsqm_usd ? `${money(x.ppsqm_usd)}/m²` : '';
   return `
 <article class="card" data-id="${esc(x.id)}">
   <div class="card-media">
@@ -47,7 +51,7 @@ export function card(x, { eager = false } = {}) {
     <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}${x.no_commission ? `<span class="pill-ok">${t('card.nocommission')}</span>` : ''}</div>
     <h3>${esc(listingTitle(x))}</h3>
     <p class="card-facts">${facts(x).map(esc).join('<i></i>')}</p>
-    <p class="card-loc">${icon('pin')}<span>${esc([x.district, x.metro && x.metro !== x.district ? x.metro : ''].filter(Boolean).join(' · ') || 'Tbilisi')}</span><time>${esc(ago(x.published_at))}</time></p>
+    <p class="card-loc">${icon('pin')}<span>${esc([x.district, x.metro && x.metro !== x.district ? x.metro : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>
   </a>
 </article>`;
 }

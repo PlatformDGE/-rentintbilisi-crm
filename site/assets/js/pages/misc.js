@@ -1,12 +1,12 @@
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
-import { SERVICES, GROUPS, CONTACT, telegramHref } from '../config.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref } from '../config.js';
 import { esc, card, empty } from '../components.js';
 import { favIds } from '../store.js';
 
 export function renderSoon(root, serviceId) {
   const svc = SERVICES[serviceId];
-  const channel = CONTACT.channels[svc.channel];
+  const channel = CHANNELS[serviceId];
   const live = Object.keys(SERVICES).filter(s => SERVICES[s].live);
   root.innerHTML = `
 <section class="soon">
@@ -17,7 +17,7 @@ export function renderSoon(root, serviceId) {
       <div>
         <span class="badge badge-accent">${icon('bell')}${t('soon.badge')}</span>
         <h1>${t('svc.' + serviceId)}</h1>
-        <p class="lead">${t('svc.' + serviceId + '.desc')}. ${t('soon.lead')}</p>
+        <p class="lead">${t('svc.' + serviceId + '.desc')}. ${t(channel ? 'soon.lead.channel' : 'soon.lead')}</p>
         <div class="soon-cta">
           <a class="btn btn-primary btn-lg" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('soon.cta')}</span></a>
           ${channel ? `<a class="btn btn-outline btn-lg" href="${telegramHref(channel)}" target="_blank" rel="noopener">@${esc(channel)}</a>` : ''}

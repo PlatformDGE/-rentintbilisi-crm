@@ -16,12 +16,18 @@ export function renderCatalog(root, data, serviceId, params) {
   const group = svc.group;
   const base = itemsFor(data, serviceId);
   let f = parseFilters(params);
-  let view = params.get('view') || (desktop() ? 'map' : 'list');
+  const defaultView = () => (base.some(x => Number.isFinite(x.lat)) && desktop() ? 'map' : 'list');
+  let view = params.get('view') || defaultView();
   let rows = [], shown = 0, mapCtl = null, mapReady = null;
 
   const tabs = serviceId === 'all'
-    ? Object.keys(SERVICES).filter(s => SERVICES[s].live)
+    ? Object.keys(SERVICES).filter(s => SERVICES[s].live && SERVICES[s].group === 'realty')
     : GROUPS[group].services;
+  const isCar = group === 'auto';
+  const sortOptions = ['new', 'cheap', 'expensive',
+    ...(isCar ? ['year'] : ['area']),
+    ...(base.some(x => x.ppsqm_usd) ? ['ppsqm'] : [])];
+  const hasMap = base.some(x => Number.isFinite(x.lat));
 
   root.innerHTML = `
 <section class="catalog">
@@ -34,15 +40,15 @@ export function renderCatalog(root, data, serviceId, params) {
   </div>
   <div class="toolbar-wrap">
     <div class="container toolbar">
-      <label class="search">${icon('search')}<input type="search" value="${esc(f.q)}" placeholder="${esc(t('cat.search'))}" aria-label="${esc(t('cat.search'))}"></label>
+      <label class="search">${icon('search')}<input type="search" value="${esc(f.q)}" placeholder="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}" aria-label="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}"></label>
       ${(svc.filters || []).includes('beds') ? `<div class="quick" role="group" aria-label="${esc(t('f.beds'))}">
         ${[['0', t('f.studio')], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4+']].map(([v, l]) => `<button type="button" class="chip" data-beds="${v}">${esc(l)}</button>`).join('')}
       </div>` : ''}
       <button type="button" class="btn btn-outline filters-btn">${icon('sliders')}<span>${t('cat.filters')}</span><b class="nbadge"></b></button>
       <div class="select sort">${icon('down')}<select aria-label="${esc(t('cat.sort'))}">
-        ${['new', 'cheap', 'expensive', 'area', ...(serviceId === 'rent' ? [] : ['ppsqm'])].map(s => `<option value="${s}">${t('cat.sort.' + s)}</option>`).join('')}
+        ${sortOptions.map(s => `<option value="${s}">${t('cat.sort.' + s)}</option>`).join('')}
       </select></div>
-      <div class="view-toggle" role="group">
+      <div class="view-toggle" role="group"${hasMap ? '' : ' hidden'}>
         <button type="button" data-setview="list" aria-label="${esc(t('cat.view.list'))}">${icon('list')}<span>${t('cat.view.list')}</span></button>
         <button type="button" data-setview="map" aria-label="${esc(t('cat.view.map'))}">${icon('map')}<span>${t('cat.view.map')}</span></button>
       </div>
@@ -53,7 +59,7 @@ export function renderCatalog(root, data, serviceId, params) {
     <div class="results"><div class="grid">${skeletons(6)}</div><div class="sentinel"></div></div>
     <div class="map-pane"><div class="map" id="cat-map"></div><div class="map-note"></div></div>
   </div>
-  <button type="button" class="fab-view"></button>
+  ${hasMap ? '<button type="button" class="fab-view"></button>' : ''}
 </section>`;
 
   const $ = s => root.querySelector(s);
@@ -63,7 +69,7 @@ export function renderCatalog(root, data, serviceId, params) {
   function commit(next, { replace = true } = {}) {
     f = next;
     const qp = filtersToParams(f);
-    if (view !== (desktop() ? 'map' : 'list')) qp.set('view', view);
+    if (view !== defaultView()) qp.set('view', view);
     const hash = `#/${serviceId}${qp.toString() ? '?' + qp : ''}`;
     if (location.hash !== hash) history[replace ? 'replaceState' : 'pushState'](null, '', hash);
     render();
@@ -75,6 +81,11 @@ export function renderCatalog(root, data, serviceId, params) {
     const span = ([a, b], fmt) => (a != null && b != null ? `${fmt(a)} — ${fmt(b)}` : a != null ? `${t('f.from')} ${fmt(a)}` : `${t('f.to')} ${fmt(b)}`);
     if (f.price[0] != null || f.price[1] != null) add(span(f.price, compactMoney), x => { x.price = [null, null]; });
     if (f.area[0] != null || f.area[1] != null) add(span(f.area, v => `${Math.round(v)} m²`), x => { x.area = [null, null]; });
+    if (f.year[0] != null || f.year[1] != null) add(span(f.year, v => String(Math.round(v))), x => { x.year = [null, null]; });
+    if (f.mileage[0] != null || f.mileage[1] != null) add(span(f.mileage, v => `${num(v)} km`), x => { x.mileage = [null, null]; });
+    f.deal.forEach(k => add(t('deal.' + k), x => { x.deal = x.deal.filter(v => v !== k); }));
+    f.gearbox.forEach(k => add(t('gearbox.' + k), x => { x.gearbox = x.gearbox.filter(v => v !== k); }));
+    f.fuel.forEach(k => add(t('fuel.' + k), x => { x.fuel = x.fuel.filter(v => v !== k); }));
     f.beds.forEach(b => add(b === '0' ? t('f.studio') : t('card.beds', +b) + (b === '4' ? '+' : ''), x => { x.beds = x.beds.filter(v => v !== b); }));
     f.kind.forEach(k => add(t('kind.' + k), x => { x.kind = x.kind.filter(v => v !== k); }));
     f.district.forEach(d => add(d, x => { x.district = x.district.filter(v => v !== d); }));
@@ -107,7 +118,7 @@ export function renderCatalog(root, data, serviceId, params) {
     const section = $('.catalog');
     section.dataset.view = view;
     root.querySelectorAll('[data-setview]').forEach(b => b.classList.toggle('on', b.dataset.setview === view));
-    $('.fab-view').innerHTML = view === 'map' ? `${icon('list')}<span>${t('cat.view.list')}</span>` : `${icon('map')}<span>${t('cat.view.map')}</span>`;
+    if ($('.fab-view')) $('.fab-view').innerHTML = view === 'map' ? `${icon('list')}<span>${t('cat.view.list')}</span>` : `${icon('map')}<span>${t('cat.view.map')}</span>`;
   }
 
   function page() {
@@ -201,7 +212,7 @@ export function renderCatalog(root, data, serviceId, params) {
     // Called by the router when only the query changed (back/forward).
     update(nextParams) {
       f = parseFilters(nextParams);
-      view = nextParams.get('view') || (desktop() ? 'map' : 'list');
+      view = nextParams.get('view') || defaultView();
       search.value = f.q;
       sort.value = f.sort;
       render();

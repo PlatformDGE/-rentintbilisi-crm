@@ -87,6 +87,28 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertEqual(item["price_usd"], 1000)
         self.assertEqual(build({"rent": {"items": []}}, NOW, fx)["rates_source"], "NBG")
 
+    def test_commercial_channel_detects_rent_or_sale(self):
+        rent = normalize(raw("🏢 #Commercial for #Rent\n🏠 200 sq.m\n💰 950$ + Deposit 950$"), "commercial", NOW)
+        sale = normalize(raw("🏢 Office for #Sale\n🏠 120 sq.m\n💰 240.000$"), "commercial", NOW)
+        self.assertEqual((rent["service"], rent["deal"], rent["period"]), ("commercial", "rent", "month"))
+        self.assertEqual((sale["deal"], sale.get("period"), sale["price"]), ("sale", None, 240000))
+        self.assertEqual(sale["ppsqm_usd"], 2000)
+
+    def test_daily_rent_is_priced_per_night(self):
+        item = normalize(raw("📍 Old Tbilisi\n🏢 #1Bed apartment\n💰 60$ per night"), "daily", NOW)
+        self.assertEqual((item["service"], item["period"], item["price"]), ("daily", "night", 60))
+
+    def test_car_posts_get_car_fields_and_no_map(self):
+        text = "🚗 Toyota Camry 2019\nHybrid | Automatic\n85 000 km\n💰 45$ / day"
+        item = normalize(raw(text, lat=41.7, lon=44.8), "car-rent", NOW)
+        self.assertEqual(item["title"], "Toyota Camry 2019")
+        self.assertEqual((item["kind"], item["period"], item["price"]), ("car", "day", 45))
+        self.assertEqual((item["year"], item["mileage"], item["gearbox"], item["fuel"]), (2019, 85000, "auto", "hybrid"))
+        self.assertNotIn("district", item)
+        self.assertNotIn("lat", item)
+        hourly = normalize(raw("Kia Rio\n💰 10$ / hour"), "car-rent", NOW)
+        self.assertEqual(hourly["period"], "hour")
+
     def test_build_counts_and_dedupes_reposts(self):
         payload = build({"rent": {"updated_at": RECENT, "items": [raw(RENT_POST), {**raw(RENT_POST), "id": "2"}]}}, NOW)
         self.assertEqual(payload["counts"], {"rent": 1})
