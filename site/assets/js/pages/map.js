@@ -1,6 +1,6 @@
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
-import { MAP_CENTER, MAP_DEALS, MAP_KINDS, FRESHNESS, dealOf, mapKindOf, freshnessOf } from '../config.js';
+import { MAP_CENTER, MAP_CHANNELS, KIND_ICONS, CHANNELS, FRESHNESS, channelOf, freshnessOf } from '../config.js';
 import { esc, listingTitle, facts } from '../components.js';
 import { loadLeaflet, mapTiler } from '../map.js';
 import { compactMoney, priceLabel, ago } from '../store.js';
@@ -11,22 +11,20 @@ const csv = v => new Set((v || '').split(',').filter(Boolean));
 
 /**
  * Total map of every listing.
- * Icon = what the object is (apartment block, house, kiosk, plot, car),
- * deal switches = long-term / daily rent, sale, new builds, car rent / sale,
- * colour = how fresh the post is (green < 5 days, amber 5–20, red-orange > 20).
- * State lives in the URL: #/map?deal=…&kind=…&age=… list what is switched OFF.
+ * One switch per Telegram channel; icon = the post's hashtag (#Apartment, #House,
+ * #Commercial, #Land, car); colour = how fresh the post is (green < 5 days,
+ * amber 5–20, red-orange > 20). State lives in the URL: #/map?ch=…&age=…
+ * list what is switched OFF.
  */
 export function renderMap(root, data, params) {
-  const all = data.items.filter(hasPoint).map(x => ({ x, deal: dealOf(x), kind: mapKindOf(x), fresh: freshnessOf(x) }));
-  const count = { deal: {}, kind: {}, age: {} };
+  const all = data.items.filter(hasPoint).map(x => ({ x, ch: channelOf(x), kind: KIND_ICONS[x.kind] ? x.kind : 'apartment', fresh: freshnessOf(x) }));
+  const count = { ch: {}, age: {} };
   all.forEach(p => {
-    count.deal[p.deal] = (count.deal[p.deal] || 0) + 1;
-    count.kind[p.kind] = (count.kind[p.kind] || 0) + 1;
+    count.ch[p.ch] = (count.ch[p.ch] || 0) + 1;
     count.age[p.fresh.id] = (count.age[p.fresh.id] || 0) + 1;
   });
-  const off = { deal: csv(params.get('deal')), kind: csv(params.get('kind')), age: csv(params.get('age')) };
-  const visible = () => all.filter(p => !off.deal.has(p.deal) && !off.kind.has(p.kind) && !off.age.has(p.fresh.id));
-  const kindIcon = id => MAP_KINDS.find(k => k.id === id)?.icon || 'pin';
+  const off = { ch: csv(params.get('ch')), age: csv(params.get('age')) };
+  const visible = () => all.filter(p => !off.ch.has(p.ch) && !off.age.has(p.fresh.id));
 
   document.body.classList.add('map-page');
   root.innerHTML = `
@@ -34,8 +32,8 @@ export function renderMap(root, data, params) {
   <h1 class="sr-only">${t('map.title')}</h1>
   <div class="tmap" id="tmap"></div>
   <aside class="mlayers" aria-label="${esc(t('map.title'))}"></aside>
-  <div class="mchips" role="group" aria-label="${esc(t('map.deals'))}"></div>
-  <div class="mages" role="group" aria-label="${esc(t('map.kinds'))}"></div>
+  <div class="mchips" role="group" aria-label="${esc(t('map.channels'))}"></div>
+  <div class="mages" role="group" aria-label="${esc(t('map.freshness'))}"></div>
   <div class="mpeek" hidden></div>
 </section>`;
   const $ = s => root.querySelector(s);
@@ -43,7 +41,7 @@ export function renderMap(root, data, params) {
   const row = (group, id, ic) => {
     const n = count[group][id] || 0;
     const on = !off[group].has(id);
-    return `<button type="button" class="lrow${on && n ? ' on' : ''}${n ? '' : ' empty'}" data-group="${group}" data-id="${id}" ${n ? '' : 'disabled'} aria-pressed="${on}">
+    return `<button type="button" class="lrow${on && n ? ' on' : ''}${n ? '' : ' empty'}" data-group="${group}" data-id="${id}" ${n ? '' : 'disabled'} aria-pressed="${on}" title="@${esc(CHANNELS[id] || '')}">
       <i>${icon(ic)}</i><b>${t(`map.${group}.${id}`)}</b><small>${n || t('svc.soon')}</small><span class="sw"></span></button>`;
   };
   const ageButton = f => `<button type="button" class="age${off.age.has(f.id) ? '' : ' on'}" data-group="age" data-id="${f.id}" style="--c:${f.color}" aria-pressed="${!off.age.has(f.id)}">
@@ -54,15 +52,14 @@ export function renderMap(root, data, params) {
     const n = visible().length;
     $('.mlayers').innerHTML = `
       <h2>${t('map.title')}</h2><p>${t('map.count', n)}</p>
-      <h3>${t('map.deals')}</h3><div class="lgroup">${MAP_DEALS.map(d => row('deal', d.id, d.icon)).join('')}</div>
-      <h3>${t('map.kinds')}</h3><div class="lgroup">${MAP_KINDS.filter(k => k.id !== 'car').map(k => row('kind', k.id, k.icon)).join('')}</div>
+      <h3>${t('map.channels')}</h3><div class="lgroup">${MAP_CHANNELS.map(c => row('ch', c.id, c.icon)).join('')}</div>
+      <div class="kinds-legend">${['apartment', 'house', 'commercial', 'land'].map(k => `<span><i>${icon(KIND_ICONS[k])}</i>${t('map.kind.' + k)}</span>`).join('')}</div>
       <h3>${t('map.freshness')}</h3><div class="ages">${FRESHNESS.map(ageButton).join('')}</div>
       <div class="lfoot"><button type="button" class="btn btn-outline" data-all="1">${t('map.show.all')}</button><button type="button" class="btn btn-outline" data-all="0">${t('map.hide.all')}</button></div>`;
-    // Phones: deals on the first row, object kinds + freshness on the second.
+    // Phones: channels on the first row, freshness on the second.
     $('.mchips').innerHTML = `<button type="button" class="mchip all" data-all="1">${t('map.all')} · ${n}</button>`
-      + MAP_DEALS.filter(d => count.deal[d.id]).map(d => chip('deal', d.id, d.icon)).join('');
-    $('.mages').innerHTML = MAP_KINDS.filter(k => k.id !== 'car' && count.kind[k.id]).map(k => chip('kind', k.id, k.icon)).join('')
-      + FRESHNESS.map(ageButton).join('');
+      + MAP_CHANNELS.filter(c => count.ch[c.id]).map(c => chip('ch', c.id, c.icon)).join('');
+    $('.mages').innerHTML = FRESHNESS.map(ageButton).join('');
   }
 
   let L, map, layer;
@@ -75,18 +72,18 @@ export function renderMap(root, data, params) {
       const m = L.marker([x.lat, x.lon], {
         fresh: fresh.id, keyboard: true, title: listingTitle(x),
         icon: L.divIcon({ className: 'cm', iconSize: null,
-          html: `<div style="--c:${fresh.color}"><i>${icon(kindIcon(p.kind))}</i>${x.price_usd ? esc(compactMoney(x.price_usd)) + (period ? `<small>${esc(period)}</small>` : '') : ''}</div>` }),
+          html: `<div style="--c:${fresh.color}"><i>${icon(KIND_ICONS[p.kind])}</i>${x.price_usd ? esc(compactMoney(x.price_usd)) + (period ? `<small>${esc(period)}</small>` : '') : ''}</div>` }),
       });
       m.on('click', () => select(p));
       layer.addLayer(m);
     });
   }
 
-  function select({ x, deal, kind, fresh }) {
+  function select({ x, ch, kind, fresh }) {
     const pr = priceLabel(x);
     const body = `
       ${x.photos?.[0] ? `<img src="${esc(x.photos[0])}" alt="">` : ''}
-      <div><em style="--c:${fresh.color}"><i></i>${t('map.deal.' + deal)} · ${t('map.kind.' + kind)} · ${esc(ago(x.published_at))}</em>
+      <div><em style="--c:${fresh.color}"><i></i>${t('map.ch.' + ch)} · ${t(kind === 'car' ? 'kind.car' : 'map.kind.' + kind)} · ${esc(ago(x.published_at))}</em>
         <b>${esc(pr.main)} <small>${pr.period}</small></b><span>${esc(listingTitle(x))}</span><small>${esc(facts(x).join(' · '))}</small></div>`;
     if (desktop()) {
       L.popup({ className: 'pop', closeButton: false, offset: [0, -12], maxWidth: 280, autoPanPaddingTopLeft: [340, 24], autoPanPaddingBottomRight: [24, 24] })
@@ -117,7 +114,7 @@ export function renderMap(root, data, params) {
     }
     if (all) {
       Object.values(off).forEach(set => set.clear());
-      if (all.dataset.all === '0') MAP_DEALS.forEach(d => off.deal.add(d.id));
+      if (all.dataset.all === '0') MAP_CHANNELS.forEach(c => off.ch.add(c.id));
       commit();
     }
   });

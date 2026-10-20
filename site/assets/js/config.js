@@ -64,26 +64,21 @@ export const MAP_CENTER = [41.7151, 44.8271];
 // to the site's domain in the MapTiler dashboard (Account → API keys).
 export const MAPTILER_KEY = '8rgCgBliYpwKCmMzEVV8';
 
-// Total map. Icon = what the object is (apartment block, house, kiosk for commercial,
-// plot, car); deal filters = what you can do with it; colour = freshness of the post.
-export const MAP_DEALS = [
+// Total map. One switch per Telegram channel; the marker icon follows the post's
+// own hashtag (#Apartment → apartment block, #House → house, #Commercial → kiosk,
+// #Land → plot, cars → car); colour = freshness of the post.
+export const MAP_CHANNELS = [
   { id: 'rent', icon: 'key' },
   { id: 'daily', icon: 'moon' },
   { id: 'sale', icon: 'tag' },
+  { id: 'commercial', icon: 'kiosk' },
   { id: 'new', icon: 'crane' },
   { id: 'car-rent', icon: 'car' },
   { id: 'car-sale', icon: 'gauge' },
 ];
-export const MAP_KINDS = [
-  { id: 'apartment', icon: 'building' },
-  { id: 'house', icon: 'home' },
-  { id: 'commercial', icon: 'kiosk' },
-  { id: 'land', icon: 'land' },
-  { id: 'car', icon: 'car' },
-];
-// Commercial premises join long-term rent or sale depending on the post.
-export const dealOf = x => (x.service === 'commercial' ? (x.deal === 'sale' ? 'sale' : 'rent') : x.service);
-export const mapKindOf = x => (MAP_KINDS.some(k => k.id === x.kind) ? x.kind : 'apartment');
+export const KIND_ICONS = { apartment: 'building', house: 'home', commercial: 'kiosk', land: 'land', car: 'car' };
+// homesingeorgia ("homes") and the older sale_in_tbilisi ("sale") are one sale direction.
+export const channelOf = x => (x.source === 'homes' ? 'sale' : x.source || x.service);
 
 export const FRESHNESS = [
   { id: 'fresh', maxDays: 5, color: '#2DB87A' },

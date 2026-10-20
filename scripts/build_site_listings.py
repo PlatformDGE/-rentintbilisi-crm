@@ -209,12 +209,23 @@ def listed_features(text):
     return [key for key, pattern in AMENITIES.items() if re.search(pattern, positive, re.I)]
 
 
+KIND_TAGS = [("apartment", r"#apartments?\b|#studio\b|#flat\b"), ("house", r"#house\b|#home\b"),
+             ("commercial", r"#commercial\b|#office\b"), ("land", r"#land\b")]
+
+
 def property_kind(text, raw_kind):
-    if re.search(r"#commercial|commercial space|\boffice\b|\bhotel\b", text, re.I):
+    """The post's own hashtag decides (#Apartment / #House / #Commercial / #Land).
+    The first one wins, so "#2Bed #Apartment for #Rent" stays an apartment even if
+    the complex is called "Villa Residence". Words are only a fallback for posts
+    without any of these hashtags."""
+    found = [(m.start(), kind) for kind, pattern in KIND_TAGS for m in [re.search(pattern, text, re.I)] if m]
+    if found:
+        return min(found)[1]
+    if re.search(r"commercial space|\boffice\b|\bhotel\b", text, re.I):
         return "commercial"
-    if re.search(r"#house|#home\b|\bcottage\b|\bvilla\b|own house", text, re.I):
+    if re.search(r"\bcottage\b|own house|private house", text, re.I):
         return "house"
-    if re.search(r"#land\b|\bland plot\b", text, re.I):
+    if re.search(r"\bland plot\b", text, re.I):
         return "land"
     return raw_kind if raw_kind in ("apartment", "house", "commercial") else "apartment"
 
@@ -419,7 +430,7 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     if not price and (service in CAR_SERVICES or re.search(r"\bON MAP\b", text, re.I)):
         return None
     # Commercial posts in the rent / sale channels belong to the commercial catalogue.
-    if service in ("rent", "sale") and re.search(r"#commercial\b|commercial space|\boffice (?:space )?for\b", text, re.I):
+    if service in ("rent", "sale") and property_kind(text, raw.get("property_type")) == "commercial":
         service = "commercial"
 
     condition = detect(CONDITIONS, text)
@@ -435,6 +446,7 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     item = {
         "id": f"{source}-{raw['id']}",
         "service": service,
+        "source": source,
         "deal": deal,
         "period": period_of(text, service, deal),
         "kind": "car" if is_car else "commercial" if service == "commercial" else property_kind(text, raw.get("property_type")),
