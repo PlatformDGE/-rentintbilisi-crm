@@ -399,6 +399,40 @@ def pickup_address(text):
     return EMOJI_RE.sub("", first.split("📍", 1)[1]).strip() if "📍" in first else ""
 
 
+# The first line of a post is "#District 🚇 #Metro"; tags spell places in CamelCase.
+PLACE_ALIASES = {
+    "DidiDigomi": "Didi Dighomi", "DighomiMassive": "Dighomi Massive", "DigomiMassive": "Dighomi Massive",
+    "Digomi1to9": "Dighomi 1-9", "Tskhneti": "Tskneti", "TCUniversity": "Technical University",
+    "MCUniversity": "Medical University", "STUniversity": "State University", "VazhaPshavela": "Vazha-Pshavela",
+    "AhmeteliTheatre": "Akhmeteli Theatre", "TheatreAkhmeteli": "Akhmeteli Theatre",
+    "IsaniMetro": "Isani", "SamgoriMetro": "Samgori", "AvlabariMetro": "Avlabari",
+    "OldTbilisi": "Old Tbilisi", "LibertySquare": "Liberty Square", "StationSquare": "Station Square",
+    "DidiDighomi": "Didi Dighomi", "Voroncov": "Vorontsov",
+}
+PLACE_ALIASES = {k.lower(): v for k, v in PLACE_ALIASES.items()}
+NOT_PLACES = {"newupdate", "update", "rented", "sold", "studio", "apartment", "house", "commercial"}
+
+
+def place_name(tag):
+    tag = tag.replace("\u0421", "C").replace("\u0441", "c")  # Cyrillic С typed inside Latin tags
+    if tag.lower() in PLACE_ALIASES:
+        return PLACE_ALIASES[tag.lower()]
+    return re.sub(r"(?<=[a-z])(?=[A-Z0-9])|(?<=[0-9])(?=[A-Za-z])", " ", tag)
+
+
+def location_tags(text):
+    """District and metro from the post header, e.g. "#Didube🚇 #Tsereteli" -> ("Didube", "Tsereteli")."""
+    for line in text.strip().split("\n")[:3]:
+        if not line.lstrip().startswith("#") and "🚇" not in line:
+            continue
+        before, _, after = line.partition("🚇")
+        tags = lambda part: [t for t in re.findall(r"#(\w+)", part) if t.lower() not in NOT_PLACES]
+        district, metro = tags(before), tags(after)
+        if district or metro:
+            return (place_name(district[0]) if district else "", place_name(metro[0]) if metro else "")
+    return "", ""
+
+
 def parse_dt(value):
     try:
         return datetime.fromisoformat(value)
@@ -443,6 +477,10 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
     months, pets, tenants = terms(text)
     price_usd = round(price * rates.get(currency, 1)) if price else None
     lat, lon = raw.get("lat"), raw.get("lon")
+    # The post's own header beats the generic CRM matcher ("Lisi" inside "Tbilisi").
+    district, metro = location_tags(text)
+    if not district and not metro:
+        district, metro = raw.get("district") or "", raw.get("metro") or ""
     item = {
         "id": f"{source}-{raw['id']}",
         "service": service,
@@ -452,8 +490,8 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
         "kind": "car" if is_car else "commercial" if service == "commercial" else property_kind(text, raw.get("property_type")),
         "title": car_title(text, raw.get("title") or "Car") if is_car else clean_title(raw.get("title"), text),
         "headline": "" if is_car else headline(text),
-        "district": "" if is_car else raw.get("district") or "",
-        "metro": "" if is_car else raw.get("metro") or "",
+        "district": "" if is_car else district,
+        "metro": "" if is_car else metro,
         "lat": round(float(lat), 6) if lat is not None else None,
         "lon": round(float(lon), 6) if lon is not None else None,
         "price": price,

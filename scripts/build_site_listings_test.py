@@ -60,6 +60,17 @@ class BuildSiteListingsTest(unittest.TestCase):
         commercial = normalize(raw(RENT_POST.replace("#3Bed #Apartment", "#Commercial")), "rent", NOW)
         self.assertEqual((commercial["kind"], commercial["service"], commercial["source"]), ("commercial", "commercial", "rent"))
 
+    def test_district_and_metro_come_from_the_post_header(self):
+        post = RENT_POST.replace("#Vake 🚇 #Rustaveli", "#Didube🚇 #Tsereteli") + "\nSALE IN TBILISI"
+        item = normalize(raw(post, district="Lisi", metro="Didube"), "rent", NOW)
+        self.assertEqual((item["district"], item["metro"]), ("Didube", "Tsereteli"))
+        item = normalize(raw(RENT_POST.replace("#Vake 🚇 #Rustaveli", "#DidiDigomi 🚇 #TCUniversity")), "rent", NOW)
+        self.assertEqual((item["district"], item["metro"]), ("Didi Dighomi", "Technical University"))
+        item = normalize(raw(RENT_POST.replace("#Vake 🚇 #Rustaveli", "#OldTbilisi 🚇 #LibertySquare")), "rent", NOW)
+        self.assertEqual((item["district"], item["metro"]), ("Old Tbilisi", "Liberty Square"))
+        no_header = RENT_POST.replace("#Vake 🚇 #Rustaveli", "Nice flat")
+        self.assertEqual(normalize(raw(no_header, district="Vake"), "rent", NOW)["district"], "Vake")
+
     def test_skips_closed_and_digest_posts(self):
         self.assertIsNone(normalize(raw("❗️#FlatRented\nNice apartment in 📍Vake found a tenant"), "rent", NOW))
         self.assertIsNone(normalize(raw(RENT_POST + "\n#Sold"), "rent", NOW))
