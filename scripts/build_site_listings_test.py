@@ -53,6 +53,13 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertTrue(item["no_commission"])
         self.assertEqual(item["agent"]["telegram"], "David_Tibelashvili")
 
+    def test_kind_follows_the_post_hashtag(self):
+        villa = RENT_POST.replace("Duplex 3bed apartment near Vake Park", "Axis Villa Residence").replace("#3Bed #Apartment", "#2Bed #Apartment")
+        self.assertEqual(normalize(raw(villa), "rent", NOW)["kind"], "apartment")
+        self.assertEqual(normalize(raw(RENT_POST.replace("#3Bed #Apartment", "#3Bed #House")), "rent", NOW)["kind"], "house")
+        commercial = normalize(raw(RENT_POST.replace("#3Bed #Apartment", "#Commercial")), "rent", NOW)
+        self.assertEqual((commercial["kind"], commercial["service"], commercial["source"]), ("commercial", "commercial", "rent"))
+
     def test_skips_closed_and_digest_posts(self):
         self.assertIsNone(normalize(raw("❗️#FlatRented\nNice apartment in 📍Vake found a tenant"), "rent", NOW))
         self.assertIsNone(normalize(raw(RENT_POST + "\n#Sold"), "rent", NOW))

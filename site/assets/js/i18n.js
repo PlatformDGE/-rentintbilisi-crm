@@ -2,10 +2,9 @@
 
 const dict = {
   en: {
-    'map.deals': 'Deal', 'map.kinds': 'Property type',
-    'map.deal.rent': 'Long-term rent', 'map.deal.daily': 'Daily rent', 'map.deal.sale': 'Sale', 'map.deal.new': 'New developments',
-    'map.deal.car-rent': 'Car rental', 'map.deal.car-sale': 'Cars for sale',
-    'map.kind.apartment': 'Apartments', 'map.kind.house': 'Houses', 'map.kind.commercial': 'Commercial', 'map.kind.land': 'Land plots', 'map.kind.car': 'Cars',
+    'map.channels': 'Channels', 'map.ch.rent': 'Long-term rent', 'map.ch.daily': 'Daily rent', 'map.ch.sale': 'Sale', 'map.ch.commercial': 'Commercial',
+    'map.ch.new': 'New developments', 'map.ch.car-rent': 'Car rental', 'map.ch.car-sale': 'Cars for sale',
+    'map.kind.apartment': 'Apartments', 'map.kind.house': 'Houses', 'map.kind.commercial': 'Commercial', 'map.kind.land': 'Land plots', 
     'nav.map': 'Map', 'map.title': 'Map of all listings', 'map.categories': 'Categories', 'map.freshness': 'How fresh',
     'map.count': n => `${n} on the map · switch categories on and off`, 'map.all': 'All', 'map.show.all': 'Show all', 'map.hide.all': 'Hide all',
     'map.age.fresh': 'New · up to 5 days', 'map.age.recent': '5–20 days', 'map.age.old': 'Over 20 days',
@@ -146,10 +145,9 @@ const dict = {
     'loading': 'Loading listings…', 'error': 'Could not load the catalogue. Please refresh.',
   },
   ka: {
-    'map.deals': 'გარიგება', 'map.kinds': 'ობიექტის ტიპი',
-    'map.deal.rent': 'გრძელვადიანი ქირა', 'map.deal.daily': 'დღიური ქირა', 'map.deal.sale': 'გაყიდვა', 'map.deal.new': 'ახალი პროექტები',
-    'map.deal.car-rent': 'ავტო ქირა', 'map.deal.car-sale': 'ავტო გაყიდვა',
-    'map.kind.apartment': 'ბინები', 'map.kind.house': 'სახლები', 'map.kind.commercial': 'კომერცია', 'map.kind.land': 'მიწის ნაკვეთები', 'map.kind.car': 'ავტომობილები',
+    'map.channels': 'არხები', 'map.ch.rent': 'გრძელვადიანი ქირა', 'map.ch.daily': 'დღიური ქირა', 'map.ch.sale': 'გაყიდვა', 'map.ch.commercial': 'კომერცია',
+    'map.ch.new': 'ახალი პროექტები', 'map.ch.car-rent': 'ავტო ქირა', 'map.ch.car-sale': 'ავტო გაყიდვა',
+    'map.kind.apartment': 'ბინები', 'map.kind.house': 'სახლები', 'map.kind.commercial': 'კომერცია', 'map.kind.land': 'მიწის ნაკვეთები', 
     'nav.map': 'რუკა', 'map.title': 'ყველა ობიექტის რუკა', 'map.categories': 'კატეგორიები', 'map.freshness': 'სიახლე',
     'map.count': n => `${n} რუკაზე · ჩართეთ და გამორთეთ კატეგორიები`, 'map.all': 'ყველა', 'map.show.all': 'ყველას ჩვენება', 'map.hide.all': 'ყველას დამალვა',
     'map.age.fresh': 'ახალი · 5 დღემდე', 'map.age.recent': '5–20 დღე', 'map.age.old': '20 დღეზე მეტი',
@@ -290,10 +288,9 @@ const dict = {
     'loading': 'განცხადებები იტვირთება…', 'error': 'კატალოგის ჩატვირთვა ვერ მოხერხდა. განაახლეთ გვერდი.',
   },
   ru: {
-    'map.deals': 'Сделка', 'map.kinds': 'Тип объекта',
-    'map.deal.rent': 'Долгосрочная аренда', 'map.deal.daily': 'Посуточная аренда', 'map.deal.sale': 'Продажа', 'map.deal.new': 'Новостройки',
-    'map.deal.car-rent': 'Аренда авто', 'map.deal.car-sale': 'Продажа авто',
-    'map.kind.apartment': 'Квартиры', 'map.kind.house': 'Дома', 'map.kind.commercial': 'Коммерция', 'map.kind.land': 'Участки', 'map.kind.car': 'Автомобили',
+    'map.channels': 'Каналы', 'map.ch.rent': 'Долгосрочная аренда', 'map.ch.daily': 'Посуточная аренда', 'map.ch.sale': 'Продажа', 'map.ch.commercial': 'Коммерция',
+    'map.ch.new': 'Новостройки', 'map.ch.car-rent': 'Аренда авто', 'map.ch.car-sale': 'Продажа авто',
+    'map.kind.apartment': 'Квартиры', 'map.kind.house': 'Дома', 'map.kind.commercial': 'Коммерция', 'map.kind.land': 'Участки', 
     'nav.map': 'Карта', 'map.title': 'Карта всех объектов', 'map.categories': 'Категории', 'map.freshness': 'Свежесть',
     'map.count': n => `${n} на карте · включайте и выключайте категории`, 'map.all': 'Все', 'map.show.all': 'Показать все', 'map.hide.all': 'Скрыть все',
     'map.age.fresh': 'Новые · до 5 дней', 'map.age.recent': '5–20 дней', 'map.age.old': 'Больше 20 дней',
