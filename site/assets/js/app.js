@@ -3,6 +3,7 @@ import { icon, logo } from './icons.js';
 import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, markLive } from './config.js';
 import { esc, installInteractions, serviceIcon } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
+import { openShare } from './share.js';
 import { renderHome } from './pages/home.js';
 import { renderCatalog } from './pages/catalog.js';
 import { renderListing } from './pages/listing.js';
@@ -178,6 +179,13 @@ header.addEventListener('click', e => {
   if (e.target.closest('.mega-item')) header.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('open'));
 });
 document.addEventListener('click', e => {
+  const share = e.target.closest('[data-share-id]');
+  if (share && data) {
+    e.preventDefault();
+    const item = data.byId.get(share.dataset.shareId);
+    if (item) openShare(item);
+    return;
+  }
   if (!e.target.closest('.nav-drop')) header.querySelectorAll('.nav-drop.open').forEach(d => d.classList.remove('open'));
 });
 document.addEventListener('keydown', e => {

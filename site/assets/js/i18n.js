@@ -2,6 +2,8 @@
 
 const dict = {
   en: {
+    'share.title': 'Share', 'share.copy': 'Copy', 'share.more': 'More', 'share.link': 'Link to the listing',
+    'share.insta': 'Link copied — paste it in Instagram (Direct or Stories)',
     'brand.tagline': 'Homes, cars and investments in Georgia',
     'nav.realty': 'Real estate', 'nav.auto': 'Cars', 'nav.favorites': 'Saved', 'nav.contact': 'Contact us',
     'nav.home': 'Home', 'nav.search': 'Search', 'nav.menu': 'Menu', 'nav.close': 'Close',
@@ -136,6 +138,8 @@ const dict = {
     'loading': 'Loading listings…', 'error': 'Could not load the catalogue. Please refresh.',
   },
   ka: {
+    'share.title': 'გაზიარება', 'share.copy': 'კოპირება', 'share.more': 'სხვა', 'share.link': 'განცხადების ბმული',
+    'share.insta': 'ბმული დაკოპირდა — ჩასვით Instagram-ში (Direct ან Stories)',
     'brand.tagline': 'სახლები, ავტომობილები და ინვესტიციები საქართველოში',
     'nav.realty': 'უძრავი ქონება', 'nav.auto': 'ავტომობილები', 'nav.favorites': 'რჩეულები', 'nav.contact': 'კონტაქტი',
     'nav.home': 'მთავარი', 'nav.search': 'ძიება', 'nav.menu': 'მენიუ', 'nav.close': 'დახურვა',
@@ -270,6 +274,8 @@ const dict = {
     'loading': 'განცხადებები იტვირთება…', 'error': 'კატალოგის ჩატვირთვა ვერ მოხერხდა. განაახლეთ გვერდი.',
   },
   ru: {
+    'share.title': 'Поделиться', 'share.copy': 'Копировать', 'share.more': 'Ещё', 'share.link': 'Ссылка на объект',
+    'share.insta': 'Ссылка скопирована — вставьте её в Instagram (Direct или Stories)',
     'brand.tagline': 'Жильё, авто и инвестиции в Грузии',
     'nav.realty': 'Недвижимость', 'nav.auto': 'Авто', 'nav.favorites': 'Избранное', 'nav.contact': 'Связаться',
     'nav.home': 'Главная', 'nav.search': 'Поиск', 'nav.menu': 'Меню', 'nav.close': 'Закрыть',

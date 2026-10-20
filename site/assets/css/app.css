@@ -768,3 +768,41 @@ html[lang='ka'] .lang-seg, html[lang='ka'] .logo { font-family: var(--font); }
 
 .sheet-foot .btn { min-width: 0; white-space: normal; text-align: center; line-height: 1.2; }
 .sheet-foot .btn-ghost { flex: none; max-width: 40%; }
+
+/* ============ share ============ */
+.card-share { position: absolute; top: 10px; right: 52px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--brand-strong);
+  background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, .7); box-shadow: 0 2px 8px rgba(2, 31, 74, .15); transition: transform .2s var(--spring), background .2s; }
+.card-share .i { width: 16px; height: 16px; }
+.card-share:hover { transform: scale(1.08); background: #fff; }
+.map-peek .card-share { display: none; }
+
+.share-sheet { gap: 0; }
+.share-body { padding: 4px 20px calc(20px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; overflow: auto; }
+.share-body > * { min-width: 0; }
+.share-preview { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 18px; background: rgba(255, 255, 255, .6); border: 1px solid var(--glass-edge); }
+.share-preview img, .share-preview .noimg { flex: none; width: 64px; height: 64px; border-radius: 12px; object-fit: cover; background: var(--brand-soft); }
+.share-preview div { display: grid; min-width: 0; }
+.share-preview b { font-weight: 700; color: var(--brand-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.share-preview span { color: var(--muted); font-size: 14px; }
+.share-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 14px 8px; }
+.share-target { display: grid; justify-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.share-target i { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; box-shadow: 0 8px 20px rgba(2, 31, 74, .16), inset 0 1px 0 rgba(255, 255, 255, .35); transition: transform .22s var(--spring); }
+.share-target svg { width: 30px; height: 30px; }
+.share-target .i { width: 24px; height: 24px; color: #fff; }
+.share-target:hover i { transform: translateY(-3px) scale(1.04); }
+.st-telegram { background: linear-gradient(180deg, #37AEE2, #1E96C8); }
+.st-whatsapp { background: linear-gradient(180deg, #3EE07A, #20B954); }
+.st-facebook { background: linear-gradient(180deg, #2D88FF, #1466D8); }
+.st-instagram { background: radial-gradient(circle at 30% 107%, #FDD86B 0%, #F9A13D 18%, #F0405B 45%, #C13584 65%, #6A3BD1 100%); }
+.st-viber { background: linear-gradient(180deg, #8B6FF7, #6A4FE0); }
+.st-more { background: linear-gradient(180deg, #0A3C85, var(--brand)); }
+.share-link { display: flex; gap: 8px; }
+.share-link input { flex: 1; min-width: 0; height: 46px; padding: 0 14px; border-radius: 14px; border: 1px solid rgba(3, 45, 106, .12); background: rgba(255, 255, 255, .7); color: var(--muted); font-size: 13px; outline: none; }
+.share-link .btn { flex: none; min-height: 46px; }
+.share-link .btn .i { width: 18px; }
+.l-sticky .icon-btn { flex: none; }
+@media (min-width: 760px) {
+  .share-wrap .sheet { left: 50%; top: 50%; right: auto; bottom: auto; width: 460px; max-height: 86vh; border-radius: 28px; transform: translate(-50%, -46%) scale(.97); opacity: 0; transition: transform .28s var(--spring), opacity .2s; }
+  .share-wrap.open .sheet { transform: translate(-50%, -50%); opacity: 1; }
+  .share-grid { grid-template-columns: repeat(3, 1fr); }
+}
