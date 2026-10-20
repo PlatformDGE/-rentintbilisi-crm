@@ -70,7 +70,7 @@ export function renderListing(root, data, id) {
   const objectLink = x.post_url || url;
   const symbol = { USD: '$', GEL: '₾', EUR: '€' }[x.currency] || '$';
   const listedPrice = x.price ? `${symbol}${num(x.price)}${p.period ? ' ' + p.period : ''}` : p.main;
-  const message = t('l.msg', title, listedPrice, objectLink);
+  const message = t('l.msg', x.kind, title, listedPrice, objectLink);
   const tg = telegramHref(agent.telegram || CONTACT.telegram, message);
   const phone = agent.phone || CONTACT.phone;
   document.title = `${title} · ${p.main} · Homes in Georgia`;

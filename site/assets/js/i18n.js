@@ -121,7 +121,7 @@ const dict = {
     'l.heating': 'Отопление', 'l.term': 'Срок', 'l.term.value': m => m.map(x => x + ' мес').join(' · '),
     'l.pets': 'Животные', 'l.tenants': 'Жильцов', 'l.tenants.value': n => `до ${n}`, 'l.kind': 'Тип',
     'l.completion': 'Сдача', 'l.notfound': 'Объект не найден или уже сдан', 'l.back': 'Вернуться в каталог',
-    'l.msg': (title, price, url) => `Здравствуйте! Интересует объект:\n${title} — ${price}\n${url}`,
+    'l.msg': (kind, title, price, url) => `Здравствуйте, интересует ${({ apartment: 'эта квартира', house: 'этот дом', commercial: 'это помещение', land: 'этот участок', car: 'этот автомобиль' })[kind] || 'этот объект'}\n${title} — ${price}\n${url}`,
     'l.msg.copied': 'Ссылка на объект скопирована — если её нет в сообщении, вставьте в чат',
     'l.approx': 'цена в объявлении',
 
@@ -257,7 +257,7 @@ const dict = {
     'l.heating': 'Heating', 'l.term': 'Lease', 'l.term.value': m => m.map(x => x + ' mo').join(' · '),
     'l.pets': 'Pets', 'l.tenants': 'Tenants', 'l.tenants.value': n => `up to ${n}`, 'l.kind': 'Type',
     'l.completion': 'Completion', 'l.notfound': 'This listing was not found or is already taken', 'l.back': 'Back to catalogue',
-    'l.msg': (title, price, url) => `Hello! I am interested in this listing:\n${title} — ${price}\n${url}`,
+    'l.msg': (kind, title, price, url) => `Hello, I'm interested in this ${({ apartment: 'apartment', house: 'house', commercial: 'property', land: 'plot', car: 'car' })[kind] || 'listing'}\n${title} — ${price}\n${url}`,
     'l.msg.copied': 'Listing link copied — paste it into the chat if it is not there',
     'l.approx': 'listed price',
 
