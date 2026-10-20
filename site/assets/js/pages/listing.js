@@ -166,10 +166,10 @@ export function renderListing(root, data, id) {
   </div>
   ${rail('rail-similar', t('l.similar'), similar(data, x), '#/' + x.service + (x.district ? '?district=' + encodeURIComponent(x.district) : ''))}
   <div class="l-sticky">
-    <div><b>${esc(p.main)}</b> <span>${p.period}</span></div>
+    <div class="ls-price"><b>${esc(p.main)}</b><span>${p.period || '&nbsp;'}</span></div>
     <button type="button" class="icon-btn" data-share aria-label="${esc(t('l.share'))}">${icon('share')}</button>
     ${favButton(x.id, 'fav fav-plain')}
-    <a class="btn btn-primary" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write')}</span></a>
+    <a class="btn btn-primary" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write.short')}</span></a>
   </div>
 </article>`;
 

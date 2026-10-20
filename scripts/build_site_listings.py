@@ -242,6 +242,7 @@ def headline(text):
 
 NOISE_RE = re.compile(
     r"APARTMENTS ON MAP|commission|(?:RENT|SALE) IN TBILISI|check all listings|instagram|youtube|\bFB\b|"
+    r"\btenants?\s*:|\bpets?\s*:|calendar checking|airbnb link|booking link|reviews\s*\||map listings|"
     r"sq\.?\s*m|\bfloor\b|^[✅☑✖️❌📍🏠🏢✨⭐️🌟🕐🐕👬📲📱\s|]+$",
     re.I,
 )
