@@ -35,6 +35,16 @@
   --shadow-lg: 0 24px 60px rgba(14, 42, 85, .16), 0 6px 18px rgba(14, 42, 85, .08);
 
   --ease: cubic-bezier(.2, .8, .2, 1);
+  --spring: cubic-bezier(.34, 1.4, .64, 1);
+
+  /* Glass (Apple-style frosted surfaces) */
+  --glass: rgba(255, 255, 255, .58);
+  --glass-strong: rgba(255, 255, 255, .74);
+  --glass-dark: rgba(2, 31, 74, .72);
+  --glass-edge: rgba(255, 255, 255, .7);
+  --glass-line: rgba(3, 45, 106, .08);
+  --glass-blur: saturate(180%) blur(22px);
+  --glass-shadow: 0 10px 36px rgba(3, 45, 106, .10), inset 0 1px 0 rgba(255, 255, 255, .85);
   --container: 1320px;
   --gutter: 16px;
   --header-h: 68px;

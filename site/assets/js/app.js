@@ -1,4 +1,4 @@
-import { t, getLang, setLang, languages } from './i18n.js';
+import { t, getLang, setLang, languages, localeOf } from './i18n.js';
 import { icon, logo } from './icons.js';
 import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, markLive } from './config.js';
 import { esc, installInteractions, serviceIcon } from './components.js';
@@ -34,7 +34,10 @@ function renderHeader() {
     </nav>
     <div class="nav-tools">
       <div class="select mini">${icon('down')}<select id="cur" aria-label="Currency">${CURRENCIES.map(c => `<option${c === getCurrency() ? ' selected' : ''}>${c}</option>`).join('')}</select></div>
-      <div class="select mini">${icon('down')}<select id="lang" aria-label="Language">${languages.map(l => `<option value="${l}"${l === getLang() ? ' selected' : ''}>${l.toUpperCase()}</option>`).join('')}</select></div>
+      <div class="lang-seg" role="radiogroup" aria-label="Language" style="--i:${languages.indexOf(getLang())}">
+        <i class="lang-thumb" aria-hidden="true"></i>
+        ${languages.map(l => `<button type="button" role="radio" data-lang="${l}" aria-checked="${l === getLang()}" lang="${l}">${l.toUpperCase()}</button>`).join('')}
+      </div>
       <a class="icon-btn fav-link" href="#/favorites" aria-label="${esc(t('nav.favorites'))}">${icon('heart')}<b class="nbadge">${favs || ''}</b></a>
       <a class="btn btn-primary nav-cta" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('nav.contact')}</span></a>
       <button type="button" class="icon-btn burger" aria-label="${esc(t('nav.menu'))}" aria-expanded="false">${icon('menu')}</button>
@@ -55,7 +58,7 @@ function rateLine() {
   const r = data?.rates_usd;
   if (!r || data.rates_source !== 'NBG') return '';
   const fmt = v => v.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
-  const date = data.rates_date ? new Date(data.rates_date).toLocaleDateString(getLang() === 'ru' ? 'ru-RU' : 'en-GB') : '';
+  const date = data.rates_date ? new Date(data.rates_date).toLocaleDateString(localeOf()) : '';
   return '<br>' + esc(t('footer.rates', date, fmt(1 / r.GEL), fmt(r.EUR / r.GEL)));
 }
 
@@ -141,10 +144,19 @@ function rerenderAll() {
 }
 
 header.addEventListener('change', e => {
-  if (e.target.id === 'lang') { setLang(e.target.value); rerenderAll(); }
+
   if (e.target.id === 'cur') { setCurrency(e.target.value); rerenderAll(); }
 });
 header.addEventListener('click', e => {
+  const langBtn = e.target.closest('[data-lang]');
+  if (langBtn) {
+    if (langBtn.dataset.lang === getLang()) return;
+    // Slide the glass thumb first, then re-render in the new language.
+    langBtn.parentElement.style.setProperty('--i', languages.indexOf(langBtn.dataset.lang));
+    setLang(langBtn.dataset.lang);
+    setTimeout(rerenderAll, 180);
+    return;
+  }
   const burger = e.target.closest('.burger');
   if (burger) {
     const drawer = header.querySelector('.drawer');

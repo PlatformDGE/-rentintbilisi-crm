@@ -698,3 +698,73 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .l-desc.clamp:not(.open) { max-height: 7.2em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
 .amenities.clamp:not(.open) li:nth-child(n+9) { display: none; }
 .l-sec .more-btn[hidden] { display: none; }
+
+/* ============ glass layer (Apple-style frosted surfaces) ============ */
+/* Soft colour field under the whole site so the glass has something to blur. */
+body { background: var(--canvas); }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(55vmax 55vmax at 8% -12%, rgba(3, 45, 106, .13), transparent 62%),
+    radial-gradient(40vmax 40vmax at 96% 4%, rgba(227, 23, 45, .07), transparent 60%),
+    radial-gradient(60vmax 60vmax at 60% 115%, rgba(10, 60, 133, .10), transparent 60%),
+    var(--canvas);
+}
+.glass, .header, .toolbar-wrap, .tabbar, .hero-search, .direction, .why-item, .svc-tile, .sheet, .price-card, .l-sticky,
+.soon-hero, .soon-card, .mega, .drawer, .lang-seg, .map-peek .card, .fact, .stats div {
+  background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border-color: var(--glass-edge);
+}
+.header { background: var(--glass-strong); border-bottom: 1px solid var(--glass-line); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .6); }
+.header.scrolled { box-shadow: 0 6px 24px rgba(3, 45, 106, .08); }
+.toolbar-wrap { background: rgba(243, 245, 249, .55); border-bottom: 1px solid var(--glass-line); }
+.tabbar { background: var(--glass-strong); border-top: 1px solid var(--glass-line); }
+.hero-search, .price-card, .soon-hero, .soon-card, .why-item, .direction, .svc-tile { border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); }
+.direction:hover, .svc-tile:hover { background: var(--glass-strong); box-shadow: 0 16px 40px rgba(3, 45, 106, .14), inset 0 1px 0 #fff; }
+.sheet { background: rgba(255, 255, 255, .82); border: 1px solid var(--glass-edge); }
+.sheet-wrap.pop .sheet { background: rgba(255, 255, 255, .78); }
+.sheet-backdrop { background: rgba(2, 31, 74, .28); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.mega { background: rgba(255, 255, 255, .8); border: 1px solid var(--glass-edge); }
+.fact { background: var(--glass); border: 1px solid var(--glass-edge); }
+.stats div { background: var(--glass); }
+
+/* inputs and pills: light glass with a crisp edge */
+.search, .pill, .pill-select select, .select select, .svc-tab, .chip, .hs-field, .btn-outline {
+  background: rgba(255, 255, 255, .66); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px);
+  border-color: rgba(3, 45, 106, .12);
+}
+.pill.on, .svc-tab.on, .chip.on { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.pill.on { background: rgba(230, 236, 245, .9); }
+.svc-tab.on, .chip.on { background: var(--brand); }
+
+/* floating controls over photos and maps */
+.badge { background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8); }
+.badge-accent { background: rgba(227, 23, 45, .9); }
+.badge-soft, .badge-ok { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.slide-btn, .round-btn, .m-chip, .map-note, .g-all { background: rgba(255, 255, 255, .7); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .7); }
+.fab-view { background: var(--glass-dark); -webkit-backdrop-filter: saturate(180%) blur(18px); backdrop-filter: saturate(180%) blur(18px); border: 1px solid rgba(255, 255, 255, .18); box-shadow: 0 12px 32px rgba(2, 31, 74, .3), inset 0 1px 0 rgba(255, 255, 255, .2); }
+.pin span { background: rgba(255, 255, 255, .86); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.leaflet-control-zoom a, .leaflet-control-layers { background: rgba(255, 255, 255, .78) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.btn-primary { background: linear-gradient(180deg, #0A3C85, var(--brand)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 6px 18px rgba(3, 45, 106, .22); }
+.btn-primary:hover { background: linear-gradient(180deg, #0F4A9E, #0A3C85); }
+.owners { box-shadow: 0 24px 60px rgba(2, 31, 74, .25), inset 0 1px 0 rgba(255, 255, 255, .15); }
+
+/* language switch: glass segmented control with a sliding thumb */
+.lang-seg { position: relative; display: grid; grid-template-columns: repeat(3, 38px); padding: 3px; border-radius: var(--pill); border: 1px solid rgba(3, 45, 106, .1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8); }
+.lang-seg button { position: relative; z-index: 1; height: 30px; border-radius: var(--pill); font-size: 11.5px; font-weight: 700; letter-spacing: .08em; color: var(--muted); transition: color .25s var(--ease); }
+.lang-seg button[aria-checked='true'] { color: var(--brand-strong); }
+.lang-seg button:hover { color: var(--brand); }
+.lang-thumb { position: absolute; top: 3px; left: 3px; width: 38px; height: 30px; border-radius: var(--pill); background: #fff; box-shadow: 0 2px 8px rgba(3, 45, 106, .14), inset 0 1px 0 #fff; transform: translateX(calc(var(--i, 0) * 100%)); transition: transform .38s var(--spring); }
+@media (max-width: 380px) { .lang-seg { grid-template-columns: repeat(3, 32px); } .lang-thumb { width: 32px; } }
+
+/* Georgian has no case: keep labels readable instead of forced uppercase */
+html[lang='ka'] .badge, html[lang='ka'] .eyebrow, html[lang='ka'] sup, html[lang='ka'] .svc-meta em, html[lang='ka'] .direction.soon small { text-transform: none; letter-spacing: .02em; }
+html[lang='ka'] body { font-family: 'Noto Sans Georgian', var(--font); }
+html[lang='ka'] .lang-seg, html[lang='ka'] .logo { font-family: var(--font); }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header, .tabbar, .sheet, .mega { background: rgba(255, 255, 255, .96); }
+}
+
+.sheet-foot .btn { min-width: 0; white-space: normal; text-align: center; line-height: 1.2; }
+.sheet-foot .btn-ghost { flex: none; max-width: 40%; }
