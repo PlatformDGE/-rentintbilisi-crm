@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from build_site_listings import build, normalize, parse_nbg, parse_price
+from build_site_listings import build, normalize, parse_nbg, parse_price, share_page
 
 NOW = datetime(2026, 10, 19, tzinfo=timezone.utc)
 RECENT = "2026-10-18T12:00:00+04:00"
@@ -120,6 +120,15 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertNotIn("lat", item)
         hourly = normalize(raw("Kia Rio\n💰 10$ / hour"), "car-rent", NOW)
         self.assertEqual(hourly["period"], "hour")
+
+    def test_share_page_has_preview_tags_and_redirect(self):
+        item = normalize(raw(RENT_POST), "rent", NOW)
+        page = share_page(item)
+        self.assertIn('og:title" content="Duplex 3bed apartment near Vake Park — $1,500/mo"', page)
+        self.assertIn('og:description" content="3 bd · 200 m²', page)
+        self.assertIn('og:image" content="https://platformdge.github.io/-rentintbilisi-crm/site/media/rent/1-1.jpg"', page)
+        self.assertIn(f"../#/listing/{item['id']}", page)
+        self.assertNotIn("<script>alert", share_page({**item, "title": "<script>alert(1)</script>", "headline": ""}))
 
     def test_build_counts_and_dedupes_reposts(self):
         payload = build({"rent": {"updated_at": RECENT, "items": [raw(RENT_POST), {**raw(RENT_POST), "id": "2"}]}}, NOW)

@@ -3,6 +3,7 @@ import { icon } from '../icons.js';
 import { SERVICES, AMENITY_ORDER, CONTACT, telegramHref, phoneHref, whatsappHref } from '../config.js';
 import { esc, listingTitle, favButton, rail, empty, toast } from '../components.js';
 import { createMap } from '../map.js';
+import { openShare } from '../share.js';
 import { priceLabel, money, ago, isFav, num, addRecent } from '../store.js';
 
 function lightbox(photos, start, title) {
@@ -166,6 +167,7 @@ export function renderListing(root, data, id) {
   ${rail('rail-similar', t('l.similar'), similar(data, x), '#/' + x.service + (x.district ? '?district=' + encodeURIComponent(x.district) : ''))}
   <div class="l-sticky">
     <div><b>${esc(p.main)}</b> <span>${p.period}</span></div>
+    <button type="button" class="icon-btn" data-share aria-label="${esc(t('l.share'))}">${icon('share')}</button>
     ${favButton(x.id, 'fav fav-plain')}
     <a class="btn btn-primary" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write')}</span></a>
   </div>
@@ -186,11 +188,7 @@ export function renderListing(root, data, id) {
     }
     const ph = e.target.closest('[data-photo]');
     if (ph && photos.length) return lightbox(photos, +ph.dataset.photo, title);
-    if (e.target.closest('[data-share]')) {
-      const share = { title, text: `${title} · ${p.main}`, url };
-      if (navigator.share) { try { await navigator.share(share); } catch {} return; }
-      try { await navigator.clipboard.writeText(url); toast(t('l.copied')); } catch {}
-    }
+    if (e.target.closest('[data-share]')) openShare(x);
   });
 
   // Show "Show more" only when the description is actually cut.

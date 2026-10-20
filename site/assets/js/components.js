@@ -45,6 +45,7 @@ export function card(x, { eager = false } = {}) {
     <button class="slide-btn next" type="button" data-slide="1" aria-label="${t('card.next')}">${icon('right')}</button>
     <div class="dots" aria-hidden="true">${photos.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}
     <div class="badges">${badges}</div>
+    <button class="card-share" type="button" data-share-id="${esc(x.id)}" aria-label="${esc(t('l.share'))}">${icon('share')}</button>
     ${favButton(x.id)}
   </div>
   <a class="card-body" href="#/listing/${esc(x.id)}">

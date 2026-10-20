@@ -11,6 +11,7 @@ Pure standard library, so it runs in any workflow step without extra installs.
 """
 
 from datetime import datetime, timedelta
+import html
 import json
 from pathlib import Path
 import re
@@ -19,6 +20,9 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "site" / "data"
+SHARE = ROOT / "site" / "share"
+# Public address of the website; share pages need absolute URLs for link previews.
+SITE_URL = "https://platformdge.github.io/-rentintbilisi-crm/site/"
 
 # Official National Bank of Georgia rates (GEL per unit of currency).
 # Used for the shared price filter, sorting and the visitor's display currency;
@@ -504,6 +508,63 @@ def build(sources, now=None, fx=None):
     }
 
 
+PERIOD_EN = {"month": "/mo", "night": "/night", "day": "/day", "hour": "/hour"}
+SYMBOL = {"USD": "$", "GEL": "₾", "EUR": "€"}
+
+
+def share_meta(item):
+    """English preview text for messengers: '10 Givi Kartozia St — $2,000/mo', '3 bd · 160 m² · Saburtalo'."""
+    price = f"{SYMBOL.get(item.get('currency'), '$')}{item['price']:,.0f}{PERIOD_EN.get(item.get('period'), '')}" if item.get("price") else "Price on request"
+    if item.get("kind") == "car":
+        facts = [str(item.get("year") or ""), (item.get("body") or "").upper() if item.get("body") == "suv" else (item.get("body") or "").title(),
+                 {"auto": "Automatic", "manual": "Manual"}.get(item.get("gearbox"), ""), (item.get("fuel") or "").title()]
+    else:
+        rooms = item.get("rooms")
+        facts = ["Studio" if rooms == 0 else f"{rooms} bd" if rooms else "", f"{item['area']:.0f} m²" if item.get("area") else "",
+                 item.get("district") or "", item.get("metro") or ""]
+    title = f"{item.get('headline') or item['title']} — {price}"
+    return title, " · ".join(f for f in facts if f) or "Homes in Georgia"
+
+
+def share_page(item):
+    title, description = share_meta(item)
+    image = SITE_URL + item["photos"][0] if item.get("photos") else SITE_URL + "homes-in-georgia-splash.jpg"
+    page = SITE_URL + f"share/{item['id']}.html"
+    target = f"../#/listing/{item['id']}"
+    e = lambda v: html.escape(v, quote=True)
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{e(title)} · Homes in Georgia</title>
+<meta name="description" content="{e(description)}">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Homes in Georgia">
+<meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}">
+<meta property="og:image" content="{e(image)}"><meta property="og:url" content="{e(page)}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{e(SITE_URL + '#/listing/' + item['id'])}">
+<meta http-equiv="refresh" content="0; url={e(target)}">
+<script>location.replace({json.dumps(target)})</script>
+</head><body><p><a href="{e(target)}">{e(title)}</a></p></body></html>
+"""
+
+
+def write_share_pages(items):
+    """One tiny page per listing with Open Graph tags, so a shared link shows photo, title and price."""
+    SHARE.mkdir(parents=True, exist_ok=True)
+    wanted = set()
+    for item in items:
+        name = f"{item['id']}.html"
+        wanted.add(name)
+        content = share_page(item)
+        path = SHARE / name
+        if not path.exists() or path.read_text(encoding="utf-8") != content:
+            path.write_text(content, encoding="utf-8")
+    for old in SHARE.glob("*.html"):
+        if old.name not in wanted:
+            old.unlink()
+    return len(wanted)
+
+
 def main():
     sources = {}
     for source in SOURCES:
@@ -525,6 +586,7 @@ def main():
     fx = fetch_nbg_rates(previous)
     payload = build(sources, fx=fx)
     out.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    write_share_pages(payload["items"])
     print("listings:", payload["counts"], "| rates:", fx["source"], fx["date"], fx["rates"])
     return 0
 
