@@ -64,18 +64,26 @@ export const MAP_CENTER = [41.7151, 44.8271];
 // to the site's domain in the MapTiler dashboard (Account → API keys).
 export const MAPTILER_KEY = '8rgCgBliYpwKCmMzEVV8';
 
-// Total map: every listing gets a category icon; colour shows how fresh the post is.
-export const MAP_CATEGORIES = [
+// Total map. Icon = what the object is (apartment block, house, kiosk for commercial,
+// plot, car); deal filters = what you can do with it; colour = freshness of the post.
+export const MAP_DEALS = [
   { id: 'rent', icon: 'key' },
   { id: 'daily', icon: 'moon' },
   { id: 'sale', icon: 'tag' },
   { id: 'new', icon: 'crane' },
-  { id: 'house', icon: 'home' },
-  { id: 'commercial', icon: 'building' },
   { id: 'car-rent', icon: 'car' },
   { id: 'car-sale', icon: 'gauge' },
 ];
-export const categoryOf = x => (x.kind === 'house' ? 'house' : x.kind === 'commercial' || x.service === 'commercial' ? 'commercial' : x.service);
+export const MAP_KINDS = [
+  { id: 'apartment', icon: 'building' },
+  { id: 'house', icon: 'home' },
+  { id: 'commercial', icon: 'kiosk' },
+  { id: 'land', icon: 'land' },
+  { id: 'car', icon: 'car' },
+];
+// Commercial premises join long-term rent or sale depending on the post.
+export const dealOf = x => (x.service === 'commercial' ? (x.deal === 'sale' ? 'sale' : 'rent') : x.service);
+export const mapKindOf = x => (MAP_KINDS.some(k => k.id === x.kind) ? x.kind : 'apartment');
 
 export const FRESHNESS = [
   { id: 'fresh', maxDays: 5, color: '#2DB87A' },

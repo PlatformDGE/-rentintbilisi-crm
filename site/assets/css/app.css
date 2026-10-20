@@ -923,3 +923,13 @@ html[lang='ka'] .mlayers h3 { text-transform: none; letter-spacing: 0; }
 .tm-peek > div > small { color: var(--muted); font-size: 12px; }
 
 .mapapp.peeking .leaflet-bottom.leaflet-right { display: none; }
+.cm small { margin-left: -3px; font-size: 10px; font-weight: 600; color: var(--muted); }
+.mlayers h3:first-of-type { margin-top: 6px; }
+.mages .mchip { height: 34px; font-size: 12px; padding: 0 10px 0 4px; }
+.mages .mchip i { width: 26px; height: 26px; }
+.mlayers { padding: 14px; }
+.mlayers h3 { margin: 10px 0 4px; }
+.mlayers .lrow { padding: 4px 6px; }
+.mlayers .lrow i { width: 26px; height: 26px; border-radius: 8px; }
+.mlayers .lrow b { font-size: 13.5px; }
+.mlayers .age { padding: 4px 8px; }

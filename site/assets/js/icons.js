@@ -1,5 +1,7 @@
 // Stroke icons on a 24px grid (Lucide-compatible geometry, ISC licence).
 const P = {
+  kiosk: '<path d="M4 9h16"/><path d="M5.5 9 7 4h10l1.5 5"/><path d="M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M5 11v9h14v-9"/><path d="M10 20v-5h4v5"/>',
+  land: '<path d="m2.5 19 6-8 4.5 6 3-4 5.5 6Z"/><circle cx="16.5" cy="6.5" r="2"/>',
   home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>',
   key: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8"/><path d="m16 7 3 3"/><path d="m18.5 4.5 2 2"/>',
   moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>',

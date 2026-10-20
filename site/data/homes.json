@@ -2,7 +2,7 @@
   "kind": "homes",
   "channel": "homesingeorgia",
   "source": "active_channel",
-  "updated_at": "2026-10-20T13:13:30+04:00",
+  "updated_at": "2026-10-20T13:08:19+04:00",
   "items": [
     {
       "id": "735",
@@ -84,9 +84,9 @@
       "post_url": "https://t.me/homesingeorgia/715",
       "published_at": "2026-10-20T11:02:03+04:00",
       "map_url": "",
-      "location": "თევდორე მღვდლის ქუჩა, დიდუბე, დიდუბის რაიონი, თბილისი, 0119, საქართველო",
-      "lat": 41.7317425,
-      "lon": 44.788655,
+      "location": "თევდორე მღვდლის ქუჩა, ჩუღურეთი, დიდუბე, დიდუბის რაიონი, თბილისი, 0119, საქართველო",
+      "lat": 41.7213321,
+      "lon": 44.7962533,
       "photos": [
         "media/homes/715-1.jpg",
         "media/homes/715-2.jpg",
