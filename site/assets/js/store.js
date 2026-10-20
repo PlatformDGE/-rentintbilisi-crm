@@ -1,4 +1,4 @@
-import { t, getLang } from './i18n.js';
+import { t, localeOf } from './i18n.js';
 
 
 // ---------- data ----------
@@ -59,7 +59,7 @@ const DEFAULT_RATES = { USD: 1, GEL: 1 / 2.7, EUR: 1.08 };
 let rates = DEFAULT_RATES;
 export const setRates = r => { rates = { ...DEFAULT_RATES, ...(r || {}) }; };
 
-const locale = () => (getLang() === 'ru' ? 'ru-RU' : 'en-US');
+const locale = () => localeOf();
 export const num = n => Math.round(n).toLocaleString(locale()).replace(/ /g, ' ');
 
 export function money(amountUsd, cur = currency) {
