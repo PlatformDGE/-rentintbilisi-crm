@@ -2,6 +2,11 @@
 
 const dict = {
   en: {
+    'nav.map': 'Map', 'map.title': 'Map of all listings', 'map.categories': 'Categories', 'map.freshness': 'How fresh',
+    'map.count': n => `${n} on the map · switch categories on and off`, 'map.all': 'All', 'map.show.all': 'Show all', 'map.hide.all': 'Hide all',
+    'map.age.fresh': 'New · up to 5 days', 'map.age.recent': '5–20 days', 'map.age.old': 'Over 20 days',
+    'map.cat.rent': 'Long-term rent', 'map.cat.daily': 'Daily rent', 'map.cat.sale': 'Resale property', 'map.cat.new': 'New developments',
+    'map.cat.house': 'Houses', 'map.cat.commercial': 'Commercial', 'map.cat.car-rent': 'Car rental', 'map.cat.car-sale': 'Cars for sale',
     'l.write.short': 'Message',
     'share.title': 'Share', 'share.copy': 'Copy', 'share.more': 'More', 'share.link': 'Link to the listing',
     'share.insta': 'Link copied — paste it in Instagram (Direct or Stories)',
@@ -139,6 +144,11 @@ const dict = {
     'loading': 'Loading listings…', 'error': 'Could not load the catalogue. Please refresh.',
   },
   ka: {
+    'nav.map': 'რუკა', 'map.title': 'ყველა ობიექტის რუკა', 'map.categories': 'კატეგორიები', 'map.freshness': 'სიახლე',
+    'map.count': n => `${n} რუკაზე · ჩართეთ და გამორთეთ კატეგორიები`, 'map.all': 'ყველა', 'map.show.all': 'ყველას ჩვენება', 'map.hide.all': 'ყველას დამალვა',
+    'map.age.fresh': 'ახალი · 5 დღემდე', 'map.age.recent': '5–20 დღე', 'map.age.old': '20 დღეზე მეტი',
+    'map.cat.rent': 'გრძელვადიანი ქირა', 'map.cat.daily': 'დღიური ქირა', 'map.cat.sale': 'მეორადი საცხოვრებელი', 'map.cat.new': 'ახალი პროექტები',
+    'map.cat.house': 'სახლები', 'map.cat.commercial': 'კომერცია', 'map.cat.car-rent': 'ავტო ქირა', 'map.cat.car-sale': 'ავტო გაყიდვა',
     'l.write.short': 'მიწერა',
     'share.title': 'გაზიარება', 'share.copy': 'კოპირება', 'share.more': 'სხვა', 'share.link': 'განცხადების ბმული',
     'share.insta': 'ბმული დაკოპირდა — ჩასვით Instagram-ში (Direct ან Stories)',
@@ -276,6 +286,11 @@ const dict = {
     'loading': 'განცხადებები იტვირთება…', 'error': 'კატალოგის ჩატვირთვა ვერ მოხერხდა. განაახლეთ გვერდი.',
   },
   ru: {
+    'nav.map': 'Карта', 'map.title': 'Карта всех объектов', 'map.categories': 'Категории', 'map.freshness': 'Свежесть',
+    'map.count': n => `${n} на карте · включайте и выключайте категории`, 'map.all': 'Все', 'map.show.all': 'Показать все', 'map.hide.all': 'Скрыть все',
+    'map.age.fresh': 'Новые · до 5 дней', 'map.age.recent': '5–20 дней', 'map.age.old': 'Больше 20 дней',
+    'map.cat.rent': 'Долгосрочная аренда', 'map.cat.daily': 'Посуточная аренда', 'map.cat.sale': 'Вторичное жильё', 'map.cat.new': 'Новостройки',
+    'map.cat.house': 'Дома', 'map.cat.commercial': 'Коммерция', 'map.cat.car-rent': 'Аренда авто', 'map.cat.car-sale': 'Продажа авто',
     'l.write.short': 'Написать',
     'share.title': 'Поделиться', 'share.copy': 'Копировать', 'share.more': 'Ещё', 'share.link': 'Ссылка на объект',
     'share.insta': 'Ссылка скопирована — вставьте её в Instagram (Direct или Stories)',

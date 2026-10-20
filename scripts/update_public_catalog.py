@@ -33,8 +33,14 @@ CHANNELS = {
     "car-rent": "CarsRentInGeorgia",
     "car-sale": "CarsSaleInGeorgia",
 }
-# Car posts have no street address, so they are never geocoded.
-NO_MAP_KINDS = {"car-rent", "car-sale"}
+# Car posts carry a pick-up address ("#Jeep Compass 🚙 #SUV📍 7 Solomon St")
+# instead of a listing title, so they are geocoded by that address.
+CAR_KINDS = {"car-rent", "car-sale"}
+
+
+def pickup_address(text):
+    first = (text or "").split("\n", 1)[0]
+    return re.sub(r"[^\w\s.,/-]", "", first.split("📍", 1)[1]).strip() if "📍" in first else ""
 
 
 def valid_tbilisi_point(lat, lon):
@@ -157,8 +163,12 @@ async def collect_channel(client, channel, kind):
         cached = previous.get(str(text_message.id), {})
         if location["lat"] is None and valid_tbilisi_point(cached.get("lat"), cached.get("lon")):
             location = {"lat": cached.get("lat"), "lon": cached.get("lon"), "location": cached.get("location", "")}
-        if location["lat"] is None and kind not in NO_MAP_KINDS:
-            location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
+        if location["lat"] is None:
+            if kind in CAR_KINDS:
+                address = pickup_address(text)
+                location = geocode_address(address) if address else location
+            else:
+                location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
             time.sleep(1.05)
         rows.append({**property_data, "type": kind, "channel": channel, "post_url": f"https://t.me/{channel}/{text_message.id}", "published_at": iso(group[0].date), "map_url": source_map_url, "location": location["location"], "lat": location["lat"], "lon": location["lon"], "_messages": photos})
     rows.sort(key=lambda item: item["published_at"], reverse=True)

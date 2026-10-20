@@ -7,7 +7,7 @@ const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
 const CLUSTER = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/';
 
 let loading;
-function loadLeaflet() {
+export function loadLeaflet() {
   const css = href => new Promise(res => { const l = Object.assign(document.createElement('link'), { rel: 'stylesheet', href, onload: res, onerror: res }); document.head.append(l); });
   const js = src => new Promise((res, rej) => { const s = Object.assign(document.createElement('script'), { src, onload: res, onerror: rej }); document.head.append(s); });
   loading ??= Promise.all([css(LEAFLET + 'leaflet.css'), css(CLUSTER + 'MarkerCluster.css')])
@@ -28,7 +28,7 @@ function popup(x) {
 }
 
 const MT_ATTRIBUTION = '<a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap</a>';
-const mapTiler = (L, style, ext = 'png') => L.tileLayer(`https://api.maptiler.com/maps/${style}/256/{z}/{x}/{y}{r}.${ext}?key=${MAPTILER_KEY}`, {
+export const mapTiler = (L, style, ext = 'png') => L.tileLayer(`https://api.maptiler.com/maps/${style}/256/{z}/{x}/{y}{r}.${ext}?key=${MAPTILER_KEY}`, {
   maxZoom: 20, attribution: MT_ATTRIBUTION, crossOrigin: true,
 });
 

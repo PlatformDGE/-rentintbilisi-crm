@@ -126,7 +126,7 @@ sup { margin-left: 6px; padding: 2px 6px; border-radius: 6px; background: var(--
 
 /* ============ mobile tab bar ============ */
 .tabbar {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(4, 1fr);
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(5, 1fr);
   padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .94);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--line);
 }
@@ -837,3 +837,89 @@ html[lang='ka'] .lang-seg, html[lang='ka'] .logo { font-family: var(--font); }
 .listing { padding-bottom: 120px; }
 @media (max-width: 359px) { .l-sticky .btn-primary span { display: none; } .l-sticky .btn-primary { padding: 0 14px; } }
 @media (min-width: 1000px) { .listing { padding-bottom: 0; } }
+
+/* ============ total map ============ */
+body.map-page .footer { display: none; }
+.mapapp { position: fixed; left: 0; right: 0; top: var(--header-h); bottom: calc(64px + env(safe-area-inset-bottom)); }
+@media (min-width: 1000px) { .mapapp { bottom: 0; } }
+.tmap { position: absolute; inset: 0; background: #EEF2F7; }
+.nav-map { display: inline-flex; align-items: center; gap: 6px; }
+.nav-map .i { width: 18px; }
+
+/* marker: glass capsule with a freshness-coloured icon disc and the price */
+.cm { background: none; border: 0; }
+.cm > div { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 3px; transform: translate(-50%, -50%); white-space: nowrap;
+  border-radius: 999px; background: rgba(255, 255, 255, .9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(2, 31, 74, .2), 0 0 0 1.5px var(--c); font: 700 12px/1 var(--font); color: var(--brand-strong); transition: transform .18s var(--spring); }
+.cm > div:hover { transform: translate(-50%, -50%) scale(1.12); }
+.cm i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); }
+.cm .i { width: 14px; height: 14px; stroke-width: 2.2; }
+.dc { background: none; }
+.dc > div { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--g); box-shadow: 0 6px 16px rgba(2, 31, 74, .25); }
+.dc span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fff; font: 800 12px var(--font); color: var(--brand-strong); }
+
+/* desktop: glass panel with category switches and freshness legend */
+.mlayers { display: none; position: absolute; z-index: 600; left: 20px; top: 20px; width: 300px; max-height: calc(100% - 40px); overflow: auto; padding: 16px; border-radius: 24px;
+  background: rgba(255, 255, 255, .74); -webkit-backdrop-filter: saturate(180%) blur(24px); backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid rgba(255, 255, 255, .85); box-shadow: 0 18px 44px rgba(2, 31, 74, .18), inset 0 1px 0 #fff; }
+.mlayers h2 { font-size: 18px; }
+.mlayers p { margin: 2px 0 10px; color: var(--muted); font-size: 13px; }
+.mlayers h3 { margin: 14px 0 8px; font-size: 13px; color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+html[lang='ka'] .mlayers h3 { text-transform: none; letter-spacing: 0; }
+.lgroup { display: grid; gap: 2px; }
+.lrow { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 6px; border-radius: 12px; text-align: left; transition: background .15s; }
+.lrow:hover { background: rgba(255, 255, 255, .7); }
+.lrow i { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 10px; background: var(--brand); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3); }
+.lrow .i { width: 16px; height: 16px; }
+.lrow b { flex: 1; font-size: 14px; font-weight: 600; color: var(--ink); }
+.lrow small { color: var(--muted); font-weight: 600; font-size: 12px; }
+.lrow .sw { position: relative; flex: none; width: 38px; height: 22px; border-radius: 22px; background: var(--line-2); transition: background .2s; }
+.lrow .sw::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); transition: transform .25s var(--spring); }
+.lrow.on .sw { background: var(--brand); }
+.lrow.on .sw::after { transform: translateX(16px); }
+.lrow:not(.on) i { background: var(--faint); }
+.lrow.empty { opacity: .45; cursor: default; }
+.ages { display: grid; gap: 4px; }
+.age { display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--ink-2); text-align: left; transition: background .15s, opacity .2s; }
+.age:hover { background: rgba(255, 255, 255, .7); }
+.age i { flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 22%, transparent); }
+.age span { flex: 1; }
+.age small { color: var(--muted); font-size: 12px; }
+.age:not(.on) { opacity: .45; }
+.age:not(.on) i { background: var(--faint); box-shadow: none; }
+.lfoot { display: flex; gap: 8px; margin-top: 12px; }
+.lfoot .btn { flex: 1; min-height: 38px; font-size: 13px; padding: 0 10px; }
+
+/* phones: category chips on top, freshness legend under them */
+.mchips, .mages { position: absolute; z-index: 600; left: 0; right: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 0 12px; }
+.mchips::-webkit-scrollbar, .mages::-webkit-scrollbar { display: none; }
+.mchips { top: 10px; }
+.mages { top: 56px; }
+.mchip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 12px 0 5px; border-radius: 999px; font: 600 13px var(--font); color: var(--ink-2);
+  background: rgba(255, 255, 255, .8); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, .85); box-shadow: 0 4px 14px rgba(2, 31, 74, .14); }
+.mchip i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: #fff; }
+.mchip .i { width: 15px; height: 15px; }
+.mchip.off { opacity: .55; }
+.mchip.off i { background: var(--faint); }
+.mchip.all { padding: 0 14px; background: var(--brand); color: #fff; }
+.mages .age { flex: none; padding: 5px 10px; font-size: 12px; background: rgba(255, 255, 255, .78); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, .85); border-radius: 999px; }
+.mages .age i { width: 10px; height: 10px; box-shadow: none; }
+.mages .age small { display: none; }
+@media (min-width: 900px) { .mlayers { display: block; } .mchips, .mages { display: none; } }
+
+/* selected listing: popup on desktop, bottom card on phones */
+.tm-card em, .tm-peek em { display: inline-flex; align-items: center; gap: 6px; font-style: normal; font-size: 12px; font-weight: 700; color: var(--muted); }
+.tm-card em i, .tm-peek em i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.tm-card small { color: var(--muted); font-size: 12px; }
+.mpeek { position: absolute; z-index: 600; left: 12px; right: 12px; bottom: 12px; }
+.mpeek[hidden] { display: none; }
+.tm-peek { display: flex; gap: 12px; padding: 8px; border-radius: 20px; background: rgba(255, 255, 255, .84); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 18px 40px rgba(2, 31, 74, .22); }
+.tm-peek img { flex: none; width: 96px; height: 96px; border-radius: 14px; object-fit: cover; }
+.tm-peek > div { display: grid; align-content: center; gap: 2px; min-width: 0; }
+.tm-peek b { font-size: 18px; color: var(--brand-strong); }
+.tm-peek b small { font-size: 12px; color: var(--muted); font-weight: 500; }
+.tm-peek span { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-peek > div > small { color: var(--muted); font-size: 12px; }
+
+.mapapp.peeking .leaflet-bottom.leaflet-right { display: none; }

@@ -5,6 +5,7 @@ import { esc, installInteractions, serviceIcon } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
 import { openShare } from './share.js';
 import { renderHome } from './pages/home.js';
+import { renderMap } from './pages/map.js';
 import { renderCatalog } from './pages/catalog.js';
 import { renderListing } from './pages/listing.js';
 import { renderSoon, renderFavorites, renderNotFound } from './pages/misc.js';
@@ -32,6 +33,7 @@ function renderHeader() {
     <a class="brand" href="#/" aria-label="Homes in Georgia">${logo()}</a>
     <nav class="nav-main" aria-label="main">
       ${Object.keys(GROUPS).map(g => `<div class="nav-drop"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">${t('nav.' + g)}${icon('down')}</button>${megaMenu(g)}</div>`).join('')}
+      <a class="nav-link nav-map" href="#/map">${icon('map')}${t('nav.map')}</a>
     </nav>
     <div class="nav-tools">
       <div class="select mini">${icon('down')}<select id="cur" aria-label="Currency">${CURRENCIES.map(c => `<option${c === getCurrency() ? ' selected' : ''}>${c}</option>`).join('')}</select></div>
@@ -76,6 +78,7 @@ function renderFooter() {
 
 function renderTabbar(route) {
   const items = [['#/', 'home', t('nav.home'), route === ''], ['#/all', 'search', t('nav.search'), route === 'all' || (SERVICES[route] && true)],
+    ['#/map', 'map', t('nav.map'), route === 'map'],
     ['#/favorites', 'heart', t('nav.favorites'), route === 'favorites'], [telegramHref(CONTACT.telegram), 'send', t('nav.contact'), false]];
   tabbar.innerHTML = items.map(([href, ic, label, on]) =>
     `<a href="${href}"${href.startsWith('http') ? ' target="_blank" rel="noopener"' : ''} class="${on ? 'on' : ''}">${icon(ic)}<span>${esc(label)}</span>${ic === 'heart' && favIds().length ? '<b class="dot"></b>' : ''}</a>`).join('');
@@ -133,6 +136,7 @@ async function route() {
   else if (SERVICES[first]) { renderSoon(view, first); document.title = t('svc.' + first) + ' · Homes in Georgia'; }
   else if (first === 'listing' && second) renderListing(view, data, decodeURIComponent(second));
   else if (first === 'favorites') renderFavorites(view, data);
+  else if (first === 'map') { current.page = renderMap(view, data, params); document.title = t('map.title') + ' · Homes in Georgia'; }
   else renderNotFound(view);
   view.focus?.({ preventScroll: true });
 }
