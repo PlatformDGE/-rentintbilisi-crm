@@ -117,7 +117,7 @@ class BuildSiteListingsTest(unittest.TestCase):
         sale = normalize(raw("BMW X5 2014\nDiesel | Automatic\n92 000 km\n💰 22.000$"), "car-sale", NOW)
         self.assertEqual((sale["mileage"], sale["price"]), (92000, 22000))
         self.assertNotIn("district", item)
-        self.assertNotIn("lat", item)
+        self.assertEqual(item["lat"], 41.7)  # pick-up point, geocoded by the collector
         hourly = normalize(raw("Kia Rio\n💰 10$ / hour"), "car-rent", NOW)
         self.assertEqual(hourly["period"], "hour")
 

@@ -63,3 +63,26 @@ export const MAP_CENTER = [41.7151, 44.8271];
 // MapTiler key is public by design (it ships to the browser); it is restricted
 // to the site's domain in the MapTiler dashboard (Account → API keys).
 export const MAPTILER_KEY = '8rgCgBliYpwKCmMzEVV8';
+
+// Total map: every listing gets a category icon; colour shows how fresh the post is.
+export const MAP_CATEGORIES = [
+  { id: 'rent', icon: 'key' },
+  { id: 'daily', icon: 'moon' },
+  { id: 'sale', icon: 'tag' },
+  { id: 'new', icon: 'crane' },
+  { id: 'house', icon: 'home' },
+  { id: 'commercial', icon: 'building' },
+  { id: 'car-rent', icon: 'car' },
+  { id: 'car-sale', icon: 'gauge' },
+];
+export const categoryOf = x => (x.kind === 'house' ? 'house' : x.kind === 'commercial' || x.service === 'commercial' ? 'commercial' : x.service);
+
+export const FRESHNESS = [
+  { id: 'fresh', maxDays: 5, color: '#2DB87A' },
+  { id: 'recent', maxDays: 20, color: '#F3A712' },
+  { id: 'old', maxDays: Infinity, color: '#E5532E' },
+];
+export function freshnessOf(x) {
+  const days = (Date.now() - (Date.parse(x.published_at) || 0)) / 864e5;
+  return FRESHNESS.find(f => days < f.maxDays);
+}
