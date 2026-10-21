@@ -13,8 +13,9 @@ on:
 permissions:
   contents: write
 
+# Shares TELEGRAM_CRM_SESSION with update-telegram-top10.yml, see the note there.
 concurrency:
-  group: homes-public-catalog
+  group: telegram-crm-session
   cancel-in-progress: false
 
 jobs:

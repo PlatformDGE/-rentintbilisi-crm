@@ -371,7 +371,7 @@ async def update():
     await client.connect()
     if not await client.is_user_authorized():
         await client.disconnect()
-        raise RuntimeError("TELEGRAM_SESSION не авторизована или истекла. Обновите GitHub Secret TELEGRAM_SESSION.")
+        raise RuntimeError("Telegram-сессия не авторизована или истекла. Создайте новую через scripts/create_telegram_session.py и обновите GitHub Secret TELEGRAM_CRM_SESSION.")
     try:
         messages = await collect_messages(client)
         if not messages:

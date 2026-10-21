@@ -14,8 +14,11 @@ on:
 permissions:
   contents: write
 
+# Shares TELEGRAM_CRM_SESSION with update-public-catalog.yml. The common
+# concurrency group keeps the two jobs from using the session at the same time,
+# which Telegram can punish by revoking it (AUTH_KEY_DUPLICATED).
 concurrency:
-  group: daily-telegram-repost-ranking
+  group: telegram-crm-session
   cancel-in-progress: false
 
 jobs:
@@ -35,22 +38,21 @@ jobs:
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
-          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SYNC_SESSION }}
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_CRM_SESSION }}
         run: |
           missing=()
           test -n "$TELEGRAM_API_ID" || missing+=(TELEGRAM_API_ID)
           test -n "$TELEGRAM_API_HASH" || missing+=(TELEGRAM_API_HASH)
-          test -n "$TELEGRAM_SESSION" || missing+=(TELEGRAM_SESSION)
+          test -n "$TELEGRAM_SESSION" || missing+=(TELEGRAM_CRM_SESSION)
           if (( ${#missing[@]} )); then
-            echo "Missing required Telegram secrets:"
-            printf '%s\n' "${missing[@]}"
+            echo "::error::Не заданы GitHub Secrets: ${missing[*]}. Создайте сессию через scripts/create_telegram_session.py (см. README)."
             exit 1
           fi
       - name: Update daily repost ranking
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
-          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SYNC_SESSION }}
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_CRM_SESSION }}
           TELEGRAM_TEST_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.test_mode || 'false' }}
         run: |
           for attempt in 1 2 3; do
