@@ -4181,11 +4181,9 @@ function showStandards(){ closeQuiz(); }
 
 
 function loadNews(){
-  var BOT_TOKEN='8692499827:AAHsM_Ttebgn6wDJfsBUMKn0hESHbSI-5uc';
   var CHAT_ID='-1002252468572';
   var TOPIC_ID='107';
   var list=document.getElementById('news-list');
-  var url='https://api.telegram.org/bot'+BOT_TOKEN+'/getUpdates?allowed_updates=["message"]';
 
   // Используем forwardMessages approach — читаем историю через getChatHistory
   // Telegram Bot API не даёт читать историю напрямую, используем webhook-кэш в GAS

@@ -300,7 +300,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
 
 <style>
   .telegram-status{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}.telegram-status-chip{padding:6px 9px;border-radius:999px;background:#14213a;border:1px solid #2a3a59;color:#aebbd2;font-size:9px}.telegram-status-chip.active{color:#53d6aa;border-color:rgba(83,214,170,.38)}.telegram-status-chip.waiting{color:#ffc25c;border-color:rgba(255,194,92,.38)}
-.login-card{width:min(100%,380px);padding:26px 22px 22px;background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #2a3a59;border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.36)}.login-brand{width:62px;height:62px;margin:0 auto 16px;border-radius:18px;padding:5px;background:linear-gradient(135deg,#365a9b,#253e77);box-shadow:0 0 30px rgba(70,105,185,.28)}.login-brand img{width:100%;height:100%;object-fit:cover;border-radius:13px}.login-title{font-size:23px;font-weight:800;letter-spacing:-.03em}.login-subtitle{margin:8px 0 22px;color:#7f8aa2;font-size:12px;line-height:1.5}.login-label{display:block;margin:12px 0 6px;text-align:left;color:#aebbd2;font-size:11px;font-weight:700}.login-input{padding:13px 14px!important;background:#0b172b!important;border-color:#2a3a59!important}.login-submit{margin-top:18px}.login-message{min-height:18px;margin-top:14px;color:#7f8aa2;font-size:11px;line-height:1.45}.login-message.error{color:#ff8e86}.login-telegram{margin-top:12px;border:0;background:transparent;color:#8da7ff;font:600 11px Inter,sans-serif;cursor:pointer}
+.login-card{width:min(100%,380px);padding:26px 22px 22px;background:linear-gradient(145deg,#111d34,#0d182c);border:1px solid #2a3a59;border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.36)}.login-brand{width:62px;height:62px;margin:0 auto 16px;border-radius:18px;padding:5px;background:linear-gradient(135deg,#365a9b,#253e77);box-shadow:0 0 30px rgba(70,105,185,.28)}.login-brand img{width:100%;height:100%;object-fit:cover;border-radius:13px}.login-title{font-size:23px;font-weight:800;letter-spacing:-.03em}.login-subtitle{margin:8px 0 22px;color:#7f8aa2;font-size:12px;line-height:1.5}.login-label{display:block;margin:12px 0 6px;text-align:left;color:#aebbd2;font-size:11px;font-weight:700}.login-input{padding:13px 14px!important;background:#0b172b!important;border-color:#2a3a59!important}.login-submit{margin-top:18px}.login-message{min-height:18px;margin-top:14px;color:#7f8aa2;font-size:11px;line-height:1.45}.login-message.error{color:#ff8e86}.tg-login-box{margin-bottom:6px}#tg-login-widget{min-height:40px;display:flex;justify-content:center}.login-divider{display:flex;align-items:center;gap:10px;margin:16px 0 4px;color:#5d6984;font-size:10px;text-transform:uppercase;letter-spacing:.08em}.login-divider:before,.login-divider:after{content:"";flex:1;height:1px;background:#2a3a59}.login-telegram{margin-top:12px;border:0;background:transparent;color:#8da7ff;font:600 11px Inter,sans-serif;cursor:pointer}
   /* Molecula 90/10 calculator */
   .molecule-calc{padding:16px 16px 28px;overflow:auto;height:100%;}
   .molecule-hero{background:linear-gradient(135deg,rgba(44,74,145,.9),rgba(24,35,75,.95));border:1px solid rgba(126,179,255,.3);border-radius:24px;padding:20px;margin-bottom:14px;box-shadow:0 16px 40px rgba(0,0,0,.24)}
@@ -501,8 +501,21 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   <div class="login-card">
     <div class="login-brand"><img src="Logo_rent.png" alt="Rent in Tbilisi"></div>
     <div class="login-title">Вход в CRM</div>
-    <div class="login-subtitle">Введите данные из списка пользователей платформы</div>
-    <form onsubmit="event.preventDefault();loginWithPassword();" autocomplete="on">
+    <div class="login-subtitle">Войдите через Telegram или введите данные из списка пользователей платформы</div>
+    <div id="tg-login-box" class="tg-login-box" style="display:none">
+      <div id="tg-login-widget"></div>
+      <div class="login-divider"><span>или по паролю</span></div>
+    </div>
+    <form id="tg-register-form" style="display:none" onsubmit="event.preventDefault();submitAgentRegistration();">
+      <div class="login-subtitle" id="tg-register-hello" style="margin-top:0">Первый вход: заполните профиль</div>
+      <label class="login-label" for="reg-phone">Телефон</label>
+      <input id="reg-phone" class="login-input" type="tel" autocomplete="tel" placeholder="+995 5XX XXX XXX" required>
+      <label class="login-label" for="reg-birth">Дата рождения</label>
+      <input id="reg-birth" class="login-input" type="date" required>
+      <button class="account-action login-submit" id="reg-submit" type="submit">Сохранить и войти</button>
+      <button class="login-telegram" id="reg-cancel" type="button" style="display:none" onclick="hideAgentRegistration();enterWithTelegramWeb(CURRENT_USER.profile)">Отмена</button>
+    </form>
+    <form id="password-login-form" onsubmit="event.preventDefault();loginWithPassword();" autocomplete="on">
       <label class="login-label" for="login-name">Имя пользователя</label>
       <input id="login-name" class="login-input" autocomplete="username" placeholder="Например, Irakli" required>
       <label class="login-label" for="login-password">Пароль</label>
@@ -510,7 +523,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
       <button class="account-action login-submit" type="submit">Войти</button>
     </form>
     <div id="access-reason" class="login-message">Доступ выдаётся администратором платформы</div>
-    <button class="login-telegram" onclick="openTelegramLogin()">Открыть через Telegram</button>
+    <button class="login-telegram" id="open-telegram-btn" onclick="openTelegramLogin()">Открыть через Telegram</button>
   </div>
 </div>
 
@@ -2370,7 +2383,9 @@ function openAccountSheet(){
     var name=[user.first_name,user.last_name].filter(Boolean).join(' ')||'Пользователь Telegram';
     var avatar=user.photo_url?'<img src="'+uiEscape(user.photo_url)+'" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover">':'<div class="account-avatar">'+uiEscape((user.first_name||'TG').slice(0,2).toUpperCase())+'</div>';
     var adminAction=isAdmin()?'<button class="account-action" style="margin-bottom:8px;background:linear-gradient(135deg,#6d4cc7,#344c9f)" onclick="closeSheet(\'account-sheet\');goTab(\'admin\')">Открыть админ-панель</button>':'';
-    card.innerHTML='<div class="account-row">'+avatar+'<div><h3>'+uiEscape(name)+'</h3><p>'+(user.username?'@'+uiEscape(user.username):'Telegram ID: '+uiEscape(user.id))+'</p></div></div>'+adminAction+'<button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="exitTelegram()">Выйти из приложения</button>';
+    var prof=CURRENT_AUTH_MODE==='tg-web'&&user.profile||null;
+    var profileInfo=prof?'<div style="margin:-4px 0 12px;font-size:12px;color:var(--text2);line-height:1.6">📞 '+uiEscape(prof.phone||'—')+'<br>🎂 '+uiEscape(prof.birth_date||'—')+'</div><button class="account-action" style="margin-bottom:8px;background:#14213a;border-color:#2a3a59" onclick="closeSheet(\'account-sheet\');showAgentRegistration(CURRENT_USER.profile,true)">Изменить данные</button>':'';
+    card.innerHTML='<div class="account-row">'+avatar+'<div><h3>'+uiEscape(name)+'</h3><p>'+(user.username?'@'+uiEscape(user.username):'Telegram ID: '+uiEscape(user.id))+'</p></div></div>'+profileInfo+adminAction+'<button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="exitTelegram()">Выйти из приложения</button>';
   }else{
     card.innerHTML='<div class="account-row"><div class="account-avatar">IK</div><div><h3>Ираклий</h3><p>Откройте CRM через Telegram для автоматического входа</p></div></div><button class="account-action" onclick="toggleFullscreen()">Открыть на весь экран</button><button class="account-action" style="margin-top:8px;background:#14213a;border-color:#2a3a59" onclick="openTelegramLogin()">Открыть Telegram</button>';
   }
@@ -2390,6 +2405,10 @@ function toggleFullscreen(){
   else showToast('Добавьте CRM на экран телефона для полного режима');
 }
 function exitTelegram(){
+  if(CURRENT_AUTH_MODE==='tg-web'){
+    try{localStorage.removeItem(TG_SESSION_KEY);}catch(e){}
+    CURRENT_USER=null;CURRENT_ROLE='';CURRENT_AUTH_MODE='';closeSheet('account-sheet');showLoginScreen('Вы вышли из CRM');initTelegramLoginWidget();return;
+  }
   if(CURRENT_AUTH_MODE==='password'){
     localStorage.removeItem(LOGIN_SESSION_KEY);CURRENT_USER=null;CURRENT_ROLE='';CURRENT_AUTH_MODE='';closeSheet('account-sheet');showLoginScreen('Вы вышли из CRM');return;
   }
@@ -3733,6 +3752,10 @@ var CURRENT_ROLE = '';
 var CURRENT_AUTH_MODE = '';
 var PLATFORM_USERS_SHEET = 'https://docs.google.com/spreadsheets/d/1M7kg2FgI8eke8_Iy4NofsKzC3NrKetLl3dniKJRxYrU/gviz/tq?tqx=out:csv&sheet=Platform_Desk_Users';
 var LOGIN_SESSION_KEY = 'rent_crm_login_session';
+// Вход агентов через Telegram (белый список = листы Агенты/Рекруты). См. apps-script/crm-auth.gs
+var CRM_AUTH_URL = '';   // URL веб-приложения CRM Auth (Apps Script)
+var TG_LOGIN_BOT = '';   // username технического бота для входа, без @
+var TG_SESSION_KEY = 'rent_crm_tg_session';
 var adminLvl = 70;
 var dashSettings = {districts:true,rooms:true,weekly:true,monthly:true,agents:false,lastdeals:true};
 try{var _ds=JSON.parse(localStorage.getItem('dashSettings')||'{}');if(_ds.agents){_ds.agents=false;localStorage.setItem('dashSettings',JSON.stringify(_ds));}}catch(e){}
@@ -4137,7 +4160,7 @@ function grantAccess(user,member){
 
 function checkAccess(){
   var user=readTelegramUser();
-  if(!user){if(restoreLoginSession())return;showLoginScreen();return;}
+  if(!user){if(restoreLoginSession())return;if(restoreTelegramWebSession())return;showLoginScreen();initTelegramLoginWidget();return;}
   CURRENT_USER=user;
   var userId=String(user.id||''),username=normalizeTelegram(user.username);
   if(SUPER_IDS.indexOf(userId)!==-1||SUPER_NAMES.indexOf(username)!==-1){grantAccess(user,{name:user.first_name||user.username});return;}
@@ -4161,6 +4184,124 @@ function checkAccess(){
   sc.onerror=function(){deny('Не удалось проверить доступ. Попробуйте открыть CRM ещё раз');};
   document.head.appendChild(sc);
   setTimeout(function(){deny('Сервер авторизации не ответил. Попробуйте открыть CRM ещё раз');},12000);
+}
+
+// ── Вход через Telegram на сайте (Login Widget + CRM Auth) ──
+function authCall(params,done){
+  var cb='__crmAuth_'+Date.now()+'_'+Math.floor(Math.random()*1e6),sc=document.createElement('script'),finished=false;
+  function end(res){if(finished)return;finished=true;delete window[cb];sc.remove();done(res);}
+  window[cb]=end;
+  var q=Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k]);}).join('&');
+  sc.src=CRM_AUTH_URL+'?'+q+'&callback='+cb+'&_='+Date.now();
+  sc.onerror=function(){end({ok:false,error:'network'});};
+  document.head.appendChild(sc);
+  setTimeout(function(){end({ok:false,error:'network'});},15000);
+}
+function tgAuthError(code){
+  return {
+    not_whitelisted:'Вашего Telegram нет в списке агентов. Обратитесь к администратору',
+    inactive:'Ваш доступ отключён администратором',
+    expired:'Вход устарел, нажмите кнопку Telegram ещё раз',
+    bad_signature:'Telegram не подтвердил вход, попробуйте ещё раз',
+    bad_session:'Сессия истекла, войдите заново',
+    bad_phone:'Проверьте номер телефона',
+    bad_birth:'Укажите дату рождения',
+    network:'Сервер авторизации не ответил. Попробуйте ещё раз'
+  }[code]||'Не удалось войти. Попробуйте ещё раз';
+}
+function initTelegramLoginWidget(){
+  var box=document.getElementById('tg-login-box'),holder=document.getElementById('tg-login-widget');
+  if(!box||!holder||!CRM_AUTH_URL||!TG_LOGIN_BOT)return;
+  box.style.display='';
+  if(holder.childNodes.length)return;
+  var sc=document.createElement('script');
+  sc.async=true;
+  sc.src='https://telegram.org/js/telegram-widget.js?22';
+  sc.setAttribute('data-telegram-login',TG_LOGIN_BOT);
+  sc.setAttribute('data-size','large');
+  sc.setAttribute('data-radius','12');
+  sc.setAttribute('data-lang','ru');
+  sc.setAttribute('data-onauth','onTelegramAuth(user)');
+  holder.appendChild(sc);
+}
+function onTelegramAuth(tgUser){
+  var params={action:'tgLogin'};
+  ['id','first_name','last_name','username','photo_url','auth_date','hash'].forEach(function(k){if(tgUser[k]!==undefined&&tgUser[k]!=='')params[k]=tgUser[k];});
+  if(!params.username){showLoginScreen('В Telegram нужно указать username: по нему администратор добавляет агентов',true);return;}
+  showLoginScreen('Проверяем доступ…');
+  authCall(params,function(res){
+    if(!res||!res.ok){showLoginScreen(tgAuthError(res&&res.error),true);return;}
+    saveTelegramWebSession(res);
+    if(!res.registered){showAgentRegistration(res.user,false);return;}
+    enterWithTelegramWeb(res.user);
+  });
+}
+function saveTelegramWebSession(res){
+  try{localStorage.setItem(TG_SESSION_KEY,JSON.stringify({token:res.token,user:res.user,registered:!!res.registered}));}catch(e){}
+}
+function readTelegramWebSession(){
+  try{return JSON.parse(localStorage.getItem(TG_SESSION_KEY)||'null');}catch(e){return null;}
+}
+function restoreTelegramWebSession(){
+  var s=readTelegramWebSession();
+  if(!CRM_AUTH_URL||!s||!s.token||!s.user)return false;
+  if(s.registered)enterWithTelegramWeb(s.user);else showLoginScreen('Проверяем вход…');
+  // Админ мог убрать агента из таблицы: перепроверяем сессию на сервере
+  authCall({action:'session',token:s.token},function(res){
+    if(res&&res.ok){
+      saveTelegramWebSession(res);
+      if(!res.registered){showAgentRegistration(res.user,false);return;}
+      if(!s.registered)enterWithTelegramWeb(res.user);else if(CURRENT_USER)CURRENT_USER.profile=res.user;
+      return;
+    }
+    if(res&&res.error==='network'){if(!s.registered){showLoginScreen(tgAuthError('network'),true);initTelegramLoginWidget();}return;}
+    try{localStorage.removeItem(TG_SESSION_KEY);}catch(e){}
+    CURRENT_USER=null;CURRENT_ROLE='';CURRENT_AUTH_MODE='';
+    showLoginScreen(tgAuthError(res&&res.error),true);initTelegramLoginWidget();
+  });
+  return true;
+}
+function showAgentRegistration(user,isEdit){
+  showLoginScreen(isEdit?'':'Это ваш первый вход. Данные увидит только администратор');
+  var form=document.getElementById('tg-register-form'),pass=document.getElementById('password-login-form'),box=document.getElementById('tg-login-box'),tgBtn=document.getElementById('open-telegram-btn');
+  if(form)form.style.display='';
+  var cancel=document.getElementById('reg-cancel');if(cancel)cancel.style.display=isEdit&&CURRENT_USER&&CURRENT_USER.profile?'':'none';
+  if(pass)pass.style.display='none';
+  if(box)box.style.display='none';
+  if(tgBtn)tgBtn.style.display='none';
+  var hello=document.getElementById('tg-register-hello');
+  if(hello)hello.textContent=(user&&user.name?user.name+', ':'')+(isEdit?'обновите данные профиля':'заполните профиль');
+  var phone=document.getElementById('reg-phone'),birth=document.getElementById('reg-birth');
+  if(phone)phone.value=user&&user.phone||'';
+  if(birth)birth.value=user&&user.birth_date||'';
+}
+function hideAgentRegistration(){
+  var form=document.getElementById('tg-register-form'),pass=document.getElementById('password-login-form'),tgBtn=document.getElementById('open-telegram-btn');
+  if(form)form.style.display='none';
+  if(pass)pass.style.display='';
+  if(tgBtn)tgBtn.style.display='';
+}
+function submitAgentRegistration(){
+  var s=readTelegramWebSession(),button=document.getElementById('reg-submit');
+  if(!s||!s.token){hideAgentRegistration();showLoginScreen(tgAuthError('bad_session'),true);initTelegramLoginWidget();return;}
+  var phone=String(document.getElementById('reg-phone').value||'').trim(),birth=String(document.getElementById('reg-birth').value||'').trim();
+  if(button){button.disabled=true;button.textContent='Сохраняем…';}
+  authCall({action:'register',token:s.token,phone:phone,birth:birth},function(res){
+    if(button){button.disabled=false;button.textContent='Сохранить и войти';}
+    if(!res||!res.ok){
+      var reason=document.getElementById('access-reason');
+      if(reason){reason.textContent=tgAuthError(res&&res.error);reason.classList.add('error');}
+      return;
+    }
+    saveTelegramWebSession(res);
+    hideAgentRegistration();
+    enterWithTelegramWeb(res.user);
+    showToast('Профиль сохранён ✓');
+  });
+}
+function enterWithTelegramWeb(u){
+  var username=String(u.telegram||'').replace(/^@/,'');
+  grantAccess({first_name:u.name,username:username,photo_url:u.photo_url||'',authMode:'tg-web'},u);
 }
 
 function showNoAccess(msg){
@@ -4836,11 +4977,9 @@ function renderLadderMap(){
 
 
 function loadNews(){
-  var BOT_TOKEN='8692499827:AAHsM_Ttebgn6wDJfsBUMKn0hESHbSI-5uc';
   var CHAT_ID='-1002252468572';
   var TOPIC_ID='107';
   var list=document.getElementById('news-list');
-  var url='https://api.telegram.org/bot'+BOT_TOKEN+'/getUpdates?allowed_updates=["message"]';
 
   // Используем forwardMessages approach — читаем историю через getChatHistory
   // Telegram Bot API не даёт читать историю напрямую, используем webhook-кэш в GAS
