@@ -18,7 +18,7 @@
    python3 scripts/create_telegram_session.py
    ```
 
-2. Добавьте в GitHub Secrets `TELEGRAM_API_ID`, `TELEGRAM_API_HASH` и отдельный `TELEGRAM_CRM_SESSION`.
+2. Добавьте в GitHub Secrets `TELEGRAM_API_ID`, `TELEGRAM_API_HASH` и `TELEGRAM_CRM_SESSION`. Эту сессию используют и каталог сайта, и Top‑10; одновременно они не запускаются (общая concurrency-группа). Сессию для постгенератора (`TELEGRAM_SESSION`) не трогайте.
 3. Откройте **GitHub → Actions → Update Telegram Top 10 → Run workflow**.
 4. Выберите `test_mode = true` и нажмите **Run workflow**.
 5. После успешного запуска откройте сайт. Появится тестовый top-10 по текущему общему количеству репостов.
