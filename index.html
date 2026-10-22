@@ -883,7 +883,7 @@ input[type=checkbox]{border-radius:4px;accent-color:var(--brand)}
 #dp-month,#dp-quarter,#dp-all,#wk-btn-this,#wk-btn-last,.stats-tab{position:relative;font-size:14px!important;padding:9px 14px 11px!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--muted)!important;font-weight:500!important;box-shadow:none!important}
 .seg-on,.stats-tab.on{color:var(--link)!important;background:transparent!important}
 .seg-on::after,.stats-tab.on::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--link)}
-.seg-off:hover,.stats-tab:not(.on):hover{background:var(--hover)!important}
+@media(hover:hover){.seg-off:hover,.stats-tab:not(.on):hover{background:var(--hover)!important}}
 
 
 /* ── Home ────────────────────────────────────────────────── */
@@ -969,9 +969,22 @@ input[type=checkbox]{border-radius:4px;accent-color:var(--brand)}
 
 /* ── Team / admin lists: like a Telegram chat list ─────────── */
 .team-card,.knowledge-card,.ladder-wrap,.ladder-map{border:0!important;border-radius:12px!important;box-shadow:var(--shadow)!important}
-div:has(>.stats-tab){background:transparent!important;border-radius:0!important;padding:0!important;gap:0!important;border-bottom:1px solid var(--line-2);overflow-x:auto;scrollbar-width:none}
-div:has(>.stats-tab)::-webkit-scrollbar{display:none}
-.stats-tab{flex:1 0 auto}
+/* «Команда» tabs: fixed row, all five fit, nothing scrolls sideways */
+div:has(>.stats-tab){background:transparent!important;border-radius:0!important;padding:0!important;gap:0!important;border-bottom:1px solid var(--line-2);overflow:hidden;touch-action:pan-y}
+.stats-tab,#tab-stats .stats-tab{flex:1 1 auto;min-width:0;padding:10px 4px 12px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .15s;-webkit-tap-highlight-color:transparent}
+.stats-tab.on::after{left:6px;right:6px}
+@media(max-width:380px){.stats-tab,#tab-stats .stats-tab{font-size:13px!important;padding:10px 2px 12px!important}}
+/* Telegram profile photos over the initials */
+.team-avatar,.adm-av,.crm-avatar,#unity-profile,.home-agent-ava{position:relative;overflow:hidden}
+.tg-ava-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;background:var(--surface)}
+.team-avatar{border-radius:50%!important;width:44px;height:44px}
+.team-card-main{grid-template-columns:24px 44px minmax(0,1fr) auto!important}
+.home-agent-ava{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11px;font-weight:600;color:#fff;background:linear-gradient(180deg,#5bcbe3,#359ad4)}
+.home-agent-row:nth-child(7n+2) .home-agent-ava{background:linear-gradient(180deg,#ff885e,#ff516a)}
+.home-agent-row:nth-child(7n+3) .home-agent-ava{background:linear-gradient(180deg,#ffcd6a,#ffa85c)}
+.home-agent-row:nth-child(7n+4) .home-agent-ava{background:linear-gradient(180deg,#e0a2f3,#d669ed)}
+.home-agent-row:nth-child(7n+5) .home-agent-ava{background:linear-gradient(180deg,#a0de7e,#54cb68)}
+.home-agent-row .home-agent-rank{background:transparent!important;color:var(--muted)!important;width:16px}
 .team-avatar,.adm-av{border-radius:50%!important;color:#fff!important;font-weight:600!important;background:linear-gradient(180deg,#5bcbe3,#359ad4)!important}
 .team-avatar.recruit{background:linear-gradient(180deg,#9ad164,#46ba43)!important}
 .team-card:nth-child(7n+2) .team-avatar:not(.recruit),.adm-row:nth-child(7n+2) .adm-av{background:linear-gradient(180deg,#ff885e,#ff516a)!important}
@@ -2163,11 +2176,11 @@ div:has(>.stats-tab)::-webkit-scrollbar{display:none}
         <div style="font-size:12px;color:var(--text2);margin-top:2px;margin-bottom:12px;">Platform 90/10</div>
         <!-- Sub-tabs -->
         <div style="display:flex;background:var(--bg3);border-radius:var(--rsm);padding:3px;gap:3px;margin-bottom:0;">
-          <button class="stats-tab on" id="stab-agents" onclick="switchStatsTab('agents')">👤 Агенты</button>
-          <button class="stats-tab" id="stab-recruits" onclick="switchStatsTab('recruits')">🌱 Рекруты</button>
-          <button class="stats-tab" id="stab-standards" onclick="switchStatsTab('standards')">📚 Стандарты</button>
-          <button class="stats-tab" id="stab-knowledge" onclick="switchStatsTab('knowledge')">🧠 Знания</button>
-          <button class="stats-tab" id="stab-news" onclick="switchStatsTab('news')">📰 Новости</button>
+          <button class="stats-tab on" id="stab-agents" onclick="switchStatsTab('agents')">Агенты</button>
+          <button class="stats-tab" id="stab-recruits" onclick="switchStatsTab('recruits')">Рекруты</button>
+          <button class="stats-tab" id="stab-standards" onclick="switchStatsTab('standards')">Стандарты</button>
+          <button class="stats-tab" id="stab-knowledge" onclick="switchStatsTab('knowledge')">Знания</button>
+          <button class="stats-tab" id="stab-news" onclick="switchStatsTab('news')">Новости</button>
         </div>
       </div>
 
@@ -4015,7 +4028,7 @@ function renderHomeAgentRanking(agentList){
   var rank=document.getElementById('home-agent-ranking-list');if(!rank)return;
   var expanded=rank.getAttribute('data-expanded')==='1', visible=expanded?HOME_AGENT_ALL:HOME_AGENT_ALL.slice(0,5);
   var maxDeals=HOME_AGENT_ALL.length?HOME_AGENT_ALL[0].deals:0;
-  rank.innerHTML=visible.length?visible.map(function(agent,i){var pct=maxDeals?Math.round(agent.deals/maxDeals*100):0;return '<div class="home-agent-row"><span class="home-agent-rank">'+(i+1)+'</span><span class="home-agent-name">'+uiEscape(agent.name)+'</span><span class="home-agent-bar"><i style="width:'+pct+'%"></i></span><span class="home-agent-count">'+agent.deals+'</span></div>';}).join(''):'<div class="telegram-state" style="padding:8px 0">Нет сделок с 1 числа</div>';
+  rank.innerHTML=visible.length?visible.map(function(agent,i){var pct=maxDeals?Math.round(agent.deals/maxDeals*100):0;return '<div class="home-agent-row"><span class="home-agent-rank">'+(i+1)+'</span><span class="home-agent-ava">'+uiEscape(teamInitials(agent.name))+tgAvatarImg(agent.telegram||tgTelegramByName(agent.name))+'</span><span class="home-agent-name">'+uiEscape(agent.name)+'</span><span class="home-agent-bar"><i style="width:'+pct+'%"></i></span><span class="home-agent-count">'+agent.deals+'</span></div>';}).join(''):'<div class="telegram-state" style="padding:8px 0">Нет сделок с 1 числа</div>';
   var toggle=document.getElementById('home-agent-toggle');if(toggle){toggle.style.display=HOME_AGENT_ALL.length>5?'block':'none';toggle.textContent=expanded?'Скрыть остальных':'Посмотреть всех';}
 }
 function toggleHomeAgentRanking(){
@@ -4428,7 +4441,7 @@ function renderAdminLists(){
   if(aEl&&AGENTS.length){
     aEl.innerHTML=AGENTS.map(function(a){
       var off=a.active===false;
-      return '<div class="adm-row'+(off?' off':'')+'"><span class="adm-av">'+uiEscape(admInitials(a.name))+'</span>'
+      return '<div class="adm-row'+(off?' off':'')+'"><span class="adm-av">'+uiEscape(admInitials(a.name))+tgAvatarImg(a.telegram)+'</span>'
         +'<div class="adm-who"><div class="adm-name">'+uiEscape(a.name)+'</div><div class="adm-meta">'+uiEscape(a.telegram)+' · '+(a.level||50)+'%</div></div>'
         +'<div class="adm-actions"><button class="adm-btn'+(off?' ok':'')+'" data-tg="'+uiEscape(a.telegram)+'" onclick="adminToggleAgent(this.getAttribute(\'data-tg\'))">'+(off?'Включить':'Выключить')+'</button></div>'
         +'</div>';
@@ -4439,7 +4452,7 @@ function renderAdminLists(){
   if(rEl&&RECRUITS.length){
     rEl.innerHTML=RECRUITS.map(function(r){
       var off=r.active===false;
-      return '<div class="adm-row'+(off?' off':'')+'"><span class="adm-av">'+uiEscape(admInitials(r.name))+'</span>'
+      return '<div class="adm-row'+(off?' off':'')+'"><span class="adm-av">'+uiEscape(admInitials(r.name))+tgAvatarImg(r.telegram)+'</span>'
         +'<div class="adm-who"><div class="adm-name">'+uiEscape(r.name)+'</div><div class="adm-meta">'+uiEscape(r.telegram)+'</div></div>'
         +'<div class="adm-actions">'
         +'<button class="adm-btn'+(off?' ok':'')+'" data-tg="'+uiEscape(r.telegram)+'" onclick="adminToggleRecruit(this.getAttribute(\'data-tg\'))">'+(off?'Вкл':'Выкл')+'</button>'
@@ -4770,6 +4783,8 @@ function grantAccess(user,member){
   var homeDate=document.getElementById('home-date');if(homeDate){var now=new Date();homeDate.textContent=now.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
   var avatar=document.getElementById('home-avatar');if(avatar)avatar.textContent=initials;
   var profile=document.getElementById('unity-profile');if(profile)profile.textContent=initials;
+  var myTg=user.username||(member&&member.telegram)||'';
+  [avatar,profile].forEach(function(el){if(el&&myTg){var img=tgAvatarImg(myTg);if(img)el.insertAdjacentHTML('beforeend',img);}});
   if(isAdmin())initAdmin();
 }
 
@@ -5069,6 +5084,22 @@ function useFallback(){
 var TEAM_OPEN_CARD='';
 function teamCardKey(prefix,name){ return prefix+'-'+String(name||'').replace(/[^a-z0-9а-яё]/gi,'-'); }
 function toggleTeamCard(name){ var aid=teamCardKey('agent',name),rid=teamCardKey('recruit',name); var id=document.getElementById(aid)?aid:rid; TEAM_OPEN_CARD=TEAM_OPEN_CARD===id?'':id; renderStats(); }
+function tgUsername(v){ return String(v||'').trim().replace(/^https?:\/\/(www\.)?(t\.me|telegram\.me)\//i,'').replace(/^@/,'').split(/[/?#\s]/)[0]; }
+function tgPhotoFor(telegram){
+  var u=tgUsername(telegram);if(!/^[A-Za-z0-9_]{4,32}$/.test(u))return '';
+  var me=CURRENT_USER&&tgUsername(CURRENT_USER.username||(CURRENT_USER.profile&&CURRENT_USER.profile.telegram));
+  if(me&&me.toLowerCase()===u.toLowerCase()&&CURRENT_USER.photo_url)return CURRENT_USER.photo_url;
+  return 'https://t.me/i/userpic/320/'+u+'.jpg';
+}
+function tgTelegramByName(name){
+  var n=String(name||'').trim().toLowerCase(),m=(AGENTS||[]).concat(RECRUITS||[]).find(function(x){return String(x.name||'').trim().toLowerCase()===n;});
+  return m?m.telegram:'';
+}
+// Telegram profile photo over the initials; if there is no public photo the initials stay
+function tgAvatarImg(telegram){
+  var src=tgPhotoFor(telegram);if(!src)return '';
+  return '<img class="tg-ava-img" src="'+uiEscape(src)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onload="if(this.naturalWidth<8)this.remove()" onerror="this.remove()">';
+}
 function teamInitials(name){ return String(name||'?').trim().split(/\s+/).slice(0,2).map(function(x){return x.charAt(0);}).join('').toUpperCase(); }
 function teamPct(value,max){ var n=parseInt(value)||0,m=parseInt(max)||1; return Math.max(0,Math.min(100,Math.round(n/m*100))); }
 function renderAgentTeamCard(a,rank){
@@ -5083,7 +5114,7 @@ function renderAgentTeamCard(a,rank){
   var open=TEAM_OPEN_CARD===id;
   return '<article class="team-card '+(open?'open':'')+'" id="'+id+'">'
     +'<div class="team-card-main" onclick="toggleTeamCard(\''+String(a.name).replace(/'/g,"\\'")+'\')">'
-    +'<div class="team-rank '+(rank<=3?'top':'')+'">'+rank+'</div><div class="team-avatar">'+teamInitials(a.name)+'</div>'
+    +'<div class="team-rank '+(rank<=3?'top':'')+'">'+rank+'</div><div class="team-avatar">'+teamInitials(a.name)+tgAvatarImg(a.telegram||tgTelegramByName(a.name))+'</div>'
     +'<div class="team-name"><strong>'+escapeHtml(a.name)+'</strong><span>'+levelLabel+' · '+(a.telegram||'без Telegram')+'</span></div>'
     +'<div class="team-level"><b>'+deals+'</b><small>сделок</small></div><span class="team-chevron">⌄</span></div>'
     +'<div class="team-progress"><i style="width:'+progress+'%"></i></div><div class="team-meta"><span>'+next+'</span><span>Эксклюзивы 90/10</span></div>'
@@ -5095,8 +5126,8 @@ function renderRecruitTeamCard(r,rank){
   var id=teamCardKey('recruit',r.name),open=TEAM_OPEN_CARD===id;
   return '<article class="team-card '+(open?'open':'')+'" id="'+id+'">'
     +'<div class="team-card-main" onclick="toggleTeamCard(\''+String(r.name).replace(/'/g,"\\'")+'\')">'
-    +'<div class="team-rank '+(rank<=3?'top':'')+'">'+rank+'</div><div class="team-avatar recruit">'+teamInitials(r.name)+'</div>'
-    +'<div class="team-name"><strong>'+escapeHtml(r.name)+'</strong><span>Рекрут · '+(r.telegram||'без Telegram')+'</span></div>'
+    +'<div class="team-rank '+(rank<=3?'top':'')+'">'+rank+'</div><div class="team-avatar recruit">'+teamInitials(r.name)+tgAvatarImg(r.telegram||tgTelegramByName(r.name))+'</div>'
+    +'<div class="team-name"><strong>'+escapeHtml(r.name)+'</strong><span>Рекрут · '+escapeHtml(String(r.telegram||tgTelegramByName(r.name)||'без Telegram'))+'</span></div>'
     +'<div class="team-level"><b>'+progress+'%</b><small>прогресс</small></div><span class="team-chevron">⌄</span></div>'
     +'<div class="team-progress"><i style="width:'+progress+'%"></i></div><div class="team-meta"><span>'+total+' из '+max+' практик</span><span>10 циклов обучения</span></div>'
     +'<div class="team-detail"><div class="team-detail-grid"><div class="team-detail-item"><b>📸 '+photo[0]+'/'+photo[1]+'</b><span>фото</span></div><div class="team-detail-item"><b>👁 '+show[0]+'/'+show[1]+'</b><span>показы</span></div><div class="team-detail-item"><b>📌 '+stick[0]+'/'+stick[1]+'</b><span>расклейка</span></div><div class="team-detail-item"><b>🏠 '+rent[0]+'/'+rent[1]+'</b><span>сдачи</span></div></div><div class="team-detail-note">Следующий шаг — закрыть пробел в самой отстающей практике и пройти полный цикл вместе с наставником.</div></div></article>';
