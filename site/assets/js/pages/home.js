@@ -31,18 +31,32 @@ function searchForm(data, service) {
     <button class="btn btn-primary btn-lg" type="submit">${icon(svc.live ? 'search' : 'bell')}<span>${t(svc.live ? 'home.find' : 'home.show.soon')}</span></button>`;
 }
 
-function mosaic(items) {
-  const pick = items.filter(x => (x.photos || []).length >= 3 && x.price_usd).slice(0, 3);
-  if (pick.length < 3) return '';
-  return `<div class="mosaic" aria-hidden="true">${pick.map((x, i) => {
-    const p = priceLabel(x);
-    return `<a class="m${i}" href="#/listing/${esc(x.id)}" tabindex="-1"><img src="${esc(x.photos[0])}" alt="" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}>
-      <span class="m-chip"><b>${esc(p.main)}</b> ${p.period}<em>${esc(x.district || '')}</em></span></a>`;
-  }).join('')}</div>`;
+// Home page entrances: one big tile per space. Cars join both car services.
+const GATES = [
+  { id: 'rent', services: ['rent'] },
+  { id: 'sale', services: ['sale'] },
+  { id: 'new', services: ['new'] },
+  { id: 'commercial', services: ['commercial'] },
+  { id: 'daily', services: ['daily'] },
+  { id: 'cars', services: ['car-rent', 'car-sale'], icon: 'car' },
+];
+
+function gateTile(g, i, data) {
+  const live = g.services.filter(s => SERVICES[s].live);
+  const target = live[0] || g.services[0];
+  const count = g.services.reduce((n, s) => n + (data.counts?.[s] || 0), 0);
+  const photo = live.flatMap(s => itemsFor(data, s)).filter(x => x.photos?.length).sort((a, b) => b._ts - a._ts)[0]?.photos[0];
+  const name = g.id === 'cars' ? t('nav.auto') : t('svc.' + g.id + '.short');
+  const desc = g.id === 'cars' ? t('group.auto.desc') : t('svc.' + g.id + '.desc');
+  return `<a role="listitem" class="gate-tile${photo ? '' : ' no-photo'}${live.length ? '' : ' soon'}" href="#/${target}" style="--d:${i * 60}ms">
+    ${photo ? `<img src="${esc(photo)}" alt="" ${i < 2 ? 'fetchpriority="high"' : 'loading="lazy"'}>` : ''}
+    <span class="gate-ico">${icon(g.icon || serviceIcon(g.id))}</span>
+    <span class="gate-text"><b>${esc(name)}</b><small>${esc(desc)}</small></span>
+    <span class="gate-meta"><em>${live.length ? t('cat.count', count) : t('svc.soon')}</em>${icon('arrow')}</span>
+  </a>`;
 }
 
 export function renderHome(root, data) {
-  const counts = data.counts || {};
   const live = data.items.length;
   const districts = countBy(data.items, 'district');
   const nocom = Math.round((data.items.filter(x => x.no_commission).length / Math.max(1, live)) * 100);
@@ -52,29 +66,20 @@ export function renderHome(root, data) {
   const firstLive = allServices().find(s => SERVICES[s].live) || 'rent';
 
   root.innerHTML = `
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow"><span class="cross"></span>${t('home.eyebrow')}</p>
-      <h1 class="sr-only">${t('home.title')}</h1>
-      <p class="lead">${t('home.lead')}</p>
-      <form class="hero-search hs-form" id="hero-search">${searchForm(data, firstLive)}</form>
-      <p class="hero-facts"><b>${num(live)}</b> ${t('home.stat.live')}<i></i><b>${districts.length}</b> ${t('home.stat.districts')}<i></i><b>${nocom}%</b> ${t('home.stat.commission')}</p>
+<section class="gate">
+  <div class="container">
+    <p class="eyebrow"><span class="cross"></span>${t('home.eyebrow')}</p>
+    <h1 class="gate-title">${t('home.gate.title')}</h1>
+    <div class="gate-grid" role="list">
+      ${GATES.map((g, i) => gateTile(g, i, data)).join('')}
     </div>
-    ${mosaic(fresh(firstLive).concat(fresh('sale')))}
   </div>
 </section>
 
-<section class="section directions-section">
+<section class="section quick-section">
   <div class="container">
-    <div class="directions" role="list">
-      ${allServices().map(s => `
-        <a role="listitem" class="direction${SERVICES[s].live ? '' : ' soon'}" href="#/${s}">
-          <span class="svc-ico">${icon(serviceIcon(s))}</span>
-          <b>${t('svc.' + s + '.short')}</b>
-          <small>${SERVICES[s].live ? t('cat.count', counts[s] || 0) : t('svc.soon')}</small>
-        </a>`).join('')}
-    </div>
+    <form class="hero-search hs-form" id="hero-search">${searchForm(data, firstLive)}</form>
+    <p class="hero-facts"><b>${num(live)}</b> ${t('home.stat.live')}<i></i><b>${districts.length}</b> ${t('home.stat.districts')}<i></i><b>${nocom}%</b> ${t('home.stat.commission')}</p>
   </div>
 </section>
 
