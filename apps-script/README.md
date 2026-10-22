@@ -10,7 +10,7 @@
 
 ## Что сделать один раз
 
-1. **Технический бот для кнопки входа.** В @BotFather: `/newbot` (например `rentintbilisi_login_bot`),
+1. **Технический бот для кнопки входа.** В @BotFather: `/newbot` (например `homesingeorgia_login_bot`),
    затем `/setdomain` → выбрать этого бота → `platformdge.github.io`.
    Бот никому не пишет, он нужен Telegram только чтобы показать кнопку входа.
 2. **Apps Script.** script.google.com → Новый проект «CRM Auth» → вставить `crm-auth.gs`.
@@ -22,7 +22,7 @@
 4. В `index.html` вписать:
    ```js
    var CRM_AUTH_URL = 'https://script.google.com/macros/s/.../exec';
-   var TG_LOGIN_BOT = 'rentintbilisi_login_bot';
+   var TG_LOGIN_BOT = 'homesingeorgia_login_bot';
    ```
    Пока они пустые, кнопка не показывается и CRM работает как раньше.
 
