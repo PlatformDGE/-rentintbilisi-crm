@@ -1260,3 +1260,36 @@ html[lang='ka'] .mlayers h3 { text-transform: none; letter-spacing: 0; }
   .v-cards .gate-group:first-of-type .gate-text small { display: none; }
   .v-cards .gate-group:last-of-type .gate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* cards in brand colours, Apple-style glass: soft brand-blue glow behind frosted tiles and glass icons */
+.gate.v-cards { position: relative; isolation: isolate; overflow: hidden; }
+.gate.v-cards::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42% 38% at 12% 22%, rgba(10, 60, 133, .22), transparent 70%),
+    radial-gradient(36% 34% at 88% 30%, rgba(90, 140, 220, .26), transparent 70%),
+    radial-gradient(30% 30% at 70% 88%, rgba(227, 23, 45, .10), transparent 70%),
+    radial-gradient(40% 36% at 25% 85%, rgba(3, 45, 106, .14), transparent 70%);
+  filter: blur(8px);
+}
+.v-cards .gate-tile {
+  min-height: 214px; gap: 10px; border-radius: 28px;
+  background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
+}
+.v-cards .gate-tile:hover { transform: translateY(-4px); border-color: var(--glass-edge); box-shadow: 0 22px 50px rgba(3, 45, 106, .16), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.v-cards .gate-ico {
+  position: relative; z-index: 1; display: grid; width: 46px; height: 46px; border-radius: 15px; color: var(--brand);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .95), rgba(230, 236, 245, .55));
+  border: 1px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 8px 20px rgba(3, 45, 106, .14), inset 0 1px 0 #fff, inset 0 -6px 12px rgba(3, 45, 106, .06);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.v-cards .gate-tile.soon .gate-ico { color: var(--muted); }
+.v-cards .gate-tile img, .v-cards .gate-tile.no-photo::before { border: 3px solid rgba(255, 255, 255, .85); box-shadow: 0 18px 34px rgba(3, 45, 106, .28); }
+.v-cards .gate-tile.no-photo::before { background: linear-gradient(140deg, var(--brand-600), var(--brand-strong)); }
+.v-cards .gate-new { background: var(--accent); color: #fff; }
+.v-cards .gate-new::before { background: #fff; }
+.v-cards .gate-meta em { background: var(--glass-dark); color: #fff; -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border: 1px solid rgba(255, 255, 255, .22); }
+.v-cards .gate-tile.soon .gate-meta em { background: rgba(255, 255, 255, .8); color: var(--brand-strong); border-color: var(--glass-line); }
+@media (min-width: 760px) { .v-cards .gate-tile { min-height: 260px; } }
