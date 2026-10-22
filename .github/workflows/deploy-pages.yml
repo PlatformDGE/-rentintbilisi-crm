@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p public
           cp index.html platform-90-10.html post-generator-modern.html crm-core.html app.js styles.css dashboard.css sw.js manifest.json manifest.webmanifest logo.png Logo_rent.png homes-in-georgia.jpg homes-in-georgia-splash.jpg homes-in-georgia-icon-192.png homes-in-georgia-icon-512.png telegram-top10.js telegram-top10.json public/
-          mkdir -p public/test && cp test/index.html public/test/index.html
+          mkdir -p public/test && cp test/index.html test/post-generator.html public/test/
           cp -R site public/site
           # Version every site asset URL with the commit so browsers never mix
           # a cached old module with a new page after a deploy.
