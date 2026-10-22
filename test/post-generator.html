@@ -3374,7 +3374,7 @@ loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus').then(() => ini
 // Три поста + Owner Info:
 //   1. Оригиналы → топик TOPIC_ORIGINALS: фото файлами (без сжатия), видео, текст.
 //   2. Готовый пост → топик TOPIC_ALBUM: фото с логотипом, видео без знака, подпись.
-//   3. Соцсети → топик EXCLUSIVE_SOCIAL_TOPIC_ID: обложка 1080×1080 + фото
+//   3. Соцсети (для каждого объекта) → топик SOCIAL_POST_TOPIC_ID: обложка 1080×1080 + фото
 //      с надписью RENT IN TBILISI и флагом (дизайн генератора обложек).
 // Быстрее, чем раньше:
 //   - все картинки готовятся в браузере параллельно, пока идёт загрузка;
@@ -3388,6 +3388,9 @@ loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus').then(() => ini
 const MTPROTO_URL = 'https://rent-mtproto-production.up.railway.app';
 const JOB_POLL_MS = 1000;
 const SOCIAL_MAX_SIDE = 2560;
+// Топик для поста 3 (соцсети) ещё не создан. Когда появится, впиши сюда его номер
+// (число из ссылки https://t.me/c/3498137667/<номер>). Пока null, пост 3 не отправляется.
+const SOCIAL_POST_TOPIC_ID = null;
 
 function isTestMode() {
   const t = document.getElementById('testModeToggle');
@@ -3616,7 +3619,7 @@ function showPublishDemo(p) {
         `${p.originals.length} фото файлами без сжатия${p.video ? ', видео' : ''}, затем текст объявления. ${p.video ? 'Видео сюда пересылается из готового поста, второй раз не загружается.' : ''}`)}
       ${card(2, 'Готовый пост', `Advertising · топик ${TOPIC_ALBUM}`, thumbs(p.ready, p.video),
         `Логотип только на фото, видео без знака. Подпись: «${caption}…»`)}
-      ${card(3, 'Соцсети: обложка + фото', `Advertising · топик ${EXCLUSIVE_SOCIAL_TOPIC_ID}`, thumbs(p.social, null),
+      ${card(3, 'Соцсети: обложка + фото', (SOCIAL_POST_TOPIC_ID ? `Advertising · топик ${SOCIAL_POST_TOPIC_ID}` : 'Новый топик (ещё не создан, пока не отправляется)'), thumbs(p.social, null),
         'Обложка 1080×1080 и фото с RENT IN TBILISI и флагом (дизайн генератора обложек).')}
       ${card(4, 'Owner Info', `Advertising · топик ${TOPIC_OWNER}`, '',
         'Адрес, телефон и имя собственника, агент, ссылки на оригиналы и на готовый пост.')}
@@ -3711,8 +3714,8 @@ async function publishPost() {
     const socialSendP = (async () => {
       await albumP;
       const social = await socialP;
-      if (!social.length) return;
-      const r = await sendAlbum(CHANNEL_ID, EXCLUSIVE_SOCIAL_TOPIC_ID, social, null, null, '');
+      if (!social.length || !SOCIAL_POST_TOPIC_ID) return;
+      const r = await sendAlbum(CHANNEL_ID, SOCIAL_POST_TOPIC_ID, social, null, null, '');
       if (!r.ok) throw new Error('Пост для соцсетей: ' + r.description);
     })();
 
