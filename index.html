@@ -501,10 +501,9 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
   <div class="login-card">
     <div class="login-brand"><img src="Logo_rent.png" alt="Rent in Tbilisi"></div>
     <div class="login-title">Вход в CRM</div>
-    <div class="login-subtitle">Войдите через Telegram или введите данные из списка пользователей платформы</div>
+    <div class="login-subtitle">Войдите через Telegram. Доступ открыт агентам из списка администратора</div>
     <div id="tg-login-box" class="tg-login-box" style="display:none">
       <div id="tg-login-widget"></div>
-      <div class="login-divider"><span>или по паролю</span></div>
     </div>
     <form id="tg-register-form" style="display:none" onsubmit="event.preventDefault();submitAgentRegistration();">
       <div class="login-subtitle" id="tg-register-hello" style="margin-top:0">Первый вход: заполните профиль</div>
@@ -515,7 +514,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
       <button class="account-action login-submit" id="reg-submit" type="submit">Сохранить и войти</button>
       <button class="login-telegram" id="reg-cancel" type="button" style="display:none" onclick="hideAgentRegistration();enterWithTelegramWeb(CURRENT_USER.profile)">Отмена</button>
     </form>
-    <form id="password-login-form" onsubmit="event.preventDefault();loginWithPassword();" autocomplete="on">
+    <form id="password-login-form" style="display:none" onsubmit="event.preventDefault();loginWithPassword();" autocomplete="on">
       <label class="login-label" for="login-name">Имя пользователя</label>
       <input id="login-name" class="login-input" autocomplete="username" placeholder="Например, Irakli" required>
       <label class="login-label" for="login-password">Пароль</label>
@@ -523,7 +522,7 @@ input:checked + .adm-sw-sl:before{transform:translateX(20px);}
       <button class="account-action login-submit" type="submit">Войти</button>
     </form>
     <div id="access-reason" class="login-message">Доступ выдаётся администратором платформы</div>
-    <button class="login-telegram" id="open-telegram-btn" onclick="openTelegramLogin()">Открыть через Telegram</button>
+    <button class="login-telegram" id="open-telegram-btn" onclick="showPasswordLogin()">Вход по паролю</button>
   </div>
 </div>
 
@@ -2391,10 +2390,10 @@ function openAccountSheet(){
   }
   openSheet('account-sheet');
 }
-function openTelegramLogin(){
-  var url='https://t.me/real_estating_bot';
-  var tg=window.Telegram&&window.Telegram.WebApp;
-  if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank','noopener');
+function showPasswordLogin(){
+  var pass=document.getElementById('password-login-form'),btn=document.getElementById('open-telegram-btn');
+  if(pass)pass.style.display='';
+  if(btn)btn.style.display='none';
 }
 function toggleFullscreen(){
   var tg=window.Telegram&&window.Telegram.WebApp;
@@ -4211,7 +4210,8 @@ function tgAuthError(code){
 }
 function initTelegramLoginWidget(){
   var box=document.getElementById('tg-login-box'),holder=document.getElementById('tg-login-widget');
-  if(!box||!holder||!CRM_AUTH_URL||!TG_LOGIN_BOT)return;
+  if(!box||!holder)return;
+  if(!CRM_AUTH_URL||!TG_LOGIN_BOT){showPasswordLogin();return;}
   box.style.display='';
   if(holder.childNodes.length)return;
   var sc=document.createElement('script');
@@ -4278,7 +4278,7 @@ function showAgentRegistration(user,isEdit){
 function hideAgentRegistration(){
   var form=document.getElementById('tg-register-form'),pass=document.getElementById('password-login-form'),tgBtn=document.getElementById('open-telegram-btn');
   if(form)form.style.display='none';
-  if(pass)pass.style.display='';
+  if(pass)pass.style.display='none';
   if(tgBtn)tgBtn.style.display='';
 }
 function submitAgentRegistration(){
