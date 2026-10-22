@@ -71,8 +71,8 @@ const GATES = [
   { id: 'cars', services: ['car-rent', 'car-sale'], icon: 'car' },
 ];
 
-// Look of the section tiles; #/?gate=bento|panels|list previews the others.
-const GATE_STYLE = 'tiles';
+// Look of the section tiles; #/?gate=tiles|bento|panels|list previews the others.
+const GATE_STYLE = 'cards';
 const gateStyle = () => new URLSearchParams(location.hash.split('?')[1] || '').get('gate') || GATE_STYLE;
 
 function gateTile(g, i, data) {
@@ -110,9 +110,13 @@ export function renderHome(root, data) {
 <section class="gate v-${gateStyle()}">
   <div class="container">
     <h1 class="gate-title">${t('home.gate.title')}</h1>
-    <div class="gate-grid" role="list">
+    ${gateStyle() === 'cards' ? Object.entries(GROUPS).map(([grp, gr]) => `
+    <div class="gate-group">
+      <div class="gate-group-head"><h2>${t('group.' + grp)}</h2><a class="link-arrow" href="#/${grp === 'realty' ? 'all' : gr.services[0]}">${t('home.see.all')} ${icon('arrow')}</a></div>
+      <div class="gate-grid" role="list">${gr.services.map((s, i) => gateTile({ id: s, services: [s] }, i, data)).join('')}</div>
+    </div>`).join('') : `<div class="gate-grid" role="list">
       ${GATES.map((g, i) => gateTile(g, i, data)).join('')}
-    </div>
+    </div>`}
   </div>
 </section>
 
