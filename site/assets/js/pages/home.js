@@ -104,10 +104,14 @@ export function renderHome(root, data) {
   const recent = recentIds().map(id => data.byId.get(id)).filter(Boolean);
   const districtPhoto = d => data.items.find(x => x.district === d && x.photos?.length)?.photos[0];
   const heroPhoto = (fresh('rent')[3] || fresh('rent')[0])?.photos[0];
+  // Fresh photos drifting behind the glass cards, so the page feels alive through them.
+  const bgPhotos = ['rent', 'sale', 'daily', 'commercial', 'car-rent', 'rent', 'sale', 'rent']
+    .map((s, i) => fresh(s)[Math.floor(i / 5) + 1]?.photos[0]).filter(Boolean);
   const firstLive = allServices().find(s => SERVICES[s].live) || 'rent';
 
   root.innerHTML = `
 <section class="gate v-${gateStyle()}">
+  ${gateStyle() === 'cards' ? `<div class="gate-bg" aria-hidden="true">${bgPhotos.map(src => `<img src="${esc(src)}" alt="" loading="lazy">`).join('')}</div>` : ''}
   <div class="container">
     <h1 class="gate-title">${t('home.gate.title')}</h1>
     ${gateStyle() === 'cards' ? Object.entries(GROUPS).map(([grp, gr]) => `
