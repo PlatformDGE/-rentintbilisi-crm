@@ -213,6 +213,28 @@ body.mode-sale .rent-only { display: none; }
 .cover-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .cover-btn.primary { background: #2196F3; border-color: #2196F3; color: #fff; font-weight: 600; }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+.pick-bar { margin-bottom: 6px; }
+.pick-search { width: 100%; background: var(--card2); border: 1px solid var(--line); border-radius: 20px; padding: 8px 14px; color: var(--text); font-size: 13px; outline: none; }
+.pick-search:focus { border-color: #2196F3; }
+.tag.pick-more { border-style: dashed; color: var(--text); }
+.tag.pick-near:not(.selected) { border-color: #2196F3; color: var(--text); }
+.pg-testmode { display: flex; gap: 8px; align-items: center; margin: 10px 12px; padding: 10px 12px; border-radius: 8px; background: #2a2410; border: 1px solid #6b5a1a; color: #f3d77a; font-size: 12px; cursor: pointer; }
+#pgDemo { position: fixed; inset: 0; z-index: 9999; background: var(--bg); overflow-y: auto; padding: 16px; }
+.pg-demo-in { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.pg-demo-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; color: var(--text); }
+.pg-demo-top button { background: var(--card2); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font-size: 16px; cursor: pointer; }
+.pg-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; color: var(--text); font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+.pg-card-h { display: flex; gap: 10px; align-items: center; }
+.pg-num { width: 28px; height: 28px; border-radius: 50%; background: #2196F3; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none; }
+.pg-where, .pg-note { color: var(--dim); font-size: 11.5px; line-height: 1.5; }
+.pg-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; }
+.pg-thumbs:empty { display: none; }
+.pg-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; display: block; }
+.pg-vid { aspect-ratio: 1; border-radius: 6px; background: var(--card2); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; color: var(--dim); }
+.pg-speed { border-color: #2196F3; }
+</style>
 </head>
 <body>
 
@@ -1244,10 +1266,12 @@ async function applyWatermark(file) {
     const url = URL.createObjectURL(file);
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
+      // Telegram всё равно сжимает фото до 2560 px — уменьшаем заранее, файл в разы легче.
+      const k = Math.min(1, 2560 / Math.max(img.width, img.height));
+      canvas.width = Math.round(img.width * k);
+      canvas.height = Math.round(img.height * k);
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       const wm = new Image();
       wm.onload = () => {
         ctx.globalAlpha = 0.4;
@@ -1512,247 +1536,7 @@ function hideOverlay() {
   if (overlay) overlay.style.display = 'none';
 }
 
-async function publishPost() {
-  vibrate();
-  const htmlText = buildTelegramHTML();
-  if (!htmlText || htmlText.length < 10) { alert('Заполните форму перед публикацией'); return; }
-
-  const btns = ['publishBtn', 'publishBtnDesktop'];
-  const setBtns = (text, color, disabled) => btns.forEach(id => {
-
-  // (функции прогресса вынесены глобально)
-    const b = document.getElementById(id);
-    if (!b) return;
-    b.textContent = text; b.disabled = disabled;
-    if (color) b.style.background = color;
-  });
-
-  setBtns('⏳ Публикую...', '#888', true);
-  showOverlay();
-  setProgress(0, 'Подготовка...');
-
-  try {
-    const photos = media.filter(m => m.type === 'photo');
-    const videos = media.filter(m => m.type === 'video');
-    const plainText = buildPost();
-    const dims = videos.length > 0 ? await getVideoDimensions(videos[0].file) : null;
-    let videoMessageId = null;
-
-    // ── БЛОК 1: оригиналы через GAS → топик 2 ──
-    setStep('step_orig_photos', 'active');
-    for (let i = 0; i < photos.length; i++) {
-      setProgress(Math.round(5 + i / photos.length * 15), `Загружаю фото ${i+1}/${photos.length}...`);
-      setBtns(`⏳ Фото ${i+1}/${photos.length}...`, '#888', true);
-      const d = await gasSendDocument(CHANNEL_ID, photos[i].file, TOPIC_ORIGINALS);
-      if (!d.ok) { alert('Ошибка фото ' + (i+1) + ': ' + d.description); hideOverlay(); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
-    }
-
-    setStep('step_orig_photos', 'done');
-    setProgress(20, 'Оригиналы фото загружены ✓');
-
-    if (videos.length > 0) {
-      setStep('step_orig_video', 'active');
-      setProgress(25, 'Загружаю оригинал видео...');
-      const progressEl  = document.getElementById('videoProgress');
-      const progressBar = document.getElementById('videoProgressBar');
-      const progressTxt = document.getElementById('videoProgressText');
-      // Показываем сразу
-      if (progressEl) progressEl.style.display = 'block';
-      if (progressBar) { progressBar.style.width = '0%'; }
-      if (progressTxt) progressTxt.textContent = 'Подготовка...';
-      const showProgress = (pct, mb, tot) => {
-        const uploadPct = Math.round(25 + pct * 0.2);
-        setProgress(uploadPct, `Видео ${pct}% · ${mb}/${tot} MB`);
-        setBtns(`⏳ Видео ${pct}%`, '#888', true);
-      };
-      showProgress(0, '0.0', '?');
-
-      // Загружаем через XHR с прогресс-баром (MTProto)
-      const videoResult = await new Promise((resolve) => {
-        const fd = new FormData();
-        fd.append('chatId', CHANNEL_ID);
-        fd.append('topicId', TOPIC_ORIGINALS);
-        if (dims?.width)    fd.append('width',    dims.width);
-        if (dims?.height)   fd.append('height',   dims.height);
-        if (dims?.duration) fd.append('duration', dims.duration);
-        fd.append('video', videos[0].file, videos[0].file.name || 'video.mp4');
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://rent-mtproto-production.up.railway.app/sendMediaGroup', true);
-        xhr.upload.onprogress = (e) => {
-          if (e.lengthComputable) {
-            const pct = Math.round(e.loaded / e.total * 100);
-            const mb  = (e.loaded / 1024 / 1024).toFixed(1);
-            const tot = (e.total  / 1024 / 1024).toFixed(1);
-            showProgress(pct, mb, tot);
-          }
-        };
-        xhr.onload = () => {
-          try { resolve(JSON.parse(xhr.responseText)); }
-          catch(e) { resolve({ ok: false, description: xhr.responseText.slice(0, 200) }); }
-        };
-        xhr.onerror = () => resolve({ ok: false, description: 'Network error' });
-        xhr.send(fd);
-      });
-
-      if (progressEl) progressEl.style.display = 'none';
-      if (!videoResult.ok) {
-        alert('Ошибка видео: ' + videoResult.description);
-        hideOverlay(); setBtns('✈️ Опубликовать в канал', '#2196F3', false);
-        return;
-      }
-      // Сохраняем message_id для пересылки в блоке 2
-      videoMessageId = videoResult.result?.message_id || null;
-    }
-
-    setStep('step_orig_video', 'done');
-    setProgress(46, 'Оригинал видео загружен ✓');
-    setStep('step_text', 'active');
-    setProgress(50, 'Публикую текст...');
-    setBtns('⏳ Текст...', '#888', true);
-    const txtData = await gasSendMessage(CHANNEL_ID, htmlText, TOPIC_ORIGINALS);
-    if (!txtData.ok) { alert('Ошибка текста: ' + txtData.description); hideOverlay(); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
-    const chanId = CHANNEL_ID.replace('-100', '');
-    let postLink = ''; // будет установлен после публикации альбома
-    let origMsgId = txtData.result?.message_id || 0;
-    let origLink2 = origMsgId ? `https://t.me/c/${chanId}/${TOPIC_ORIGINALS}/${origMsgId}` : '';
-
-    setStep('step_text', 'done');
-    setProgress(55, 'Текст опубликован');
-
-    // ── БЛОК 2: фото с водяным знаком + видео одним альбомом → топик 207 ──
-    if (photos.length > 0 || videos.length > 0) {
-      const total2 = photos.length + (videos.length > 0 ? 1 : 0);
-      let done2 = 0;
-      const progressEl2  = document.getElementById('videoProgress');
-      const progressBar2 = document.getElementById('videoProgressBar');
-      const progressTxt2 = document.getElementById('videoProgressText');
-      const showProgress2 = (label) => {
-        done2++;
-        const pct = Math.round(done2 / (total2 + 1) * 100);
-        if (progressEl2)  progressEl2.style.display = 'block';
-        if (progressBar2) progressBar2.style.width = pct + '%';
-        if (progressTxt2) progressTxt2.textContent = label;
-        setBtns(`⏳ Готовый пост ${pct}%`, '#888', true);
-      };
-      if (progressEl2) { progressEl2.style.display = 'block'; progressBar2 && (progressBar2.style.width = '0%'); progressTxt2 && (progressTxt2.textContent = 'Подготовка...'); }
-
-      // Водяные знаки (старая логика — без изменений)
-      setStep('step_watermark', 'active');
-      const watermarkedPhotos = [];
-      for (let i = 0; i < photos.length; i++) {
-        const wPct = Math.round(55 + (i / photos.length) * 10);
-        setProgress(wPct, `Applying watermark ${i+1}/${photos.length}...`);
-        setBtns(`⏳ Watermark ${i+1}/${photos.length}...`, '#888', true);
-        watermarkedPhotos.push(await applyWatermark(photos[i].file));
-      }
-
-      // Отправка альбома с прогрессом на видео
-      const albumCaption = htmlText.substring(0, 1024);
-      const albumVideoFile = videos.length > 0 ? videos[0].file : null;
-
-      setStep('step_watermark', 'done');
-      setProgress(65, 'Водяные знаки готовы');
-      setStep('step_album', 'active');
-      if (progressBar2) progressBar2.style.width = `${Math.round(photos.length / (total2 + 1) * 100)}%`;
-
-      const albumResult = await new Promise((resolve) => {
-        const fd = new FormData();
-        fd.append('action', 'sendMediaGroup');
-        fd.append('chatId', CHANNEL_ID);
-        fd.append('topicId', TOPIC_ALBUM);
-        fd.append('caption', albumCaption);
-        watermarkedPhotos.forEach((f, i) => fd.append('photos[]', f, `photo_${i}.jpg`));
-        // Добавляем видео в альбом
-        if (albumVideoFile) {
-          fd.append('video', albumVideoFile, albumVideoFile.name || 'video.mp4');
-          if (dims?.width)    fd.append('width',    dims.width);
-          if (dims?.height)   fd.append('height',   dims.height);
-          if (dims?.duration) fd.append('duration', dims.duration);
-        }
-        // Отправляем и сразу получаем jobId
-        fetch('https://rent-mtproto-production.up.railway.app/sendMediaGroup', { method: 'POST', body: fd })
-          .then(r => r.json())
-          .then(async data => {
-            if (!data.ok) { resolve(data); return; }
-            // Polling каждые 2 секунды
-            while (true) {
-              await new Promise(r => setTimeout(r, 2000));
-              const jobResp = await fetch('https://rent-mtproto-production.up.railway.app/job/' + data.jobId);
-              const job = await jobResp.json();
-              const pct = job.progress || 0;
-              if (progressBar2) progressBar2.style.width = pct + '%';
-              if (job.status === 'uploading_video') {
-                setProgress(75 + Math.round(pct * 0.15), 'Uploading video for ready post...');
-                setBtns('⏳ Uploading video...', '#888', true);
-              } else if (job.status === 'sending') {
-                setProgress(92, 'Sending album to Telegram...');
-                setBtns('⏳ Sending to Telegram...', '#888', true);
-                setBtns('⏳ Отправка...', '#888', true);
-              } else if (job.status === 'uploading') {
-                setProgress(65 + Math.round(pct * 0.15), `Uploading photo ${pct}%...`);
-                setBtns('⏳ Ready post ' + pct + '%', '#888', true);
-              }
-              if (job.status === 'done')  { resolve({ ok: true, result: job.result }); return; }
-              if (job.status === 'error') { resolve({ ok: false, description: job.error }); return; }
-            }
-          })
-          .catch(e => resolve({ ok: false, description: e.message }));
-      });
-
-      setStep('step_album', 'done');
-      setProgress(95, 'Ready post published ✓');
-      const albumMsgId = albumResult.result?.message_id || albumResult.result?.message_ids?.[0] || 0;
-      if (albumMsgId) postLink = `https://t.me/c/${chanId}/${TOPIC_ALBUM}/${albumMsgId}`;
-      if (origMsgId) origLink2 = `https://t.me/c/${chanId}/${TOPIC_ORIGINALS}/${origMsgId}`;
-      setStep('step_owner', 'active');
-      if (!albumResult.ok) { alert('Ошибка альбома: ' + albumResult.description); setBtns('✈️ Опубликовать в канал', '#2196F3', false); return; }
-
-
-    }
-
-    // ── Owner Information → топик 22 ──
-    const ownerName = val('ownerName');
-    const ownerPhone = val('ownerPhone');
-    const address = val('addressInput');
-    if (ownerName || ownerPhone) {
-      setBtns('⏳ Owner Info...', '#888', true);
-      const today = new Date();
-      const dateStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0') + '.' + today.getFullYear();
-      const agentTag = document.querySelector('.tag.selected[data-group="agent"]')?.dataset?.val || '';
-      const origLink = origLink2 || postLink.replace(`/${TOPIC_ALBUM}/`, `/${TOPIC_ORIGINALS}/`);
-      const ownerText = `Объект внесен: ✅
-Ссылка на оригиналы фото в advertising: ${origLink}
-Адрес: ${address}
-Телефон собственника:
-${ownerPhone}
-Имя собственника: ${ownerName}
-Дата внесения: ${dateStr}
-Агент: ${agentTag}
-<a href="${postLink}">Ссылка на готовый пост</a>`;
-      await gasSendMessage(CHANNEL_ID, ownerText, TOPIC_OWNER);
-    }
-    setStep('step_owner', 'done');
-    setProgress(100, 'Готово! 🎉');
-    await new Promise(r => setTimeout(r, 1000));
-    hideOverlay();
-        setBtns('✅ Опубликовано!', 'var(--green)', false);
-    setTimeout(() => setBtns('✈️ Опубликовать в канал', '#2196F3', false), 3000);
-
-    // ── ОТДЕЛЬНЫЙ ДОПОЛНИТЕЛЬНЫЙ СЦЕНАРИЙ (только для Exclusive) ──────────
-    // Существующая публикация выше уже полностью завершена и агент уже
-    // получил обычный ответ. Новый сценарий запускается ОТДЕЛЬНО, в фоне,
-    // БЕЗ await — ничего в основном процессе больше не ждёт его результата.
-    if (document.getElementById('exclusiveToggle')?.checked) {
-      exclusiveSocialMediaFlow(photos);
-    }
-
-  } catch(e) {
-    hideOverlay();
-    alert('Ошибка: ' + e.message);
-    setBtns('✈️ Опубликовать в канал', '#2196F3', false);
-  }
-}
+// publishPost() — новая версия в блоке «ПУБЛИКАЦИЯ v2» в конце файла.
 
 async function loadSheetNames(gid, containerId, statusId) {
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${gid}`;
@@ -2151,8 +1935,8 @@ function resetAll() {
 }
 
 update();
-loadSheetNames(GID_AGENTS, 'agentTags', 'agentsLoadStatus');
-loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus');
+loadSheetNames(GID_AGENTS, 'agentTags', 'agentsLoadStatus').then(() => initAgentPicker('agentTags'));
+loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus').then(() => initAgentPicker('recruitTags'));
 </script>
 <!-- Пошаговый прогресс публикации -->
 <div id="publishOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,20,0.92);backdrop-filter:blur(6px);flex-direction:column;align-items:center;justify-content:center;padding:24px;">
@@ -3585,5 +3369,527 @@ loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus');
 </script>
 <!--COVER-SCRIPTS-END-->
 
+<script>
+// ── ПУБЛИКАЦИЯ v2 (только в копии для CRM) ────────────────────────────────
+// Три поста + Owner Info:
+//   1. Оригиналы → топик TOPIC_ORIGINALS: фото файлами (без сжатия), видео, текст.
+//   2. Готовый пост → топик TOPIC_ALBUM: фото с логотипом, видео без знака, подпись.
+//   3. Соцсети → топик EXCLUSIVE_SOCIAL_TOPIC_ID: обложка 1080×1080 + фото
+//      с надписью RENT IN TBILISI и флагом (дизайн генератора обложек).
+// Быстрее, чем раньше:
+//   - все картинки готовятся в браузере параллельно, пока идёт загрузка;
+//   - фото для постов 2 и 3 уменьшаются до 2560 px (Telegram всё равно сжимает
+//     до этого размера), поэтому весят в разы меньше оригиналов;
+//   - видео загружается один раз (в готовый пост), в оригиналы оно пересылается;
+//   - оригиналы и готовый пост загружаются одновременно.
+// Режим проверки (включён по умолчанию) ничего не отправляет и показывает,
+// что и куда уйдёт.
+
+const MTPROTO_URL = 'https://rent-mtproto-production.up.railway.app';
+const JOB_POLL_MS = 1000;
+const SOCIAL_MAX_SIDE = 2560;
+
+function isTestMode() {
+  const t = document.getElementById('testModeToggle');
+  return !t || t.checked;
+}
+
+// Альбом через MTProto: сразу получаем jobId, затем ждём готовности.
+async function sendAlbum(chatId, topicId, photoFiles, videoFile, dims, caption, onJob) {
+  const fd = new FormData();
+  fd.append('chatId', chatId);
+  fd.append('topicId', topicId);
+  if (caption) fd.append('caption', caption);
+  photoFiles.forEach((f, i) => fd.append('photos[]', f, f.name || `photo_${i}.jpg`));
+  if (videoFile) {
+    fd.append('video', videoFile, videoFile.name || 'video.mp4');
+    if (dims?.width)    fd.append('width',    dims.width);
+    if (dims?.height)   fd.append('height',   dims.height);
+    if (dims?.duration) fd.append('duration', dims.duration);
+  }
+  const resp = await fetch(MTPROTO_URL + '/sendMediaGroup', { method: 'POST', body: fd });
+  const data = await resp.json().catch(() => ({ ok: false, description: 'Bad response' }));
+  if (!data.ok) return data;
+  while (true) {
+    await new Promise(r => setTimeout(r, JOB_POLL_MS));
+    const job = await fetch(MTPROTO_URL + '/job/' + data.jobId).then(r => r.json()).catch(() => null);
+    if (!job) continue;
+    if (onJob) onJob(job);
+    if (job.status === 'done')  return { ok: true, result: job.result };
+    if (job.status === 'error') return { ok: false, description: job.error };
+  }
+}
+
+async function forwardToTopic(chatId, topicId, messageId) {
+  const resp = await fetch(MTPROTO_URL + '/forwardMessage', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chatId, topicId, fromChatId: chatId, messageId })
+  });
+  return resp.json().catch(() => ({ ok: false, description: 'Bad response' }));
+}
+
+// ── Дизайн генератора обложек (PlatformDGE/-rent-cover-generator-test) ──────
+const RT_NAVY = '#24335f', RT_RED = '#e0464a', RT_WHITE = '#fff';
+
+function rtLoadImage(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Не удалось прочитать фото')); };
+    img.src = url;
+  });
+}
+function rtToFile(canvas, name, type, quality) {
+  return new Promise(resolve => canvas.toBlob(b => resolve(new File([b], name, { type })), type, quality));
+}
+function rtSpaced(ctx, text, x, y, font, spacing, align) {
+  ctx.font = font; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  const ws = [...text].map(c => ctx.measureText(c).width);
+  const total = ws.reduce((a, b) => a + b, 0) + spacing * (ws.length - 1);
+  let cx = align === 'center' ? x - total / 2 : x;
+  [...text].forEach((c, i) => { ctx.fillText(c, cx, y); cx += ws[i] + spacing; });
+  return total;
+}
+function rtFitSize(ctx, text, maxW, start, spacing) {
+  let s = start;
+  while (s > 12) {
+    ctx.font = `${s}px "Bebas Neue"`;
+    const w = [...text].reduce((a, c) => a + ctx.measureText(c).width, 0) + spacing * (text.length - 1);
+    if (w <= maxW) return s;
+    s -= 2;
+  }
+  return s;
+}
+function rtCircle(ctx, x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = RT_RED; ctx.fill(); }
+function rtIconPin(ctx, x, y) {
+  rtCircle(ctx, x, y, 46); ctx.strokeStyle = RT_WHITE; ctx.fillStyle = RT_WHITE; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.ellipse(x, y + 26, 26, 8, 0, 0, Math.PI * 2); ctx.fill();
+  const top = y - 34, r = 18;
+  ctx.beginPath(); ctx.arc(x, top + r, r, Math.PI * 0.82, Math.PI * 2.18); ctx.lineTo(x, y + 22); ctx.closePath();
+  ctx.fillStyle = RT_RED; ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(x, top + r, 7, 0, Math.PI * 2); ctx.stroke();
+}
+function rtIconM2(ctx, x, y) {
+  rtCircle(ctx, x, y, 46); ctx.fillStyle = RT_WHITE; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.font = 'bold 40px Georgia,"Times New Roman",serif'; ctx.fillText('m', x - 4, y + 14);
+  ctx.font = 'bold 17px Georgia,"Times New Roman",serif'; ctx.fillText('2', x + 22, y - 6);
+}
+function rtIconBed(ctx, x, y) {
+  rtCircle(ctx, x, y, 46); ctx.fillStyle = RT_WHITE; const x0 = x - 34, x1 = x + 34;
+  ctx.fillRect(x0, y - 26, 5, 50); ctx.fillRect(x1 - 5, y - 8, 5, 32);
+  ctx.beginPath(); ctx.roundRect(x0 + 9, y - 18, 20, 12, 3); ctx.roundRect(x0 + 33, y - 18, 20, 12, 3); ctx.fill();
+  ctx.fillRect(x0, y - 2, 68, 14); ctx.fillRect(x0, y + 16, 68, 4);
+}
+
+// Данные для обложки берём из формы генератора.
+function rtCoverState() {
+  const d = window.CoverGenUI ? window.CoverGenUI.collectPropertyDesignData() : {};
+  const bedsTag = (deal === 'Sale' ? getGroup('s-beds') : getGroup('beds')) || '';
+  const district = (d.district || '').replace(/^#/, '').replace(/([a-z])([A-Z0-9])/g, '$1 $2');
+  const studio = /studio/i.test(bedsTag);
+  const beds = d.bedrooms || 0;
+  return {
+    price: d.price ? d.price.toLocaleString('en-US') + '$' : '',
+    district,
+    area: d.area ? String(d.area) : '',
+    bedrooms: studio ? 'STUDIO' : (beds ? `${beds} BEDROOM${beds > 1 ? 'S' : ''}` : ''),
+    exclusive: !!document.getElementById('exclusiveToggle')?.checked,
+    commercial: d.propertyType === 'commercial' || d.propertyType === 'office'
+  };
+}
+
+function rtDrawCover(ctx, st, img) {
+  const S = 1080, H = 256, ph = S - H;
+  ctx.fillStyle = RT_NAVY; ctx.fillRect(0, 0, S, S);
+  if (img) {
+    const k = Math.max(S / img.width, ph / img.height), w = img.width * k, h = img.height * k;
+    ctx.save(); ctx.beginPath(); ctx.rect(0, H, S, ph); ctx.clip();
+    ctx.drawImage(img, (S - w) / 2, H + (ph - h) / 2, w, h); ctx.restore();
+  }
+  ctx.fillStyle = 'rgba(120,120,120,.78)'; ctx.fillRect(0, 256, S, 156);
+  if (st.exclusive) { ctx.fillStyle = RT_RED; ctx.fillRect(0, 856, S, 56); }
+
+  const price = st.price;
+  const label = st.commercial ? 'COMMERCIAL' : (st.exclusive ? 'EXCLUSIVE' : '');
+  if (price) {
+    const comma = price.includes(',') && label;
+    ctx.fillStyle = RT_WHITE; const sz = rtFitSize(ctx, price, 900, comma ? 215 : 250, 6);
+    rtSpaced(ctx, price, S / 2, label ? (comma ? 182 : 194) : 204, `${sz}px "Bebas Neue"`, 6, 'center');
+  }
+  if (label) {
+    ctx.fillStyle = RT_WHITE; const w = rtSpaced(ctx, label, S / 2, 238, '32px "Bebas Neue"', 3, 'center');
+    ctx.fillStyle = RT_RED; ctx.fillRect(S / 2 - w / 2 - 8, 244, w + 16, 4);
+  }
+  let xs, labels;
+  if (st.commercial) { xs = [382, 696]; rtIconPin(ctx, xs[0], 313); rtIconM2(ctx, xs[1], 313); labels = [st.district, st.area]; }
+  else { xs = [226, 540, 854]; rtIconPin(ctx, xs[0], 313); rtIconM2(ctx, xs[1], 313); rtIconBed(ctx, xs[2], 313); labels = [st.district, st.area, st.bedrooms]; }
+  labels.forEach((l, i) => {
+    l = (l || '').toUpperCase(); if (!l) return;
+    ctx.fillStyle = RT_WHITE; const sz = rtFitSize(ctx, l, 320, 40, 2);
+    rtSpaced(ctx, l, xs[i], 400, `${sz}px "Bebas Neue"`, 2, 'center');
+  });
+  if (st.exclusive) {
+    ctx.fillStyle = RT_WHITE;
+    rtSpaced(ctx, st.commercial ? 'EXCLUSIVE PROPERTY' : 'EXCLUSIVE APARTMENT', 209, 899, '42px "Bebas Neue"', 4, 'left');
+  }
+}
+
+function rtDrawFlag(c, x, y, w, h) {
+  c.fillStyle = '#fff'; c.fillRect(x, y, w, h);
+  c.fillStyle = '#e8112d';
+  const t = h * 0.2; c.fillRect(x, y + h / 2 - t / 2, w, t); c.fillRect(x + w / 2 - t / 2, y, t, h);
+  const qw = (w - t) / 2, qh = (h - t) / 2, arm = Math.min(qw, qh) * 0.56, th = h * 0.065;
+  [[x + qw / 2, y + qh / 2], [x + w - qw / 2, y + qh / 2], [x + qw / 2, y + h - qh / 2], [x + w - qw / 2, y + h - qh / 2]].forEach(([cx, cy]) => {
+    c.fillRect(cx - arm / 2, cy - th / 2, arm, th); c.fillRect(cx - th / 2, cy - arm / 2, th, arm);
+  });
+}
+function rtDrawWatermark(c, W, H) {
+  const text = 'RENT IN TBILISI';
+  const markW = Math.min(W, H * 1.3) * 0.36;
+  c.font = '100px "Bebas Neue"';
+  const sp = 2, tw100 = [...text].reduce((a, ch) => a + c.measureText(ch).width, 0) + sp * (text.length - 1);
+  const f = markW / ((tw100 / 100) + 0.22 + 1.05);
+  const fh = f * 0.7, fw = f * 1.05, gap = f * 0.22;
+  const tw = tw100 * f / 100, total = tw + gap + fw;
+  const x0 = (W - total) / 2, top = (H - fh) / 2;
+  const off = document.createElement('canvas'); off.width = W; off.height = H;
+  const o = off.getContext('2d');
+  o.fillStyle = '#fff'; o.textBaseline = 'alphabetic';
+  let x = x0; o.font = `${f}px "Bebas Neue"`;
+  for (const ch of text) { o.fillText(ch, x, top + fh); x += o.measureText(ch).width + sp * f / 100; }
+  rtDrawFlag(o, x0 + tw + gap, top, fw, fh);
+  c.save(); c.globalAlpha = 0.72; c.shadowColor = 'rgba(0,0,0,.28)'; c.shadowBlur = Math.max(2, f * 0.06);
+  c.drawImage(off, 0, 0); c.restore();
+}
+
+async function rtWatermarkPhoto(file, i) {
+  const img = await rtLoadImage(file);
+  const k = Math.min(1, SOCIAL_MAX_SIDE / Math.max(img.width, img.height));
+  const c = document.createElement('canvas');
+  c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+  const g = c.getContext('2d'); g.drawImage(img, 0, 0, c.width, c.height);
+  rtDrawWatermark(g, c.width, c.height);
+  return rtToFile(c, `social_${i + 1}.jpg`, 'image/jpeg', 0.9);
+}
+
+// Пост 3: обложка из главного фото + все фото с RENT IN TBILISI.
+async function buildSocialSet(photos) {
+  if (!photos.length) return [];
+  await document.fonts.load('100px "Bebas Neue"').catch(() => {});
+  const st = rtCoverState();
+  const coverCanvas = document.createElement('canvas'); coverCanvas.width = 1080; coverCanvas.height = 1080;
+  rtDrawCover(coverCanvas.getContext('2d'), st, await rtLoadImage(photos[0].file));
+  const cover = await rtToFile(coverCanvas, 'cover.jpg', 'image/jpeg', 0.92);
+  const marked = await Promise.all(photos.slice(0, 9).map((p, i) => rtWatermarkPhoto(p.file, i)));
+  return [cover, ...marked];
+}
+
+// ── Окно «Как это будет работать» ───────────────────────────────────────────
+function pgMB(files) { return files.reduce((a, f) => a + (f ? f.size : 0), 0) / 1048576; }
+
+function showPublishDemo(p) {
+  let box = document.getElementById('pgDemo');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'pgDemo';
+    document.body.appendChild(box);
+  }
+  const thumbs = (files, video) => files.map(f => `<img src="${URL.createObjectURL(f)}" alt="">`).join('') +
+    (video ? `<div class="pg-vid">🎬 видео<br>${pgMB([video]).toFixed(1)} MB</div>` : '');
+  const fmt = n => n.toFixed(1) + ' MB';
+  const card = (n, title, where, body, note) => `
+    <div class="pg-card">
+      <div class="pg-card-h"><span class="pg-num">${n}</span><div><b>${title}</b><div class="pg-where">${where}</div></div></div>
+      <div class="pg-thumbs">${body}</div>
+      ${note ? `<div class="pg-note">${note}</div>` : ''}
+    </div>`;
+  const caption = p.htmlText.replace(/<[^>]+>/g, '').slice(0, 160).replace(/</g, '&lt;');
+  box.innerHTML = `
+    <div class="pg-demo-in">
+      <div class="pg-demo-top">
+        <div><b>Проверка: ничего не отправлено</b><div class="pg-where">Так публикация разложится по топикам. Картинки готовы за ${(p.prepMs / 1000).toFixed(1)} с.</div></div>
+        <button onclick="document.getElementById('pgDemo').remove()">✕</button>
+      </div>
+      ${card(1, 'Оригиналы', `Advertising · топик ${TOPIC_ORIGINALS}`, thumbs(p.originals, p.video),
+        `${p.originals.length} фото файлами без сжатия${p.video ? ', видео' : ''}, затем текст объявления. ${p.video ? 'Видео сюда пересылается из готового поста, второй раз не загружается.' : ''}`)}
+      ${card(2, 'Готовый пост', `Advertising · топик ${TOPIC_ALBUM}`, thumbs(p.ready, p.video),
+        `Логотип только на фото, видео без знака. Подпись: «${caption}…»`)}
+      ${card(3, 'Соцсети: обложка + фото', `Advertising · топик ${EXCLUSIVE_SOCIAL_TOPIC_ID}`, thumbs(p.social, null),
+        'Обложка 1080×1080 и фото с RENT IN TBILISI и флагом (дизайн генератора обложек).')}
+      ${card(4, 'Owner Info', `Advertising · топик ${TOPIC_OWNER}`, '',
+        'Адрес, телефон и имя собственника, агент, ссылки на оригиналы и на готовый пост.')}
+      <div class="pg-card pg-speed">
+        <b>Сколько грузится с телефона</b>
+        <div>Оригиналы ${fmt(p.origMB)} · готовый пост ${fmt(p.readyMB)} · соцсети ${fmt(p.socialMB)}${p.video ? ` · видео ${fmt(p.videoMB)} один раз (раньше дважды)` : ''}</div>
+        <div class="pg-where">Фото для готового поста и соцсетей уменьшаются до 2560 px: с телефона (3–6 MB на фото) это в 3–5 раз легче оригинала. Оригиналы и готовый пост загружаются одновременно.</div>
+      </div>
+    </div>`;
+}
+
+// ── Публикация ─────────────────────────────────────────────────────────────
+async function publishPost() {
+  vibrate();
+  const htmlText = buildTelegramHTML();
+  if (!htmlText || htmlText.length < 10) { alert('Заполните форму перед публикацией'); return; }
+
+  const btns = ['publishBtn', 'publishBtnDesktop'];
+  const setBtns = (text, color, disabled) => btns.forEach(id => {
+    const b = document.getElementById(id);
+    if (!b) return;
+    b.textContent = text; b.disabled = disabled;
+    if (color) b.style.background = color;
+  });
+  const idle = () => setBtns(isTestMode() ? '🧪 Проверить публикацию' : '✈️ Опубликовать в канал', '#2196F3', false);
+
+  const photos = media.filter(m => m.type === 'photo');
+  const videoFile = media.find(m => m.type === 'video')?.file || null;
+  const test = isTestMode();
+  const t0 = performance.now();
+  setBtns('⏳ Готовлю фото...', '#888', true);
+
+  // Подготовка в браузере сразу, параллельно с загрузкой оригиналов.
+  const dimsP   = videoFile ? getVideoDimensions(videoFile) : Promise.resolve(null);
+  const readyP  = Promise.all(photos.map(p => applyWatermark(p.file)));
+  const socialP = buildSocialSet(photos);
+
+  try {
+    if (test) {
+      const [ready, social] = await Promise.all([readyP, socialP]);
+      const originals = photos.map(p => p.file);
+      const vids = videoFile ? [videoFile] : [];
+      showPublishDemo({
+        htmlText, originals, ready, social, video: videoFile,
+        prepMs: performance.now() - t0,
+        origMB: pgMB(originals), readyMB: pgMB(ready), socialMB: pgMB(social), videoMB: pgMB(vids)
+      });
+      idle();
+      return;
+    }
+
+    const dims = await dimsP;
+    const chanId = CHANNEL_ID.replace('-100', '');
+    let sentOriginals = 0, albumPct = 0;
+    const progress = () => setBtns(`⏳ Оригиналы ${sentOriginals}/${photos.length} · пост ${albumPct}%`, '#888', true);
+    progress();
+
+    // Пост 2: готовый пост (фото с логотипом + видео без знака).
+    const albumP = (async () => {
+      if (!photos.length && !videoFile) return null;
+      const ready = await readyP;
+      const r = await sendAlbum(CHANNEL_ID, TOPIC_ALBUM, ready, videoFile, dims, htmlText.substring(0, 1024),
+        job => { albumPct = job.progress || albumPct; progress(); });
+      if (!r.ok) throw new Error('Готовый пост: ' + r.description);
+      albumPct = 100; progress();
+      return r.result;
+    })();
+
+    // Пост 1: оригиналы по одному (так сохраняется порядок), потом видео и текст.
+    const originalsP = (async () => {
+      for (let i = 0; i < photos.length; i++) {
+        const d = await gasSendDocument(CHANNEL_ID, photos[i].file, TOPIC_ORIGINALS);
+        if (!d.ok) throw new Error('Оригинал фото ' + (i + 1) + ': ' + d.description);
+        sentOriginals++; progress();
+      }
+      if (videoFile) {
+        const album = await albumP;
+        const ids = album?.message_ids || [];
+        const videoMsgId = ids.length ? Math.max(...ids) : 0; // видео в альбоме последнее
+        const fw = videoMsgId ? await forwardToTopic(CHANNEL_ID, TOPIC_ORIGINALS, videoMsgId) : { ok: false };
+        if (!fw.ok) {
+          const up = await sendAlbum(CHANNEL_ID, TOPIC_ORIGINALS, [], videoFile, dims, '');
+          if (!up.ok) throw new Error('Оригинал видео: ' + up.description);
+        }
+      }
+      const t = await gasSendMessage(CHANNEL_ID, htmlText, TOPIC_ORIGINALS);
+      if (!t.ok) throw new Error('Текст: ' + t.description);
+      return t.result?.message_id || 0;
+    })();
+
+    // Пост 3: соцсети — после готового поста, чтобы не мешать его загрузке.
+    const socialSendP = (async () => {
+      await albumP;
+      const social = await socialP;
+      if (!social.length) return;
+      const r = await sendAlbum(CHANNEL_ID, EXCLUSIVE_SOCIAL_TOPIC_ID, social, null, null, '');
+      if (!r.ok) throw new Error('Пост для соцсетей: ' + r.description);
+    })();
+
+    const [album, origMsgId] = await Promise.all([albumP, originalsP]);
+    const albumMsgId = album?.message_id || album?.message_ids?.[0] || 0;
+    const postLink = albumMsgId ? `https://t.me/c/${chanId}/${TOPIC_ALBUM}/${albumMsgId}` : '';
+    const origLink = origMsgId ? `https://t.me/c/${chanId}/${TOPIC_ORIGINALS}/${origMsgId}` : '';
+
+    // Owner Information → топик 22
+    const ownerName = val('ownerName');
+    const ownerPhone = val('ownerPhone');
+    const address = val('addressInput');
+    if (ownerName || ownerPhone) {
+      setBtns('⏳ Owner Info...', '#888', true);
+      const today = new Date();
+      const dateStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0') + '.' + today.getFullYear();
+      const agentTag = document.querySelector('.tag.selected[data-group="agent"]')?.dataset?.val || '';
+      const ownerText = `Объект внесен: ✅
+Ссылка на оригиналы фото в advertising: ${origLink}
+Адрес: ${address}
+Телефон собственника:
+${ownerPhone}
+Имя собственника: ${ownerName}
+Дата внесения: ${dateStr}
+Агент: ${agentTag}
+<a href="${postLink}">Ссылка на готовый пост</a>`;
+      await gasSendMessage(CHANNEL_ID, ownerText, TOPIC_OWNER);
+    }
+
+    setBtns('⏳ Пост для соцсетей...', '#888', true);
+    await socialSendP;
+    setBtns(`✅ Опубликовано за ${Math.round((performance.now() - t0) / 1000)} с`, 'var(--green)', false);
+    setTimeout(idle, 4000);
+  } catch (e) {
+    alert('Ошибка: ' + e.message);
+    idle();
+  }
+}
+
+// ── Удобный выбор района, метро и агента ───────────────────────────────────
+// Поиск (по-русски и по-английски), частые варианты сверху, остальное под «Ещё».
+// Для метро после выбора района первыми идут ближайшие станции.
+const PICK_ALIASES = {
+  '#Vera': 'вера', '#Mtatsminda': 'мтацминда', '#Vake': 'ваке', '#Sololaki': 'сололаки', '#Kukia': 'кукия',
+  '#Saburtalo': 'сабуртало', '#Nutsubidze': 'нуцубидзе плато', '#Chugureti': 'чугурети', '#Nadzaladevi': 'надзаладеви',
+  '#Naxalovka': 'нахаловка', '#SavnetisUbani': 'саванетис убани', '#Didube': 'дидубе', '#Gldani': 'глдани',
+  '#Avlabari': 'авлабари', '#Isani': 'исани', '#Samgori': 'самгори', '#Ortachala': 'ортачала', '#Abanotubani': 'абанотубани старый город',
+  '#Varketili': 'варкетили', '#Digomi': 'дигоми', '#DidiDigomi': 'диди дигоми', '#DigomiMassive': 'дигомский массив',
+  '#Digomi1to9': 'дигоми 1-9', '#VazhaPshavela': 'важа пшавела', '#Vashlijvari': 'вашлиджвари', '#Temqa': 'темка',
+  '#Iverubani': 'иверубани', '#Vazisubani': 'вазисубани', '#Afrika': 'африка', '#Ponichala': 'поничала',
+  '#QvemoPonichala': 'квемо поничала', '#Avchala': 'авчала', '#Bagebi': 'багеби', '#Lisi': 'лиси', '#Tskhneti': 'цхнети',
+  '#Saguramo': 'сагурамо', '#Krtsanisi': 'крцаниси', '#OutOfTown': 'за городом пригород',
+  '#LibertySquare': 'площадь свободы', '#Rustaveli': 'руставели', '#Marjanishvili': 'марджанишвили',
+  '#StationSquare': 'вокзальная площадь вокзал', '#Tsereteli': 'церетели', '#Gotsiridze': 'гоциридзе',
+  '#Grmagele': 'грмагеле', '#Guramishvili': 'гурамишвили', '#Sarajishvili': 'сараджишвили',
+  '#AhmeteliTheatre': 'театр ахметели', '#STUniversity': 'государственный университет', '#Delisi': 'делиси',
+  '#TCUniversity': 'технический университет', '#MCUniversity': 'медицинский университет',
+  '#AvlabariMetro': 'авлабари', '#IsaniMetro': 'исани', '#300Aragveli': '300 арагвели', '#SamgoriMetro': 'самгори'
+};
+const DISTRICT_METRO = {
+  '#Vera': ['#Rustaveli', '#LibertySquare'], '#Mtatsminda': ['#Rustaveli', '#LibertySquare'],
+  '#Sololaki': ['#LibertySquare'], '#Abanotubani': ['#LibertySquare', '#AvlabariMetro'],
+  '#Avlabari': ['#AvlabariMetro'], '#Chugureti': ['#Marjanishvili', '#StationSquare'],
+  '#Naxalovka': ['#Tsereteli', '#StationSquare'], '#Nadzaladevi': ['#Nadzaladevi', '#Tsereteli', '#Gotsiridze'],
+  '#Didube': ['#Didube', '#Gotsiridze'], '#Gldani': ['#Grmagele', '#Guramishvili', '#Sarajishvili', '#AhmeteliTheatre'],
+  '#Saburtalo': ['#TCUniversity', '#MCUniversity', '#Delisi', '#VazhaPshavela', '#STUniversity'],
+  '#VazhaPshavela': ['#VazhaPshavela', '#STUniversity', '#Delisi'], '#Vake': ['#Rustaveli'],
+  '#Isani': ['#IsaniMetro', '#300Aragveli'], '#Samgori': ['#SamgoriMetro', '#Varketili'],
+  '#Varketili': ['#Varketili', '#SamgoriMetro'], '#Ortachala': ['#IsaniMetro'], '#Afrika': ['#Varketili']
+};
+const PICK_VISIBLE = 8;
+
+function pickUseLoad(group) { try { return JSON.parse(localStorage.getItem('pgPick_' + group) || '{}'); } catch (e) { return {}; } }
+function pickUseSave(group, val) {
+  try {
+    const m = pickUseLoad(group); m[val] = (m[val] || 0) + 1;
+    localStorage.setItem('pgPick_' + group, JSON.stringify(m));
+    if (group === 'agent') localStorage.setItem('pgLastAgent', val);
+  } catch (e) {}
+}
+
+const pickers = {};
+function enhancePicker(grid, group, placeholder) {
+  if (!grid || pickers[grid.id || group]) return;
+  const key = grid.id || group;
+  const tags = [...grid.querySelectorAll('.tag')];
+  if (!tags.length) return;
+  tags.forEach((t, i) => { t.dataset.order = i; });
+  const bar = document.createElement('div');
+  bar.className = 'pick-bar';
+  bar.innerHTML = `<input type="search" class="pick-search" placeholder="${placeholder}" autocomplete="off">`;
+  grid.parentNode.insertBefore(bar, grid);
+  const more = document.createElement('span');
+  more.className = 'tag pick-more';
+  grid.appendChild(more);
+  const st = { grid, group, tags, input: bar.querySelector('input'), more, open: false };
+  pickers[key] = st;
+  st.input.addEventListener('input', () => renderPicker(st));
+  more.onclick = () => { st.open = !st.open; renderPicker(st); };
+  renderPicker(st);
+}
+
+function renderPicker(st) {
+  const q = st.input.value.trim().toLowerCase();
+  const use = pickUseLoad(st.group);
+  const near = st.group === 'metro' ? (DISTRICT_METRO[getGroup('district')] || []) : [];
+  const score = t => {
+    const v = t.dataset.val;
+    if (t.classList.contains('selected') || t.classList.contains('selected-red')) return 1e9;
+    return (near.includes(v) ? 1e6 - near.indexOf(v) : 0) + (use[v] || 0) * 1000 - (+t.dataset.order);
+  };
+  const sorted = [...st.tags].sort((a, b) => score(b) - score(a));
+  let shown = 0;
+  sorted.forEach(t => {
+    const v = t.dataset.val;
+    const hay = (v + ' ' + (PICK_ALIASES[v] || '') + ' ' + v.replace(/([a-z])([A-Z])/g, '$1 $2')).toLowerCase();
+    const match = !q || hay.includes(q.replace(/^#/, ''));
+    const visible = match && (q || st.open || shown < PICK_VISIBLE || score(t) >= 1e6);
+    t.style.display = visible ? '' : 'none';
+    t.classList.toggle('pick-near', near.includes(v));
+    if (visible) shown++;
+    st.grid.insertBefore(t, st.more);
+  });
+  const hidden = st.tags.length - shown;
+  st.more.style.display = q ? 'none' : '';
+  st.more.textContent = st.open ? 'Свернуть ▴' : `Ещё ${hidden} ▾`;
+  if (!st.open && hidden <= 0) st.more.style.display = 'none';
+}
+
+function refreshPickers() { Object.values(pickers).forEach(renderPicker); }
+
+const pickTagOriginal = pickTag;
+pickTag = function (el) {
+  pickTagOriginal(el);
+  if (el.classList.contains('selected')) pickUseSave(el.dataset.group, el.dataset.val);
+  const p = Object.values(pickers).find(s => s.tags.includes(el));
+  if (p) p.input.value = '';
+  refreshPickers();
+};
+
+function initPickers() {
+  document.querySelectorAll('.tag-grid').forEach(g => {
+    const first = g.querySelector('.tag');
+    if (!first) return;
+    const group = first.dataset.group;
+    if (group === 'district') enhancePicker(g, group, '🔍 Район: ваке, vake, сабуртало…');
+    if (group === 'metro') enhancePicker(g, group, '🔍 Метро: руставели, didube…');
+  });
+}
+
+function initAgentPicker(containerId) {
+  const grid = document.getElementById(containerId);
+  if (!grid || !grid.querySelector('.tag')) return;
+  enhancePicker(grid, 'agent', '🔍 Имя агента…');
+  let last = null;
+  try { last = localStorage.getItem('pgLastAgent'); } catch (e) {}
+  if (last && !document.querySelector('.tag.selected[data-group="agent"]')) {
+    const t = [...grid.querySelectorAll('.tag')].find(x => x.dataset.val === last);
+    if (t) { t.classList.add('selected'); update(); refreshPickers(); }
+  }
+}
+
+function initTestModeToggle() {
+  const row = document.createElement('label');
+  row.className = 'pg-testmode';
+  row.innerHTML = '<input type="checkbox" id="testModeToggle" checked> 🧪 Режим проверки: ничего не отправлять, показать три поста';
+  (document.querySelector('.form-col') || document.body).prepend(row);
+  const sync = () => ['publishBtn', 'publishBtnDesktop'].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) b.textContent = isTestMode() ? '🧪 Проверить публикацию' : (id === 'publishBtn' ? '✈️ Опубликовать' : '✈️ Опубликовать в канал');
+  });
+  row.querySelector('input').addEventListener('change', sync);
+  sync();
+}
+
+initPickers();
+initTestModeToggle();
+</script>
 </body>
 </html>
