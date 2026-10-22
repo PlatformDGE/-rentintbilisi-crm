@@ -234,6 +234,71 @@ body.mode-sale .rent-only { display: none; }
 .pg-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; display: block; }
 .pg-vid { aspect-ratio: 1; border-radius: 6px; background: var(--card2); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; color: var(--dim); }
 .pg-speed { border-color: #2196F3; }
+#pgProgress { position: fixed; inset: 0; z-index: 9998; background: rgba(6,12,20,.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; animation: pgpFade .25s ease; }
+@keyframes pgpFade { from { opacity: 0; } to { opacity: 1; } }
+.pgp-card { width: 100%; max-width: 460px; max-height: 100%; overflow-y: auto; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px 14px; box-shadow: 0 20px 60px rgba(0,0,0,.5); animation: pgpUp .35s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes pgpUp { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.pgp-badge { background: #2a2410; border: 1px solid #6b5a1a; color: #f3d77a; font-size: 11.5px; border-radius: 8px; padding: 6px 10px; margin-bottom: 12px; text-align: center; }
+.pgp-head { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+.pgp-ring { position: relative; width: 64px; height: 64px; flex: none; }
+.pgp-ring svg { width: 64px; height: 64px; transform: rotate(-90deg); }
+.pgp-ring circle { fill: none; stroke-width: 6; }
+.pgp-ring-bg { stroke: var(--card2); }
+.pgp-ring-fg { stroke: #2196F3; stroke-linecap: round; stroke-dasharray: 176; stroke-dashoffset: 176; transition: stroke-dashoffset .5s ease, stroke .3s; }
+.pgp-ring span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; color: var(--text); }
+#pgProgress.ok .pgp-ring-fg { stroke: var(--green); }
+#pgProgress.fail .pgp-ring-fg { stroke: var(--red); }
+#pgProgress.ok .pgp-ring span { color: var(--green); font-size: 24px; animation: pgpPop .4s ease; }
+.pgp-head-t b { font-size: 17px; color: var(--text); }
+.pgp-sub { font-size: 11.5px; color: var(--dim); margin-top: 3px; line-height: 1.4; }
+.pgp-steps { display: flex; flex-direction: column; gap: 6px; }
+.pgp-step { display: flex; gap: 11px; align-items: flex-start; padding: 9px 10px; border-radius: 10px; border: 1px solid transparent; transition: background .3s, border-color .3s, opacity .3s; }
+.pgp-step.wait { opacity: .5; }
+.pgp-step.skip { opacity: .35; }
+.pgp-step.active { background: rgba(33,150,243,.08); border-color: rgba(33,150,243,.35); }
+.pgp-step.error { background: rgba(212,43,43,.1); border-color: rgba(212,43,43,.5); }
+.pgp-ic { position: relative; width: 34px; height: 34px; flex: none; border-radius: 50%; background: var(--card2); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.pgp-step.active .pgp-ic::after { content: ''; position: absolute; inset: -3px; border-radius: 50%; border: 3px solid transparent; border-top-color: #2196F3; border-right-color: #2196F3; animation: pgpSpin .9s linear infinite; }
+.pgp-step.done .pgp-ic { background: var(--green); animation: pgpPop .35s ease; }
+.pgp-step.done .pgp-emoji, .pgp-step.error .pgp-emoji { display: none; }
+.pgp-step.done .pgp-ic::before { content: '✓'; color: #fff; font-weight: 800; font-size: 17px; }
+.pgp-step.error .pgp-ic { background: var(--red); animation: pgpShake .4s ease; }
+.pgp-step.error .pgp-ic::before { content: '!'; color: #fff; font-weight: 800; font-size: 18px; }
+@keyframes pgpSpin { to { transform: rotate(360deg); } }
+@keyframes pgpPop { 0% { transform: scale(.6); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes pgpShake { 0%,100% { transform: none; } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.pgp-body { flex: 1; min-width: 0; }
+.pgp-row { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; color: var(--text); }
+.pgp-num { font-size: 12px; color: #64b5f6; font-variant-numeric: tabular-nums; }
+.pgp-step.done .pgp-num { color: var(--green); }
+.pgp-detail { font-size: 11.5px; color: var(--dim); margin-top: 2px; line-height: 1.4; overflow-wrap: anywhere; }
+.pgp-step.error .pgp-detail { color: #ff8a8a; }
+.pgp-bar { height: 4px; background: var(--card2); border-radius: 4px; margin-top: 7px; overflow: hidden; display: none; }
+.pgp-step.active .pgp-bar { display: block; }
+.pgp-bar i { display: block; height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, #2196F3, #64b5f6, #2196F3); background-size: 200% 100%; animation: pgpShimmer 1.2s linear infinite; transition: width .35s ease; }
+@keyframes pgpShimmer { from { background-position: 200% 0; } to { background-position: 0 0; } }
+.pgp-foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.pgp-foot:empty { display: none; }
+.pgp-btn { flex: 1 1 auto; min-height: 42px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--card2); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; }
+.pgp-btn.main { background: #2196F3; border-color: #2196F3; color: #fff; }
+#pgError { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0); display: flex; align-items: flex-end; justify-content: center; padding: 12px; pointer-events: none; transition: background .25s; }
+#pgError.show { background: rgba(0,0,0,.45); pointer-events: auto; }
+.pge-card { width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto; background: var(--card); border: 1px solid rgba(212,43,43,.6); border-radius: 16px; padding: 16px; color: var(--text); font-size: 13px; transform: translateY(110%); transition: transform .3s cubic-bezier(.2,.9,.3,1.1); box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
+#pgError.show .pge-card { transform: none; }
+.pge-head { display: flex; gap: 12px; align-items: flex-start; }
+.pge-ic { width: 36px; height: 36px; flex: none; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; font-size: 20px; display: flex; align-items: center; justify-content: center; animation: pgpShake .45s ease .2s; }
+.pge-head b { font-size: 16px; }
+.pge-what { color: var(--text); margin-top: 4px; line-height: 1.45; }
+.pge-sec { margin-top: 12px; background: var(--card2); border-radius: 10px; padding: 10px 12px; line-height: 1.5; }
+.pge-sec b { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--dim); }
+.pge-sec ol { padding-left: 18px; }
+.pge-sec li + li { margin-top: 4px; }
+.pge-done div:first-of-type { color: var(--green); }
+.pge-warn { margin-top: 6px; color: #f3d77a; font-size: 12px; }
+.pge-tech { margin-top: 10px; color: var(--dim); font-size: 11.5px; }
+.pge-tech code { display: block; margin-top: 6px; white-space: pre-wrap; word-break: break-all; background: var(--bg); padding: 8px; border-radius: 6px; }
+.pge-btns { display: flex; gap: 8px; margin-top: 14px; }
+@media (prefers-reduced-motion: reduce) { #pgProgress *, #pgError * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -3632,127 +3697,459 @@ function showPublishDemo(p) {
     </div>`;
 }
 
+// ── Экран публикации: этапы, прогресс, ошибки с советами ───────────────────
+const PG_STEPS = [
+  { id: 'prep',   icon: '🎨', title: 'Готовлю фото',             wait: 'Логотип, обложка и RENT IN TBILISI' },
+  { id: 'orig',   icon: '🖼️', title: 'Оригиналы фото',           wait: 'Без сжатия, в топик оригиналов' },
+  { id: 'album',  icon: '📸', title: 'Готовый пост',             wait: 'Фото с логотипом и видео' },
+  { id: 'video',  icon: '🎬', title: 'Видео в оригиналы',        wait: 'Перешлю из готового поста' },
+  { id: 'text',   icon: '📝', title: 'Текст объявления',         wait: 'В топик оригиналов' },
+  { id: 'social', icon: '✨', title: 'Пост для соцсетей',        wait: 'Обложка и фото' },
+  { id: 'owner',  icon: '👤', title: 'Owner Info',               wait: 'Данные собственника' }
+];
+const PG_WEIGHT = { prep: 1, orig: 3, album: 4, video: 1, text: 0.5, social: 2, owner: 0.5 };
+
+const pgRun = { steps: {}, t0: 0, timer: null, test: false };
+
+function pgEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+function pgOpenProgress(test) {
+  pgRun.test = test;
+  pgRun.t0 = performance.now();
+  pgRun.steps = {};
+  PG_STEPS.forEach(s => { pgRun.steps[s.id] = { state: 'wait', pct: 0, detail: s.wait }; });
+  let box = document.getElementById('pgProgress');
+  if (!box) { box = document.createElement('div'); box.id = 'pgProgress'; document.body.appendChild(box); }
+  box.className = '';
+  box.innerHTML = `
+    <div class="pgp-card">
+      ${test ? '<div class="pgp-badge">🧪 Проверка: ничего не отправляется</div>' : ''}
+      <div class="pgp-head">
+        <div class="pgp-ring"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" class="pgp-ring-bg"/><circle cx="32" cy="32" r="28" class="pgp-ring-fg" id="pgpRing"/></svg><span id="pgpPct">0%</span></div>
+        <div class="pgp-head-t"><b id="pgpTitle">Публикую объект</b><div id="pgpSub" class="pgp-sub">Не закрывай страницу и не блокируй телефон</div></div>
+      </div>
+      <div class="pgp-steps">${PG_STEPS.map(s => `
+        <div class="pgp-step wait" id="pgps_${s.id}">
+          <div class="pgp-ic"><span class="pgp-emoji">${s.icon}</span></div>
+          <div class="pgp-body">
+            <div class="pgp-row"><b>${s.title}</b><span class="pgp-num" id="pgpn_${s.id}"></span></div>
+            <div class="pgp-detail" id="pgpd_${s.id}">${s.wait}</div>
+            <div class="pgp-bar"><i id="pgpb_${s.id}"></i></div>
+          </div>
+        </div>`).join('')}
+      </div>
+      <div class="pgp-foot" id="pgpFoot"></div>
+    </div>`;
+  clearInterval(pgRun.timer);
+  pgRun.timer = setInterval(pgRender, 500);
+  pgRender();
+}
+
+// state: wait | active | done | skip | error
+function pgStep(id, state, detail, pct) {
+  const s = pgRun.steps[id]; if (!s) return;
+  if (state) s.state = state;
+  if (detail != null) s.detail = detail;
+  if (pct != null) s.pct = Math.max(0, Math.min(100, pct));
+  if (state === 'done' || state === 'skip') s.pct = 100;
+  const el = document.getElementById('pgps_' + id);
+  if (!el) return;
+  el.className = 'pgp-step ' + s.state;
+  document.getElementById('pgpd_' + id).textContent = s.detail;
+  document.getElementById('pgpb_' + id).style.width = s.pct + '%';
+  document.getElementById('pgpn_' + id).textContent =
+    s.state === 'active' && s.pct > 0 ? Math.round(s.pct) + '%' : s.state === 'done' ? '✓' : '';
+  pgRender();
+}
+
+function pgRender() {
+  let sum = 0, tot = 0;
+  for (const s of PG_STEPS) {
+    const st = pgRun.steps[s.id]; if (!st) continue;
+    tot += PG_WEIGHT[s.id]; sum += PG_WEIGHT[s.id] * st.pct / 100;
+  }
+  const pct = tot ? Math.round(sum / tot * 100) : 0;
+  const ring = document.getElementById('pgpRing');
+  if (ring) ring.style.strokeDashoffset = String(176 - 176 * pct / 100);
+  const p = document.getElementById('pgpPct'); if (p) p.textContent = pct + '%';
+  const sub = document.getElementById('pgpSub');
+  const box = document.getElementById('pgProgress');
+  if (sub && box && !box.classList.contains('finished')) {
+    const sec = Math.round((performance.now() - pgRun.t0) / 1000);
+    sub.textContent = `Идёт ${sec} с · не закрывай страницу и не блокируй телефон`;
+  }
+}
+
+function pgFinish(ok, opts = {}) {
+  clearInterval(pgRun.timer);
+  const box = document.getElementById('pgProgress'); if (!box) return;
+  box.classList.add('finished', ok ? 'ok' : 'fail');
+  const sec = Math.round((performance.now() - pgRun.t0) / 1000);
+  document.getElementById('pgpTitle').textContent = ok
+    ? (pgRun.test ? 'Проверка прошла' : 'Опубликовано!')
+    : 'Публикация остановилась';
+  document.getElementById('pgpSub').textContent = ok
+    ? (pgRun.test ? `Так это будет выглядеть, ${sec} с. В Telegram ничего не ушло.` : `Все посты отправлены за ${sec} с`)
+    : 'Подробности и что делать — в окне ошибки';
+  if (ok) { const r = document.getElementById('pgpRing'); if (r) r.style.strokeDashoffset = '0'; document.getElementById('pgpPct').textContent = '✓'; }
+  const foot = document.getElementById('pgpFoot');
+  const btn = (label, cls, fn) => { const b = document.createElement('button'); b.className = cls; b.textContent = label; b.onclick = fn; foot.appendChild(b); };
+  foot.innerHTML = '';
+  if (opts.demo) btn('👀 Посмотреть три поста', 'pgp-btn main', () => { pgCloseProgress(); opts.demo(); });
+  if (opts.postLink) btn('Открыть готовый пост', 'pgp-btn main', () => window.open(opts.postLink, '_blank'));
+  if (!ok && opts.showError) btn('Что случилось?', 'pgp-btn main', opts.showError);
+  btn('Закрыть', 'pgp-btn', pgCloseProgress);
+  if (navigator.vibrate) navigator.vibrate(ok ? [20, 60, 20] : [80, 60, 80]);
+}
+
+function pgCloseProgress() {
+  clearInterval(pgRun.timer);
+  document.getElementById('pgProgress')?.remove();
+}
+
+// Понятное объяснение ошибки и советы.
+function pgExplainError(raw) {
+  const m = String(raw || '');
+  const L = m.toLowerCase();
+  const wait = (m.match(/FLOOD_WAIT_(\d+)|wait of (\d+) seconds/i) || []).slice(1).find(Boolean);
+  if (wait) return {
+    what: `Telegram временно ограничил отправку и просит подождать ${wait} с.`,
+    tips: [`Подожди ${Math.ceil(wait / 60)} мин. и опубликуй снова.`, 'Не нажимай «Опубликовать» много раз подряд.']
+  };
+  if (/failed to fetch|network|load failed|networkerror|timeout|сеть/.test(L)) return {
+    what: 'Нет связи с сервером отправки.',
+    tips: ['Проверь интернет: открой любой сайт.', 'Если интернет есть, подожди минуту и попробуй снова: сервер мог перезапускаться.', 'Через мобильный интернет большие видео грузятся долго, лучше Wi‑Fi.']
+  };
+  if (/chat_write_forbidden|chat_admin_required|admin|forbidden|not enough rights|chat_send/.test(L)) return {
+    what: 'У аккаунта публикации нет права писать в этот канал.',
+    tips: [`Добавь аккаунт постгенератора админом в ${pgEsc(SOCIAL_POST_CHAT)} (или в нужный канал) с правом «Публикация сообщений».`, 'После этого опубликуй снова.']
+  };
+  if (/cannot find any entity|username_not_occupied|username_invalid|no user has|peer_id_invalid|channel_invalid|channel_private/.test(L)) return {
+    what: 'Канал или топик не найден.',
+    tips: ['Проверь, что канал существует и аккаунт постгенератора в нём состоит.', 'Если канал переименовали, напиши администратору, чтобы поменял адрес.']
+  };
+  if (/too large|413|file_parts_invalid|entity too large|limit/.test(L)) return {
+    what: 'Файл слишком большой для отправки.',
+    tips: ['Видео должно быть меньше 500 MB. Сожми его или сними короче.', 'Фото обычно проходят; если ошибка на фото, убери самое тяжёлое.']
+  };
+  if (/media_invalid|photo_invalid|image_process_failed|photo_ext|video_content_type|file_reference|не удалось прочитать фото|heic/.test(L)) return {
+    what: 'Telegram или браузер не смог прочитать файл.',
+    tips: ['Фото нужны в JPG или PNG. Снимки HEIC с iPhone сохрани как JPG («Наиболее совместимый» формат в настройках камеры).', 'Видео лучше в MP4 или MOV.', 'Удали проблемный файл и добавь заново.']
+  };
+  if (/job not found|сервер потерял/.test(L)) return {
+    what: 'Сервер отправки перезапустился во время загрузки.',
+    tips: ['Проверь в канале, что успело опубликоваться.', 'Опубликуй снова через минуту.']
+  };
+  if (/bad response|unexpected token|json/.test(L)) return {
+    what: 'Сервер отправки ответил с ошибкой.',
+    tips: ['Подожди минуту и попробуй снова.', 'Если повторяется, сделай скриншот этого окна и отправь администратору.']
+  };
+  return {
+    what: 'Что-то пошло не так при отправке.',
+    tips: ['Попробуй опубликовать ещё раз.', 'Если повторяется, нажми «Скопировать ошибку» и отправь администратору.']
+  };
+}
+
+function pgShowError(stepId, raw, custom) {
+  const step = custom || PG_STEPS.find(s => s.id === stepId) || { title: 'Публикация' };
+  const ex = custom || pgExplainError(raw);
+  const done = PG_STEPS.filter(s => pgRun.steps[s.id]?.state === 'done' && s.id !== 'prep');
+  let sheet = document.getElementById('pgError');
+  if (!sheet) { sheet = document.createElement('div'); sheet.id = 'pgError'; document.body.appendChild(sheet); }
+  sheet.innerHTML = `
+    <div class="pge-card" role="alertdialog" aria-labelledby="pgeTitle">
+      <div class="pge-head"><span class="pge-ic">!</span><div><b id="pgeTitle">Ошибка: ${pgEsc(step.title)}</b><div class="pge-what">${ex.what}</div></div></div>
+      <div class="pge-sec"><b>Что сделать</b><ol>${ex.tips.map(t => `<li>${t}</li>`).join('')}</ol></div>
+      ${done.length ? `<div class="pge-sec pge-done"><b>Уже опубликовано</b><div>${done.map(s => '✓ ' + pgEsc(s.title)).join('<br>')}</div>
+        <div class="pge-warn">Если опубликуешь заново, эти посты появятся второй раз. Удали их в канале или опубликуй только недостающее вручную.</div></div>` : ''}
+      <details class="pge-tech"><summary>Техническая информация</summary><code>${pgEsc(raw)}</code></details>
+      <div class="pge-btns">
+        <button class="pgp-btn" id="pgeCopy">Скопировать ошибку</button>
+        <button class="pgp-btn main" id="pgeClose">Понятно</button>
+      </div>
+    </div>`;
+  requestAnimationFrame(() => sheet.classList.add('show'));
+  sheet.querySelector('#pgeClose').onclick = () => { sheet.classList.remove('show'); setTimeout(() => sheet.remove(), 250); };
+  sheet.querySelector('#pgeCopy').onclick = async (e) => {
+    const text = `Постгенератор: ошибка на этапе «${step.title}»\n${raw}\n${new Date().toLocaleString('ru-RU')}`;
+    try { await navigator.clipboard.writeText(text); e.target.textContent = 'Скопировано ✓'; } catch (_) { e.target.textContent = 'Не удалось скопировать'; }
+  };
+  if (navigator.vibrate) navigator.vibrate([80, 60, 80]);
+}
+
+// ── Транспорт: настоящий (rent-mtproto) и пробный (без сети) ───────────────
+function pgXhr(url, body, onUpload) {
+  return new Promise(resolve => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.upload.onprogress = e => { if (e.lengthComputable && onUpload) onUpload(e.loaded / e.total * 100, e.loaded, e.total); };
+    xhr.onload = () => {
+      try { resolve(JSON.parse(xhr.responseText)); }
+      catch (_) { resolve({ ok: false, description: (xhr.status === 413 ? '413 file too large: ' : 'Bad response: ') + xhr.responseText.slice(0, 200) }); }
+    };
+    xhr.onerror = () => resolve({ ok: false, description: 'Network error (Failed to fetch)' });
+    xhr.ontimeout = () => resolve({ ok: false, description: 'Network timeout' });
+    xhr.send(body);
+  });
+}
+
+const pgRealApi = {
+  async sendDocument(chatId, topicId, file, onUpload) {
+    const fd = new FormData();
+    fd.append('chatId', chatId); fd.append('topicId', topicId);
+    fd.append('file', file, file.name);
+    return pgXhr(MTPROTO_URL + '/sendDocument', fd, onUpload);
+  },
+  async sendMessage(chatId, topicId, text) {
+    try { return await gasSendMessage(chatId, text, topicId); }
+    catch (e) { return { ok: false, description: e.message }; }
+  },
+  async forward(chatId, topicId, messageId) {
+    try { return await forwardToTopic(chatId, topicId, messageId); }
+    catch (e) { return { ok: false, description: e.message }; }
+  },
+  // onUpload(pct) — загрузка с телефона на сервер; onJob(job) — сервер отправляет в Telegram.
+  async sendAlbum(chatId, topicId, photoFiles, videoFile, dims, caption, onUpload, onJob) {
+    const fd = new FormData();
+    fd.append('chatId', chatId); fd.append('topicId', topicId);
+    if (caption) fd.append('caption', caption);
+    photoFiles.forEach((f, i) => fd.append('photos[]', f, f.name || `photo_${i}.jpg`));
+    if (videoFile) {
+      fd.append('video', videoFile, videoFile.name || 'video.mp4');
+      if (dims?.width)    fd.append('width',    dims.width);
+      if (dims?.height)   fd.append('height',   dims.height);
+      if (dims?.duration) fd.append('duration', dims.duration);
+    }
+    const data = await pgXhr(MTPROTO_URL + '/sendMediaGroup', fd, onUpload);
+    if (!data.ok) return data;
+    let misses = 0;
+    while (true) {
+      await new Promise(r => setTimeout(r, JOB_POLL_MS));
+      const job = await fetch(MTPROTO_URL + '/job/' + data.jobId).then(r => r.json()).catch(() => null);
+      if (!job) { if (++misses > 30) return { ok: false, description: 'Network error while waiting for Telegram' }; continue; }
+      misses = 0;
+      if (job.ok === false && !job.status) return { ok: false, description: 'Job not found: ' + (job.description || '') };
+      if (onJob) onJob(job);
+      if (job.status === 'done')  return { ok: true, result: job.result };
+      if (job.status === 'error') return { ok: false, description: job.error };
+    }
+  }
+};
+
+// Пробный транспорт: имитирует загрузку по размеру файлов (~3 MB/с), ничего не шлёт.
+// ?demoError=orig|album|video|text|social|owner — показать окно ошибки на этом этапе.
+const PG_DEMO_ERROR = new URLSearchParams(location.search).get('demoError');
+const PG_DEMO_ERRORS = {
+  orig: 'Failed to fetch', album: 'FILE_PARTS_INVALID: 413 file too large', video: 'CHANNEL_PRIVATE',
+  text: 'Bad response: <html>502', social: 'CHAT_WRITE_FORBIDDEN', owner: 'FLOOD_WAIT_120'
+};
+function pgFakeApi() {
+  let msgId = 1000;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const upload = async (bytes, onUpload) => {
+    const ms = Math.min(4000, 400 + bytes / (3 * 1048576) * 1000);
+    for (let t = 0; t <= ms; t += 120) { onUpload && onUpload(t / ms * 100); await sleep(120); }
+    onUpload && onUpload(100);
+  };
+  const fail = step => PG_DEMO_ERROR === step ? { ok: false, description: PG_DEMO_ERRORS[step] } : null;
+  return {
+    async sendDocument(chatId, topicId, file, onUpload) { await upload(file.size, onUpload); return fail('orig') || { ok: true, result: { message_id: ++msgId } }; },
+    async sendMessage(chatId, topicId, text) {
+      await sleep(350);
+      const f = topicId === TOPIC_OWNER ? fail('owner') : fail('text');
+      return f || { ok: true, result: { message_id: ++msgId } };
+    },
+    async forward() { await sleep(500); return fail('video') || { ok: true, result: { message_id: ++msgId } }; },
+    async sendAlbum(chatId, topicId, photos, video, dims, caption, onUpload, onJob) {
+      await upload(photos.reduce((a, f) => a + f.size, 0) + (video ? video.size : 0), onUpload);
+      const n = photos.length + (video ? 1 : 0);
+      for (let i = 0; i < photos.length; i++) { onJob && onJob({ status: 'uploading', progress: Math.round(i / n * 80) }); await sleep(250); }
+      if (video) { onJob && onJob({ status: 'uploading_video', progress: 80 }); await sleep(700); }
+      onJob && onJob({ status: 'sending', progress: 95 }); await sleep(400);
+      const f = chatId === SOCIAL_POST_CHAT ? fail('social') : fail('album');
+      if (f) return f;
+      const ids = [...Array(n)].map(() => ++msgId);
+      return { ok: true, result: { message_ids: ids, message_id: ids[0] } };
+    }
+  };
+}
+
 // ── Публикация ─────────────────────────────────────────────────────────────
 async function publishPost() {
   vibrate();
   const htmlText = buildTelegramHTML();
-  if (!htmlText || htmlText.length < 10) { alert('Заполните форму перед публикацией'); return; }
-
-  const btns = ['publishBtn', 'publishBtnDesktop'];
-  const setBtns = (text, color, disabled) => btns.forEach(id => {
-    const b = document.getElementById(id);
-    if (!b) return;
-    b.textContent = text; b.disabled = disabled;
-    if (color) b.style.background = color;
-  });
-  const idle = () => setBtns(isTestMode() ? '🧪 Проверить публикацию' : '✈️ Опубликовать в канал', '#2196F3', false);
-
   const photos = media.filter(m => m.type === 'photo');
   const videoFile = media.find(m => m.type === 'video')?.file || null;
   const test = isTestMode();
-  const t0 = performance.now();
-  setBtns('⏳ Готовлю фото...', '#888', true);
 
-  // Подготовка в браузере сразу, параллельно с загрузкой оригиналов.
-  const dimsP   = videoFile ? getVideoDimensions(videoFile) : Promise.resolve(null);
-  const readyP  = Promise.all(photos.map(p => applyWatermark(p.file)));
-  const socialP = buildSocialSet(photos);
+  if (!htmlText || htmlText.length < 10) {
+    pgRun.steps = {};
+    pgShowError('prep', 'Форма пустая', { title: 'не заполнена форма', what: 'Форма почти пустая, публиковать нечего.',
+      tips: ['Выбери тип сделки, район, цену и спальни.', 'Проверь текст в «Превью».'] });
+    return;
+  }
+  if (!photos.length) {
+    pgRun.steps = {};
+    pgShowError('prep', 'Нет фото', { title: 'нет фото', what: 'Не добавлено ни одного фото.',
+      tips: ['Нажми «📷 Фото» в разделе «Медиа» и выбери фото объекта (до 9).', 'Первое фото станет главным и пойдёт на обложку.'] });
+    return;
+  }
 
-  try {
-    if (test) {
-      const [ready, social] = await Promise.all([readyP, socialP]);
-      const originals = photos.map(p => p.file);
-      const vids = videoFile ? [videoFile] : [];
-      showPublishDemo({
-        htmlText, originals, ready, social, video: videoFile,
-        prepMs: performance.now() - t0,
-        origMB: pgMB(originals), readyMB: pgMB(ready), socialMB: pgMB(social), videoMB: pgMB(vids)
+  const api = test ? pgFakeApi() : pgRealApi;
+  const btns = ['publishBtn', 'publishBtnDesktop'];
+  const lock = on => btns.forEach(id => { const b = document.getElementById(id); if (b) b.disabled = on; });
+  lock(true);
+  pgOpenProgress(test);
+
+  const ownerName = val('ownerName');
+  const ownerPhone = val('ownerPhone');
+  if (!videoFile) pgStep('video', 'skip', 'Видео нет, пропускаю');
+  if (!ownerName && !ownerPhone) pgStep('owner', 'skip', 'Собственник не указан, пропускаю');
+
+  let failed = null;
+  const fail = (step, msg) => {
+    const e = new Error(msg); e.pgStep = step;
+    if (!failed) {
+      failed = e;
+      pgStep(step, 'error', 'Ошибка — подробности в окне');
+      pgShowError(step, msg);
+    }
+    return e;
+  };
+  const mb = b => (b / 1048576).toFixed(1);
+
+  // Подготовка в браузере: логотип на фото, обложка, RENT IN TBILISI.
+  pgStep('prep', 'active', 'Ставлю логотип на фото…', 5);
+  const dimsP = videoFile ? getVideoDimensions(videoFile) : Promise.resolve(null);
+  let readyDone = 0;
+  const readyP = Promise.all(photos.map(p => applyWatermark(p.file).then(f => {
+    readyDone++; pgStep('prep', null, `Логотип: ${readyDone} из ${photos.length}`, readyDone / photos.length * 60); return f;
+  })));
+  const socialP = readyP.then(() => { pgStep('prep', null, 'Рисую обложку и RENT IN TBILISI…', 70); return buildSocialSet(photos); });
+  const prepP = Promise.all([readyP, socialP])
+    .then(r => { pgStep('prep', 'done', `${photos.length} фото с логотипом, обложка и ${r[1].length - 1} фото для соцсетей`); return r; })
+    .catch(e => { throw fail('prep', e.message); });
+
+  const dims = await dimsP;
+  const chanId = CHANNEL_ID.replace('-100', '');
+
+  // Пост 2: готовый пост.
+  const albumP = (async () => {
+    const [ready] = await prepP;
+    pgStep('album', 'active', 'Загружаю с телефона…', 1);
+    const total = ready.reduce((a, f) => a + f.size, 0) + (videoFile ? videoFile.size : 0);
+    const r = await api.sendAlbum(CHANNEL_ID, TOPIC_ALBUM, ready, videoFile, dims, htmlText.substring(0, 1024),
+      pct => pgStep('album', null, `Загружаю с телефона: ${mb(total * pct / 100)} из ${mb(total)} MB`, pct * 0.6),
+      job => {
+        const p = job.progress || 0;
+        if (job.status === 'uploading') pgStep('album', null, 'Сервер передаёт фото в Telegram…', 60 + p * 0.35);
+        else if (job.status === 'uploading_video') pgStep('album', null, 'Сервер передаёт видео в Telegram…', 88);
+        else if (job.status === 'sending') pgStep('album', null, 'Публикую альбом в канале…', 96);
       });
-      idle();
-      return;
+    if (!r.ok) throw fail('album', r.description);
+    pgStep('album', 'done', `Опубликован: ${ready.length} фото${videoFile ? ' + видео' : ''}`);
+    return r.result;
+  })();
+
+  // Пост 1: оригиналы по порядку, затем видео (пересылка) и текст.
+  const originalsP = (async () => {
+    pgStep('orig', 'active', `Фото 1 из ${photos.length}`, 1);
+    for (let i = 0; i < photos.length; i++) {
+      const f = photos[i].file;
+      const d = await api.sendDocument(CHANNEL_ID, TOPIC_ORIGINALS, f,
+        pct => pgStep('orig', null, `Фото ${i + 1} из ${photos.length} · ${mb(f.size * pct / 100)} из ${mb(f.size)} MB`, (i + pct / 100) / photos.length * 100));
+      if (!d.ok) throw fail('orig', d.description);
+    }
+    pgStep('orig', 'done', `${photos.length} фото без сжатия`);
+
+    if (videoFile) {
+      pgStep('video', 'active', 'Жду готовый пост, чтобы переслать видео…', 10);
+      const album = await albumP;
+      const ids = album?.message_ids || [];
+      const videoMsgId = ids.length ? Math.max(...ids) : 0; // видео в альбоме последнее
+      pgStep('video', null, 'Пересылаю видео из готового поста…', 50);
+      const fw = videoMsgId ? await api.forward(CHANNEL_ID, TOPIC_ORIGINALS, videoMsgId) : { ok: false };
+      if (!fw.ok) {
+        pgStep('video', null, 'Пересылка не прошла, загружаю видео отдельно…', 55);
+        const up = await api.sendAlbum(CHANNEL_ID, TOPIC_ORIGINALS, [], videoFile, dims, '',
+          pct => pgStep('video', null, `Загружаю видео: ${Math.round(pct)}%`, 55 + pct * 0.4));
+        if (!up.ok) throw fail('video', up.description || fw.description);
+      }
+      pgStep('video', 'done', 'Видео в оригиналах');
     }
 
-    const dims = await dimsP;
-    const chanId = CHANNEL_ID.replace('-100', '');
-    let sentOriginals = 0, albumPct = 0;
-    const progress = () => setBtns(`⏳ Оригиналы ${sentOriginals}/${photos.length} · пост ${albumPct}%`, '#888', true);
-    progress();
+    pgStep('text', 'active', 'Отправляю текст…', 40);
+    const t = await api.sendMessage(CHANNEL_ID, TOPIC_ORIGINALS, htmlText);
+    if (!t.ok) throw fail('text', t.description);
+    pgStep('text', 'done', 'Текст опубликован');
+    return t.result?.message_id || 0;
+  })();
 
-    // Пост 2: готовый пост (фото с логотипом + видео без знака).
-    const albumP = (async () => {
-      if (!photos.length && !videoFile) return null;
-      const ready = await readyP;
-      const r = await sendAlbum(CHANNEL_ID, TOPIC_ALBUM, ready, videoFile, dims, htmlText.substring(0, 1024),
-        job => { albumPct = job.progress || albumPct; progress(); });
-      if (!r.ok) throw new Error('Готовый пост: ' + r.description);
-      albumPct = 100; progress();
-      return r.result;
-    })();
+  // Пост 3: соцсети — после готового поста, чтобы не делить с ним интернет.
+  const socialSendP = (async () => {
+    await albumP;
+    const [, social] = await prepP;
+    pgStep('social', 'active', `Загружаю в ${SOCIAL_POST_CHAT}…`, 1);
+    const total = social.reduce((a, f) => a + f.size, 0);
+    const r = await api.sendAlbum(SOCIAL_POST_CHAT, SOCIAL_POST_TOPIC_ID || '', social, null, null, '',
+      pct => pgStep('social', null, `Загружаю: ${mb(total * pct / 100)} из ${mb(total)} MB`, pct * 0.6),
+      job => pgStep('social', null, job.status === 'sending' ? 'Публикую в канале…' : 'Сервер передаёт фото в Telegram…', 60 + (job.progress || 0) * 0.38));
+    if (!r.ok) throw fail('social', r.description);
+    pgStep('social', 'done', `Обложка и ${social.length - 1} фото в ${SOCIAL_POST_CHAT}`);
+  })();
 
-    // Пост 1: оригиналы по одному (так сохраняется порядок), потом видео и текст.
-    const originalsP = (async () => {
-      for (let i = 0; i < photos.length; i++) {
-        const d = await gasSendDocument(CHANNEL_ID, photos[i].file, TOPIC_ORIGINALS);
-        if (!d.ok) throw new Error('Оригинал фото ' + (i + 1) + ': ' + d.description);
-        sentOriginals++; progress();
-      }
-      if (videoFile) {
-        const album = await albumP;
-        const ids = album?.message_ids || [];
-        const videoMsgId = ids.length ? Math.max(...ids) : 0; // видео в альбоме последнее
-        const fw = videoMsgId ? await forwardToTopic(CHANNEL_ID, TOPIC_ORIGINALS, videoMsgId) : { ok: false };
-        if (!fw.ok) {
-          const up = await sendAlbum(CHANNEL_ID, TOPIC_ORIGINALS, [], videoFile, dims, '');
-          if (!up.ok) throw new Error('Оригинал видео: ' + up.description);
-        }
-      }
-      const t = await gasSendMessage(CHANNEL_ID, htmlText, TOPIC_ORIGINALS);
-      if (!t.ok) throw new Error('Текст: ' + t.description);
-      return t.result?.message_id || 0;
-    })();
+  const all = [prepP, albumP, originalsP, socialSendP];
+  all.forEach(p => p.catch(() => {}));
 
-    // Пост 3: соцсети — после готового поста, чтобы не мешать его загрузке.
-    const socialSendP = (async () => {
-      await albumP;
-      const social = await socialP;
-      if (!social.length) return;
-      const r = await sendAlbum(SOCIAL_POST_CHAT, SOCIAL_POST_TOPIC_ID || '', social, null, null, '');
-      if (!r.ok) throw new Error('Пост для соцсетей: ' + r.description);
-    })();
-
+  let postLink = '';
+  try {
     const [album, origMsgId] = await Promise.all([albumP, originalsP]);
     const albumMsgId = album?.message_id || album?.message_ids?.[0] || 0;
-    const postLink = albumMsgId ? `https://t.me/c/${chanId}/${TOPIC_ALBUM}/${albumMsgId}` : '';
+    postLink = albumMsgId ? `https://t.me/c/${chanId}/${TOPIC_ALBUM}/${albumMsgId}` : '';
     const origLink = origMsgId ? `https://t.me/c/${chanId}/${TOPIC_ORIGINALS}/${origMsgId}` : '';
 
-    // Owner Information → топик 22
-    const ownerName = val('ownerName');
-    const ownerPhone = val('ownerPhone');
-    const address = val('addressInput');
     if (ownerName || ownerPhone) {
-      setBtns('⏳ Owner Info...', '#888', true);
+      pgStep('owner', 'active', 'Отправляю данные собственника…', 40);
       const today = new Date();
       const dateStr = String(today.getDate()).padStart(2,'0') + '.' + String(today.getMonth()+1).padStart(2,'0') + '.' + today.getFullYear();
       const agentTag = document.querySelector('.tag.selected[data-group="agent"]')?.dataset?.val || '';
       const ownerText = `Объект внесен: ✅
 Ссылка на оригиналы фото в advertising: ${origLink}
-Адрес: ${address}
+Адрес: ${val('addressInput')}
 Телефон собственника:
 ${ownerPhone}
 Имя собственника: ${ownerName}
 Дата внесения: ${dateStr}
 Агент: ${agentTag}
 <a href="${postLink}">Ссылка на готовый пост</a>`;
-      await gasSendMessage(CHANNEL_ID, ownerText, TOPIC_OWNER);
+      const o = await api.sendMessage(CHANNEL_ID, TOPIC_OWNER, ownerText);
+      if (!o.ok) throw fail('owner', o.description);
+      pgStep('owner', 'done', 'Owner Info отправлен');
     }
-
-    setBtns('⏳ Пост для соцсетей...', '#888', true);
     await socialSendP;
-    setBtns(`✅ Опубликовано за ${Math.round((performance.now() - t0) / 1000)} с`, 'var(--green)', false);
-    setTimeout(idle, 4000);
   } catch (e) {
-    alert('Ошибка: ' + e.message);
-    idle();
+    if (!failed) fail(e.pgStep || 'prep', e.message);
+  }
+
+  await Promise.allSettled(all);
+  lock(false);
+  if (failed) {
+    pgFinish(false, { showError: () => pgShowError(failed.pgStep, failed.message) });
+    return;
+  }
+  if (test) {
+    const [ready, social] = await prepP;
+    const originals = photos.map(p => p.file);
+    const vids = videoFile ? [videoFile] : [];
+    pgFinish(true, {
+      demo: () => showPublishDemo({
+        htmlText, originals, ready, social, video: videoFile,
+        prepMs: performance.now() - pgRun.t0,
+        origMB: pgMB(originals), readyMB: pgMB(ready), socialMB: pgMB(social), videoMB: pgMB(vids)
+      })
+    });
+  } else {
+    pgFinish(true, { postLink });
   }
 }
 
