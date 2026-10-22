@@ -18,6 +18,27 @@ const allServices = () => Object.values(GROUPS).flatMap(g => g.services);
 const FINDER = ['rent', 'sale', 'daily', 'commercial', 'car-rent'];
 const BEDS = ['0', '1', '2', '3', '4'];
 
+// Look of the home search; #/?finder=light|photo|phrase previews the others.
+const FINDER_STYLE = 'dark';
+const finderStyle = () => new URLSearchParams(location.hash.split('?')[1] || '').get('finder') || FINDER_STYLE;
+
+/** "I want to [rent] · district [any] · budget up to [any]" — the phrase-style search. */
+function phraseBody(data, service) {
+  const pool = itemsFor(data, service);
+  const districts = countBy(pool, 'district').slice(0, 16);
+  const steps = budgets(pool);
+  const period = pool.find(x => x.period)?.period;
+  const sel = (name, opts) => `<span class="fd-pick"><select name="${name}">${opts}</select>${icon('down')}</span>`;
+  return `
+    <p class="fd-phrase">
+      <span>${t('home.finder.want')}</span>
+      ${sel('svc', FINDER.filter(s => SERVICES[s].live).map(s => `<option value="${s}"${s === service ? ' selected' : ''}>${t('home.finder.want.' + s)}</option>`).join(''))}
+      ${districts.length ? `<span>${t('home.finder.in')}</span>${sel('district', `<option value="">${t('home.finder.any')}</option>${districts.map(([d]) => `<option value="${esc(d)}">${esc(d)}</option>`).join('')}`)}` : ''}
+      ${steps.length ? `<span>${t('home.finder.upto')}</span>${sel('max', `<option value="">${t('home.finder.any')}</option>${steps.map(v => `<option value="${v}">${compactMoney(v)}${period ? ' ' + t('period.' + period) : ''}</option>`).join('')}`)}` : ''}
+    </p>
+    <button class="btn fd-go" type="submit">${icon('search')}<span class="fd-go-label"></span>${icon('arrow')}</button>`;
+}
+
 /** The home search: direction tabs, free text, district, budget, bedrooms, and a live result count. */
 function finderBody(data, service) {
   const pool = itemsFor(data, service);
@@ -26,7 +47,6 @@ function finderBody(data, service) {
   const steps = budgets(pool);
   const period = pool.find(x => x.period)?.period;
   const rooms = !isCar && service !== 'commercial' && pool.some(x => x.rooms != null);
-  const nocom = !isCar && pool.some(x => x.no_commission);
   const pets = service === 'rent' && pool.some(x => x.pets);
   return `
     <label class="fd-search">${icon('search')}<input name="q" type="search" autocomplete="off" placeholder="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}" aria-label="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}"></label>
@@ -35,8 +55,7 @@ function finderBody(data, service) {
       ${steps.length ? `<label class="fd-field"><span>${t('home.budget')}</span><span class="fd-sel"><select name="max"><option value="">${t('home.budget.any')}</option>${steps.map(v => `<option value="${v}">${compactMoney(v)}${period ? ' ' + t('period.' + period) : ''}</option>`).join('')}</select>${icon('down')}</span></label>` : ''}
       ${rooms ? `<div class="fd-field fd-beds" role="group" aria-label="${esc(t('f.beds'))}"><span>${t('f.beds')}</span><div class="fd-seg">${BEDS.map(b => `<button type="button" data-bed="${b}" aria-pressed="false">${b === '0' ? t('f.studio') : b === '4' ? '4+' : b}</button>`).join('')}</div></div>` : ''}
     </div>
-    ${nocom || pets ? `<div class="fd-chips">
-      ${nocom ? `<button type="button" class="fd-chip" data-flag="nocom" aria-pressed="false">${icon('percent')}${t('f.commission')}</button>` : ''}
+    ${pets ? `<div class="fd-chips">
       ${pets ? `<button type="button" class="fd-chip" data-flag="pets" aria-pressed="false">${icon('heart')}${t('f.pets')}</button>` : ''}
     </div>` : ''}
     <button class="btn fd-go" type="submit">${icon('search')}<span class="fd-go-label"></span>${icon('arrow')}</button>`;
@@ -70,10 +89,10 @@ function gateTile(g, i, data) {
 export function renderHome(root, data) {
   const live = data.items.length;
   const districts = countBy(data.items, 'district');
-  const nocom = Math.round((data.items.filter(x => x.no_commission).length / Math.max(1, live)) * 100);
   const fresh = s => itemsFor(data, s).slice().sort((a, b) => b._ts - a._ts).filter(x => x.photos?.length).slice(0, 12);
   const recent = recentIds().map(id => data.byId.get(id)).filter(Boolean);
   const districtPhoto = d => data.items.find(x => x.district === d && x.photos?.length)?.photos[0];
+  const heroPhoto = (fresh('rent')[3] || fresh('rent')[0])?.photos[0];
   const firstLive = allServices().find(s => SERVICES[s].live) || 'rent';
 
   root.innerHTML = `
@@ -88,10 +107,10 @@ export function renderHome(root, data) {
 
 <section class="section finder-section">
   <div class="container">
-    <form class="finder" id="finder" novalidate>
+    <form class="finder v-${finderStyle()}" id="finder" novalidate style="--fd-photo:url('${esc(heroPhoto ? new URL(heroPhoto, location.href).href : '')}')">
       <div class="fd-head">
         <h2>${t('home.finder.title')}</h2>
-        <p class="fd-facts"><span class="live-dot"></span><b>${num(live)}</b> ${t('home.stat.live')}<span class="fd-hourly"><i></i>${t('home.finder.hourly')}</span><i></i><b>${nocom}%</b> ${t('home.stat.commission')}</p>
+        <p class="fd-facts"><span class="live-dot"></span><b>${num(live)}</b> ${t('home.stat.live')}<i></i>${t('home.finder.hourly')}</p>
       </div>
       <div class="fd-tabs" role="tablist">${FINDER.filter(s => SERVICES[s].live).map((s, i) => `<button type="button" role="tab" data-svc="${s}" aria-selected="${i === 0}">${icon(serviceIcon(s))}<span>${s === 'car-rent' ? t('nav.auto') : t('svc.' + s + '.short')}</span></button>`).join('')}</div>
       <div class="fd-body"></div>
@@ -148,6 +167,17 @@ ${allServices().filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home
     state.flags.forEach(k => q.set(k, '1'));
     return q;
   }
+  // Phrase selects hug their chosen text instead of the longest option.
+  function fitPicks() {
+    form.querySelectorAll('.fd-pick select').forEach(sel => {
+      const probe = document.createElement('span');
+      probe.className = 'fd-probe';
+      probe.textContent = sel.options[sel.selectedIndex]?.text || '';
+      sel.parentElement.append(probe);
+      sel.style.width = probe.offsetWidth + 40 + 'px';
+      probe.remove();
+    });
+  }
   function recount() {
     const n = applyFilters(itemsFor(data, service), parseFilters(params())).length;
     const go = form.querySelector('.fd-go');
@@ -156,7 +186,8 @@ ${allServices().filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home
   }
   function mount() {
     state = { q: '', district: '', max: '', beds: [], flags: [] };
-    body.innerHTML = finderBody(data, service);
+    body.innerHTML = (finderStyle() === 'phrase' ? phraseBody : finderBody)(data, service);
+    fitPicks();
     form.querySelectorAll('[data-svc]').forEach(b => b.setAttribute('aria-selected', b.dataset.svc === service));
     recount();
   }
@@ -175,7 +206,8 @@ ${allServices().filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home
     recount();
   });
   form.addEventListener('input', e => {
-    if (e.target.name in state) { state[e.target.name] = e.target.value; recount(); }
+    if (e.target.name === 'svc') { service = e.target.value; mount(); return; }
+    if (e.target.name in state) { state[e.target.name] = e.target.value; fitPicks(); recount(); }
   });
   form.addEventListener('submit', e => {
     e.preventDefault();
