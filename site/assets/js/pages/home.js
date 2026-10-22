@@ -74,6 +74,9 @@ const GATES = [
 // Look of the section tiles; #/?gate=tiles|bento|panels|list previews the others.
 const GATE_STYLE = 'cards';
 const gateStyle = () => new URLSearchParams(location.hash.split('?')[1] || '').get('gate') || GATE_STYLE;
+// Backdrop behind the glass cards; #/?bg=deep|city|grid|photos previews the others.
+const BG_STYLE = 'aurora';
+const bgStyle = () => new URLSearchParams(location.hash.split('?')[1] || '').get('bg') || BG_STYLE;
 
 function gateTile(g, i, data) {
   const live = g.services.filter(s => SERVICES[s].live);
@@ -110,8 +113,11 @@ export function renderHome(root, data) {
   const firstLive = allServices().find(s => SERVICES[s].live) || 'rent';
 
   root.innerHTML = `
-<section class="gate v-${gateStyle()}">
-  ${gateStyle() === 'cards' ? `<div class="gate-bg" aria-hidden="true">${bgPhotos.map(src => `<img src="${esc(src)}" alt="" loading="lazy">`).join('')}</div>` : ''}
+<section class="gate v-${gateStyle()}${gateStyle() === 'cards' ? ' on-' + bgStyle() : ''}">
+  ${gateStyle() === 'cards' ? `<div class="gate-bg bg-${bgStyle()}" aria-hidden="true">${
+    bgStyle() === 'photos' ? bgPhotos.map(src => `<img src="${esc(src)}" alt="" loading="lazy">`).join('')
+    : bgStyle() === 'city' ? (heroPhoto ? `<img src="${esc(heroPhoto)}" alt="">` : '')
+    : '<i></i><i></i><i></i><i></i>'}</div>` : ''}
   <div class="container">
     <h1 class="gate-title">${t('home.gate.title')}</h1>
     ${gateStyle() === 'cards' ? Object.entries(GROUPS).map(([grp, gr]) => `
