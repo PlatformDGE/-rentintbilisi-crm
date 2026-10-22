@@ -18,8 +18,8 @@ const allServices = () => Object.values(GROUPS).flatMap(g => g.services);
 const FINDER = ['rent', 'sale', 'daily', 'commercial', 'car-rent'];
 const BEDS = ['0', '1', '2', '3', '4'];
 
-// Look of the home search; #/?finder=light|photo|phrase previews the others.
-const FINDER_STYLE = 'dark';
+// Look of the home search; #/?finder=dark|photo|phrase previews the others.
+const FINDER_STYLE = 'light';
 const finderStyle = () => new URLSearchParams(location.hash.split('?')[1] || '').get('finder') || FINDER_STYLE;
 
 /** "I want to [rent] · district [any] · budget up to [any]" — the phrase-style search. */
