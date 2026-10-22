@@ -71,17 +71,28 @@ const GATES = [
   { id: 'cars', services: ['car-rent', 'car-sale'], icon: 'car' },
 ];
 
+// Look of the section tiles; #/?gate=bento|panels|list previews the others.
+const GATE_STYLE = 'tiles';
+const gateStyle = () => new URLSearchParams(location.hash.split('?')[1] || '').get('gate') || GATE_STYLE;
+
 function gateTile(g, i, data) {
   const live = g.services.filter(s => SERVICES[s].live);
   const target = live[0] || g.services[0];
   const count = g.services.reduce((n, s) => n + (data.counts?.[s] || 0), 0);
   const photo = live.flatMap(s => itemsFor(data, s)).filter(x => x.photos?.length).sort((a, b) => b._ts - a._ts)[0]?.photos[0];
+  // Sales hook: the entry price and how many offers arrived this week.
+  const pool = live.length ? itemsFor(data, target) : [];
+  const min = Math.min(...pool.map(x => x.price_usd).filter(Boolean));
+  const period = pool.find(x => x.period)?.period;
+  const week = live.flatMap(s => itemsFor(data, s)).filter(x => Date.now() - x._ts < 7 * 864e5).length;
+  const hook = [Number.isFinite(min) ? t('home.gate.from', compactMoney(min) + (period ? ' ' + t('period.' + period) : '')) : '',
+    week ? `<span class="gate-new">${t('home.gate.week', week)}</span>` : ''].filter(Boolean).join('');
   const name = g.id === 'cars' ? t('nav.auto') : t('svc.' + g.id + '.short');
   const desc = g.id === 'cars' ? t('group.auto.desc') : t('svc.' + g.id + '.desc');
   return `<a role="listitem" class="gate-tile${photo ? '' : ' no-photo'}${live.length ? '' : ' soon'}" href="#/${target}" style="--d:${i * 60}ms">
     ${photo ? `<img src="${esc(photo)}" alt="" ${i < 2 ? 'fetchpriority="high"' : 'loading="lazy"'}>` : ''}
     <span class="gate-ico">${icon(g.icon || serviceIcon(g.id))}</span>
-    <span class="gate-text"><b>${esc(name)}</b><small>${esc(desc)}</small></span>
+    <span class="gate-text"><b>${esc(name)}</b>${hook ? `<span class="gate-hook">${hook}</span>` : ''}<small>${esc(desc)}</small></span>
     <span class="gate-meta"><em>${live.length ? t('cat.count', count) : t('svc.soon')}</em>${icon('arrow')}</span>
   </a>`;
 }
@@ -96,7 +107,7 @@ export function renderHome(root, data) {
   const firstLive = allServices().find(s => SERVICES[s].live) || 'rent';
 
   root.innerHTML = `
-<section class="gate">
+<section class="gate v-${gateStyle()}">
   <div class="container">
     <h1 class="gate-title">${t('home.gate.title')}</h1>
     <div class="gate-grid" role="list">
