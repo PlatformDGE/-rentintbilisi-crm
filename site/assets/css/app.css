@@ -1360,3 +1360,9 @@ html[lang='ka'] .mlayers h3 { text-transform: none; letter-spacing: 0; }
 .bg-grid i:nth-child(1) { width: 40vw; height: 40vw; max-width: 520px; max-height: 520px; left: -12%; top: -14%; background: radial-gradient(circle, #6FA3FF, transparent 65%); }
 .bg-grid i:nth-child(2) { width: 36vw; height: 36vw; max-width: 480px; max-height: 480px; right: -10%; bottom: -10%; background: radial-gradient(circle, #5B8DEF, transparent 65%); }
 .bg-grid i:nth-child(n+3) { display: none; }
+
+/* long section names (KA) made the tabs crowd the heading: heading on its own line, tabs below */
+@media (min-width: 1000px) {
+  .finder .fd-head { grid-column: 1 / -1; }
+  .finder .fd-tabs { grid-column: 1 / -1; grid-row: auto; justify-self: start; }
+}
