@@ -1360,3 +1360,13 @@ html[lang='ka'] .mlayers h3 { text-transform: none; letter-spacing: 0; }
 .bg-grid i:nth-child(1) { width: 40vw; height: 40vw; max-width: 520px; max-height: 520px; left: -12%; top: -14%; background: radial-gradient(circle, #6FA3FF, transparent 65%); }
 .bg-grid i:nth-child(2) { width: 36vw; height: 36vw; max-width: 480px; max-height: 480px; right: -10%; bottom: -10%; background: radial-gradient(circle, #5B8DEF, transparent 65%); }
 .bg-grid i:nth-child(n+3) { display: none; }
+
+/* phone: long names (KA) wrap to 2-3 lines — card grows and keeps room for the count pill, nothing overlaps */
+@media (max-width: 759px) {
+  .v-cards .gate-tile { min-height: 200px; padding-bottom: 58px; }
+  .v-cards .gate-ico { width: 40px; height: 40px; border-radius: 13px; }
+  .v-cards .gate-text b { line-height: 1.15; overflow-wrap: anywhere; }
+  :lang(ka) .v-cards .gate-text b { font-size: 15.5px; }
+  .v-cards .gate-tile img, .v-cards .gate-tile.no-photo::before { height: 46%; }
+  .v-cards .gate-group:first-of-type .gate-tile:first-child img { height: 62%; }
+}
