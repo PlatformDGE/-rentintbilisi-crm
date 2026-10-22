@@ -3439,7 +3439,7 @@ loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus').then(() => ini
 // Три поста + Owner Info:
 //   1. Оригиналы → топик TOPIC_ORIGINALS: фото файлами (без сжатия), видео, текст.
 //   2. Готовый пост → топик TOPIC_ALBUM: фото с логотипом, видео без знака, подпись.
-//   3. Соцсети (для каждого объекта) → канал SOCIAL_POST_CHAT: обложка 1080×1080 + фото
+//   3. Соцсети (для каждого объекта) → оператору (SOCIAL_POST_CHAT/SOCIAL_POST_TOPIC_ID): обложка 1080×1080 + фото
 //      с надписью RENT IN TBILISI и флагом (дизайн генератора обложек).
 // Быстрее, чем раньше:
 //   - все картинки готовятся в браузере параллельно, пока идёт загрузка;
@@ -3453,10 +3453,11 @@ loadSheetNames(GID_RECRUITS, 'recruitTags', 'recruitsLoadStatus').then(() => ini
 const MTPROTO_URL = 'https://rent-mtproto-production.up.railway.app';
 const JOB_POLL_MS = 1000;
 const SOCIAL_MAX_SIDE = 2560;
-// Пост 3 (соцсети) уходит в отдельный канал. Аккаунт rent-mtproto должен быть
-// в нём админом с правом публикации. Топика нет, поэтому SOCIAL_POST_TOPIC_ID = null.
+// Пост 3: обложка и фото с RENT IN TBILISI уходят лично оператору, который
+// вручную выкладывает объявление в соцсети.
 const SOCIAL_POST_CHAT = '@rentintbilisi_listings';
 const SOCIAL_POST_TOPIC_ID = null;
+const SOCIAL_POST_PLACE = `личку оператора ${SOCIAL_POST_CHAT}`;
 
 function isTestMode() {
   const t = document.getElementById('testModeToggle');
@@ -3685,7 +3686,7 @@ function showPublishDemo(p) {
         `${p.originals.length} фото файлами без сжатия${p.video ? ', видео' : ''}, затем текст объявления. ${p.video ? 'Видео сюда пересылается из готового поста, второй раз не загружается.' : ''}`)}
       ${card(2, 'Готовый пост', `Advertising · топик ${TOPIC_ALBUM}`, thumbs(p.ready, p.video),
         `Логотип только на фото, видео без знака. Подпись: «${caption}…»`)}
-      ${card(3, 'Соцсети: обложка + фото', `Канал ${SOCIAL_POST_CHAT}`, thumbs(p.social, null),
+      ${card(3, 'Оператору соцсетей: обложка + фото', `Лично оператору ${SOCIAL_POST_CHAT}`, thumbs(p.social, null),
         'Обложка 1080×1080 и фото с RENT IN TBILISI и флагом (дизайн генератора обложек).')}
       ${card(4, 'Owner Info', `Advertising · топик ${TOPIC_OWNER}`, '',
         'Адрес, телефон и имя собственника, агент, ссылки на оригиналы и на готовый пост.')}
@@ -3704,7 +3705,7 @@ const PG_STEPS = [
   { id: 'album',  icon: '📸', title: 'Готовый пост',             wait: 'Фото с логотипом и видео' },
   { id: 'video',  icon: '🎬', title: 'Видео в оригиналы',        wait: 'Перешлю из готового поста' },
   { id: 'text',   icon: '📝', title: 'Текст объявления',         wait: 'В топик оригиналов' },
-  { id: 'social', icon: '✨', title: 'Пост для соцсетей',        wait: 'Обложка и фото' },
+  { id: 'social', icon: '✨', title: 'Фото для оператора соцсетей', wait: 'Обложка и фото с RENT IN TBILISI' },
   { id: 'owner',  icon: '👤', title: 'Owner Info',               wait: 'Данные собственника' }
 ];
 const PG_WEIGHT = { prep: 1, orig: 3, album: 4, video: 1, text: 0.5, social: 2, owner: 0.5 };
@@ -3820,9 +3821,9 @@ function pgExplainError(raw) {
     what: 'Нет связи с сервером отправки.',
     tips: ['Проверь интернет: открой любой сайт.', 'Если интернет есть, подожди минуту и попробуй снова: сервер мог перезапускаться.', 'Через мобильный интернет большие видео грузятся долго, лучше Wi‑Fi.']
   };
-  if (/chat_write_forbidden|chat_admin_required|admin|forbidden|not enough rights|chat_send/.test(L)) return {
+  if (/chat_write_forbidden|chat_admin_required|admin|forbidden|not enough rights|chat_send|privacy|user_is_blocked|you_blocked/.test(L)) return {
     what: 'У аккаунта публикации нет права писать в этот канал.',
-    tips: [`Добавь аккаунт постгенератора админом в ${pgEsc(SOCIAL_POST_CHAT)} (или в нужный канал) с правом «Публикация сообщений».`, 'После этого опубликуй снова.']
+    tips: ['Если ошибка на фото для оператора: оператор мог закрыть личку от незнакомых. Пусть он напишет аккаунту постгенератора первым или добавит его в контакты.', 'Если ошибка в Advertising: аккаунт постгенератора должен быть админом с правом «Публикация сообщений».', 'После этого опубликуй снова.']
   };
   if (/cannot find any entity|username_not_occupied|username_invalid|no user has|peer_id_invalid|channel_invalid|channel_private/.test(L)) return {
     what: 'Канал или топик не найден.',
@@ -4089,13 +4090,13 @@ async function publishPost() {
   const socialSendP = (async () => {
     await albumP;
     const [, social] = await prepP;
-    pgStep('social', 'active', `Загружаю в ${SOCIAL_POST_CHAT}…`, 1);
+    pgStep('social', 'active', `Отправляю в ${SOCIAL_POST_PLACE}…`, 1);
     const total = social.reduce((a, f) => a + f.size, 0);
     const r = await api.sendAlbum(SOCIAL_POST_CHAT, SOCIAL_POST_TOPIC_ID || '', social, null, null, '',
       pct => pgStep('social', null, `Загружаю: ${mb(total * pct / 100)} из ${mb(total)} MB`, pct * 0.6),
       job => pgStep('social', null, job.status === 'sending' ? 'Публикую в канале…' : 'Сервер передаёт фото в Telegram…', 60 + (job.progress || 0) * 0.38));
     if (!r.ok) throw fail('social', r.description);
-    pgStep('social', 'done', `Обложка и ${social.length - 1} фото в ${SOCIAL_POST_CHAT}`);
+    pgStep('social', 'done', `Обложка и ${social.length - 1} фото отправлены ${SOCIAL_POST_CHAT}`);
   })();
 
   const all = [prepP, albumP, originalsP, socialSendP];
