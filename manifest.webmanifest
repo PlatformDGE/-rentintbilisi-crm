@@ -9,7 +9,7 @@
   "theme_color": "#081225",
   "orientation": "portrait",
   "icons": [
-    {"src":"Logo_rent.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"Logo_rent.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {"src":"homes-in-georgia-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"homes-in-georgia-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }

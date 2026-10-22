@@ -1,6 +1,6 @@
 // Bump whenever the single-page CRM shell changes so returning users do not
 // remain on an older cached team/rating layout.
-const CACHE_NAME = 'rit-crm-v9';
+const CACHE_NAME = 'rit-crm-v10';
 
 const STATIC_FILES = [
   './',
