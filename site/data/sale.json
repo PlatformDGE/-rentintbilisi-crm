@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-10-23T20:45:27+04:00",
+  "updated_at": "2026-10-24T00:14:43+04:00",
   "items": [
     {
       "id": "74249",
@@ -5513,38 +5513,6 @@
         "media/sale/71985-9.jpg"
       ],
       "image": "media/sale/71985-1.jpg"
-    },
-    {
-      "id": "71975",
-      "title": "41 Zhiuli Shartava St",
-      "property_type": "commercial",
-      "price": 191,
-      "area": 91,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": null,
-      "floor": "2/11",
-      "source_text": "#Saburtalo 🚇 #TCUniversity\n📍41 Zhiuli Shartava St\n\n❗️#Exclusive\n\n🏢 #Commercial for #Sale\n✨ #NewBuilding | #White | #WhiteFrame\n🏠 91.20 Sq.m | 2/11Floor\n\n✅ #Elevator\n\n💰191.600$\n0% Commission\n#Price180000to210000\n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #David\n🌟 Check all listings | Reviews\n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/71975",
-      "published_at": "2026-10-02T17:41:01+04:00",
-      "map_url": "",
-      "location": "Nino Qardava Stomatological Clinic, 41, ჟიული შარტავას ქუჩა, საბურთალო, კოსტავა, ბახტრიონი, დოლიძე, ხილიანი, საბურთალოს რაიონი, თბილისი, 0160, საქართველო",
-      "lat": 41.730278,
-      "lon": 44.7709255,
-      "photos": [
-        "media/sale/71975-1.jpg",
-        "media/sale/71975-2.jpg",
-        "media/sale/71975-3.jpg",
-        "media/sale/71975-4.jpg",
-        "media/sale/71975-5.jpg",
-        "media/sale/71975-6.jpg",
-        "media/sale/71975-7.jpg",
-        "media/sale/71975-8.jpg",
-        "media/sale/71975-9.jpg"
-      ],
-      "image": "media/sale/71975-1.jpg"
     },
     {
       "id": "71955",
