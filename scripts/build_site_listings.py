@@ -616,6 +616,17 @@ def write_share_pages(items):
     return len(wanted)
 
 
+def attach_registry_ids(items):
+    """Shared object ID (HIG-0001) from build_object_registry.py, so the site and the CRM name objects alike."""
+    try:
+        posts = json.loads((DATA / "registry.json").read_text(encoding="utf-8")).get("posts", {})
+    except (OSError, ValueError):
+        return
+    for item in items:
+        if item["id"] in posts:
+            item["hig_id"] = posts[item["id"]]
+
+
 def main():
     sources = {}
     for source in SOURCES:
@@ -636,6 +647,7 @@ def main():
             pass
     fx = fetch_nbg_rates(previous)
     payload = build(sources, fx=fx)
+    attach_registry_ids(payload["items"])
     out.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     write_share_pages(payload["items"])
     print("listings:", payload["counts"], "| rates:", fx["source"], fx["date"], fx["rates"])
