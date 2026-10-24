@@ -1777,7 +1777,7 @@ div:has(>.stats-tab){background:transparent!important;border-radius:0!important;
         </div>
         <div class="molecule-card"><h3>Распределение комиссии</h3><div class="molecule-dist" id="molecule-dist"></div><div class="molecule-total"><span>Итого</span><span id="molecule-total">100%</span></div></div>
         <div class="molecule-note" id="molecule-note"></div>
-        <div class="molecule-card"><h3>Данные сделки</h3><div class="field"><label class="fl">Ссылка на объект</label><input id="mol-link" type="url" placeholder="https://t.me/..." oninput="moleculeSync()"></div><div class="field"><label class="fl">Кадастровый номер</label><input id="mol-cadastral" placeholder="01.10..." oninput="moleculeSync()"></div><div class="field"><label class="fl">Комментарий</label><input id="mol-comment" placeholder="Что важно зафиксировать" oninput="moleculeSync()"></div></div>
+        <div class="molecule-card"><h3>Данные сделки</h3><div class="field"><label class="fl">Ссылка на объект</label><input id="mol-link" type="url" placeholder="https://t.me/..." oninput="moleculeSync();dealObjectFromLink()"></div><div class="field"><label class="fl">Объект из реестра</label><input id="mol-object" placeholder="HIG-0001" autocomplete="off" oninput="dealObjectShow()" style="text-transform:uppercase"><div class="hint" id="mol-object-hint" style="margin-top:6px">Вставьте ссылку на пост или ID объекта. После сделки объект уйдёт в архив со статусом «Сдан» или «Продан».</div></div><div class="field"><label class="fl">Кадастровый номер</label><input id="mol-cadastral" placeholder="01.10..." oninput="moleculeSync()"></div><div class="field"><label class="fl">Комментарий</label><input id="mol-comment" placeholder="Что важно зафиксировать" oninput="moleculeSync()"></div></div>
         <div class="molecule-actions"><button class="tb" onclick="goBack()">← Назад</button><button class="sbtn" onclick="sub('rental')">🚀 Зафиксировать сделку</button></div>
       </div>
       <div class="pad pb molecule-hidden-legacy">
@@ -2556,7 +2556,7 @@ div:has(>.stats-tab){background:transparent!important;border-radius:0!important;
   </div><!-- /cabinet -->
 
   <div class="screen" id="tab-objects">
-    <div class="hub-page"><div class="hub-head"><div><h2>Объекты</h2><p>Актуальные публикации из каналов</p></div><button class="sbtn" style="width:auto;padding:10px 13px" onclick="goTab('posts')">+ Объект</button></div><div class="telegram-status" id="object-feed-status"><span class="telegram-status-chip">Проверяем период…</span></div><label class="hub-search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> <input id="object-search" placeholder="Адрес, район, цена…" oninput="filterObjectFeed(this.value)"></label><select id="object-agent-filter" onchange="filterObjectFeed()" style="width:100%;margin:8px 0 12px;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font:inherit"><option value="">Все хэштеги</option></select><div class="object-feed" id="object-feed"><div class="telegram-state">Загружаем объекты…</div></div></div>
+    <div class="hub-page"><div class="hub-head"><div><h2>Объекты</h2><p>Реестр с единым ID объекта</p></div><button class="sbtn" style="width:auto;padding:10px 13px" onclick="goTab('posts')">+ Объект</button></div><div style="display:flex;margin-bottom:12px"><button class="stats-tab on" id="objects-mode-registry" onclick="setObjectsMode('registry')">Реестр</button><button class="stats-tab" id="objects-mode-top" onclick="setObjectsMode('top')">Топ репостов</button></div><div id="objects-registry"><div class="telegram-status" id="registry-status"><span class="telegram-status-chip">Загружаем реестр…</span></div><label class="hub-search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> <input id="registry-search" placeholder="HIG-0001, адрес, район, агент…" oninput="filterRegistry()"></label><div style="display:flex;gap:8px;margin:8px 0 12px"><select id="registry-service" onchange="filterRegistry()" style="flex:1;min-width:0;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font:inherit"><option value="">Все сервисы</option></select><select id="registry-state" onchange="filterRegistry()" style="flex:1;min-width:0;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font:inherit"><option value="Свободен">Свободные</option><option value="Архив">Архив (сданы, проданы, старые)</option><option value="">Все статусы</option></select></div><div class="object-feed" id="registry-feed"><div class="telegram-state">Загружаем объекты…</div></div><button class="sbtn" id="registry-more" style="display:none;margin-top:12px" onclick="REGISTRY_LIMIT+=60;filterRegistry(true)">Показать ещё</button></div><div id="objects-top" style="display:none"><div class="telegram-status" id="object-feed-status"><span class="telegram-status-chip">Проверяем период…</span></div><label class="hub-search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> <input id="object-search" placeholder="Адрес, район, цена…" oninput="filterObjectFeed(this.value)"></label><select id="object-agent-filter" onchange="filterObjectFeed()" style="width:100%;margin:8px 0 12px;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font:inherit"><option value="">Все хэштеги</option></select><div class="object-feed" id="object-feed"><div class="telegram-state">Загружаем объекты…</div></div></div></div>
   </div>
 
   <div class="screen" id="tab-calendar">
@@ -2761,7 +2761,7 @@ function haptic(type) {
 // Saves/restores input values for complex forms so data
 // survives accidental back navigation within the session.
 var DRAFT_FORMS = {
-  'calc':       ['rn-price','rn-comm-pct','rn-link','rn-cadastral','rn-cname','rn-cphone','rn-oname','rn-ophone','rn-from','rn-to','t0-comment','rn-agent'],
+  'calc':       ['mol-object','rn-price','rn-comm-pct','rn-link','rn-cadastral','rn-cname','rn-cphone','rn-oname','rn-ophone','rn-from','rn-to','t0-comment','rn-agent'],
   'form-daily': ['daily-author','daily-date','daily-calls','daily-calls-no','daily-calls-yes','daily-stickers','daily-photos','daily-showings','daily-st-dist','daily-ph-addr','daily-sh-addr'],
   'form-general':['gr-author-sel','gr-stickers-cnt','gr-calls-total','gr-calls-no','gr-calls-yes','gr-photo-addr','gr-stickers-dist']
 };
@@ -2897,7 +2897,7 @@ function navigate(screenId, fromTab, historyTraversal) {
   if (screenId === 'tab-contract') { cxReset(); }
   if (screenId === 'tab-deals')    { renderDash(); ensureChart(renderDash); }
   if (screenId === 'tab-posts')    { ensurePostGenerator(); }
-  if (screenId === 'tab-objects')  { loadObjectFeed(); }
+  if (screenId === 'tab-objects')  { if(OBJECTS_MODE==='top')loadObjectFeed();else loadRegistry(); }
   if (screenId === 'tab-calendar') { renderCalendarWeek(); }
   updateUnityNav(screenId);
   window.scrollTo(0, 0);
@@ -2991,6 +2991,126 @@ function loadObjectFeed(){
     else if(!OBJECT_FEED.length)feed.innerHTML='<div class="telegram-state">За этот период публикации ещё не собраны. Нажмите «Обновить» после следующего часа.</div>';
     else filterObjectFeed(search?search.value:'');
   }).catch(function(error){console.error('Object feed loading failed',error);feed.innerHTML='<div class="telegram-state telegram-state-error">Не удалось загрузить объекты. Попробуйте ещё раз.</div>';});
+}
+// ─── OBJECT REGISTRY (site/data/registry.json, HIG-0001…) ──
+// Built hourly from the channels by scripts/build_object_registry.py; the same
+// IDs are in the Google Sheets registry (apps-script/registry.gs) and on the site.
+// Google Sheets registry web app (apps-script/registry.gs). Empty = deals don't close objects yet.
+var REGISTRY_API_URL='';
+var OBJECTS_MODE='registry', REGISTRY=[], REGISTRY_URLS={}, REGISTRY_LIMIT=60, REGISTRY_LOADED_AT=0, REGISTRY_PROMISE=null;
+var REGISTRY_CLOSED=['Сдан','Продан','Снят','Занят','Архив'];
+function registryJsonp(params){
+  return new Promise(function(resolve,reject){
+    if(!REGISTRY_API_URL){reject(new Error('no registry api'));return;}
+    var cb='regCb'+Date.now()+Math.floor(Math.random()*1000),sc=document.createElement('script'),timer;
+    function done(){clearTimeout(timer);delete window[cb];sc.remove();}
+    window[cb]=function(resp){done();resolve(resp||{});};
+    sc.onerror=function(){done();reject(new Error('network'));};
+    timer=setTimeout(function(){done();reject(new Error('timeout'));},15000);
+    sc.src=REGISTRY_API_URL+'?'+Object.keys(params).map(function(k){return k+'='+encodeURIComponent(params[k]);}).join('&')+'&callback='+cb;
+    document.body.appendChild(sc);
+  });
+}
+function fetchRegistry(){
+  if(REGISTRY_PROMISE&&Date.now()-REGISTRY_LOADED_AT<5*60*1000)return REGISTRY_PROMISE;
+  REGISTRY_LOADED_AT=Date.now();
+  var statuses=registryJsonp({action:'statuses'}).then(function(r){return r.statuses||{};},function(){return {};});
+  var data=fetch('site/data/registry.json?t='+Date.now(),{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error('HTTP '+response.status);return response.json();});
+  REGISTRY_PROMISE=Promise.all([data,statuses]).then(function(res){
+    var payload=res[0],manual=res[1];
+    REGISTRY=(Array.isArray(payload.objects)?payload.objects:[]).map(function(o){if(manual[o.id])o.status=manual[o.id];return o;});
+    REGISTRY_URLS=payload.urls||{};
+    return payload;
+  });
+  REGISTRY_PROMISE.catch(function(){REGISTRY_PROMISE=null;});
+  return REGISTRY_PROMISE;
+}
+function dealObjectId(){
+  var v=String((document.getElementById('mol-object')||{}).value||'').trim().toUpperCase();
+  return /^HIG-M?\d+$/.test(v)?v:'';
+}
+function dealObjectFromLink(){
+  var link=String((document.getElementById('mol-link')||{}).value||'').trim().replace(/[?#].*$/,'').replace(/\/$/,'');
+  if(!/t\.me\//.test(link))return;
+  fetchRegistry().then(function(){
+    var id=REGISTRY_URLS[link]||REGISTRY_URLS[link.replace('http://','https://')];
+    if(id){document.getElementById('mol-object').value=id;dealObjectShow();}
+  }).catch(function(){});
+}
+function dealObjectShow(){
+  var hint=document.getElementById('mol-object-hint');if(!hint)return;
+  var id=dealObjectId();
+  if(!id){hint.textContent='Вставьте ссылку на пост или ID объекта. После сделки объект уйдёт в архив со статусом «Сдан» или «Продан».';return;}
+  fetchRegistry().then(function(){
+    var o=REGISTRY.find(function(x){return x.id===id;});
+    if(!o){hint.innerHTML=/^HIG-M/.test(id)?'Объект добавлен вручную в таблицу реестра.':'<span style="color:var(--red)">Объект '+uiEscape(id)+' не найден в реестре</span>';return;}
+    var facts=[o.address,o.district,o.rooms?o.rooms+' комн.':'',registryPrice(o)].filter(Boolean).map(uiEscape).join(' · ');
+    hint.innerHTML='<b>'+uiEscape(o.id)+'</b> · '+facts+(REGISTRY_CLOSED.indexOf(o.status)!==-1&&o.status!=='Архив'?' · <span style="color:var(--red)">уже '+uiEscape(o.status.toLowerCase())+'</span>':'');
+  }).catch(function(){});
+}
+function closeRegistryObject(data){
+  var id=data&&data.object_id;if(!id)return;
+  var deal=(document.getElementById('mol-deal-type')||{}).value==='sale'||data.deal_type==='sale'?'sale':'rent';
+  var status=deal==='sale'?'Продан':'Сдан';
+  REGISTRY.forEach(function(o){if(o.id===id)o.status=status;});
+  if(!REGISTRY_API_URL){console.warn('REGISTRY_API_URL is empty: object '+id+' stays open in the sheet');return;}
+  registryJsonp({action:'closeObject',id:id,deal:deal,agent:data.agent||'',price:data.rent_price||''}).then(function(r){
+    if(r&&r.ok)showToast(id+' → '+r.status+', в архиве');else showToast('Сделка сохранена, но '+id+' не закрыт: '+((r&&r.error)||'ошибка'));
+  },function(){showToast('Сделка сохранена, но '+id+' не закрыт в реестре');});
+}
+function setObjectsMode(mode){
+  OBJECTS_MODE=mode;
+  document.getElementById('objects-registry').style.display=mode==='registry'?'':'none';
+  document.getElementById('objects-top').style.display=mode==='top'?'':'none';
+  document.getElementById('objects-mode-registry').classList.toggle('on',mode==='registry');
+  document.getElementById('objects-mode-top').classList.toggle('on',mode==='top');
+  if(mode==='top')loadObjectFeed();else loadRegistry();
+}
+function loadRegistry(){
+  var feed=document.getElementById('registry-feed');if(!feed)return;
+  if(!REGISTRY.length)feed.innerHTML='<div class="telegram-state">Загружаем объекты…</div>';
+  fetchRegistry().then(function(payload){
+    var select=document.getElementById('registry-service'),seen={};
+    REGISTRY.forEach(function(o){if(o.service_ru)seen[o.service_ru]=(seen[o.service_ru]||0)+1;});
+    var current=select.value;
+    select.innerHTML='<option value="">Все сервисы</option>'+Object.keys(seen).sort(function(a,b){return seen[b]-seen[a];}).map(function(v){return '<option value="'+uiEscape(v)+'">'+uiEscape(v)+'</option>';}).join('');
+    select.value=current;
+    var active=REGISTRY.filter(function(o){return o.status==='Свободен';}).length;
+    var stamp=payload.updated_at?new Date(payload.updated_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Tbilisi'}):'—';
+    document.getElementById('registry-status').innerHTML='<span class="telegram-status-chip active">'+active+' свободных</span><span class="telegram-status-chip">'+REGISTRY.length+' в реестре</span><span class="telegram-status-chip">обновлено '+uiEscape(stamp)+'</span>';
+    filterRegistry();
+  }).catch(function(error){console.error('Registry loading failed',error);feed.innerHTML='<div class="telegram-state telegram-state-error">Не удалось загрузить реестр. Попробуйте ещё раз.</div>';});
+}
+function filterRegistry(keepLimit){
+  if(keepLimit!==true)REGISTRY_LIMIT=60;
+  var needle=String((document.getElementById('registry-search')||{}).value||'').trim().toLocaleLowerCase('ru').replace(/^#/,'');
+  var service=(document.getElementById('registry-service')||{}).value||'', state=(document.getElementById('registry-state')||{}).value||'';
+  var list=REGISTRY.filter(function(o){
+    if(service&&o.service_ru!==service)return false;
+    if(state==='Архив'?REGISTRY_CLOSED.indexOf(o.status)===-1:state&&o.status!==state)return false;
+    if(!needle)return true;
+    return [o.id,o.address,o.district,o.metro,o.agent,o.agent_contact,o.price,o.rooms&&o.rooms+' комн',o.kind_ru,o.service_ru].join(' ').toLocaleLowerCase('ru').indexOf(needle)!==-1;
+  });
+  renderRegistry(list);
+}
+function registryPrice(o){
+  if(!o.price)return '—';
+  var sym={USD:'$',GEL:'₾',EUR:'€'}[o.currency]||'';
+  return sym+Number(o.price).toLocaleString('en-US');
+}
+function renderRegistry(list){
+  var feed=document.getElementById('registry-feed'),more=document.getElementById('registry-more');if(!feed)return;
+  if(!list.length){feed.innerHTML='<div class="telegram-state">По этому запросу ничего не найдено.</div>';more.style.display='none';return;}
+  feed.innerHTML=list.slice(0,REGISTRY_LIMIT).map(function(o){
+    var facts=[o.district,o.metro,o.rooms?o.rooms+' комн.':'',o.area?o.area+' м²':'',o.floor?o.floor+' эт.':''].filter(Boolean).map(uiEscape).join(' · ');
+    var photo=o.photo?'<img src="site/'+uiEscape(o.photo)+'" alt="" loading="lazy">':'<div class="object-photo">⌂</div>';
+    var date=o.last_published?new Date(o.last_published).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit'}):'';
+    var meta=[o.service_ru,o.agent?'#'+o.agent:'',o.posts>1?o.posts+' публикаций':'',date].filter(Boolean).map(uiEscape).join(' · ');
+    var stateStyle=o.status==='Свободен'?'color:var(--ok,#0f7b55)':'color:var(--muted,#888)';
+    return '<article class="object-card">'+photo+'<div style="min-width:0"><p style="margin-bottom:3px"><b style="color:var(--link,var(--tc43));letter-spacing:.02em">'+uiEscape(o.id)+'</b> · <span style="'+stateStyle+'">'+uiEscape(o.status)+'</span>'+(o.exclusive?' · эксклюзив':'')+'</p><h3>'+uiEscape(o.address||o.kind_ru||'Объект')+'</h3><p>'+facts+'</p><p style="margin-top:4px">'+meta+'</p></div><div style="text-align:right"><div class="object-price">'+uiEscape(registryPrice(o))+'</div>'+(o.post_url?'<a href="'+uiEscape(o.post_url)+'" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:10px;color:var(--tc43);font-size:10px;text-decoration:none">Пост ↗</a>':'')+'</div></article>';
+  }).join('');
+  more.style.display=list.length>REGISTRY_LIMIT?'':'none';
+  more.textContent='Показать ещё ('+(list.length-REGISTRY_LIMIT)+')';
 }
 function renderCalendarWeek(){
   var week=document.getElementById('calendar-week'),label=document.getElementById('calendar-date');
@@ -3796,6 +3916,7 @@ function sub(type, directData) {
       platform_commission: realPlatAmt,
       dist_rows: JSON.stringify(distRows),
       ad_link_advertising:document.getElementById('rn-link').value,
+      object_id:dealObjectId(),
       cadastral_number:document.getElementById('rn-cadastral').value,
       is_exclusive:rnExcl, exclusive_proof_type:rnExcl?rnExclusiveProof:'', exclusive_proof_file_name:rnExcl&&rnProofFile?rnProofFile.name:'', exclusive_proof_file:rnExcl&&rnExclusiveProof==='written'&&rnProofFile?rnProofFile.dataUrl:'', deal_type:rnType, deal_subtype:rnSub, is_rerented:rnIsRerented,
       rent_price:price, commission_pct:commPct,
@@ -3817,7 +3938,7 @@ function sub(type, directData) {
   if(criticalTypes.indexOf(type)!==-1){
     showToast('Отправляю... ✈️');
     send(type,data,function(){
-      if(type==='rental') { draftClear('calc'); launchConfetti(); }
+      if(type==='rental') { closeRegistryObject(data); draftClear('calc'); launchConfetti(); }
       showToast('Отправлено! ✓');
       setTimeout(goBack,800);
     },function(){
