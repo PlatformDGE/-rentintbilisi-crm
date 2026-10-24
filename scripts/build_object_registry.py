@@ -93,7 +93,7 @@ def build(sources, ids, now=None, rates=FALLBACK_RATES):
             ids["keys"][key] = f"{ID_PREFIX}{ids['next']:04d}"
             ids["next"] += 1
 
-    objects, posts = [], {}
+    objects, posts, urls = [], {}, {}
     for key, entries in groups.items():
         entries.sort(key=lambda e: e[0])
         first, last = entries[0][0], entries[-1][0]
@@ -103,6 +103,8 @@ def build(sources, ids, now=None, rates=FALLBACK_RATES):
         active = (now - last).days <= max_age
         for _, post_id, entry in entries:
             posts[entry["id"]] = oid
+            if entry.get("post_url"):
+                urls[entry["post_url"]] = oid
         agent = item.get("agent") or {}
         objects.append({
             "id": oid,
@@ -142,6 +144,7 @@ def build(sources, ids, now=None, rates=FALLBACK_RATES):
         "counts": counts,
         "objects": [{k: v for k, v in o.items() if v not in (None, "")} for o in objects],
         "posts": posts,
+        "urls": urls,  # any post of the object -> ID; the CRM deal form finds the object by its link
     }
 
 

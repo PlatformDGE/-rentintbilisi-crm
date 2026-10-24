@@ -22,6 +22,18 @@
  *  - «Статус» скрипт ставит сам (Свободен / Архив), но если вы поставили
  *    Занят, Сдан, Продан или Снят, ваш статус сохраняется;
  *  - объект не из канала: новая строка без ID, при обновлении получит ID вида HIG-M001.
+ *
+ * Связь со сделками CRM (по желанию, нужен один раз):
+ *  Развернуть → Новое развертывание → Веб-приложение, «Выполнять от имени: меня»,
+ *  «Доступ: все» → URL прислать в чат, его впишут в REGISTRY_API_URL в CRM.
+ *  Тогда сделка в калькуляторе по объекту HIG-… сама ставит «Сдан» (аренда)
+ *  или «Продан» (продажа), пишет дату сделки, агента и сумму в «Заметки»,
+ *  и объект уходит в архив. Если объект потом снова опубликуют в канале,
+ *  статус сам вернётся в «Свободен».
+ *
+ * Действия веб-приложения (JSONP, параметр callback):
+ *  ?action=closeObject&id=HIG-0001&deal=rent|sale&agent=..&price=..  — сделка закрыла объект
+ *  ?action=statuses                                                   — ручные статусы для CRM
  */
 
 var REGISTRY_URL = 'https://platformdge.github.io/-rentintbilisi-crm/site/data/registry.json';
@@ -57,7 +69,8 @@ var COLUMNS = [
   ['Постов', 'posts', 60],
   ['Добавлен', 'first_published', 110],
   ['Обновлён', 'last_published', 110],
-  ['Заметки', null, 240]
+  ['Заметки', null, 240],
+  ['Дата сделки', null, 110]
 ];
 
 function onOpen() {
@@ -80,6 +93,7 @@ function setupRegistry() {
   setDropdown_(sheet, colIndex_('Статус'), AUTO_STATUSES.concat(MANUAL_STATUSES), rows);
   setDropdown_(sheet, colIndex_('Сервис'), SERVICES, rows);
   sheet.getRange(2, colIndex_('Добавлен'), rows, 2).setNumberFormat('dd.MM.yyyy HH:mm');
+  sheet.getRange(2, colIndex_('Дата сделки'), rows, 1).setNumberFormat('dd.MM.yyyy');
 
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === 'syncRegistry') ScriptApp.deleteTrigger(t);
@@ -110,7 +124,9 @@ function syncRegistry() {
       var fresh = toRow_(obj);
       if (byId.hasOwnProperty(obj.id)) {
         var row = rows[byId[obj.id]];
-        var keepStatus = MANUAL_STATUSES.indexOf(String(row[statusCol])) !== -1;
+        var dealDate = row[colIndex_('Дата сделки') - 1];
+        var repostedAfterDeal = dealDate instanceof Date && new Date(obj.last_published) > dealDate;
+        var keepStatus = MANUAL_STATUSES.indexOf(String(row[statusCol])) !== -1 && !repostedAfterDeal;
         COLUMNS.forEach(function (c, i) {
           if (!c[1]) return;                       // колонки, которые ведут люди
           if (i === statusCol && keepStatus) return; // ручной статус важнее
@@ -139,6 +155,69 @@ function syncRegistry() {
   } finally {
     lock.releaseLock();
   }
+}
+
+function doGet(e) {
+  var p = (e && e.parameter) || {};
+  var result;
+  try {
+    if (p.action === 'closeObject') result = closeObject_(p);
+    else if (p.action === 'statuses') result = { ok: true, statuses: manualStatuses_() };
+    else result = { ok: false, error: 'unknown action' };
+  } catch (err) {
+    result = { ok: false, error: String(err && err.message || err) };
+  }
+  var body = JSON.stringify(result);
+  var callback = String(p.callback || '');
+  if (/^[A-Za-z_$][\w$]{0,63}$/.test(callback)) {
+    return ContentService.createTextOutput(callback + '(' + body + ')').setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService.createTextOutput(body).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Сделка из калькулятора CRM: объект → «Сдан» / «Продан», дата сделки, запись в «Заметки».
+function closeObject_(p) {
+  var id = String(p.id || '').trim().toUpperCase();
+  if (!/^HIG-M?\d{1,6}$/.test(id)) return { ok: false, error: 'bad id' };
+  var status = p.deal === 'sale' ? 'Продан' : 'Сдан';
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(30000)) return { ok: false, error: 'busy' };
+  try {
+    var sheet = registrySheet_();
+    var last = sheet.getLastRow();
+    if (last < 2) return { ok: false, error: 'not found' };
+    var ids = sheet.getRange(2, 1, last - 1, 1).getValues();
+    for (var i = 0; i < ids.length; i++) {
+      if (String(ids[i][0]).toUpperCase() !== id) continue;
+      var r = i + 2, now = new Date();
+      var note = 'Сделка ' + Utilities.formatDate(now, 'Asia/Tbilisi', 'dd.MM.yyyy') +
+        (p.agent ? ' · ' + String(p.agent).slice(0, 60) : '') +
+        (p.price ? ' · $' + String(p.price).replace(/[^\d.]/g, '') : '');
+      var noteCell = sheet.getRange(r, colIndex_('Заметки'));
+      var old = String(noteCell.getValue() || '');
+      sheet.getRange(r, colIndex_('Статус')).setValue(status);
+      sheet.getRange(r, colIndex_('Дата сделки')).setValue(now);
+      noteCell.setValue(old ? old + '\n' + note : note);
+      return { ok: true, id: id, status: status };
+    }
+    return { ok: false, error: 'not found' };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// Только ID и статус (без телефонов собственников): CRM показывает по ним архив.
+function manualStatuses_() {
+  var sheet = registrySheet_();
+  var last = sheet.getLastRow();
+  var out = {};
+  if (last < 2) return out;
+  var statusCol = colIndex_('Статус');
+  sheet.getRange(2, 1, last - 1, statusCol).getValues().forEach(function (row) {
+    var status = String(row[statusCol - 1]);
+    if (row[0] && MANUAL_STATUSES.indexOf(status) !== -1) out[row[0]] = status;
+  });
+  return out;
 }
 
 function toRow_(obj) {

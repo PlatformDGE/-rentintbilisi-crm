@@ -30,6 +30,7 @@ class BuildObjectRegistryTest(unittest.TestCase):
         self.assertEqual(obj["status"], "Свободен")
         self.assertEqual(obj["agent"], "Bulat")
         self.assertEqual(payload["posts"], {"rent-10": "HIG-0001", "rent-20": "HIG-0001"})
+        self.assertEqual(payload["urls"]["https://t.me/rent_tbilisi_ge/10"], "HIG-0001")
 
     def test_ids_are_stable_and_never_reused(self):
         ids = {"next": 1, "keys": {}}
