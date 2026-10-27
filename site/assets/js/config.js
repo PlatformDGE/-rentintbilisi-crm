@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 // Single place for business configuration: services, contacts, channels.
 // Copy lives in i18n.js; this file only describes structure and behaviour.
 

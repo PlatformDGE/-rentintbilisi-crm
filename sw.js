@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 // Bump whenever the single-page CRM shell changes so returning users do not
 // remain on an older cached team/rating layout.
 const CACHE_NAME = 'rit-crm-v10';

@@ -1,3 +1,4 @@
+# Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import copy
 import json
 from pathlib import Path

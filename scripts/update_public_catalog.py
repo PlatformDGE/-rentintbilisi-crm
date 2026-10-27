@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 """Build public Homes in Georgia catalogs from active Telegram channel posts."""
 
 import asyncio

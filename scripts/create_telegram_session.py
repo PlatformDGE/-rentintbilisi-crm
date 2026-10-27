@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 """Create a Telethon StringSession for the TELEGRAM_CRM_SESSION GitHub secret."""
 
 import asyncio

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 """Fill missing public-catalog coordinates from object addresses."""
 
 import json

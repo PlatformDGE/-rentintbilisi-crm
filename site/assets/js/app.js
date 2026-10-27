@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t, getLang, setLang, languages, localeOf } from './i18n.js';
 import { icon, logo } from './icons.js';
 import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, markLive } from './config.js';

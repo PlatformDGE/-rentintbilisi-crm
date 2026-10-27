@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 /**
  * Telegram Notifier - Mock implementation for MVP
  * Will be replaced with real Telegram Bot API in next iteration

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 """Build the clean public listings feed for the Homes in Georgia website.
 
 Reads the raw channel exports written by update_public_catalog.py
@@ -584,7 +585,9 @@ def share_page(item):
     target = f"../#/listing/{item['id']}"
     e = lambda v: html.escape(v, quote=True)
     return f"""<!doctype html>
+<!-- Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia -->
 <html lang="en"><head><meta charset="utf-8">
+<meta name="author" content="Irakli Kvirkvelia — Homes in Georgia">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)} · Homes in Georgia</title>
 <meta name="description" content="{e(description)}">
