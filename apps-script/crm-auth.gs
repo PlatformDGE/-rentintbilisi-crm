@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 /**
  * CRM Auth — вход агентов в веб-CRM через Telegram (отдельный Apps Script).
  *

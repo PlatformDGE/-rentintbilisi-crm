@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 """Update the daily Telegram repost ranking through MTProto and Telethon."""
 
 import asyncio

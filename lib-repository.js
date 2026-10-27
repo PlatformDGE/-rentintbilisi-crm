@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 /**
  * Repository abstraction layer for Property management
  * Wraps localStorage and provides interface for duplicate checking, assignment, and action logging

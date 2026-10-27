@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 /**
  * Tests for duplicate detection logic
  * Run with: npm test -- duplicate

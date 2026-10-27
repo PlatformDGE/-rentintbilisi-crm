@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 // Stroke icons on a 24px grid (Lucide-compatible geometry, ISC licence).
 const P = {
   kiosk: '<path d="M4 9h16"/><path d="M5.5 9 7 4h10l1.5 5"/><path d="M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M5 11v9h14v-9"/><path d="M10 20v-5h4v5"/>',

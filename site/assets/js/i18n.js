@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 // English is the primary language, then Georgian and Russian. Missing keys fall back to English.
 
 const dict = {
