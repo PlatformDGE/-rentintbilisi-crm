@@ -32,17 +32,15 @@ export const SERVICES = {
   rent: { group: 'realty', icon: 'key', filters: [...REALTY, 'building', 'amenities', 'pets', 'term', 'flags'] },
   sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'building', 'condition', 'flags'] },
   commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'condition', 'flags'] },
-  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'flags'] },
-  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
   daily: { group: 'realty', icon: 'moon', filters: ['price', 'beds', 'district', 'metro', 'amenities', 'flags'] },
   new: { group: 'realty', icon: 'crane', filters: ['price', 'beds', 'area', 'district', 'metro', 'condition', 'flags'] },
+  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'flags'] },
+  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
 };
 
-// The one order of services used everywhere on the site.
-export const SERVICE_ORDER = ['rent', 'sale', 'commercial', 'car-rent', 'car-sale', 'daily', 'new'];
-
 export const GROUPS = {
-  all: { icon: 'home', services: SERVICE_ORDER },
+  realty: { icon: 'home', services: ['rent', 'sale', 'commercial', 'daily', 'new'] },
+  auto: { icon: 'car', services: ['car-rent', 'car-sale'] },
 };
 
 export function markLive(counts = {}) {
