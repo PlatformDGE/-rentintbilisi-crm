@@ -5,6 +5,7 @@ body {
   margin: 0; min-height: 100vh; background: var(--canvas); color: var(--ink);
   font: 400 15px/1.5 var(--font); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  overflow-x: clip; /* unlike hidden, keeps the sticky header and toolbar working next to html's clip */
 }
 body.locked { overflow: hidden; }
 img { display: block; max-width: 100%; }
@@ -1397,3 +1398,20 @@ html { overflow-x: clip; }
 .foot-channels summary .i { width: 16px; flex: none; transition: transform .2s var(--ease); }
 .foot-channels[open] summary .i { transform: rotate(180deg); }
 .foot-channels[open] { margin-bottom: 8px; }
+
+/* ============ phones: nothing moves the page sideways ============
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+@media (max-width: 899px) {
+  html { touch-action: pan-y pinch-zoom; }
+  body > * { overflow-x: clip; }
+  .soon-card, .soon-card h2, .steps li, .steps li > * { min-width: 0; overflow-wrap: anywhere; }
+  .rail-ctrl { flex: none; }
+}
+/* Service tabs wrap instead of scrolling; pills live inside "Filters". */
+@media (max-width: 639px) {
+  .svc-tabs { flex-wrap: wrap; overflow-x: visible; margin: 0; padding: 0; }
+  .svc-tab { flex: 0 1 auto; max-width: 100%; height: auto; min-height: 42px; padding: 8px 14px; white-space: normal; }
+  .pills { flex-wrap: nowrap; justify-content: space-between; overflow-x: visible; margin-right: 0; padding-right: 0; }
+  .pills [data-pill] { display: none; }
+}
+@media (max-width: 379px) { .section-head { flex-wrap: wrap; } }

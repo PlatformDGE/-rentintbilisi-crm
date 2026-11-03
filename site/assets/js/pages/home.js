@@ -15,7 +15,7 @@ function budgets(pool) {
 const allServices = () => Object.values(GROUPS).flatMap(g => g.services);
 
 // Finder tabs: live directions only; cars open car rental (sale is one tab away there).
-const FINDER = ['rent', 'sale', 'daily', 'commercial', 'car-rent'];
+const FINDER = ['rent', 'sale', 'commercial', 'car-rent', 'daily'];
 const BEDS = ['0', '1', '2', '3', '4'];
 
 // Look of the home search; #/?finder=dark|photo|phrase previews the others.
@@ -65,10 +65,10 @@ function finderBody(data, service) {
 const GATES = [
   { id: 'rent', services: ['rent'] },
   { id: 'sale', services: ['sale'] },
-  { id: 'new', services: ['new'] },
   { id: 'commercial', services: ['commercial'] },
-  { id: 'daily', services: ['daily'] },
   { id: 'cars', services: ['car-rent', 'car-sale'], icon: 'car' },
+  { id: 'daily', services: ['daily'] },
+  { id: 'new', services: ['new'] },
 ];
 
 // Look of the section tiles; #/?gate=tiles|bento|panels|list previews the others.
@@ -122,7 +122,7 @@ export function renderHome(root, data) {
     <h1 class="gate-title">${t('home.gate.title')}</h1>
     ${gateStyle() === 'cards' ? Object.entries(GROUPS).map(([grp, gr]) => `
     <div class="gate-group">
-      <div class="gate-group-head"><h2>${t('group.' + grp)}</h2><a class="link-arrow" href="#/${grp === 'realty' ? 'all' : gr.services[0]}">${t('home.see.all')} ${icon('arrow')}</a></div>
+      <div class="gate-group-head"><h2>${t('group.' + grp)}</h2><a class="link-arrow" href="#/all">${t('home.see.all')} ${icon('arrow')}</a></div>
       <div class="gate-grid" role="list">${gr.services.map((s, i) => gateTile({ id: s, services: [s] }, i, data)).join('')}</div>
     </div>`).join('') : `<div class="gate-grid" role="list">
       ${GATES.map((g, i) => gateTile(g, i, data)).join('')}
