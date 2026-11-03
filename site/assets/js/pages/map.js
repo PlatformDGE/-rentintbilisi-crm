@@ -16,6 +16,36 @@ const csv = v => new Set((v || '').split(',').filter(Boolean));
  * amber 5–20, red-orange > 20). State lives in the URL: #/map?ch=…&age=…
  * list what is switched OFF.
  */
+// Phones: a double tap on the map zooms in one step towards the tapped point.
+// Taps on pins, clusters and map controls keep their own behaviour.
+function doubleTapZoom(L, map) {
+  const el = map.getContainer();
+  let lastTime = 0, lastX = 0, lastY = 0, startX = 0, startY = 0, single = false;
+  el.addEventListener('touchstart', e => {
+    single = e.touches.length === 1;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  el.addEventListener('touchmove', e => {
+    const p = e.touches[0];
+    if (e.touches.length > 1 || Math.hypot(p.clientX - startX, p.clientY - startY) > 10) single = false;
+  }, { passive: true });
+  el.addEventListener('touchend', e => {
+    const p = e.changedTouches[0];
+    if (!single || e.touches.length || e.target.closest('.leaflet-marker-icon, .leaflet-control')) { lastTime = 0; return; }
+    const now = Date.now();
+    if (now - lastTime < 350 && Math.hypot(p.clientX - lastX, p.clientY - lastY) < 30) {
+      e.preventDefault();
+      lastTime = 0;
+      map.setZoomAround(L.DomEvent.getMousePosition(p, el), map.getZoom() + 1);
+    } else {
+      lastTime = now;
+      lastX = p.clientX;
+      lastY = p.clientY;
+    }
+  }, { passive: false });
+}
+
 export function renderMap(root, data, params) {
   const all = data.items.filter(hasPoint).map(x => ({ x, ch: channelOf(x), kind: KIND_ICONS[x.kind] ? x.kind : 'apartment', fresh: freshnessOf(x) }));
   const count = { ch: {}, age: {} };
@@ -123,7 +153,8 @@ export function renderMap(root, data, params) {
   loadLeaflet().then(lib => {
     if (!root.isConnected) return;
     L = lib;
-    map = L.map($('#tmap'), { zoomControl: false }).setView(MAP_CENTER, desktop() ? 13 : 12);
+    map = L.map($('#tmap'), { zoomControl: false, doubleClickZoom: !L.Browser.mobile }).setView(MAP_CENTER, desktop() ? 13 : 12);
+    if (L.Browser.mobile) doubleTapZoom(L, map);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     map.attributionControl.setPrefix(false);
     const streets = mapTiler(L, 'streets-v2').addTo(map);
