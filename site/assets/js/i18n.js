@@ -12,7 +12,7 @@ const dict = {
     'share.title': 'Share', 'share.copy': 'Copy', 'share.more': 'More', 'share.link': 'Link to the listing',
     'share.insta': 'Link copied — paste it in Instagram (Direct or Stories)',
     'brand.tagline': 'Homes, cars and investments in Georgia',
-    'nav.realty': 'Real estate', 'nav.auto': 'Cars', 'nav.favorites': 'Saved', 'nav.contact': 'Contact us',
+    'nav.realty': 'Real estate', 'nav.auto': 'Cars', 'nav.favorites': 'Saved', 'nav.theme.dark': 'Dark theme', 'nav.theme.light': 'Light theme', 'nav.contact': 'Contact us',
     'nav.home': 'Home', 'nav.search': 'Search', 'nav.menu': 'Menu', 'nav.close': 'Close',
 
     'group.realty': 'Real estate', 'group.auto': 'Cars',
@@ -155,7 +155,7 @@ const dict = {
     'share.title': 'გაზიარება', 'share.copy': 'კოპირება', 'share.more': 'სხვა', 'share.link': 'განცხადების ბმული',
     'share.insta': 'ბმული დაკოპირდა — ჩასვით Instagram-ში (Direct ან Stories)',
     'brand.tagline': 'სახლები, ავტომობილები და ინვესტიციები საქართველოში',
-    'nav.realty': 'უძრავი ქონება', 'nav.auto': 'ავტომობილები', 'nav.favorites': 'რჩეულები', 'nav.contact': 'კონტაქტი',
+    'nav.realty': 'უძრავი ქონება', 'nav.auto': 'ავტომობილები', 'nav.favorites': 'რჩეულები', 'nav.theme.dark': 'მუქი თემა', 'nav.theme.light': 'ღია თემა', 'nav.contact': 'კონტაქტი',
     'nav.home': 'მთავარი', 'nav.search': 'ძიება', 'nav.menu': 'მენიუ', 'nav.close': 'დახურვა',
 
     'group.realty': 'უძრავი ქონება', 'group.auto': 'ავტომობილები',
@@ -298,7 +298,7 @@ const dict = {
     'share.title': 'Поделиться', 'share.copy': 'Копировать', 'share.more': 'Ещё', 'share.link': 'Ссылка на объект',
     'share.insta': 'Ссылка скопирована — вставьте её в Instagram (Direct или Stories)',
     'brand.tagline': 'Жильё, авто и инвестиции в Грузии',
-    'nav.realty': 'Недвижимость', 'nav.auto': 'Авто', 'nav.favorites': 'Избранное', 'nav.contact': 'Связаться',
+    'nav.realty': 'Недвижимость', 'nav.auto': 'Авто', 'nav.favorites': 'Избранное', 'nav.theme.dark': 'Тёмная тема', 'nav.theme.light': 'Светлая тема', 'nav.contact': 'Связаться',
     'nav.home': 'Главная', 'nav.search': 'Поиск', 'nav.menu': 'Меню', 'nav.close': 'Закрыть',
 
     'group.realty': 'Недвижимость', 'group.auto': 'Авто',

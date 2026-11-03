@@ -4,6 +4,7 @@ const P = {
   land: '<path d="m2.5 19 6-8 4.5 6 3-4 5.5 6Z"/><circle cx="16.5" cy="6.5" r="2"/>',
   home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>',
   key: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8"/><path d="m16 7 3 3"/><path d="m18.5 4.5 2 2"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>',
   tag: '<path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9Z"/><circle cx="8" cy="8" r="1.5"/>',
   crane: '<path d="M6 21V4"/><path d="M3 21h8"/><path d="M6 4h14"/><path d="m6 9 5-5"/><path d="M17 4v5"/><rect x="15" y="9" width="4" height="4" rx="1"/>',

@@ -10,6 +10,15 @@ import { renderCatalog } from './pages/catalog.js';
 import { renderListing } from './pages/listing.js';
 import { renderSoon, renderFavorites, renderNotFound } from './pages/misc.js';
 
+// Light is the main theme; dark is opt-in from the header and remembered.
+const isDark = () => document.documentElement.dataset.theme === 'dark';
+function setTheme(theme) {
+  if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
+  else delete document.documentElement.dataset.theme;
+  document.querySelector('meta[name=theme-color]')?.setAttribute('content', theme === 'dark' ? '#0B1220' : '#032D6A');
+  try { localStorage.setItem('hig:theme', theme); } catch {}
+}
+
 const header = document.getElementById('header');
 const main = document.getElementById('main');
 const footer = document.getElementById('footer');
@@ -41,6 +50,7 @@ function renderHeader() {
         <i class="lang-thumb" aria-hidden="true"></i>
         ${languages.map(l => `<button type="button" role="radio" data-lang="${l}" aria-checked="${l === getLang()}" lang="${l}">${l.toUpperCase()}</button>`).join('')}
       </div>
+      <button type="button" class="icon-btn theme-btn" data-theme-toggle aria-label="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}" title="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}">${icon(isDark() ? 'sun' : 'moon')}</button>
       <a class="icon-btn fav-link" href="#/favorites" aria-label="${esc(t('nav.favorites'))}">${icon('heart')}<b class="nbadge">${favs || ''}</b></a>
       <a class="btn btn-primary nav-cta" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('nav.contact')}</span></a>
       <button type="button" class="icon-btn burger" aria-label="${esc(t('nav.menu'))}" aria-expanded="false">${icon('menu')}</button>
@@ -153,6 +163,7 @@ header.addEventListener('change', e => {
   if (e.target.id === 'cur') { setCurrency(e.target.value); rerenderAll(); }
 });
 header.addEventListener('click', e => {
+  if (e.target.closest('[data-theme-toggle]')) { setTheme(isDark() ? 'light' : 'dark'); renderHeader(); return; }
   const langBtn = e.target.closest('[data-lang]');
   if (langBtn) {
     if (langBtn.dataset.lang === getLang()) return;
