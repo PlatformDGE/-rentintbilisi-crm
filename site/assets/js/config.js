@@ -4,7 +4,6 @@
 export const CONTACT = {
   telegram: 'David_Tibelashvili',
   phone: '+995 599 20 67 16',
-  email: 'hello@homesingeorgia.ge',
 };
 
 // Public Telegram channel of every direction.

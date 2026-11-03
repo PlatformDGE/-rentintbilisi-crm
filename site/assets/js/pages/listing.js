@@ -122,7 +122,6 @@ export function renderListing(root, data, id) {
         <div class="l-badges">
           <span class="badge badge-soft">${icon(svc.icon)}${t('svc.' + x.service + '.short')}</span>
           ${x.exclusive ? `<span class="badge badge-accent">${t('card.exclusive')}</span>` : ''}
-          ${x.no_commission ? `<span class="badge badge-ok">${t('l.commission.none')}</span>` : ''}
         </div>
         <h1>${esc(title)}</h1>
         ${x.kind === 'car' ? '' : `<p class="l-addr">${icon('pin')}${esc([x.title !== title ? x.title : '', x.district].filter(Boolean).join(' · ') || t('city'))}${x.metro ? `<span class="metro">${icon('metro')}${esc(x.metro)}</span>` : ''}</p>`}
@@ -152,7 +151,6 @@ export function renderListing(root, data, id) {
           <dl class="pc-rows">
             ${x.deposit ? `<div><dt>${t('l.deposit')}</dt><dd>${esc(terms.find(r => r[0] === 'key')?.[2] || '')}</dd></div>` : ''}
             ${x.ppsqm_usd ? `<div><dt>${t('l.ppsqm')}</dt><dd>${money(x.ppsqm_usd)}</dd></div>` : ''}
-            ${x.no_commission ? `<div><dt>${t('l.commission')}</dt><dd class="ok">0%</dd></div>` : ''}
           </dl>
           <a class="btn btn-primary btn-lg btn-block" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write')}</span></a>
           <div class="pc-two">

@@ -49,7 +49,7 @@ export function card(x, { eager = false } = {}) {
     ${favButton(x.id)}
   </div>
   <a class="card-body" href="#/listing/${esc(x.id)}">
-    <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}${x.no_commission ? `<span class="pill-ok">${t('card.nocommission')}</span>` : ''}</div>
+    <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}</div>
     <h3>${esc(listingTitle(x))}</h3>
     <p class="card-facts">${facts(x).map(esc).join('<i></i>')}</p>
     <p class="card-loc">${icon('pin')}<span>${esc(x.pickup || [x.district, x.metro && x.metro !== x.district ? x.metro : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>

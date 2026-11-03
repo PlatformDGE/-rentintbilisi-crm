@@ -1389,3 +1389,11 @@ html { overflow-x: clip; }
   .nav-tools { gap: 2px; }
   .nav-tools .icon-btn { width: 40px; }
 }
+
+/* Telegram channels in the footer collapse into one row.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.foot-channels summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; }
+.foot-channels summary::-webkit-details-marker { display: none; }
+.foot-channels summary .i { width: 16px; flex: none; transition: transform .2s var(--ease); }
+.foot-channels[open] summary .i { transform: rotate(180deg); }
+.foot-channels[open] { margin-bottom: 8px; }
