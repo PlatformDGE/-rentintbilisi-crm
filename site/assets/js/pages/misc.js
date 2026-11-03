@@ -1,6 +1,6 @@
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
-import { SERVICES, SERVICE_ORDER, CONTACT, CHANNELS, telegramHref } from '../config.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref } from '../config.js';
 import { esc, card, empty } from '../components.js';
 import { favIds } from '../store.js';
 
@@ -12,7 +12,7 @@ export function renderSoon(root, serviceId) {
 <section class="soon">
   <div class="container">
     <nav class="crumbs"><a href="#/">${t('nav.home')}</a>${icon('right')}<span>${t('group.' + svc.group)}</span></nav>
-    <div class="svc-tabs">${SERVICE_ORDER.map(s => `<a class="svc-tab${s === serviceId ? ' on' : ''}" href="#/${s}">${icon(SERVICES[s].icon)}${t('svc.' + s + '.short')}${SERVICES[s].live ? '' : `<sup>${t('svc.soon')}</sup>`}</a>`).join('')}</div>
+    <div class="svc-tabs">${GROUPS[svc.group].services.map(s => `<a class="svc-tab${s === serviceId ? ' on' : ''}" href="#/${s}">${icon(SERVICES[s].icon)}${t('svc.' + s + '.short')}${SERVICES[s].live ? '' : `<sup>${t('svc.soon')}</sup>`}</a>`).join('')}</div>
     <div class="soon-hero">
       <div>
         <span class="badge badge-accent">${icon('bell')}${t('soon.badge')}</span>

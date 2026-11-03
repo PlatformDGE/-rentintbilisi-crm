@@ -1,6 +1,6 @@
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
-import { SERVICE_ORDER, SERVICES, serviceOf } from '../config.js';
+import { GROUPS, SERVICES, serviceOf } from '../config.js';
 import { esc, card, empty, skeletons } from '../components.js';
 import { openFilterSheet } from '../filters.js';
 import { createMap } from '../map.js';
@@ -22,7 +22,7 @@ export function renderCatalog(root, data, serviceId, params) {
 
   const tabs = serviceId === 'all'
     ? Object.keys(SERVICES).filter(s => SERVICES[s].live && SERVICES[s].group === 'realty')
-    : SERVICE_ORDER;
+    : GROUPS[group].services;
   const isCar = group === 'auto';
   const sortOptions = ['new', 'cheap', 'expensive',
     ...(isCar ? ['year'] : ['area']),
