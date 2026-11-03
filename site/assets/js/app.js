@@ -1,6 +1,6 @@
 import { t, getLang, setLang, languages, localeOf } from './i18n.js';
 import { icon, logo } from './icons.js';
-import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, markLive } from './config.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, whatsappHref, markLive } from './config.js';
 import { esc, installInteractions, serviceIcon } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
 import { openShare } from './share.js';
@@ -62,6 +62,7 @@ function renderHeader() {
       <div class="drawer-contact">
         <a class="btn btn-primary btn-block" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener">${icon('send')}<span>Telegram</span></a>
         <a class="btn btn-outline btn-block" href="${phoneHref()}">${icon('phone')}<span>${esc(CONTACT.phone)}</span></a>
+        <a class="btn btn-outline btn-block" href="${whatsappHref()}" target="_blank" rel="noopener">${icon('whatsapp')}<span>WhatsApp</span></a>
       </div>
     </div>
   </div>`;
@@ -80,8 +81,8 @@ function renderFooter() {
   <div class="container foot">
     <div class="foot-brand">${logo('logo-light')}<p>${t('footer.about')}</p></div>
     ${Object.keys(GROUPS).map(g => `<div><h4>${t('group.' + g)}</h4>${GROUPS[g].services.map(s => `<a href="#/${s}">${t('svc.' + s)}</a>`).join('')}</div>`).join('')}
-    <div><h4>${t('footer.channels')}</h4>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}
-      <h4>${t('footer.contact')}</h4><a href="${phoneHref()}">${esc(CONTACT.phone)}</a><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></div>
+    <div><details class="foot-channels"><summary>${t('footer.channels')}${icon('down')}</summary>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}</details>
+      <h4>${t('footer.contact')}</h4><a href="${phoneHref()}">${esc(CONTACT.phone)}</a><a href="${telegramHref()}" target="_blank" rel="noopener">Telegram: @${esc(CONTACT.telegram)}</a><a href="${whatsappHref()}" target="_blank" rel="noopener">WhatsApp: ${esc(CONTACT.phone)}</a></div>
   </div>
   <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}${rateLine()}</span></div>`;
 }
