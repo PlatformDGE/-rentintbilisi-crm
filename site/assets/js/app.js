@@ -12,6 +12,9 @@ import { renderSoon, renderFavorites, renderNotFound } from './pages/misc.js';
 
 // Light is the main theme; dark is opt-in from the header and remembered.
 const isDark = () => document.documentElement.dataset.theme === 'dark';
+// A tap that lands on the moon while the page is scrolling must not switch the theme.
+let lastScrollAt = 0;
+addEventListener('scroll', () => { lastScrollAt = Date.now(); }, { passive: true });
 function setTheme(theme) {
   if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
   else delete document.documentElement.dataset.theme;
@@ -164,7 +167,7 @@ header.addEventListener('change', e => {
   if (e.target.id === 'cur') { setCurrency(e.target.value); rerenderAll(); }
 });
 header.addEventListener('click', e => {
-  if (e.target.closest('[data-theme-toggle]')) { setTheme(isDark() ? 'light' : 'dark'); renderHeader(); return; }
+  if (e.target.closest('[data-theme-toggle]')) { if (Date.now() - lastScrollAt < 400) return; setTheme(isDark() ? 'light' : 'dark'); renderHeader(); return; }
   const langBtn = e.target.closest('[data-lang]');
   if (langBtn) {
     if (langBtn.dataset.lang === getLang()) return;
