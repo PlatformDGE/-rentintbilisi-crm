@@ -4,6 +4,7 @@ import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, whatsappH
 import { esc, installInteractions, serviceIcon } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
 import { openShare } from './share.js';
+import { enterEntry, setPageTop, restoreTop, cancelRestore, scrollRoot, pageTop } from './scroll.js';
 import { renderHome } from './pages/home.js';
 import { renderMap } from './pages/map.js';
 import { renderCatalog } from './pages/catalog.js';
@@ -14,7 +15,7 @@ import { renderSoon, renderFavorites, renderNotFound } from './pages/misc.js';
 const isDark = () => document.documentElement.dataset.theme === 'dark';
 // A tap that lands on the moon while the page is scrolling must not switch the theme.
 let lastScrollAt = 0;
-addEventListener('scroll', () => { lastScrollAt = Date.now(); }, { passive: true });
+document.addEventListener('scroll', () => { lastScrollAt = Date.now(); }, { passive: true, capture: true });
 function setTheme(theme) {
   if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
   else delete document.documentElement.dataset.theme;
@@ -108,10 +109,13 @@ async function route() {
   const { parts, params, path } = parseHash();
   const [first = '', second] = parts;
   const key = first === 'listing' ? path : first;
+  const revisit = enterEntry();
+  cancelRestore();
 
   // Same catalog, only filters changed (back/forward): update in place.
   if (current && current.key === key && current.page?.update) {
     current.page.update(params);
+    if (revisit) restoreTop();
     return;
   }
   current?.page?.destroy?.();
@@ -125,7 +129,7 @@ async function route() {
   const view = document.createElement('div');
   view.className = 'view';
   main.replaceChildren(view);
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  setPageTop(0);
   current = { key, page: null };
 
   // The feed also decides which services are live, so every page waits for it.
@@ -153,6 +157,7 @@ async function route() {
   else if (first === 'map') { current.page = renderMap(view, data, params); document.title = t('map.title') + ' · Homes in Georgia'; }
   else renderNotFound(view);
   view.focus?.({ preventScroll: true });
+  if (revisit) restoreTop();
 }
 
 function rerenderAll() {
@@ -210,7 +215,7 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') header.querySelectorAll('.nav-drop.open').forEach(d => d.classList.remove('open'));
 });
-window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+(scrollRoot() || window).addEventListener('scroll', () => header.classList.toggle('scrolled', pageTop() > 8), { passive: true });
 onFavChange(n => {
   const badge = header.querySelector('.fav-link .nbadge');
   if (badge) badge.textContent = n || '';
