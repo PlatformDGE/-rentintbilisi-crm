@@ -1464,3 +1464,10 @@ html { overflow-x: clip; }
   .pills .pill-select { flex: 0 1 auto; min-width: 0; }
   .pills .pill-select select { width: 100%; min-width: 0; text-overflow: ellipsis; }
 }
+
+/* Required map credit: kept readable on tap, but very small and translucent.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.leaflet-container .leaflet-control-attribution {
+  padding: 0 3px; background: transparent; box-shadow: none; font-size: 8px; line-height: 1.3; opacity: .5;
+}
+.leaflet-container .leaflet-control-attribution a { color: inherit; }
