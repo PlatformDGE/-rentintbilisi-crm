@@ -4,6 +4,7 @@ import { SERVICES, AMENITY_ORDER, CONTACT, telegramHref, phoneHref, whatsappHref
 import { esc, listingTitle, favButton, rail, empty, toast } from '../components.js';
 import { createMap } from '../map.js';
 import { openShare } from '../share.js';
+import { cameFromSite, scrollRoot } from '../scroll.js';
 import { priceLabel, money, ago, isFav, num, addRecent } from '../store.js';
 
 function lightbox(photos, start, title) {
@@ -116,6 +117,7 @@ export function renderListing(root, data, id) {
   root.innerHTML = `
 <article class="listing">
   <div class="container">
+    <button type="button" class="l-back" data-back>${icon('left')}<span>${t('nav.back')}</span></button>
     <nav class="crumbs" aria-label="breadcrumbs"><a href="#/">${t('nav.home')}</a>${icon('right')}<a href="#/${x.service}">${t('svc.' + x.service + '.short')}</a>${x.district ? `${icon('right')}<a href="#/${x.service}?district=${encodeURIComponent(x.district)}">${esc(x.district)}</a>` : ''}</nav>
     <header class="l-head">
       <div>
@@ -172,6 +174,11 @@ export function renderListing(root, data, id) {
 </article>`;
 
   root.addEventListener('click', async e => {
+    if (e.target.closest('[data-back]')) {
+      if (cameFromSite()) history.back();
+      else location.hash = '#/' + x.service;
+      return;
+    }
     // Also copy the link, for Telegram versions that ignore the pre-filled text.
     if (e.target.closest('[data-lead="telegram"]')) {
       navigator.clipboard?.writeText(objectLink).then(() => toast(t('l.msg.copied'))).catch(() => {});
@@ -201,7 +208,7 @@ export function renderListing(root, data, id) {
       io.disconnect();
       const ctl = await createMap(mapEl, { interactive: false, zoom: 15 }).catch(() => null);
       if (ctl) { ctl.update([x], { fit: false }); ctl.map.setView([x.lat, x.lon], 15); }
-    }, { rootMargin: '300px' });
+    }, { root: scrollRoot(), rootMargin: '300px' });
     io.observe(mapEl);
   }
 }

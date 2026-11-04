@@ -5,6 +5,7 @@ import { GROUPS, SERVICES, serviceOf } from '../config.js';
 import { esc, card, empty, skeletons } from '../components.js';
 import { openFilterSheet } from '../filters.js';
 import { createMap } from '../map.js';
+import { replaceHash, pushHash, setPageTop, scrollRoot } from '../scroll.js';
 import {
   itemsFor, parseFilters, filtersToParams, applyFilters, sortItems, activeCount, compactMoney, num, RANGE_KEYS,
 } from '../store.js';
@@ -85,7 +86,7 @@ export function renderCatalog(root, data, serviceId, params) {
     const qp = filtersToParams(f);
     if (view !== defaultView()) qp.set('view', view);
     const hash = `#/${serviceId}${qp.toString() ? '?' + qp : ''}`;
-    if (location.hash !== hash) history[replace ? 'replaceState' : 'pushState'](null, '', hash);
+    if (location.hash !== hash) (replace ? replaceHash : pushHash)(hash);
     render();
   }
 
@@ -243,7 +244,7 @@ export function renderCatalog(root, data, serviceId, params) {
     if (v || fab) {
       view = v ? v.dataset.setview : view === 'map' ? 'list' : 'map';
       commit(f);
-      if (view === 'list' && !desktop()) window.scrollTo({ top: 0 });
+      if (view === 'list' && !desktop()) setPageTop(0);
     }
   });
 
@@ -263,7 +264,7 @@ export function renderCatalog(root, data, serviceId, params) {
 
   const io = new IntersectionObserver(entries => {
     if (entries.some(e => e.isIntersecting) && shown < rows.length) page();
-  }, { rootMargin: '900px 0px' });
+  }, { root: scrollRoot(), rootMargin: '900px 0px' });
   io.observe($('.sentinel'));
 
   render();

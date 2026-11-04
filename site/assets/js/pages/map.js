@@ -4,6 +4,7 @@ import { icon } from '../icons.js';
 import { MAP_CENTER, MAP_CHANNELS, KIND_ICONS, CHANNELS, FRESHNESS, SERVICES, channelOf, freshnessOf } from '../config.js';
 import { esc, listingTitle, facts } from '../components.js';
 import { loadLeaflet, mapTiler } from '../map.js';
+import { entryData, saveEntry, replaceHash } from '../scroll.js';
 import { num, compactMoney, priceLabel, ago, itemsFor, parseFilters, applyFilters } from '../store.js';
 
 const desktop = () => matchMedia('(min-width: 900px)').matches;
@@ -125,6 +126,7 @@ export function renderMap(root, data, params) {
   }
 
   function select({ x, ch, kind, fresh }) {
+    saveEntry({ card: x.id });
     const pr = priceLabel(x);
     const body = `
       ${x.photos?.[0] ? `<img src="${esc(x.photos[0])}" alt="">` : ''}
@@ -146,7 +148,7 @@ export function renderMap(root, data, params) {
     q.delete('ch');
     q.delete('age');
     Object.entries(off).forEach(([k, set]) => { if (set.size) q.set(k, [...set].join(',')); });
-    history.replaceState(null, '', '#/map' + (q.toString() ? '?' + q : ''));
+    replaceHash('#/map' + (q.toString() ? '?' + q : ''));
     controls();
     draw();
   }
@@ -167,16 +169,22 @@ export function renderMap(root, data, params) {
   });
 
   controls();
+  let sizeWatch = null;
   loadLeaflet().then(lib => {
     if (!root.isConnected) return;
     L = lib;
-    map = L.map($('#tmap'), { zoomControl: false, doubleClickZoom: !L.Browser.mobile }).setView(MAP_CENTER, desktop() ? 13 : 12);
+    // Coming back from a listing: same place, same zoom, same open card.
+    const saved = entryData();
+    map = L.map($('#tmap'), { zoomControl: false, doubleClickZoom: !L.Browser.mobile }).setView(saved.center || MAP_CENTER, saved.zoom ?? (desktop() ? 13 : 12));
+    map.on('moveend', () => { const c = map.getCenter(); saveEntry({ center: [c.lat, c.lng], zoom: map.getZoom() }); });
+    sizeWatch = new ResizeObserver(() => map.invalidateSize());
+    sizeWatch.observe($('#tmap'));
     if (L.Browser.mobile) doubleTapZoom(L, map);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     map.attributionControl.setPrefix(false);
     const streets = mapTiler(L, 'streets-v2').addTo(map);
     L.control.layers({ [t('map.streets')]: streets, [t('map.satellite')]: mapTiler(L, 'hybrid', 'jpg') }, null, { position: desktop() ? 'topright' : 'bottomright' }).addTo(map);
-    map.on('click', () => { $('.mpeek').hidden = true; $('.mapapp').classList.remove('peeking'); });
+    map.on('click', () => { saveEntry({ card: null }); $('.mpeek').hidden = true; $('.mapapp').classList.remove('peeking'); });
     // Cluster ring shows the freshness mix of the listings inside it.
     layer = L.markerClusterGroup({
       maxClusterRadius: 52, showCoverageOnHover: false,
@@ -190,12 +198,15 @@ export function renderMap(root, data, params) {
       },
     }).addTo(map);
     draw();
-    if (scoped && all.length) {
+    if (saved.card) {
+      const p = all.find(q => q.x.id === saved.card);
+      if (p) select(p);
+    } else if (scoped && all.length && !saved.center) {
       map.fitBounds(L.latLngBounds(all.map(p => [p.x.lat, p.x.lon])), {
         paddingTopLeft: desktop() ? [340, 80] : [36, 170], paddingBottomRight: [36, 36], maxZoom: 15, animate: false,
       });
     }
   }).catch(() => {});
 
-  return { destroy() { document.body.classList.remove('map-page'); map?.remove(); } };
+  return { destroy() { document.body.classList.remove('map-page'); sizeWatch?.disconnect(); map?.remove(); } };
 }

@@ -15,7 +15,7 @@ const dict = {
     'share.insta': 'Link copied — paste it in Instagram (Direct or Stories)',
     'brand.tagline': 'Homes, cars and investments in Georgia',
     'nav.realty': 'Real estate', 'nav.auto': 'Cars', 'nav.favorites': 'Saved', 'nav.theme.dark': 'Dark theme', 'nav.theme.light': 'Light theme', 'nav.contact': 'Contact us',
-    'nav.home': 'Home', 'nav.search': 'Search', 'nav.menu': 'Menu', 'nav.close': 'Close',
+    'nav.back': 'Back', 'nav.home': 'Home', 'nav.search': 'Search', 'nav.menu': 'Menu', 'nav.close': 'Close',
 
     'group.realty': 'Real estate', 'group.auto': 'Cars',
     'group.realty.desc': 'Long-term and daily rentals, resale property and new developments in Tbilisi',
@@ -157,7 +157,7 @@ const dict = {
     'share.insta': 'ბმული დაკოპირდა — ჩასვით Instagram-ში (Direct ან Stories)',
     'brand.tagline': 'სახლები, ავტომობილები და ინვესტიციები საქართველოში',
     'nav.realty': 'უძრავი ქონება', 'nav.auto': 'ავტომობილები', 'nav.favorites': 'რჩეულები', 'nav.theme.dark': 'მუქი თემა', 'nav.theme.light': 'ღია თემა', 'nav.contact': 'კონტაქტი',
-    'nav.home': 'მთავარი', 'nav.search': 'ძიება', 'nav.menu': 'მენიუ', 'nav.close': 'დახურვა',
+    'nav.back': 'უკან', 'nav.home': 'მთავარი', 'nav.search': 'ძიება', 'nav.menu': 'მენიუ', 'nav.close': 'დახურვა',
 
     'group.realty': 'უძრავი ქონება', 'group.auto': 'ავტომობილები',
     'group.realty.desc': 'გრძელვადიანი და დღიური ქირა, მეორადი უძრავი ქონება და ახალი პროექტები თბილისში',
@@ -299,7 +299,7 @@ const dict = {
     'share.insta': 'Ссылка скопирована — вставьте её в Instagram (Direct или Stories)',
     'brand.tagline': 'Жильё, авто и инвестиции в Грузии',
     'nav.realty': 'Недвижимость', 'nav.auto': 'Авто', 'nav.favorites': 'Избранное', 'nav.theme.dark': 'Тёмная тема', 'nav.theme.light': 'Светлая тема', 'nav.contact': 'Связаться',
-    'nav.home': 'Главная', 'nav.search': 'Поиск', 'nav.menu': 'Меню', 'nav.close': 'Закрыть',
+    'nav.back': 'Назад', 'nav.home': 'Главная', 'nav.search': 'Поиск', 'nav.menu': 'Меню', 'nav.close': 'Закрыть',
 
     'group.realty': 'Недвижимость', 'group.auto': 'Авто',
     'group.realty.desc': 'Аренда и посуточная аренда, вторичная недвижимость и новостройки в Тбилиси',

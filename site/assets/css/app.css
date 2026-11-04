@@ -1426,3 +1426,41 @@ html { overflow-x: clip; }
 .mfound-x { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--muted); }
 .mfound-x .i { width: 15px; height: 15px; }
 @media (min-width: 900px) { .mfound { top: 16px; left: 50%; translate: -50% 0; } }
+
+/* ============ phones: header and tab bar stay put, only the middle scrolls ============
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.app-scroll { display: contents; }
+@media (max-width: 999px) {
+  html { height: 100%; overflow: hidden; }
+  /* The transform makes body the frame for fixed elements (map, sheets, floating buttons). */
+  body {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--app-h, 100dvh); min-height: 0; padding-bottom: 0; overflow: hidden;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); transform: translateZ(0); overscroll-behavior: none;
+  }
+  .header, .tabbar { position: relative; }
+  .tabbar { left: auto; right: auto; bottom: auto; }
+  .app-scroll { display: block; min-height: 0; overflow: hidden auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  body.map-page .app-scroll, body.locked .app-scroll { overflow: hidden; }
+  .toolbar-wrap { top: 0; }
+  .drawer { max-height: calc(var(--app-h, 100dvh) - var(--header-h) - 64px); }
+}
+
+/* Back from a listing to the exact place it was opened from. */
+.l-back {
+  position: sticky; top: calc(var(--header-h) + 8px); z-index: 20; display: inline-flex; align-items: center; gap: 4px; height: 40px; margin-bottom: 10px; padding: 0 16px 0 10px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  font-weight: 600; font-size: 14px; color: var(--brand-strong); box-shadow: 0 4px 14px rgba(14, 42, 85, .1); cursor: pointer;
+}
+.l-back .i { width: 20px; }
+@media (max-width: 999px) { .l-back { top: 8px; } }
+:root[data-theme='dark'] .l-back { background: rgba(28, 28, 30, .92); color: #fff; border-color: rgba(255, 255, 255, .16); }
+/* The map fills exactly the space between the header and the tab bar. */
+@media (max-width: 999px) {
+  body.map-page .app-scroll { position: relative; }
+  .mapapp { position: absolute; top: 0; bottom: 0; }
+}
+@media (max-width: 639px) {
+  .pills > :not(.pill-select) { flex: none; }
+  .pills .pill-select { flex: 0 1 auto; min-width: 0; }
+  .pills .pill-select select { width: 100%; min-width: 0; text-overflow: ellipsis; }
+}
