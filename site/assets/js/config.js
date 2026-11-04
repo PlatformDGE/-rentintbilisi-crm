@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 // Single place for business configuration: services, contacts, channels.
 // Copy lives in i18n.js; this file only describes structure and behaviour.
 
@@ -29,11 +30,11 @@ export const telegramHref = (user, text = '') =>
 // `filters` lists the filter panel sections of the catalogue.
 const REALTY = ['price', 'beds', 'kind', 'area', 'district', 'metro'];
 export const SERVICES = {
-  rent: { group: 'realty', icon: 'key', filters: [...REALTY, 'building', 'amenities', 'pets', 'term', 'flags'] },
-  sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'building', 'condition', 'flags'] },
-  commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'condition', 'flags'] },
-  daily: { group: 'realty', icon: 'moon', filters: ['price', 'beds', 'district', 'metro', 'amenities', 'flags'] },
-  new: { group: 'realty', icon: 'crane', filters: ['price', 'beds', 'area', 'district', 'metro', 'condition', 'flags'] },
+  rent: { group: 'realty', icon: 'key', filters: [...REALTY, 'building', 'heating', 'amenities', 'pets', 'term', 'flags'] },
+  sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'building', 'condition', 'heating', 'flags'] },
+  commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'condition', 'heating', 'flags'] },
+  daily: { group: 'realty', icon: 'moon', filters: ['price', 'beds', 'district', 'metro', 'heating', 'amenities', 'flags'] },
+  new: { group: 'realty', icon: 'crane', filters: ['price', 'beds', 'area', 'district', 'metro', 'condition', 'heating', 'flags'] },
   'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'flags'] },
   'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
 };
@@ -48,7 +49,7 @@ export function markLive(counts = {}) {
 }
 
 // Pseudo-service used by the global search: every live real-estate offer.
-export const ALL = { group: 'realty', icon: 'search', live: true, filters: [...REALTY, 'flags'] };
+export const ALL = { group: 'realty', icon: 'search', live: true, filters: [...REALTY, 'heating', 'flags'] };
 
 export const serviceOf = id => (id === 'all' ? ALL : SERVICES[id]);
 

@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
 import { SERVICES, GROUPS, telegramHref, CONTACT } from '../config.js';
@@ -162,7 +163,7 @@ ${allServices().filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home
 <section class="section">
   <div class="container">
     <div class="why">
-      ${[['shield', 1], ['percent', 2], ['send', 3], ['star', 4]].map(([ic, n]) => `
+      ${[['shield', 1], ['send', 3], ['star', 4]].map(([ic, n]) => `
         <div class="why-item"><span>${icon(ic)}</span><div><h3>${t(`home.why.${n}.t`)}</h3><p>${t(`home.why.${n}.d`)}</p></div></div>`).join('')}
     </div>
   </div>

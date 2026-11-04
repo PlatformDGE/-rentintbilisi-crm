@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 // English is the primary language, then Georgian and Russian. Missing keys fall back to English.
 
 const dict = {
@@ -6,6 +7,7 @@ const dict = {
     'map.ch.new': 'New developments', 'map.ch.car-rent': 'Car rental', 'map.ch.car-sale': 'Cars for sale',
     'map.kind.apartment': 'Apartments', 'map.kind.house': 'Houses', 'map.kind.commercial': 'Commercial', 'map.kind.land': 'Land plots', 
     'nav.map': 'Map', 'map.title': 'Map of all listings', 'map.categories': 'Categories', 'map.freshness': 'How fresh',
+    'map.found': n => `${n} found`, 'map.found.clear': 'Show all listings',
     'map.count': n => `${n} on the map · switch categories on and off`, 'map.all': 'All', 'map.show.all': 'Show all', 'map.hide.all': 'Hide all',
     'map.age.fresh': 'New · up to 5 days', 'map.age.recent': '5–20 days', 'map.age.old': 'Over 20 days',
     'l.write.short': 'Message',
@@ -38,7 +40,6 @@ const dict = {
     'home.budget.any': 'Any', 'home.find': 'Search', 'home.show.soon': 'Get notified',
     'home.stat.live': 'live listings', 'home.stat.districts': 'Tbilisi districts',
     'home.stat.hourly': 'catalogue refresh', 'home.stat.hourly.value': 'hourly',
-    'home.stat.commission': 'listings with no commission',
     'home.services.title': 'All Homes in Georgia services',
     'home.services.lead': 'Pick a direction — each has its own catalogue, filters and price format.',
     'home.fresh.rent': 'Fresh rentals', 'home.fresh.new': 'New developments', 'home.fresh.sale': 'Resale property',
@@ -59,7 +60,6 @@ const dict = {
     'home.districts.title': 'Tbilisi districts', 'home.districts.lead': 'Where most offers are right now',
     'home.why.title': 'Why it is easy with us',
     'home.why.1.t': 'Only live offers', 'home.why.1.d': 'Rented and sold properties disappear from the site automatically.',
-    'home.why.2.t': '0% commission', 'home.why.2.d': 'We never charge tenants or buyers a commission.',
     'home.why.3.t': 'Agent on Telegram', 'home.why.3.d': 'Message the listing agent directly — no forms, no call centres.',
     'home.why.4.t': 'Since 2022', 'home.why.4.d': 'Thousands of deals across Rent in Tbilisi and Sale in Tbilisi.',
     'home.owners.title': 'Renting out or selling?',
@@ -85,7 +85,7 @@ const dict = {
     'f.beds': 'Bedrooms', 'f.studio': 'Studio', 'f.kind': 'Property type', 'f.district': 'District', 'f.metro': 'Metro',
     'f.metro.any': 'Any station', 'f.building': 'Building', 'f.condition': 'Condition', 'f.amenities': 'Amenities',
     'f.pets': 'Pet friendly', 'f.term': 'Lease term', 'f.flags': 'More',
-    'f.exclusive': 'Exclusive only', 'f.commission': 'No commission', 'f.more': 'More', 'f.less': 'Less',
+    'f.exclusive': 'Exclusive only', 'f.more': 'More', 'f.less': 'Less',
     'term.short': 'up to 6 mo', 'term.year': '12 mo', 'term.long': '24+ mo',
 
     'kind.apartment': 'Apartment', 'kind.house': 'House', 'kind.commercial': 'Commercial', 'kind.land': 'Land',
@@ -104,7 +104,7 @@ const dict = {
 
     'card.beds': n => (n === 0 ? 'Studio' : `${n} bed${n === 1 ? '' : 's'}`),
     'card.floor': (f, t) => (t ? `Floor ${f}/${t}` : `Floor ${f}`),
-    'card.new': 'New', 'card.exclusive': 'Exclusive', 'card.nocommission': '0%',
+    'card.new': 'New', 'card.exclusive': 'Exclusive',
     'card.fav.add': 'Save', 'card.fav.remove': 'Remove from saved', 'card.prev': 'Previous photo', 'card.next': 'Next photo',
     'card.completion': y => `Ready ${y}`,
 
@@ -112,7 +112,7 @@ const dict = {
 
     'l.photos': n => `All photos (${n})`, 'l.facts': 'Key facts', 'l.about': 'Description', 'l.amenities': 'Amenities',
     'l.terms': 'Terms', 'l.location': 'Location', 'l.similar': 'Similar listings',
-    'l.deposit': 'Deposit', 'l.commission': 'Commission', 'l.commission.none': '0% — no commission',
+    'l.deposit': 'Deposit',
     'l.ppsqm': 'Price per m²', 'l.write': 'Message on Telegram', 'l.call': 'Call', 'l.whatsapp': 'WhatsApp',
     'l.share': 'Share', 'l.copied': 'Link copied', 'l.save': 'Save', 'l.saved': 'Saved',
     'l.source': 'Open the Telegram post', 'l.id': 'Listing ID', 'l.published': 'Published',
@@ -149,6 +149,7 @@ const dict = {
     'map.ch.new': 'ახალი პროექტები', 'map.ch.car-rent': 'ავტო ქირა', 'map.ch.car-sale': 'ავტო გაყიდვა',
     'map.kind.apartment': 'ბინები', 'map.kind.house': 'სახლები', 'map.kind.commercial': 'კომერცია', 'map.kind.land': 'მიწის ნაკვეთები', 
     'nav.map': 'რუკა', 'map.title': 'ყველა ობიექტის რუკა', 'map.categories': 'კატეგორიები', 'map.freshness': 'სიახლე',
+    'map.found': n => `ნაპოვნია: ${n}`, 'map.found.clear': 'ყველა განცხადების ჩვენება',
     'map.count': n => `${n} რუკაზე · ჩართეთ და გამორთეთ კატეგორიები`, 'map.all': 'ყველა', 'map.show.all': 'ყველას ჩვენება', 'map.hide.all': 'ყველას დამალვა',
     'map.age.fresh': 'ახალი · 5 დღემდე', 'map.age.recent': '5–20 დღე', 'map.age.old': '20 დღეზე მეტი',
     'l.write.short': 'მიწერა',
@@ -181,7 +182,6 @@ const dict = {
     'home.budget.any': 'ნებისმიერი', 'home.find': 'ძიება', 'home.show.soon': 'შეტყობინება გაშვებისას',
     'home.stat.live': 'აქტუალური განცხადება', 'home.stat.districts': 'თბილისის უბანი',
     'home.stat.hourly': 'კატალოგის განახლება', 'home.stat.hourly.value': 'ყოველ საათში',
-    'home.stat.commission': 'განცხადება საკომისიოს გარეშე',
     'home.services.title': 'Homes in Georgia-ს ყველა სერვისი',
     'home.services.lead': 'აირჩიეთ მიმართულება — თითოეულს აქვს საკუთარი კატალოგი, ფილტრები და ფასის ფორმატი.',
     'home.fresh.rent': 'ახალი ქირის განცხადებები', 'home.fresh.new': 'ახალი პროექტები', 'home.fresh.sale': 'მეორადი უძრავი ქონება იყიდება',
@@ -202,7 +202,6 @@ const dict = {
     'home.districts.title': 'თბილისის უბნები', 'home.districts.lead': 'სადაა ახლა ყველაზე მეტი შეთავაზება',
     'home.why.title': 'რატომ არის ჩვენთან მარტივი',
     'home.why.1.t': 'მხოლოდ აქტუალური', 'home.why.1.d': 'გაქირავებული და გაყიდული ობიექტები საიტიდან ავტომატურად ქრება.',
-    'home.why.2.t': '0% საკომისიო', 'home.why.2.d': 'ჩვენ არასდროს ვიღებთ საკომისიოს დამქირავებლებისა და მყიდველებისგან.',
     'home.why.3.t': 'აგენტი Telegram-ში', 'home.why.3.d': 'მისწერეთ ობიექტის აგენტს პირდაპირ — ფორმებისა და ქოლ-ცენტრების გარეშე.',
     'home.why.4.t': '2022 წლიდან', 'home.why.4.d': 'ათასობით გარიგება Rent in Tbilisi-სა და Sale in Tbilisi-ის არხებში.',
     'home.owners.title': 'აქირავებთ ან ყიდით?',
@@ -228,7 +227,7 @@ const dict = {
     'f.beds': 'საძინებლები', 'f.studio': 'სტუდიო', 'f.kind': 'ობიექტის ტიპი', 'f.district': 'უბანი', 'f.metro': 'მეტრო',
     'f.metro.any': 'ნებისმიერი სადგური', 'f.building': 'შენობა', 'f.condition': 'მდგომარეობა', 'f.amenities': 'კეთილმოწყობა',
     'f.pets': 'შინაური ცხოველებით', 'f.term': 'ქირის ვადა', 'f.flags': 'დამატებით',
-    'f.exclusive': 'მხოლოდ ექსკლუზივი', 'f.commission': 'საკომისიოს გარეშე', 'f.more': 'მეტი', 'f.less': 'ნაკლები',
+    'f.exclusive': 'მხოლოდ ექსკლუზივი', 'f.more': 'მეტი', 'f.less': 'ნაკლები',
     'term.short': '6 თვემდე', 'term.year': '12 თვე', 'term.long': '24 თვიდან',
 
     'kind.apartment': 'ბინა', 'kind.house': 'სახლი', 'kind.commercial': 'კომერციული', 'kind.land': 'მიწა',
@@ -247,7 +246,7 @@ const dict = {
 
     'card.beds': n => (n === 0 ? 'სტუდიო' : `${n} საძინებელი`),
     'card.floor': (f, t) => (t ? `სართ. ${f}/${t}` : `სართ. ${f}`),
-    'card.new': 'ახალი', 'card.exclusive': 'ექსკლუზივი', 'card.nocommission': '0%',
+    'card.new': 'ახალი', 'card.exclusive': 'ექსკლუზივი',
     'card.fav.add': 'რჩეულებში', 'card.fav.remove': 'რჩეულებიდან ამოშლა', 'card.prev': 'წინა ფოტო', 'card.next': 'შემდეგი ფოტო',
     'card.completion': y => `ჩაბარება ${y}`,
 
@@ -255,7 +254,7 @@ const dict = {
 
     'l.photos': n => `ყველა ფოტო (${n})`, 'l.facts': 'ობიექტის შესახებ', 'l.about': 'აღწერა', 'l.amenities': 'კეთილმოწყობა',
     'l.terms': 'პირობები', 'l.location': 'მდებარეობა', 'l.similar': 'მსგავსი განცხადებები',
-    'l.deposit': 'დეპოზიტი', 'l.commission': 'საკომისიო', 'l.commission.none': '0% — საკომისიოს გარეშე',
+    'l.deposit': 'დეპოზიტი',
     'l.ppsqm': 'ფასი მ²-ზე', 'l.write': 'მიწერა Telegram-ში', 'l.call': 'დარეკვა', 'l.whatsapp': 'WhatsApp',
     'l.share': 'გაზიარება', 'l.copied': 'ბმული დაკოპირდა', 'l.save': 'შენახვა', 'l.saved': 'შენახულია',
     'l.source': 'პოსტის გახსნა Telegram-ში', 'l.id': 'ID', 'l.published': 'გამოქვეყნდა',
@@ -292,6 +291,7 @@ const dict = {
     'map.ch.new': 'Новостройки', 'map.ch.car-rent': 'Аренда авто', 'map.ch.car-sale': 'Продажа авто',
     'map.kind.apartment': 'Квартиры', 'map.kind.house': 'Дома', 'map.kind.commercial': 'Коммерция', 'map.kind.land': 'Участки', 
     'nav.map': 'Карта', 'map.title': 'Карта всех объектов', 'map.categories': 'Категории', 'map.freshness': 'Свежесть',
+    'map.found': n => `Найдено: ${n}`, 'map.found.clear': 'Показать все объекты',
     'map.count': n => `${n} на карте · включайте и выключайте категории`, 'map.all': 'Все', 'map.show.all': 'Показать все', 'map.hide.all': 'Скрыть все',
     'map.age.fresh': 'Новые · до 5 дней', 'map.age.recent': '5–20 дней', 'map.age.old': 'Больше 20 дней',
     'l.write.short': 'Написать',
@@ -332,7 +332,6 @@ const dict = {
     'home.budget.any': 'Любой', 'home.find': 'Найти', 'home.show.soon': 'Узнать о запуске',
     'home.stat.live': 'актуальных объектов', 'home.stat.districts': 'районов Тбилиси',
     'home.stat.hourly': 'обновление каталога', 'home.stat.hourly.value': 'каждый час',
-    'home.stat.commission': 'объектов без комиссии',
     'home.services.title': 'Все сервисы Homes in Georgia',
     'home.services.lead': 'Выберите направление — у каждого свой каталог, фильтры и формат цены.',
     'home.fresh.rent': 'Свежие предложения аренды', 'home.fresh.new': 'Новостройки от застройщиков',
@@ -353,7 +352,6 @@ const dict = {
     'home.districts.title': 'Районы Тбилиси', 'home.districts.lead': 'Где сейчас больше всего предложений',
     'home.why.title': 'Почему с нами просто',
     'home.why.1.t': 'Только актуальное', 'home.why.1.d': 'Сданные и проданные объекты автоматически скрываются с сайта.',
-    'home.why.2.t': '0% комиссии', 'home.why.2.d': 'Мы никогда не берём комиссию с арендаторов и покупателей.',
     'home.why.3.t': 'Агент в Telegram', 'home.why.3.d': 'Пишите напрямую агенту объекта — без форм и колл-центров.',
     'home.why.4.t': 'С 2022 года', 'home.why.4.d': 'Тысячи сделок в каналах Rent in Tbilisi и Sale in Tbilisi.',
     'home.owners.title': 'Сдаёте или продаёте?',
@@ -379,7 +377,7 @@ const dict = {
     'f.beds': 'Спальни', 'f.studio': 'Студия', 'f.kind': 'Тип объекта', 'f.district': 'Район', 'f.metro': 'Метро',
     'f.metro.any': 'Любая станция', 'f.building': 'Дом', 'f.condition': 'Состояние', 'f.amenities': 'Удобства',
     'f.pets': 'Можно с животными', 'f.term': 'Срок аренды', 'f.flags': 'Дополнительно',
-    'f.exclusive': 'Только эксклюзив', 'f.commission': 'Без комиссии', 'f.more': 'Ещё', 'f.less': 'Свернуть',
+    'f.exclusive': 'Только эксклюзив', 'f.more': 'Ещё', 'f.less': 'Свернуть',
     'term.short': 'до 6 мес', 'term.year': '12 мес', 'term.long': 'от 24 мес',
 
     'kind.apartment': 'Квартира', 'kind.house': 'Дом', 'kind.commercial': 'Коммерция', 'kind.land': 'Земля',
@@ -399,7 +397,7 @@ const dict = {
 
     'card.beds': n => (n === 0 ? 'Студия' : `${n} ${plural(n, 'спальня', 'спальни', 'спален')}`),
     'card.floor': (f, t) => (t ? `${f}/${t} этаж` : `${f} этаж`),
-    'card.new': 'Новое', 'card.exclusive': 'Эксклюзив', 'card.nocommission': '0%',
+    'card.new': 'Новое', 'card.exclusive': 'Эксклюзив',
     'card.fav.add': 'В избранное', 'card.fav.remove': 'Убрать из избранного', 'card.prev': 'Предыдущее фото', 'card.next': 'Следующее фото',
     'card.completion': y => `Сдача ${y}`,
 
@@ -408,7 +406,7 @@ const dict = {
 
     'l.photos': n => `Все фото (${n})`, 'l.facts': 'Об объекте', 'l.about': 'Описание', 'l.amenities': 'Удобства',
     'l.terms': 'Условия', 'l.location': 'Расположение', 'l.similar': 'Похожие объекты',
-    'l.deposit': 'Депозит', 'l.commission': 'Комиссия', 'l.commission.none': '0% — без комиссии',
+    'l.deposit': 'Депозит',
     'l.ppsqm': 'Цена за м²', 'l.write': 'Написать в Telegram', 'l.call': 'Позвонить', 'l.whatsapp': 'WhatsApp',
     'l.share': 'Поделиться', 'l.copied': 'Ссылка скопирована', 'l.save': 'В избранное', 'l.saved': 'В избранном',
     'l.source': 'Открыть пост в Telegram', 'l.id': 'ID объекта', 'l.published': 'Опубликовано',

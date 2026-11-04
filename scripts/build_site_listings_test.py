@@ -50,7 +50,6 @@ class BuildSiteListingsTest(unittest.TestCase):
         self.assertEqual(item["headline"], "Duplex 3bed apartment near Vake Park")
         self.assertIn("dishwasher", item["amenities"])
         self.assertNotIn("oven", item["amenities"])
-        self.assertTrue(item["no_commission"])
         self.assertEqual(item["agent"]["telegram"], "David_Tibelashvili")
 
     def test_kind_follows_the_post_hashtag(self):

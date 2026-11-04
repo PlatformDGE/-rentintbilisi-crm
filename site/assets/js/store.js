@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t, localeOf } from './i18n.js';
 
 
@@ -105,9 +106,9 @@ export const isFresh = x => Date.now() - x._ts < 3 * 864e5;
 
 // ---------- filtering ----------
 // Filter state lives in the URL query: every key below is a query param.
-export const LIST_KEYS = ['beds', 'kind', 'deal', 'district', 'building', 'condition', 'amen', 'gearbox', 'fuel', 'body'];
+export const LIST_KEYS = ['beds', 'kind', 'deal', 'district', 'building', 'condition', 'amen', 'gearbox', 'fuel', 'body', 'heating'];
 export const RANGE_KEYS = ['price', 'area', 'year', 'mileage'];
-export const FLAG_KEYS = ['pets', 'excl', 'nocom'];
+export const FLAG_KEYS = ['pets', 'excl'];
 
 export function parseFilters(params) {
   const f = { q: params.get('q') || '', sort: params.get('sort') || 'new', metro: params.get('metro') || '', term: params.get('term') || '' };
@@ -166,11 +167,11 @@ export function applyFilters(items, f, skip = '') {
     && (!f.metro || x.metro === f.metro)
     && (!f.building.length || f.building.includes(x.building))
     && (!f.condition.length || f.condition.includes(x.condition))
+    && (!f.heating.length || f.heating.includes(x.heating))
     && (!f.amen.length || f.amen.every(a => x.amenities?.includes(a)))
     && (!f.pets || x.pets === 'allowed' || x.pets === 'agreement')
     && (!f.term || termMatch(x, f.term))
-    && (!f.excl || x.exclusive)
-    && (!f.nocom || x.no_commission));
+    && (!f.excl || x.exclusive));
 }
 
 const SORTS = {

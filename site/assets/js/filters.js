@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { serviceOf, FILTER_AMENITIES } from './config.js';
@@ -224,11 +225,15 @@ export function buildFilterSections(serviceId, base, draft) {
     add(chipSection(t('f.condition'), 'condition', ['renovated', 'mixed', 'white_frame', 'black_frame', 'green_frame', 'under_construction', 'old']
       .filter(k => c.has(k)).map(k => [k, t('cond.' + k)]), draft), 'condition');
   }
+  if (want.has('heating')) {
+    const h = present(base, 'heating');
+    add(chipSection(t('l.heating'), 'heating', ['central', 'gas', 'electric'].filter(k => h.has(k)).map(k => [k, t('heat.' + k)]), draft), 'heating');
+  }
   if (want.has('amenities')) add(chipSection(t('f.amenities'), 'amen', FILTER_AMENITIES.map(k => [k, t('am.' + k)]), draft), 'amen');
   if (want.has('term')) add(chipSection(t('f.term'), 'term', [['short', t('term.short')], ['year', t('term.year')], ['long', t('term.long')]], draft, { multi: false }), 'term');
   const flags = [];
   if (want.has('pets')) flags.push(['pets', t('f.pets')]);
-  if (want.has('flags')) flags.push(['nocom', t('f.commission')], ['excl', t('f.exclusive')]);
+  if (want.has('flags')) flags.push(['excl', t('f.exclusive')]);
   if (flags.length) add(toggleSection(t('f.flags'), flags, draft), 'flags');
   return { sections, district };
 }
@@ -236,7 +241,7 @@ export function buildFilterSections(serviceId, base, draft) {
 export function clearFilter(f, key) {
   if (LIST_KEYS.includes(key)) f[key] = [];
   else if (RANGE_KEYS.includes(key)) f[key] = [null, null];
-  else if (key === 'flags') f.pets = f.excl = f.nocom = false;
+  else if (key === 'flags') f.pets = f.excl = false;
   else f[key] = '';
 }
 
@@ -294,7 +299,7 @@ export function openFilterSheet({ serviceId, base, filters, onApply, only = '', 
       } else {
         LIST_KEYS.forEach(k => { draft[k] = []; });
         RANGE_KEYS.forEach(k => { draft[k] = [null, null]; });
-        draft.metro = ''; draft.term = ''; draft.pets = draft.excl = draft.nocom = false;
+        draft.metro = ''; draft.term = ''; draft.pets = draft.excl = false;
       }
       sections.forEach(s => s.reset?.());
       recount();

@@ -1,9 +1,10 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
-import { MAP_CENTER, MAP_CHANNELS, KIND_ICONS, CHANNELS, FRESHNESS, channelOf, freshnessOf } from '../config.js';
+import { MAP_CENTER, MAP_CHANNELS, KIND_ICONS, CHANNELS, FRESHNESS, SERVICES, channelOf, freshnessOf } from '../config.js';
 import { esc, listingTitle, facts } from '../components.js';
 import { loadLeaflet, mapTiler } from '../map.js';
-import { compactMoney, priceLabel, ago } from '../store.js';
+import { num, compactMoney, priceLabel, ago, itemsFor, parseFilters, applyFilters } from '../store.js';
 
 const desktop = () => matchMedia('(min-width: 900px)').matches;
 const hasPoint = x => Number.isFinite(x.lat) && Number.isFinite(x.lon);
@@ -47,7 +48,11 @@ function doubleTapZoom(L, map) {
 }
 
 export function renderMap(root, data, params) {
-  const all = data.items.filter(hasPoint).map(x => ({ x, ch: channelOf(x), kind: KIND_ICONS[x.kind] ? x.kind : 'apartment', fresh: freshnessOf(x) }));
+  // #/map?from=<service>&<catalog filters>: only what that search found.
+  const from = params.get('from');
+  const scoped = from === 'all' || !!SERVICES[from];
+  const source = scoped ? applyFilters(itemsFor(data, from), parseFilters(params)) : data.items;
+  const all = source.filter(hasPoint).map(x => ({ x, ch: channelOf(x), kind: KIND_ICONS[x.kind] ? x.kind : 'apartment', fresh: freshnessOf(x) }));
   const count = { ch: {}, age: {} };
   all.forEach(p => {
     count.ch[p.ch] = (count.ch[p.ch] || 0) + 1;
@@ -64,12 +69,14 @@ export function renderMap(root, data, params) {
   <aside class="mlayers" aria-label="${esc(t('map.title'))}"></aside>
   <div class="mchips" role="group" aria-label="${esc(t('map.channels'))}"></div>
   <div class="mages" role="group" aria-label="${esc(t('map.freshness'))}"></div>
+  <div class="mfound"${scoped ? '' : ' hidden'}></div>
   <div class="mpeek" hidden></div>
 </section>`;
   const $ = s => root.querySelector(s);
 
   const row = (group, id, ic) => {
     const n = count[group][id] || 0;
+    if (scoped && !n) return '';
     const on = !off[group].has(id);
     return `<button type="button" class="lrow${on && n ? ' on' : ''}${n ? '' : ' empty'}" data-group="${group}" data-id="${id}" ${n ? '' : 'disabled'} aria-pressed="${on}" title="@${esc(CHANNELS[id] || '')}">
       <i>${icon(ic)}</i><b>${t(`map.${group}.${id}`)}</b><small>${n || t('svc.soon')}</small><span class="sw"></span></button>`;
@@ -90,6 +97,14 @@ export function renderMap(root, data, params) {
     $('.mchips').innerHTML = `<button type="button" class="mchip all" data-all="1">${t('map.all')} · ${n}</button>`
       + MAP_CHANNELS.filter(c => count.ch[c.id]).map(c => chip('ch', c.id, c.icon)).join('');
     $('.mages').innerHTML = FRESHNESS.map(ageButton).join('');
+    if (scoped) {
+      const list = new URLSearchParams(params);
+      ['from', 'ch', 'age'].forEach(k => list.delete(k));
+      const missing = source.length - all.length;
+      $('.mfound').innerHTML = `<a class="mfound-list" href="#/${from}${list.toString() ? '?' + list : ''}">${icon('list')}<span>${t('cat.view.list')}</span></a>
+        <b>${esc(t('map.found', n))}${missing > 0 ? `<small>${num(missing)} ${esc(t('cat.no.coords'))}</small>` : ''}</b>
+        <a class="mfound-x" href="#/map" aria-label="${esc(t('map.found.clear'))}" title="${esc(t('map.found.clear'))}">${icon('x')}</a>`;
+    }
   }
 
   let L, map, layer;
@@ -127,7 +142,9 @@ export function renderMap(root, data, params) {
   }
 
   function commit() {
-    const q = new URLSearchParams();
+    const q = new URLSearchParams(scoped ? params : '');
+    q.delete('ch');
+    q.delete('age');
     Object.entries(off).forEach(([k, set]) => { if (set.size) q.set(k, [...set].join(',')); });
     history.replaceState(null, '', '#/map' + (q.toString() ? '?' + q : ''));
     controls();
@@ -173,6 +190,11 @@ export function renderMap(root, data, params) {
       },
     }).addTo(map);
     draw();
+    if (scoped && all.length) {
+      map.fitBounds(L.latLngBounds(all.map(p => [p.x.lat, p.x.lon])), {
+        paddingTopLeft: desktop() ? [340, 80] : [36, 170], paddingBottomRight: [36, 36], maxZoom: 15, animate: false,
+      });
+    }
   }).catch(() => {});
 
   return { destroy() { document.body.classList.remove('map-page'); map?.remove(); } };

@@ -1,3 +1,4 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t } from '../i18n.js';
 import { icon } from '../icons.js';
 import { GROUPS, SERVICES, serviceOf } from '../config.js';
@@ -18,6 +19,17 @@ export function renderCatalog(root, data, serviceId, params) {
   let f = parseFilters(params);
   const defaultView = () => (base.some(x => Number.isFinite(x.lat)) && desktop() ? 'map' : 'list');
   let view = params.get('view') || defaultView();
+  // Below the desktop split view the map is always the main full-screen map,
+  // showing exactly what the current filters found.
+  const mainMapHash = () => {
+    const q = filtersToParams(f);
+    q.set('from', serviceId);
+    return '#/map?' + q;
+  };
+  if (view === 'map' && !desktop()) {
+    location.replace(mainMapHash());
+    return {};
+  }
   let rows = [], shown = 0, mapCtl = null, mapReady = null;
 
   const tabs = serviceId === 'all'
@@ -95,10 +107,10 @@ export function renderCatalog(root, data, serviceId, params) {
     if (f.metro) add(f.metro, x => { x.metro = ''; });
     f.building.forEach(k => add(t('building.' + k), x => { x.building = x.building.filter(v => v !== k); }));
     f.condition.forEach(k => add(t('cond.' + k), x => { x.condition = x.condition.filter(v => v !== k); }));
+    f.heating.forEach(k => add(t('heat.' + k), x => { x.heating = x.heating.filter(v => v !== k); }));
     f.amen.forEach(k => add(t('am.' + k), x => { x.amen = x.amen.filter(v => v !== k); }));
     if (f.term) add(t('term.' + f.term), x => { x.term = ''; });
     if (f.pets) add(t('f.pets'), x => { x.pets = false; });
-    if (f.nocom) add(t('f.commission'), x => { x.nocom = false; });
     if (f.excl) add(t('f.exclusive'), x => { x.excl = false; });
     return chips;
   }
@@ -224,6 +236,10 @@ export function renderCatalog(root, data, serviceId, params) {
     }
     const v = e.target.closest('[data-setview]');
     const fab = e.target.closest('.fab-view');
+    if (fab && view !== 'map') {
+      location.hash = mainMapHash();
+      return;
+    }
     if (v || fab) {
       view = v ? v.dataset.setview : view === 'map' ? 'list' : 'map';
       commit(f);
@@ -258,6 +274,10 @@ export function renderCatalog(root, data, serviceId, params) {
     update(nextParams) {
       f = parseFilters(nextParams);
       view = nextParams.get('view') || defaultView();
+      if (view === 'map' && !desktop()) {
+        location.replace(mainMapHash());
+        return;
+      }
       search.value = f.q;
       sort.value = f.sort;
       render();

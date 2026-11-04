@@ -513,7 +513,6 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
         "months": months,
         "tenants": tenants,
         "exclusive": bool(re.search(r"#exclusive", text, re.I)),
-        "no_commission": bool(re.search(r"0\s*%\s*commission", text, re.I)),
         "completion": completion(text) if condition in ("under_construction", "white_frame", "black_frame", "green_frame") else "",
         "description": description(text, headline(text)),
         "agent": agent(text),
