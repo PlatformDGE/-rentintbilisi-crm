@@ -18,6 +18,20 @@ export const CHANNELS = {
   'car-sale': 'CarsSaleInGeorgia',
 };
 
+// Everywhere clients can find us. Footer of every page.
+export const OFFICE_MAP = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Stamba, 14 Merab Kostava St, Tbilisi');
+export const SOCIALS = [
+  { icon: 'instagram', name: 'Instagram', handle: '@homesingeorgia', href: 'https://www.instagram.com/homesingeorgia/' },
+  { icon: 'instagram', name: 'Instagram', handle: '@rentintbilisilisting', href: 'https://www.instagram.com/rentintbilisilisting/' },
+  { icon: 'facebook', name: 'Facebook', handle: 'rentintbilisi.ge', href: 'https://www.facebook.com/rentintbilisi.ge' },
+  { icon: 'tiktok', name: 'TikTok', handle: '@rent.in.tbilisi', href: 'https://www.tiktok.com/@rent.in.tbilisi' },
+  { icon: 'youtube', name: 'YouTube', handle: '@RENTINTBILISI', href: 'https://www.youtube.com/@RENTINTBILISI' },
+  { icon: 'threads', name: 'Threads', handle: '@rent_in_tbilisi', href: 'https://www.threads.com/@rent_in_tbilisi' },
+];
+export const PORTALS = [
+  { name: 'Myhome.ge', href: 'https://www.myhome.ge/s/?users=4201800' },
+  { name: 'SS.ge', href: 'https://home.ss.ge/ka/udzravi-qoneba/userlist?userId=65aa7435-d32e-40bc-b86b-9d963efbbe77' },
+];
 export const phoneHref = phone => 'tel:' + String(phone || CONTACT.phone).replace(/[^\d+]/g, '');
 export const whatsappHref = (phone, text = '') =>
   'https://wa.me/' + String(phone || CONTACT.phone).replace(/\D/g, '') + (text ? '?text=' + encodeURIComponent(text) : '');

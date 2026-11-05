@@ -1,10 +1,15 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { esc, listingTitle, toast } from './components.js';
 import { priceLabel } from './store.js';
 
 // Brand marks (simplified, single-path) for the share targets.
-const BRAND = {
+export const BRAND = {
+  // Plain symbols, with the service named in the text beside them.
+  tiktok: '<path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M9 18V6.5l9-2V16"/><circle cx="6.8" cy="18" r="2.2" fill="#fff"/><circle cx="15.8" cy="16" r="2.2" fill="#fff"/>',
+  youtube: '<path fill="#fff" d="M9 6.5v11a.6.6 0 0 0 .9.5l8.6-5.5a.6.6 0 0 0 0-1L9.9 6a.6.6 0 0 0-.9.5Z"/>',
+  threads: '<circle cx="12" cy="12" r="3.4" fill="none" stroke="#fff" stroke-width="1.8"/><path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" d="M15.4 8.6v4.6a2.3 2.3 0 0 0 4.6 0V12a8 8 0 1 0-3.2 6.4"/>',
   telegram: '<path fill="#fff" d="M17.6 7.2 15.4 17c-.2.7-.6.9-1.2.6l-3.3-2.4-1.6 1.5c-.2.2-.3.3-.7.3l.2-3.4 6.2-5.6c.3-.2-.1-.4-.4-.2l-7.7 4.8-3.3-1c-.7-.2-.7-.7.2-1l12.9-5c.6-.2 1.1.1.9 1.6Z"/>',
   whatsapp: '<path fill="#fff" d="M12 4.2a7.8 7.8 0 0 0-6.7 11.8L4.2 19.8l3.9-1A7.8 7.8 0 1 0 12 4.2Zm4.5 11c-.2.5-1.1 1-1.6 1.1-.4 0-.9.1-2.9-.7-2.4-1-4-3.5-4.1-3.6-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.3.5-.3.6-.3h.5c.1 0 .4 0 .6.4l.8 1.9c.1.1.1.3 0 .5l-.3.4-.4.4c-.1.1-.3.3-.1.5.1.3.6 1 1.3 1.7.9.8 1.7 1.1 1.9 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3 0 .1 0 .6-.1 1Z"/>',
   facebook: '<path fill="#fff" d="M13.4 20v-7.1h2.4l.4-2.8h-2.8V8.3c0-.8.2-1.4 1.4-1.4h1.5V4.4c-.3 0-1.1-.1-2.1-.1-2.1 0-3.6 1.3-3.6 3.7v2.1H8.2v2.8h2.4V20h2.8Z"/>',

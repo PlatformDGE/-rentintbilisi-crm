@@ -1,9 +1,10 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t, getLang, setLang, languages, localeOf } from './i18n.js';
 import { icon, logo } from './icons.js';
-import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, whatsappHref, markLive } from './config.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, SOCIALS, PORTALS, OFFICE_MAP, telegramHref, phoneHref, whatsappHref, markLive } from './config.js';
 import { esc, installInteractions, serviceIcon, loadingView, errorView } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
-import { openShare } from './share.js';
+import { openShare, BRAND } from './share.js';
 import { enterEntry, setPageTop, restoreTop, cancelRestore, scrollRoot, pageTop } from './scroll.js';
 import { renderHome } from './pages/home.js';
 import { renderMap } from './pages/map.js';
@@ -80,13 +81,30 @@ function rateLine() {
   return '<br>' + esc(t('footer.rates', date, fmt(1 / r.GEL), fmt(r.EUR / r.GEL)));
 }
 
+const brandMark = name => BRAND[name] ? `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${BRAND[name]}</svg>` : icon(name === 'tel' ? 'phone' : name);
+const footRow = (href, mark, title, sub, external = true) => `<a class="foot-row" href="${esc(href)}"${external ? ' target="_blank" rel="noopener"' : ''}><span class="foot-mark foot-mark-${mark}">${brandMark(mark)}</span><span><b>${esc(title)}</b><small>${esc(sub)}</small></span></a>`;
+const footChip = (href, mark, name, sub) => `<a class="foot-chip" href="${esc(href)}" target="_blank" rel="noopener"><span class="foot-mark">${brandMark(mark)}</span><span><b>${esc(name)}</b><small>${esc(sub)}</small></span></a>`;
+
 function renderFooter() {
   footer.innerHTML = `
   <div class="container foot">
     <div class="foot-brand">${logo('logo-light')}<p>${t('footer.about')}</p></div>
     ${Object.keys(GROUPS).map(g => `<div><h4>${t('group.' + g)}</h4>${GROUPS[g].services.map(s => `<a href="#/${s}">${t('svc.' + s)}</a>`).join('')}</div>`).join('')}
-    <div><details class="foot-channels"><summary>${t('footer.channels')}${icon('down')}</summary>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}</details>
-      <h4>${t('footer.contact')}</h4><a href="${phoneHref()}">${esc(CONTACT.phone)}</a><a href="${telegramHref()}" target="_blank" rel="noopener">Telegram: @${esc(CONTACT.telegram)}</a><a href="${whatsappHref()}" target="_blank" rel="noopener">WhatsApp: ${esc(CONTACT.phone)}</a></div>
+    <div><details class="foot-channels"><summary>${t('footer.channels')}${icon('down')}</summary>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}</details></div>
+  </div>
+  <div class="container foot-connect">
+    <section><h4>${t('footer.contact')}</h4><div class="foot-rows">
+      ${footRow(phoneHref(), 'tel', t('footer.call'), CONTACT.phone, false)}
+      ${footRow(whatsappHref(), 'whatsapp', t('footer.whatsapp'), CONTACT.phone)}
+      ${footRow(telegramHref(), 'telegram', t('footer.telegram'), t('footer.message'))}
+      ${footRow(OFFICE_MAP, 'pin', t('footer.office'), t('footer.address'))}
+    </div></section>
+    <section><h4>${t('footer.social')}</h4><div class="foot-chips">
+      ${SOCIALS.map(s => footChip(s.href, s.icon, s.name, s.handle)).join('')}
+    </div></section>
+    <section><h4>${t('footer.listings')}</h4><div class="foot-chips">
+      ${PORTALS.map(p => footChip(p.href, 'list', p.name, t('footer.allads'))).join('')}
+    </div></section>
   </div>
   <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}${rateLine()}</span></div>`;
 }
