@@ -1529,3 +1529,7 @@ html[data-theme="dark"] .chip.on small, html[data-theme="dark"] .svc-tab.on .i, 
 .f-adv > summary .i { width: 18px; flex: none; transition: transform .2s var(--ease); }
 .f-adv[open] > summary .i { transform: rotate(180deg); }
 html[data-theme="dark"] .f-adv > summary { color: #fff; }
+
+/* Card badges stack in a column, so they never run under the share and favourite buttons.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.badges { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; }
