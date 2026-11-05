@@ -4,7 +4,7 @@ import { icon } from '../icons.js';
 import { MAP_CENTER, MAP_CHANNELS, KIND_ICONS, CHANNELS, FRESHNESS, SERVICES, CONTACT, channelOf, freshnessOf, telegramHref } from '../config.js';
 import { esc, listingTitle, facts } from '../components.js';
 import { placeName } from '../places.js';
-import { loadLeaflet, mapTiler } from '../map.js';
+import { loadLeaflet, mapTiler, brandMap } from '../map.js';
 import { entryData, saveEntry, replaceHash } from '../scroll.js';
 import { num, compactMoney, priceLabel, sqmPrice, ago, itemsFor, parseFilters, applyFilters, activeCount } from '../store.js';
 
@@ -251,7 +251,7 @@ export function renderMap(root, data, params, opts = {}) {
     sizeWatch.observe($('#tmap'));
     if (L.Browser.mobile) doubleTapZoom(L, map);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
-    map.attributionControl.setPrefix(false);
+    brandMap(map);
     const streets = mapTiler(L, 'streets-v2').addTo(map);
     L.control.layers({ [t('map.streets')]: streets, [t('map.satellite')]: mapTiler(L, 'hybrid', 'jpg') }, null, { position: desktop() ? 'topright' : 'bottomright' }).addTo(map);
     map.on('click', () => { saveEntry({ card: null }); closeCard(); });
