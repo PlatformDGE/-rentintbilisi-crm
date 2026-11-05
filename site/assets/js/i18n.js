@@ -84,7 +84,7 @@ const dict = {
     'f.price': 'Price', 'f.price.month': 'Monthly price', 'f.area': 'Area, m²', 'f.from': 'from', 'f.to': 'to',
     'f.beds': 'Bedrooms', 'f.studio': 'Studio', 'f.kind': 'Property type', 'f.district': 'District', 'f.metro': 'Metro',
     'f.metro.any': 'Any station', 'f.building': 'Building', 'f.condition': 'Condition', 'f.amenities': 'Amenities',
-    'f.pets': 'Pet friendly', 'f.term': 'Lease term', 'f.flags': 'More',
+    'f.adv': 'Advanced filter', 'f.section': 'Section', 'f.floor': 'Floor', 'f.floor.flags': 'Floor options', 'f.notfirst': 'Not the first floor', 'f.notlast': 'Not the top floor', 'f.floors': 'Floors in building', 'f.ppsqm': 'Price per m²', 'f.deposit': 'Deposit', 'f.tenants': 'Tenants allowed', 'f.seats': 'Seats', 'f.pickup': 'Pickup location', 'f.pickup.any': 'Any location', 'f.pets': 'Pet friendly', 'f.term': 'Lease term', 'f.flags': 'More',
     'f.exclusive': 'Exclusive only', 'f.more': 'More', 'f.less': 'Less',
     'term.short': 'up to 6 mo', 'term.year': '12 mo', 'term.long': '24+ mo',
 
@@ -227,7 +227,7 @@ const dict = {
     'f.price': 'ფასი', 'f.price.month': 'ფასი თვეში', 'f.area': 'ფართი, მ²', 'f.from': 'მინ.', 'f.to': 'მაქს.',
     'f.beds': 'საძინებლები', 'f.studio': 'სტუდიო', 'f.kind': 'ობიექტის ტიპი', 'f.district': 'უბანი', 'f.metro': 'მეტრო',
     'f.metro.any': 'ნებისმიერი სადგური', 'f.building': 'შენობა', 'f.condition': 'მდგომარეობა', 'f.amenities': 'კეთილმოწყობა',
-    'f.pets': 'შინაური ცხოველებით', 'f.term': 'ქირის ვადა', 'f.flags': 'დამატებით',
+    'f.adv': 'გაფართოებული ფილტრი', 'f.section': 'განყოფილება', 'f.floor': 'სართული', 'f.floor.flags': 'სართულის პარამეტრები', 'f.notfirst': 'არა პირველი სართული', 'f.notlast': 'არა ბოლო სართული', 'f.floors': 'სართულები შენობაში', 'f.ppsqm': 'ფასი მ²-ზე', 'f.deposit': 'დეპოზიტი', 'f.tenants': 'მცხოვრებთა რაოდენობა', 'f.seats': 'ადგილები', 'f.pickup': 'აყვანის ადგილი', 'f.pickup.any': 'ნებისმიერი ადგილი', 'f.pets': 'შინაური ცხოველებით', 'f.term': 'ქირის ვადა', 'f.flags': 'დამატებით',
     'f.exclusive': 'მხოლოდ ექსკლუზივი', 'f.more': 'მეტი', 'f.less': 'ნაკლები',
     'term.short': '6 თვემდე', 'term.year': '12 თვე', 'term.long': '24 თვიდან',
 
@@ -378,7 +378,7 @@ const dict = {
     'f.price': 'Цена', 'f.price.month': 'Цена в месяц', 'f.area': 'Площадь, м²', 'f.from': 'от', 'f.to': 'до',
     'f.beds': 'Спальни', 'f.studio': 'Студия', 'f.kind': 'Тип объекта', 'f.district': 'Район', 'f.metro': 'Метро',
     'f.metro.any': 'Любая станция', 'f.building': 'Дом', 'f.condition': 'Состояние', 'f.amenities': 'Удобства',
-    'f.pets': 'Можно с животными', 'f.term': 'Срок аренды', 'f.flags': 'Дополнительно',
+    'f.adv': 'Расширенный фильтр', 'f.section': 'Раздел', 'f.floor': 'Этаж', 'f.floor.flags': 'Этаж: условия', 'f.notfirst': 'Не первый этаж', 'f.notlast': 'Не последний этаж', 'f.floors': 'Этажей в доме', 'f.ppsqm': 'Цена за м²', 'f.deposit': 'Депозит', 'f.tenants': 'Можно жильцов', 'f.seats': 'Мест', 'f.pickup': 'Где забрать машину', 'f.pickup.any': 'Любое место', 'f.pets': 'Можно с животными', 'f.term': 'Срок аренды', 'f.flags': 'Дополнительно',
     'f.exclusive': 'Только эксклюзив', 'f.more': 'Ещё', 'f.less': 'Свернуть',
     'term.short': 'до 6 мес', 'term.year': '12 мес', 'term.long': 'от 24 мес',
 

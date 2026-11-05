@@ -30,13 +30,13 @@ export const telegramHref = (user, text = '') =>
 // `filters` lists the filter panel sections of the catalogue.
 const REALTY = ['price', 'beds', 'kind', 'area', 'district', 'metro'];
 export const SERVICES = {
-  rent: { group: 'realty', icon: 'key', filters: [...REALTY, 'building', 'heating', 'amenities', 'pets', 'term', 'flags'] },
-  sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'building', 'condition', 'heating', 'flags'] },
-  commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'condition', 'heating', 'flags'] },
-  daily: { group: 'realty', icon: 'moon', filters: ['price', 'beds', 'district', 'metro', 'heating', 'amenities', 'flags'] },
+  rent: { group: 'realty', icon: 'key', filters: [...REALTY, 'floor', 'floors', 'building', 'condition', 'heating', 'amenities', 'deposit', 'tenants', 'term', 'pets', 'flags'] },
+  sale: { group: 'realty', icon: 'tag', filters: [...REALTY, 'floor', 'floors', 'building', 'condition', 'heating', 'amenities', 'ppsqm', 'flags'] },
+  commercial: { group: 'realty', icon: 'building', filters: ['price', 'deal', 'area', 'district', 'metro', 'floor', 'floors', 'building', 'condition', 'heating', 'amenities', 'ppsqm', 'deposit', 'term', 'flags'] },
+  daily: { group: 'realty', icon: 'moon', filters: ['price', 'beds', 'district', 'metro', 'floor', 'floors', 'heating', 'amenities', 'flags'] },
   new: { group: 'realty', icon: 'crane', filters: ['price', 'beds', 'area', 'district', 'metro', 'condition', 'heating', 'flags'] },
-  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'flags'] },
-  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'flags'] },
+  'car-rent': { group: 'auto', icon: 'car', filters: ['price', 'body', 'gearbox', 'fuel', 'year', 'seats', 'pickup', 'flags'] },
+  'car-sale': { group: 'auto', icon: 'gauge', filters: ['price', 'body', 'year', 'mileage', 'gearbox', 'fuel', 'seats', 'pickup', 'flags'] },
 };
 
 export const GROUPS = {
@@ -49,14 +49,14 @@ export function markLive(counts = {}) {
 }
 
 // Pseudo-service used by the global search: every live real-estate offer.
-export const ALL = { group: 'realty', icon: 'search', live: true, filters: [...REALTY, 'heating', 'flags'] };
+export const ALL = { group: 'realty', icon: 'search', live: true, filters: [...REALTY, 'floor', 'floors', 'building', 'condition', 'heating', 'amenities', 'flags'] };
 
 export const serviceOf = id => (id === 'all' ? ALL : SERVICES[id]);
 
 export const AMENITY_ORDER = ['conditioner', 'wifi', 'dishwasher', 'washer', 'oven', 'microwave', 'stove', 'tv', 'balcony',
   'terrace', 'courtyard', 'elevator', 'parking', 'pool', 'gym', 'fireplace', 'view', 'vacuum', 'storage', 'security', 'generator', 'playground'];
 
-export const FILTER_AMENITIES = ['conditioner', 'dishwasher', 'washer', 'balcony', 'terrace', 'elevator', 'parking', 'oven', 'wifi', 'courtyard'];
+export const FILTER_AMENITIES = ['conditioner', 'wifi', 'tv', 'stove', 'oven', 'microwave', 'dishwasher', 'washer', 'vacuum', 'balcony', 'terrace', 'courtyard', 'elevator', 'parking', 'fireplace', 'storage', 'pool'];
 
 export const MAP_CENTER = [41.7151, 44.8271];
 

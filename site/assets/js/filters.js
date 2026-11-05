@@ -1,10 +1,13 @@
 // Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t } from './i18n.js';
 import { icon } from './icons.js';
-import { serviceOf, FILTER_AMENITIES } from './config.js';
+import { SERVICES, serviceOf, FILTER_AMENITIES } from './config.js';
 import { esc } from './components.js';
 import { placeName } from './places.js';
-import { applyFilters, countBy, compactMoney, fromUsd, toUsd, currencySymbol, num, LIST_KEYS, RANGE_KEYS } from './store.js';
+import { applyFilters, countBy, compactMoney, fromUsd, toUsd, currencySymbol, num, LIST_KEYS, RANGE_KEYS, FLAG_KEYS, TEXT_KEYS } from './store.js';
+
+// Shown first in the sheet; everything else goes under "Advanced filter".
+const BASIC_KEYS = new Set(['price', 'beds', 'kind', 'deal', 'district', 'body', 'gearbox']);
 
 const BINS = 36;
 const RES = 1000;
@@ -216,7 +219,17 @@ export function buildFilterSections(serviceId, base, draft) {
     district = chipSection(t('f.district'), 'district', countBy(base, 'district').map(([v, n]) => [v, placeName(v), n]), draft, { limit: 10 });
     add(district, 'district');
   }
+  if (want.has('seats')) {
+    const seats = [...present(base, 'seats')].sort((a, b) => a - b);
+    add(chipSection(t('f.seats'), 'seats', seats.map(v => [String(v), String(v)]), draft, { multi: false }), 'seats');
+  }
+  if (want.has('pickup')) add(selectSection(t('f.pickup'), 'pickup', countBy(base, 'pickup'), draft, t('f.pickup.any')), 'pickup');
   if (want.has('metro')) add(selectSection(t('f.metro'), 'metro', countBy(base, 'metro'), draft, t('f.metro.any')), 'metro');
+  if (want.has('floor')) {
+    add(rangeControl('floor', base.map(x => x.floor), draft, { money: false, plain: true, unit: '', label: t('f.floor') }), 'floor');
+    if (base.some(x => x.floor)) add(toggleSection(t('f.floor.flags'), [['notfirst', t('f.notfirst')], ['notlast', t('f.notlast')]], draft), 'floorflags');
+  }
+  if (want.has('floors')) add(rangeControl('floors', base.map(x => x.floors), draft, { money: false, plain: true, unit: '', label: t('f.floors') }), 'floors');
   if (want.has('building')) {
     const b = present(base, 'building');
     add(chipSection(t('f.building'), 'building', ['new', 'old', 'historical'].filter(k => b.has(k)).map(k => [k, t('building.' + k)]), draft), 'building');
@@ -231,6 +244,9 @@ export function buildFilterSections(serviceId, base, draft) {
     add(chipSection(t('l.heating'), 'heating', ['central', 'gas', 'electric'].filter(k => h.has(k)).map(k => [k, t('heat.' + k)]), draft), 'heating');
   }
   if (want.has('amenities')) add(chipSection(t('f.amenities'), 'amen', FILTER_AMENITIES.map(k => [k, t('am.' + k)]), draft), 'amen');
+  if (want.has('ppsqm')) add(rangeControl('ppsqm', base.map(x => x.ppsqm_usd), draft, { money: true, label: t('f.ppsqm') }), 'ppsqm');
+  if (want.has('deposit')) add(rangeControl('deposit', base.map(x => (x.deposit && x.price && x.price_usd ? x.deposit * x.price_usd / x.price : 0)), draft, { money: true, label: t('f.deposit') }), 'deposit');
+  if (want.has('tenants') && base.some(x => x.tenants)) add(chipSection(t('f.tenants'), 'tenants', [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5+']], draft, { multi: false }), 'tenants');
   if (want.has('term')) add(chipSection(t('f.term'), 'term', [['short', t('term.short')], ['year', t('term.year')], ['long', t('term.long')]], draft, { multi: false }), 'term');
   const flags = [];
   if (want.has('pets')) flags.push(['pets', t('f.pets')]);
@@ -243,6 +259,7 @@ export function clearFilter(f, key) {
   if (LIST_KEYS.includes(key)) f[key] = [];
   else if (RANGE_KEYS.includes(key)) f[key] = [null, null];
   else if (key === 'flags') f.pets = f.excl = false;
+  else if (key === 'floorflags') f.notfirst = f.notlast = false;
   else f[key] = '';
 }
 
@@ -251,10 +268,11 @@ export function clearFilter(f, key) {
  * One filter (`only`): a small popover under its pill button on desktop,
  * a short bottom sheet on phones.
  */
-export function openFilterSheet({ serviceId, base, filters, onApply, only = '', anchor = null }) {
+export function openFilterSheet({ serviceId, base, filters, onApply, only = '', anchor = null, baseFor = null }) {
   const draft = structuredClone(filters);
   const popover = !!(only && anchor && matchMedia('(min-width: 760px)').matches);
-  const { sections, district } = buildFilterSections(serviceId, base, draft);
+  let current = serviceId, items = base;
+  let { sections, district } = buildFilterSections(current, items, draft);
   const shown = only ? sections.filter(s => s.dataset.key === only) : sections;
   const title = only ? shown[0]?.querySelector('h3')?.textContent || t('f.title') : t('f.title');
   const wrap = document.createElement('div');
@@ -269,11 +287,45 @@ export function openFilterSheet({ serviceId, base, filters, onApply, only = '', 
         <button type="button" class="btn btn-primary" data-apply></button></footer>
     </aside>`;
   const body = wrap.querySelector('.sheet-body');
-  shown.forEach(s => body.append(s));
+  const clearDraft = () => {
+    LIST_KEYS.forEach(k => { draft[k] = []; });
+    RANGE_KEYS.forEach(k => { draft[k] = [null, null]; });
+    TEXT_KEYS.forEach(k => { draft[k] = ''; });
+    FLAG_KEYS.forEach(k => { draft[k] = false; });
+  };
+  const sectionPicker = () => {
+    const el = document.createElement('section');
+    el.className = 'f-section f-services';
+    el.innerHTML = `<div class="f-head"><h3>${esc(t('f.section'))}</h3></div><div class="chips">${Object.keys(SERVICES).filter(s => baseFor(s).length).map(s =>
+      `<button type="button" class="chip${s === current ? ' on' : ''}" data-service="${s}" aria-pressed="${s === current}">${icon(SERVICES[s].icon)}${esc(t('svc.' + s + '.short'))}</button>`).join('')}</div>`;
+    return el;
+  };
+  const renderBody = () => {
+    body.textContent = '';
+    if (only) { shown.forEach(s => body.append(s)); return; }
+    if (baseFor) body.append(sectionPicker());
+    sections.filter(s => BASIC_KEYS.has(s.dataset.key)).forEach(s => body.append(s));
+    const more = sections.filter(s => !BASIC_KEYS.has(s.dataset.key));
+    if (!more.length) return;
+    const adv = document.createElement('details');
+    adv.className = 'f-adv';
+    // Stay open when something inside is already chosen, so an active filter is never hidden.
+    const emptyDraft = k => { const v = draft[k]; return !v || (Array.isArray(v) && !v.some(x => x != null && x !== '')); };
+    adv.open = more.some(s => {
+      const key = s.dataset.key;
+      if (key === 'flags') return draft.pets || draft.excl;
+      if (key === 'floorflags') return draft.notfirst || draft.notlast;
+      return !emptyDraft(key === 'amenities' ? 'amen' : key);
+    });
+    adv.innerHTML = `<summary>${esc(t('f.adv'))}${icon('down')}</summary>`;
+    more.forEach(s => adv.append(s));
+    body.append(adv);
+  };
+  renderBody();
   const applyBtn = wrap.querySelector('[data-apply]');
   const recount = () => {
-    applyBtn.textContent = t('f.show', applyFilters(base, draft).length);
-    district?.setCounts(new Map(countBy(applyFilters(base, draft, 'district'), 'district')));
+    applyBtn.textContent = t('f.show', applyFilters(items, draft).length);
+    district?.setCounts(new Map(countBy(applyFilters(items, draft, 'district'), 'district')));
   };
   body.addEventListener('change', recount);
   recount();
@@ -294,18 +346,28 @@ export function openFilterSheet({ serviceId, base, filters, onApply, only = '', 
   const onKey = e => { if (e.key === 'Escape') close(); };
   wrap.addEventListener('click', e => {
     if (e.target.closest('[data-close]')) close();
+    const pick = e.target.closest('[data-service]');
+    if (pick && pick.dataset.service !== current) {
+      // Each section has its own prices and parameters, so its filters start clean.
+      current = pick.dataset.service;
+      items = baseFor(current);
+      clearDraft();
+      ({ sections, district } = buildFilterSections(current, items, draft));
+      renderBody();
+      recount();
+      body.scrollTop = 0;
+      return;
+    }
     if (e.target.closest('[data-reset]')) {
       if (only) {
         clearFilter(draft, only);
       } else {
-        LIST_KEYS.forEach(k => { draft[k] = []; });
-        RANGE_KEYS.forEach(k => { draft[k] = [null, null]; });
-        draft.metro = ''; draft.term = ''; draft.pets = draft.excl = false;
+        clearDraft();
       }
       sections.forEach(s => s.reset?.());
       recount();
     }
-    if (e.target.closest('[data-apply]')) { onApply(draft); close(); }
+    if (e.target.closest('[data-apply]')) { onApply(draft, current); close(); }
   });
   document.addEventListener('keydown', onKey);
   document.body.append(wrap);
