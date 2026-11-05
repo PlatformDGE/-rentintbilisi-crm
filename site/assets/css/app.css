@@ -1533,3 +1533,43 @@ html[data-theme="dark"] .f-adv > summary { color: #fff; }
 /* Card badges stack in a column, so they never run under the share and favourite buttons.
    Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
 .badges { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; }
+
+/* Dollar / lari switch in the header, and price per m² under the price.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.cur-seg { display: inline-flex; flex: none; padding: 3px; border: 1px solid var(--line-2); border-radius: var(--pill); background: var(--surface); cursor: pointer; }
+.cur-seg span { display: grid; place-items: center; width: 26px; height: 30px; border-radius: var(--pill); font-size: 14px; font-weight: 700; color: var(--muted); transition: .16s var(--ease); }
+.cur-seg span.on { background: var(--brand); color: #fff; }
+html[data-theme="dark"] .cur-seg span.on { background: #2F6FED; }
+@media (max-width: 439px) {
+  .nav { gap: 6px; }
+  .nav-tools { gap: 2px; }
+  .nav-tools .icon-btn { width: 36px; }
+  .lang-seg { --lang-w: 30px; grid-template-columns: repeat(3, 30px); }
+  .lang-seg button { font-size: 10.5px; letter-spacing: 0; }
+  .cur-seg span { width: 22px; font-size: 13px; }
+}
+@media (max-width: 379px) {
+  .nav .logo { height: 26px; }
+}
+.card-sqm { margin-top: -2px; color: var(--faint); font-size: 13px; font-variant-numeric: tabular-nums; }
+.pc-sqm { margin-top: 2px; color: var(--muted); font-size: 14px; }
+/* Smallest phones: the header and cards always fit the screen. */
+@media (max-width: 339px) {
+  .nav .logo { height: 22px; }
+  .nav-tools .icon-btn { width: 32px; }
+  .lang-seg { --lang-w: 26px; grid-template-columns: repeat(3, 26px); padding: 2px; }
+  .cur-seg { padding: 2px; }
+  .cur-seg span { width: 19px; }
+}
+@media (max-width: 639px) {
+  .card, .card-body, .card-price { min-width: 0; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 639px) {
+  .card-body { grid-template-columns: minmax(0, 1fr); }
+  .card-body > * { min-width: 0; overflow-wrap: anywhere; }
+  .card-price .card-id { white-space: normal; }
+}
+/* The language highlight follows the narrower phone buttons. */
+.lang-seg .lang-thumb { width: var(--lang-w, 38px); transform: translateX(calc(var(--i, 0) * var(--lang-w, 38px))); }
+@media (max-width: 339px) { .lang-thumb { top: 2px; left: 2px; } }

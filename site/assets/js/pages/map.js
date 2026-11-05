@@ -6,7 +6,7 @@ import { esc, listingTitle, facts } from '../components.js';
 import { placeName } from '../places.js';
 import { loadLeaflet, mapTiler } from '../map.js';
 import { entryData, saveEntry, replaceHash } from '../scroll.js';
-import { num, compactMoney, priceLabel, ago, itemsFor, parseFilters, applyFilters, activeCount } from '../store.js';
+import { num, compactMoney, priceLabel, sqmPrice, ago, itemsFor, parseFilters, applyFilters, activeCount } from '../store.js';
 
 const desktop = () => matchMedia('(min-width: 900px)').matches;
 const hasPoint = x => Number.isFinite(x.lat) && Number.isFinite(x.lon);
@@ -146,7 +146,7 @@ export function renderMap(root, data, params, opts = {}) {
     const body = `
       ${x.photos?.[0] ? `<img src="${esc(x.photos[0])}" alt="">` : ''}
       <div><em style="--c:${fresh.color}"><i></i>${t('map.ch.' + ch)} · ${t(kind === 'car' ? 'kind.car' : 'map.kind.' + kind)} · ${esc(ago(x.published_at))}</em>
-        <b>${esc(pr.main)} <small>${pr.period}</small></b><span>${esc(listingTitle(x))}</span><small>${esc(facts(x).join(' · '))}</small></div>`;
+        <b>${esc(pr.main)} <small>${[pr.period, sqmPrice(x)].filter(Boolean).map(esc).join(' · ')}</small></b><span>${esc(listingTitle(x))}</span><small>${esc(facts(x).join(' · '))}</small></div>`;
     // Standalone map: "Details" opens the listing on the site, Telegram writes to the agent with the listing ID.
     const actions = standalone ? `<div class="tm-actions"><a class="btn btn-outline" href="#/listing/${esc(x.id)}">${t('map.details')}</a><a class="btn btn-primary" href="${esc(telegramHref(x.agent?.telegram || CONTACT.telegram, t('l.msg', x.kind, listingTitle(x), pr.main + (pr.period ? ' ' + pr.period : ''), x.post_url || location.origin + '/#/listing/' + x.id) + `\nID: ${x.id}`))}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>Telegram</span></a></div>` : '';
     if (desktop()) {
