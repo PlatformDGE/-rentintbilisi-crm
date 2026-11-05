@@ -4,6 +4,7 @@ import { icon } from '../icons.js';
 import { SERVICES, GROUPS, telegramHref, CONTACT } from '../config.js';
 import { esc, rail, serviceIcon } from '../components.js';
 import { countBy, compactMoney, num, itemsFor, recentIds, parseFilters, applyFilters } from '../store.js';
+import { placeName } from '../places.js';
 
 /** Budget steps from the real price distribution of a service (rounded quantiles). */
 function budgets(pool) {
