@@ -143,7 +143,7 @@ const dict = {
     'footer.rates': (date, gel, eur) => `NBG rate${date ? ' on ' + date : ''}: $1 = ₾${gel} · €1 = ₾${eur}`,
     'footer.rights': 'All rights reserved.', 'footer.data': 'Listings sync from our Telegram channels every hour.',
     'loading': 'Loading listings…', 'error': 'Check your internet connection and try again.', 'error.t': 'Could not load the listings', 'retry': 'Try again',
-    'map.nocoords': n => `${n} without an exact location are not on the map.`, 'map.nocoords.link': 'See them in the list', 'l.approx.rate': 'at the National Bank rate',
+    'map.nocoords': n => `${n} without an exact location are not on the map.`, 'map.nocoords.link': 'See them in the list', 'map.details': 'Details', 'map.tosite': 'Website', 'l.approx.rate': 'at the National Bank rate',
   },
   ka: {
     'map.channels': 'არხები', 'map.ch.rent': 'გრძელვადიანი ქირა', 'map.ch.daily': 'დღიური ქირა', 'map.ch.sale': 'გაყიდვა', 'map.ch.commercial': 'კომერცია',
@@ -286,7 +286,7 @@ const dict = {
     'footer.rates': (date, gel, eur) => `ეროვნული ბანკის კურსი${date ? ' ' + date : ''}: $1 = ₾${gel} · €1 = ₾${eur}`,
     'footer.rights': 'ყველა უფლება დაცულია.', 'footer.data': 'განცხადებები ახლდება Telegram-არხებიდან ყოველ საათში.',
     'loading': 'განცხადებები იტვირთება…', 'error': 'შეამოწმეთ ინტერნეტთან კავშირი და სცადეთ ხელახლა.', 'error.t': 'განცხადებები ვერ ჩაიტვირთა', 'retry': 'ხელახლა ცდა',
-    'map.nocoords': n => `${n} განცხადება ზუსტი მისამართის გარეშე რუკაზე არ ჩანს.`, 'map.nocoords.link': 'სიაში ნახვა', 'l.approx.rate': 'ეროვნული ბანკის კურსით',
+    'map.nocoords': n => `${n} განცხადება ზუსტი მისამართის გარეშე რუკაზე არ ჩანს.`, 'map.nocoords.link': 'სიაში ნახვა', 'map.details': 'დეტალურად', 'map.tosite': 'საიტზე', 'l.approx.rate': 'ეროვნული ბანკის კურსით',
   },
   ru: {
     'map.channels': 'Каналы', 'map.ch.rent': 'Долгосрочная аренда', 'map.ch.daily': 'Посуточная аренда', 'map.ch.sale': 'Продажа', 'map.ch.commercial': 'Коммерция',
@@ -440,7 +440,7 @@ const dict = {
     'footer.rates': (date, gel, eur) => `Курс НБГ${date ? ' на ' + date : ''}: 1 $ = ${gel} ₾ · 1 € = ${eur} ₾`,
     'footer.rights': 'Все права защищены.', 'footer.data': 'Данные обновляются из Telegram-каналов каждый час.',
     'loading': 'Загружаем объекты…', 'error': 'Проверьте подключение к интернету и попробуйте ещё раз.', 'error.t': 'Не удалось загрузить объекты', 'retry': 'Повторить',
-    'map.nocoords': n => `${n} без точного адреса не показаны на карте.`, 'map.nocoords.link': 'Смотреть в списке', 'l.approx.rate': 'по курсу Нацбанка',
+    'map.nocoords': n => `${n} без точного адреса не показаны на карте.`, 'map.nocoords.link': 'Смотреть в списке', 'map.details': 'Подробнее', 'map.tosite': 'На сайт', 'l.approx.rate': 'по курсу Нацбанка',
   },
 };
 
