@@ -25,7 +25,7 @@ export function favButton(id, cls = 'fav') {
 }
 
 export function card(x, { eager = false } = {}) {
-  const photos = (x.photos || []).slice(0, 6);
+  const photos = (x.photos || []).slice(0, 9);
   const p = priceLabel(x);
   const badges = [
     x.exclusive && `<span class="badge badge-accent">${t('card.exclusive')}</span>`,
