@@ -1573,3 +1573,20 @@ html[data-theme="dark"] .cur-seg span.on { background: #2F6FED; }
 /* The language highlight follows the narrower phone buttons. */
 .lang-seg .lang-thumb { width: var(--lang-w, 38px); transform: translateX(calc(var(--i, 0) * var(--lang-w, 38px))); }
 @media (max-width: 339px) { .lang-thumb { top: 2px; left: 2px; } }
+
+/* Map: the chosen pin stays on top; cards at one point swipe sideways.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.cm-active > div { transform: translate(-50%, -50%) scale(1.14); background: var(--brand); border-color: var(--brand); color: #fff; box-shadow: 0 8px 22px rgba(3, 45, 106, .38); }
+.cm-active small { color: rgba(255, 255, 255, .8); }
+html[data-theme="dark"] .cm-active > div { background: #2F6FED; border-color: #7BA4FF; box-shadow: 0 0 16px rgba(47, 111, 237, .7); }
+.mstrip { display: flex; }
+.mstrip-card { flex: 1 0 100%; min-width: 0; }
+.mstrip.many { gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; touch-action: pan-x; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px; padding: 0 12px; scroll-padding: 0 12px; }
+.mstrip.many::-webkit-scrollbar { display: none; }
+.mstrip.many .mstrip-card { flex: 0 0 calc(100% - 28px); scroll-snap-align: center; }
+.mstrip-dots { display: flex; justify-content: center; gap: 5px; margin-top: 7px; }
+.mstrip-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(3, 45, 106, .28); }
+.mstrip-dots i.on { background: var(--brand); }
+html[data-theme="dark"] .mstrip-dots i { background: rgba(255, 255, 255, .32); }
+html[data-theme="dark"] .mstrip-dots i.on { background: #fff; }
+.tm-list { display: grid; gap: 10px; max-height: 340px; overflow-y: auto; }

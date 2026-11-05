@@ -123,41 +123,91 @@ export function renderMap(root, data, params, opts = {}) {
     }
   }
 
-  let L, map, layer;
+  let L, map, layer, activePin = null, stripTimer = 0;
+  const pinIcon = (p, active = false) => {
+    const { x, fresh } = p;
+    const period = x.period ? t('period.' + x.period).replace(/\s+/g, '') : '';
+    return L.divIcon({ className: active ? 'cm cm-active' : 'cm', iconSize: null,
+      html: `<div style="--c:${fresh.color}"><i>${icon(KIND_ICONS[p.kind])}</i>${x.price_usd ? esc(compactMoney(x.price_usd)) + (period ? `<small>${esc(period)}</small>` : '') : ''}</div>` });
+  };
+  function clearActive() {
+    clearTimeout(stripTimer);
+    activePin?.remove();
+    activePin = null;
+  }
+  function closeCard() {
+    clearActive();
+    $('.mpeek').hidden = true;
+    $('.mpeek').innerHTML = '';
+    $('.mapapp').classList.remove('peeking');
+  }
   function draw() {
     if (!layer) return;
+    closeCard();
+    map.closePopup();
     layer.clearLayers();
     visible().forEach(p => {
       const { x, fresh } = p;
-      const period = x.period ? t('period.' + x.period).replace(/\s+/g, '') : '';
-      const m = L.marker([x.lat, x.lon], {
-        fresh: fresh.id, keyboard: true, title: listingTitle(x),
-        icon: L.divIcon({ className: 'cm', iconSize: null,
-          html: `<div style="--c:${fresh.color}"><i>${icon(KIND_ICONS[p.kind])}</i>${x.price_usd ? esc(compactMoney(x.price_usd)) + (period ? `<small>${esc(period)}</small>` : '') : ''}</div>` }),
-      });
+      const m = L.marker([x.lat, x.lon], { fresh: fresh.id, place: p, keyboard: true, title: listingTitle(x), icon: pinIcon(p) });
       m.on('click', () => select(p));
       layer.addLayer(m);
     });
   }
 
-  function select({ x, ch, kind, fresh }) {
-    saveEntry({ card: x.id });
+  // The chosen listing's pin sits above everything else on the map.
+  function setActive(p) {
+    saveEntry({ card: p.x.id });
+    if (activePin) activePin.setIcon(pinIcon(p, true)).setLatLng([p.x.lat, p.x.lon]);
+    else activePin = L.marker([p.x.lat, p.x.lon], { icon: pinIcon(p, true), interactive: false, keyboard: false, zIndexOffset: 100000 }).addTo(map);
+  }
+
+  function cardHtml({ x, ch, kind, fresh }) {
     const pr = priceLabel(x);
     const body = `
-      ${x.photos?.[0] ? `<img src="${esc(x.photos[0])}" alt="">` : ''}
+      ${x.photos?.[0] ? `<img src="${esc(x.photos[0])}" alt="" loading="lazy">` : ''}
       <div><em style="--c:${fresh.color}"><i></i>${t('map.ch.' + ch)} · ${t(kind === 'car' ? 'kind.car' : 'map.kind.' + kind)} · ${esc(ago(x.published_at))}</em>
         <b>${esc(pr.main)} <small>${[pr.period, sqmPrice(x)].filter(Boolean).map(esc).join(' · ')}</small></b><span>${esc(listingTitle(x))}</span><small>${esc(facts(x).join(' · '))}</small></div>`;
     // Standalone map: "Details" opens the listing on the site, Telegram writes to the agent with the listing ID.
     const actions = standalone ? `<div class="tm-actions"><a class="btn btn-outline" href="#/listing/${esc(x.id)}">${t('map.details')}</a><a class="btn btn-primary" href="${esc(telegramHref(x.agent?.telegram || CONTACT.telegram, t('l.msg', x.kind, listingTitle(x), pr.main + (pr.period ? ' ' + pr.period : ''), x.post_url || location.origin + '/#/listing/' + x.id) + `\nID: ${x.id}`))}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>Telegram</span></a></div>` : '';
+    return { body, actions };
+  }
+
+  function select(p) {
+    // Everything at this exact point can be swiped through, newest first.
+    const group = visible().filter(q => q.x.lat === p.x.lat && q.x.lon === p.x.lon).sort((a, b) => String(b.x.published_at).localeCompare(String(a.x.published_at)));
+    const list = group.length ? group : [p];
+    setActive(p);
     if (desktop()) {
+      const cards = list.map(q => { const { body, actions } = cardHtml(q); return `<div class="tm-wrap"><a class="map-card tm-card" href="#/listing/${esc(q.x.id)}">${body}</a>${actions}</div>`; }).join('');
       L.popup({ className: 'pop', closeButton: false, offset: [0, -12], maxWidth: 280, autoPanPaddingTopLeft: [340, 24], autoPanPaddingBottomRight: [24, 24] })
-        .setLatLng([x.lat, x.lon]).setContent(`<div class="tm-wrap"><a class="map-card tm-card" href="#/listing/${esc(x.id)}">${body}</a>${actions}</div>`).openOn(map);
-    } else {
-      const peek = $('.mpeek');
-      peek.innerHTML = `<div class="tm-wrap"><a class="tm-peek" href="#/listing/${esc(x.id)}">${body}</a>${actions}</div>`;
-      peek.hidden = false;
-      $('.mapapp').classList.add('peeking');
+        .setLatLng([p.x.lat, p.x.lon]).setContent(list.length > 1 ? `<div class="tm-list">${cards}</div>` : cards).openOn(map);
+      return;
     }
+    const peek = $('.mpeek');
+    peek.innerHTML = `<div class="mstrip${list.length > 1 ? ' many' : ''}">${list.map((q, i) => {
+      const { body, actions } = cardHtml(q);
+      return `<div class="tm-wrap mstrip-card" data-i="${i}"><a class="tm-peek" href="#/listing/${esc(q.x.id)}">${body}</a>${actions}</div>`;
+    }).join('')}</div>${list.length > 1 ? `<div class="mstrip-dots" aria-hidden="true">${list.map(() => '<i></i>').join('')}</div>` : ''}`;
+    peek.hidden = false;
+    $('.mapapp').classList.add('peeking');
+    if (list.length < 2) return;
+    const strip = peek.querySelector('.mstrip');
+    const cards = [...strip.children];
+    const dots = [...peek.querySelectorAll('.mstrip-dots i')];
+    const nearest = () => {
+      const middle = strip.scrollLeft + strip.clientWidth / 2;
+      let best = 0, gap = Infinity;
+      cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - middle); if (d < gap) { gap = d; best = i; } });
+      return best;
+    };
+    const mark = i => dots.forEach((d, n) => d.classList.toggle('on', n === i));
+    let current = Math.max(0, list.indexOf(p));
+    strip.scrollLeft = cards[current].offsetLeft - (strip.clientWidth - cards[current].offsetWidth) / 2;
+    mark(current);
+    strip.addEventListener('scroll', () => {
+      const i = nearest();
+      if (i !== current) { current = i; setActive(list[i]); mark(i); }
+    }, { passive: true });
   }
 
   function commit() {
@@ -204,10 +254,11 @@ export function renderMap(root, data, params, opts = {}) {
     map.attributionControl.setPrefix(false);
     const streets = mapTiler(L, 'streets-v2').addTo(map);
     L.control.layers({ [t('map.streets')]: streets, [t('map.satellite')]: mapTiler(L, 'hybrid', 'jpg') }, null, { position: desktop() ? 'topright' : 'bottomright' }).addTo(map);
-    map.on('click', () => { saveEntry({ card: null }); $('.mpeek').hidden = true; $('.mapapp').classList.remove('peeking'); });
+    map.on('click', () => { saveEntry({ card: null }); closeCard(); });
+    map.on('popupclose', () => { if (desktop()) { saveEntry({ card: null }); clearActive(); } });
     // Cluster ring shows the freshness mix of the listings inside it.
     layer = L.markerClusterGroup({
-      maxClusterRadius: 52, showCoverageOnHover: false,
+      maxClusterRadius: 52, showCoverageOnHover: false, zoomToBoundsOnClick: false, spiderfyOnMaxZoom: false,
       iconCreateFunction(cl) {
         const by = {};
         cl.getAllChildMarkers().forEach(m => { by[m.options.fresh] = (by[m.options.fresh] || 0) + 1; });
@@ -217,6 +268,14 @@ export function renderMap(root, data, params, opts = {}) {
         return L.divIcon({ className: 'dc', html: `<div style="--g:conic-gradient(${stops.join(',')})"><span>${n}</span></div>`, iconSize: [46, 46] });
       },
     }).addTo(map);
+    // Listings at one exact point open as swipeable cards; a real cluster still zooms in.
+    layer.on('clusterclick', e => {
+      const kids = e.layer.getAllChildMarkers();
+      const first = kids[0].getLatLng();
+      if (kids.every(k => k.getLatLng().equals(first))) return select(kids.map(k => k.options.place).sort((a, b) => String(b.x.published_at).localeCompare(String(a.x.published_at)))[0]);
+      if (map.getBoundsZoom(e.layer.getBounds()) > map.getZoom()) e.layer.zoomToBounds({ padding: [24, 24] });
+      else e.layer.spiderfy();
+    });
     draw();
     if (saved.card) {
       const p = all.find(q => q.x.id === saved.card);
