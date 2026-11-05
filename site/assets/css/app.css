@@ -1467,10 +1467,19 @@ html { overflow-x: clip; }
 
 /* Required map credit: kept readable on tap, but very small and translucent.
    Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
-.leaflet-container .leaflet-control-attribution {
-  padding: 0 3px; background: transparent; box-shadow: none; font-size: 8px; line-height: 1.3; opacity: .5;
+.leaflet-container .leaflet-bottom .leaflet-control-attribution {
+  display: flex; align-items: center; gap: 4px; padding: 2px 5px; border-radius: 6px 0 0 0;
+  background: rgba(255, 255, 255, .82); color: #333; box-shadow: none; font-size: 8px; line-height: 1.3;
 }
-.leaflet-container .leaflet-control-attribution a { color: inherit; }
+html[data-theme="dark"] .leaflet-container .leaflet-bottom .leaflet-control-attribution {
+  background: rgba(11, 18, 32, .78); color: #CBD5E1;
+}
+.leaflet-container .leaflet-bottom .leaflet-control-attribution a { color: inherit; opacity: .75; }
+.leaflet-container .leaflet-bottom .leaflet-control-attribution > span[aria-hidden] { display: none; }
+/* Our logo beside the required map credit, on one soft pill that reads over streets and satellite alike.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.leaflet-container .leaflet-bottom .leaflet-control-attribution .map-logo { height: 16px; width: auto; pointer-events: none; }
+html[data-theme="dark"] .leaflet-container .leaflet-bottom .leaflet-control-attribution .map-logo { content: url(../img/brand/logo-white.svg); }
 
 /* Stage 1 (2026-11): ID and ≈ price on cards, first-load skeleton, map note. */
 .card-price .card-id { margin-left: auto; align-self: center; color: var(--faint); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }

@@ -1,4 +1,6 @@
+// Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { MAP_CENTER, MAPTILER_KEY } from './config.js';
+import { logo } from './icons.js';
 import { compactMoney, priceLabel, sqmPrice } from './store.js';
 import { esc, listingTitle, facts } from './components.js';
 import { t } from './i18n.js';
@@ -28,6 +30,8 @@ function popup(x) {
 }
 
 const MT_ATTRIBUTION = '<a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap</a>';
+// Our logo sits beside the required map credit, in the same corner of every map.
+export const brandMap = map => map.attributionControl.setPrefix(logo('map-logo'));
 export const mapTiler = (L, style, ext = 'png') => L.tileLayer(`https://api.maptiler.com/maps/${style}/256/{z}/{x}/{y}{r}.${ext}?key=${MAPTILER_KEY}`, {
   maxZoom: 20, attribution: MT_ATTRIBUTION, crossOrigin: true,
 });
@@ -42,7 +46,7 @@ export async function createMap(el, { interactive = true, zoom = 12, onSelect = 
   const map = L.map(el, { zoomControl: false, scrollWheelZoom: interactive, dragging: interactive || !L.Browser.mobile, attributionControl: true })
     .setView(MAP_CENTER, zoom);
   L.control.zoom({ position: 'bottomright' }).addTo(map);
-  map.attributionControl.setPrefix(false);
+  brandMap(map);
   const streets = mapTiler(L, 'streets-v2').addTo(map);
   if (interactive) {
     L.control.layers({ [t('map.streets')]: streets, [t('map.satellite')]: mapTiler(L, 'hybrid', 'jpg') }, null, { position: 'topright' }).addTo(map);
