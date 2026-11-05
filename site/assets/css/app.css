@@ -1590,3 +1590,24 @@ html[data-theme="dark"] .cm-active > div { background: #2F6FED; border-color: #7
 html[data-theme="dark"] .mstrip-dots i { background: rgba(255, 255, 255, .32); }
 html[data-theme="dark"] .mstrip-dots i.on { background: #fff; }
 .tm-list { display: grid; gap: 10px; max-height: 340px; overflow-y: auto; }
+
+/* Standalone map bar: currency and theme fit next to the filter on every phone.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.mbar .mbar-filter { flex: none; }
+.mbar .cur-seg, .mbar .theme-btn { flex: none; }
+@media (max-width: 559px) {
+  .mbar { gap: 5px; padding-inline: 8px; }
+  .mbar .mbar-filter span { display: none; }
+  .mbar .mbar-filter { width: 38px; padding: 0; justify-content: center; }
+  .mbar .mbar-site { width: 36px; }
+  .mbar .theme-btn { width: 34px; }
+  .mbar .brand svg, .mbar .brand img { height: 22px; }
+}
+@media (max-width: 379px) {
+  .mbar { gap: 3px; padding-inline: 6px; }
+  .mbar .brand svg, .mbar .brand img { height: 18px; }
+  .mbar .lang-seg { --lang-w: 24px; grid-template-columns: repeat(3, 24px); padding: 2px; }
+  .mbar .lang-seg button { font-size: 10px; }
+  .mbar .cur-seg span { width: 18px; }
+  .mbar .theme-btn, .mbar .mbar-site, .mbar .mbar-filter { width: 34px; }
+}
