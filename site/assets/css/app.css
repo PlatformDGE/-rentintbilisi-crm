@@ -1506,3 +1506,4 @@ body.map-standalone .page-pad { padding-top: calc(80px + env(safe-area-inset-top
 .leaflet-container .tm-actions .btn-outline { color: var(--brand-strong); }
 .mpeek .tm-wrap { background: var(--surface, #fff); border-radius: 22px; padding: 8px; box-shadow: 0 12px 30px rgba(3,45,106,.18); }
 .mpeek .tm-wrap .tm-peek { box-shadow: none; }
+.l-approx { margin-top: 8px; color: var(--faint); font-size: 13px; }
