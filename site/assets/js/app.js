@@ -49,7 +49,7 @@ function renderHeader() {
       <a class="nav-link nav-map" href="#/map">${icon('map')}${t('nav.map')}</a>
     </nav>
     <div class="nav-tools">
-      <div class="select mini">${icon('down')}<select id="cur" aria-label="Currency">${CURRENCIES.map(c => `<option${c === getCurrency() ? ' selected' : ''}>${c}</option>`).join('')}</select></div>
+      <button type="button" class="cur-seg" data-cur-toggle aria-label="${esc(t('nav.currency'))}: ${getCurrency()}" title="${esc(t('nav.currency'))}">${CURRENCIES.map(c => `<span class="${c === getCurrency() ? 'on' : ''}">${c === 'USD' ? '$' : '₾'}</span>`).join('')}</button>
       <div class="lang-seg" role="radiogroup" aria-label="Language" style="--i:${languages.indexOf(getLang())}">
         <i class="lang-thumb" aria-hidden="true"></i>
         ${languages.map(l => `<button type="button" role="radio" data-lang="${l}" aria-checked="${l === getLang()}" lang="${l}">${l.toUpperCase()}</button>`).join('')}
@@ -170,9 +170,9 @@ function rerenderAll() {
 
 header.addEventListener('change', e => {
 
-  if (e.target.id === 'cur') { setCurrency(e.target.value); rerenderAll(); }
 });
 header.addEventListener('click', e => {
+  if (e.target.closest('[data-cur-toggle]')) { if (Date.now() - lastScrollAt < 400) return; setCurrency(getCurrency() === 'USD' ? 'GEL' : 'USD'); rerenderAll(); return; }
   if (e.target.closest('[data-theme-toggle]')) { if (Date.now() - lastScrollAt < 400) return; setTheme(isDark() ? 'light' : 'dark'); renderHeader(); return; }
   const langBtn = e.target.closest('[data-lang]');
   if (langBtn) {

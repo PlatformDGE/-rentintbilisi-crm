@@ -66,8 +66,9 @@ export function addRecent(id) {
 }
 export const recentIds = () => [...recent];
 
-export const CURRENCIES = ['USD', 'GEL', 'EUR'];
+export const CURRENCIES = ['USD', 'GEL'];
 let currency = read('hig:cur', 'USD');
+if (!CURRENCIES.includes(currency)) currency = 'USD';
 export const getCurrency = () => currency;
 export function setCurrency(next) { currency = next; write('hig:cur', next); }
 
@@ -98,14 +99,24 @@ export function compactMoney(amountUsd, cur = currency) {
   return s + Math.round(v);
 }
 
-/** The listed price exactly as the owner set it (₾ stays ₾), plus "≈" in the visitor's currency when it differs. */
+/** The price in the visitor's currency, plus the owner's own amount when it is in another currency. */
 export function priceLabel(x) {
-  if (!x.price_usd) return { main: t('price.request'), period: '', approx: '' };
+  if (!x.price_usd) return { main: t('price.request'), period: '', listed: '' };
   const period = x.period ? t('period.' + x.period) : '';
-  const listed = x.price && SYMBOL[x.currency] ? SYMBOL[x.currency] + num(x.price) : money(x.price_usd, 'USD');
-  const approx = x.currency === currency || !SYMBOL[x.currency] ? '' : '≈ ' + money(x.price_usd);
-  return { main: listed, period, approx };
+  const own = x.price && SYMBOL[x.currency] ? SYMBOL[x.currency] + num(x.price) : '';
+  return x.currency === currency && own ? { main: own, period, listed: '' } : { main: money(x.price_usd), period, listed: own };
 }
+
+// Price per square metre: the post's own figure, or price / area for flats, houses and offices.
+const SQM_SERVICES = new Set(['rent', 'sale', 'commercial', 'new']);
+export function sqmPrice(x) {
+  const usd = x.ppsqm_usd || (SQM_SERVICES.has(x.service) && x.price_usd && x.area ? x.price_usd / x.area : 0);
+  if (!usd) return '';
+  const value = usd / rates[currency];
+  const text = value < 100 ? value.toLocaleString(locale(), { maximumFractionDigits: 1 }) : num(value);
+  return `${SYMBOL[currency]}${text} / m²`;
+}
+export const depositUsd = x => (x.deposit && x.price && x.price_usd ? x.deposit * x.price_usd / x.price : null);
 /** Short number shown on cards: "rent-547672" → "547672". */
 export const shortId = id => String(id || '').replace(/^\D+-/, '');
 
@@ -157,9 +168,6 @@ export function activeCount(f) {
     + RANGE_KEYS.filter(k => f[k][0] != null || f[k][1] != null).length
     + FLAG_KEYS.filter(k => f[k]).length + TEXT_KEYS.filter(k => f[k]).length;
 }
-
-// Deposits are stored in the listing's currency; the filter works in USD like the price.
-const depositUsd = x => (x.deposit && x.price && x.price_usd ? x.deposit * x.price_usd / x.price : null);
 
 const inRange = (v, [a, b] = []) => (a == null || (v != null && v >= a)) && (b == null || (v != null && v <= b));
 

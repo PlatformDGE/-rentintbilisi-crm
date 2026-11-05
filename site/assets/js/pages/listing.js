@@ -5,7 +5,7 @@ import { esc, listingTitle, favButton, rail, empty, toast } from '../components.
 import { createMap } from '../map.js';
 import { openShare } from '../share.js';
 import { cameFromSite, scrollRoot } from '../scroll.js';
-import { priceLabel, money, ago, isFav, num, addRecent } from '../store.js';
+import { priceLabel, sqmPrice, depositUsd, money, ago, isFav, num, addRecent } from '../store.js';
 import { placeName } from '../places.js';
 
 function lightbox(photos, start, title) {
@@ -101,7 +101,7 @@ export function renderListing(root, data, id) {
     ['calendar', t('l.term'), x.months?.length ? t('l.term.value', x.months) : ''],
     ['paw', t('l.pets'), x.pets ? t('pets.' + x.pets) : ''],
     ['users', t('l.tenants'), x.tenants ? t('l.tenants.value', x.tenants) : ''],
-    ['key', t('l.deposit'), x.deposit ? `${x.currency === 'GEL' ? '₾' : x.currency === 'EUR' ? '€' : '$'}${num(x.deposit)}` : ''],
+    ['key', t('l.deposit'), depositUsd(x) ? money(depositUsd(x)) : ''],
   ].filter(r => r[2]);
 
   const amenities = AMENITY_ORDER.filter(a => x.amenities?.includes(a));
@@ -150,10 +150,11 @@ export function renderListing(root, data, id) {
       <aside class="l-side">
         <div class="price-card">
           <div class="pc-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}</div>
-          ${p.approx ? `<p class="pc-approx">${esc(p.approx)} · ${t('l.approx.rate')}</p>` : ''}
+          ${sqmPrice(x) ? `<p class="pc-sqm">${esc(sqmPrice(x))}</p>` : ''}
+          ${p.listed ? `<p class="pc-approx">${t('l.approx')}: ${esc(p.listed)}${p.period ? ' ' + p.period : ''}</p>` : ''}
           <dl class="pc-rows">
             ${x.deposit ? `<div><dt>${t('l.deposit')}</dt><dd>${esc(terms.find(r => r[0] === 'key')?.[2] || '')}</dd></div>` : ''}
-            ${x.ppsqm_usd ? `<div><dt>${t('l.ppsqm')}</dt><dd>${money(x.ppsqm_usd)}</dd></div>` : ''}
+            ${sqmPrice(x) ? `<div><dt>${t('l.ppsqm')}</dt><dd>${esc(sqmPrice(x))}</dd></div>` : ''}
           </dl>
           <a class="btn btn-primary btn-lg btn-block" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write')}</span></a>
           <div class="pc-two">
@@ -167,7 +168,7 @@ export function renderListing(root, data, id) {
   </div>
   ${rail('rail-similar', t('l.similar'), similar(data, x), '#/' + x.service + (x.district ? '?district=' + encodeURIComponent(x.district) : ''))}
   <div class="l-sticky">
-    <div class="ls-price"><b>${esc(p.main)}</b><span>${p.period || '&nbsp;'}</span></div>
+    <div class="ls-price"><b>${esc(p.main)}</b><span>${[p.period, sqmPrice(x)].filter(Boolean).map(esc).join(' · ') || '&nbsp;'}</span></div>
     <button type="button" class="icon-btn" data-share aria-label="${esc(t('l.share'))}">${icon('share')}</button>
     ${favButton(x.id, 'fav fav-plain')}
     <a class="btn btn-primary" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write.short')}</span></a>

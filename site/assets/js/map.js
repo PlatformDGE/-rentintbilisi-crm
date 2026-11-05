@@ -1,5 +1,5 @@
 import { MAP_CENTER, MAPTILER_KEY } from './config.js';
-import { compactMoney, priceLabel } from './store.js';
+import { compactMoney, priceLabel, sqmPrice } from './store.js';
 import { esc, listingTitle, facts } from './components.js';
 import { t } from './i18n.js';
 
@@ -23,7 +23,7 @@ function popup(x) {
   const p = priceLabel(x);
   return `<a class="map-card" href="#/listing/${esc(x.id)}">
     ${x.photos?.[0] ? `<img src="${esc(x.photos[0])}" alt="">` : ''}
-    <div><b>${esc(p.main)} <small>${p.period}</small></b><span>${esc(listingTitle(x))}</span><em>${esc(facts(x).join(' · '))}</em></div>
+    <div><b>${esc(p.main)} <small>${[p.period, sqmPrice(x)].filter(Boolean).map(esc).join(' · ')}</small></b><span>${esc(listingTitle(x))}</span><em>${esc(facts(x).join(' · '))}</em></div>
   </a>`;
 }
 

@@ -1,7 +1,7 @@
 import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { SERVICES } from './config.js';
-import { priceLabel, ago, isFav, toggleFav, isFresh, money, num, shortId } from './store.js';
+import { priceLabel, sqmPrice, ago, isFav, toggleFav, isFresh, num, shortId } from './store.js';
 import { placeName } from './places.js';
 
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -33,7 +33,7 @@ export function card(x, { eager = false } = {}) {
     x.completion && `<span class="badge">${esc(t('card.completion', x.completion))}</span>`,
     x.service === 'commercial' && x.deal && `<span class="badge">${esc(t('deal.' + x.deal))}</span>`,
   ].filter(Boolean).join('');
-  const sub = x.ppsqm_usd ? `${money(x.ppsqm_usd)}/m²` : '';
+  const sub = sqmPrice(x);
   return `
 <article class="card" data-id="${esc(x.id)}">
   <div class="card-media">
@@ -50,7 +50,8 @@ export function card(x, { eager = false } = {}) {
     ${favButton(x.id)}
   </div>
   <a class="card-body" href="#/listing/${esc(x.id)}">
-    <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${p.approx ? `<em class="card-approx">${esc(p.approx)}</em>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}<small class="card-id" title="${esc(t('l.id'))}">ID ${esc(shortId(x.id))}</small></div>
+    <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}<small class="card-id" title="${esc(t('l.id'))}">ID ${esc(shortId(x.id))}</small></div>
+    ${sub ? `<p class="card-sqm">${esc(sub)}</p>` : ''}
     <h3>${esc(listingTitle(x))}</h3>
     <p class="card-facts">${facts(x).map(esc).join('<i></i>')}</p>
     <p class="card-loc">${icon('pin')}<span>${esc(x.pickup || [placeName(x.district), x.metro && x.metro !== x.district ? placeName(x.metro) : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>
