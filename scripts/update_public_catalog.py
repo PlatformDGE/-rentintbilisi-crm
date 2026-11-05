@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
+from telethon.tl.types import MessageEntityTextUrl, MessageEntityUrl
 
 from update_telegram_top10 import parse_property, required_environment
 
@@ -62,53 +63,70 @@ def iso(value):
     return value.astimezone(TZ).replace(microsecond=0).isoformat()
 
 
-def map_url(text):
-    match = re.search(r"https?://(?:www\.)?(?:google\.[^\s]+/maps[^\s]*|maps\.app\.goo\.gl/[^\s]+)", text or "", re.I)
-    return match.group(0).rstrip(".,)") if match else ""
+MAP_LINK = re.compile(r"google\.[^/\s]+/maps|maps\.google\.|goo\.gl/maps|maps\.app\.goo\.gl", re.I)
+
+
+def post_map_url(message):
+    """The Google Maps link of a post. Most are hidden behind the address text, so plain text is not enough."""
+    links = []
+    for entity, text in message.get_entities_text():
+        if isinstance(entity, MessageEntityTextUrl):
+            links.append(entity.url)
+        elif isinstance(entity, MessageEntityUrl):
+            links.append(text)
+    for row in getattr(message.reply_markup, "rows", None) or []:
+        links += [button.url for button in row.buttons if getattr(button, "url", None)]
+    return next((link.strip() for link in links if MAP_LINK.search(link)), "")
+
+
+def link_point(text):
+    """Coordinates from a maps URL or page. The marker (!3d!4d) beats the view centre (@)."""
+    raw = unquote(text or "")
+    for pattern in (r"!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)", r"[?&](?:q|query|ll|destination|daddr)=(-?\d+\.\d+),\s*(-?\d+\.\d+)", r"@(-?\d+\.\d+),\s*(-?\d+\.\d+)", r"center=(-?\d+\.\d+),\s*(-?\d+\.\d+)"):
+        found = re.search(pattern, raw)
+        if found and valid_tbilisi_point(found.group(1), found.group(2)):
+            return float(found.group(1)), float(found.group(2))
+    return None
+
+
+def link_address(url):
+    parsed = urlparse(url)
+    query = parse_qs(parsed.query)
+    for key in ("query", "q", "destination", "daddr"):
+        value = unquote((query.get(key) or [""])[0]).replace("+", " ").strip()
+        if value and not re.fullmatch(r"-?\d+(?:\.\d+)?,\s*-?\d+(?:\.\d+)?", value):
+            return value
+    place = re.search(r"/maps/place/([^/]+)", parsed.path)
+    return unquote(place.group(1)).replace("+", " ").strip() if place else ""
 
 
 def map_details(url):
     if not url:
         return {"lat": None, "lon": None, "location": ""}
-    candidates = [url]
-    if "maps.app.goo.gl" in url or "goo.gl/maps" in url:
+    final, page = url, ""
+    point = link_point(url)
+    if not point:
+        # Short links open a page that names the place; some of them only give the address.
         try:
-            request = Request(url, headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
+            request = Request(url, headers={"User-Agent": "Mozilla/5.0 HomesInGeorgiaCatalog/1.0", "Cookie": "CONSENT=YES+"})
             with urlopen(request, timeout=8) as response:
-                candidates.insert(0, response.geturl())
-        except Exception:
-            pass
-    for candidate in candidates:
-        parsed = urlparse(candidate)
-        raw = unquote(candidate)
-        coordinate = re.search(r"@(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)", raw)
-        if not coordinate:
-            query = parse_qs(parsed.query)
-            for key in ("q", "query", "ll"):
-                value = (query.get(key) or [""])[0]
-                coordinate = re.search(r"(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)", value)
-                if coordinate:
-                    break
-        location = ""
-        query = parse_qs(parsed.query)
-        for key in ("query", "q", "destination", "daddr"):
-            if query.get(key):
-                value = unquote(query[key][0]).replace("+", " ").strip()
-                if value and not re.fullmatch(r"-?\d+(?:\.\d+)?,\s*-?\d+(?:\.\d+)?", value):
-                    location = value
-                    break
-        if coordinate:
-            lat, lon = float(coordinate.group(1)), float(coordinate.group(2))
-            return {"lat": lat, "lon": lon, "location": location} if valid_tbilisi_point(lat, lon) else {"lat": None, "lon": None, "location": location}
-        if location:
-            return {"lat": None, "lon": None, "location": location}
-    return {"lat": None, "lon": None, "location": ""}
+                final = response.geturl()
+                page = response.read(400000).decode("utf-8", "ignore")
+        except Exception as error:
+            print(f"map link {url}: {error}")
+        point = link_point(final) or link_point(page)
+    location = link_address(final) or link_address(url)
+    if point:
+        return {"lat": point[0], "lon": point[1], "location": location}
+    return {"lat": None, "lon": None, "location": location}
 
 
 def geocode_address(address, district=""):
+    """An address lookup. "approx" marks anything less precise than the building itself."""
     query = ", ".join(value for value in (address, district, "Tbilisi, Georgia") if value)
     if not query:
-        return {"lat": None, "lon": None, "location": ""}
+        return {"lat": None, "lon": None, "location": "", "approx": True}
+    rough = None
     try:
         request = Request("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=ge&q=" + quote(query), headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
         with urlopen(request, timeout=12) as response:
@@ -117,21 +135,26 @@ def geocode_address(address, district=""):
             item = payload[0]
             lat, lon = float(item["lat"]), float(item["lon"])
             if valid_tbilisi_point(lat, lon):
-                return {"lat": lat, "lon": lon, "location": item.get("display_name", "")}
+                found = {"lat": lat, "lon": lon, "location": item.get("display_name", "")}
+                if int(item.get("place_rank") or 0) >= 30:
+                    return {**found, "approx": False}
+                rough = {**found, "approx": True}
     except Exception as error:
         print(f"geocode {query}: {error}")
     try:
-        fallback = Request("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&maxLocations=1&SingleLine=" + quote(query), headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
+        fallback = Request("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&maxLocations=1&outFields=Addr_type&SingleLine=" + quote(query), headers={"User-Agent": "HomesInGeorgiaCatalog/1.0"})
         with urlopen(fallback, timeout=12) as response:
             candidates = json.loads(response.read().decode("utf-8")).get("candidates", [])
         if candidates and float(candidates[0].get("score", 0)) >= 70:
             item = candidates[0]
             lat, lon = float(item["location"]["y"]), float(item["location"]["x"])
             if valid_tbilisi_point(lat, lon):
-                return {"lat": lat, "lon": lon, "location": item.get("address", query)}
+                exact = (item.get("attributes") or {}).get("Addr_type") in ("PointAddress", "Subaddress")
+                if exact or rough is None:
+                    return {"lat": lat, "lon": lon, "location": item.get("address", query), "approx": not exact}
     except Exception as error:
         print(f"geocode ArcGIS {query}: {error}")
-    return {"lat": None, "lon": None, "location": ""}
+    return rough or {"lat": None, "lon": None, "location": "", "approx": True}
 
 
 def load_text(message):
@@ -158,19 +181,32 @@ async def collect_channel(client, channel, kind):
         if property_data is None:
             continue
         photos = [item for item in group if item.photo][:9]
-        source_map_url = map_url(text)
-        location = map_details(source_map_url)
+        source_map_url = post_map_url(text_message)
         cached = previous.get(str(text_message.id), {})
-        if location["lat"] is None and valid_tbilisi_point(cached.get("lat"), cached.get("lon")):
-            location = {"lat": cached.get("lat"), "lon": cached.get("lon"), "location": cached.get("location", "")}
-        if location["lat"] is None:
+        cached_point = valid_tbilisi_point(cached.get("lat"), cached.get("lon"))
+        cached_location = {"lat": cached.get("lat"), "lon": cached.get("lon"), "location": cached.get("location", ""), "approx": bool(cached.get("approx"))}
+        if source_map_url and cached_point and cached.get("map_url") == source_map_url:
+            # This link was already read; only an unchanged link may reuse its point.
+            location = cached_location
+        elif source_map_url:
+            location = map_details(source_map_url)
+            if location["lat"] is None:
+                address = location["location"] or property_data.get("title", "")
+                found = geocode_address(address, "" if location["location"] else property_data.get("district", ""))
+                time.sleep(1.05)
+                location = found if found["lat"] is not None else {**cached_location, "approx": True}
+            else:
+                location["approx"] = False
+        elif cached_point:
+            location = cached_location
+        else:
             if kind in CAR_KINDS:
                 address = pickup_address(text)
-                location = geocode_address(address) if address else location
+                location = geocode_address(address) if address else {"lat": None, "lon": None, "location": "", "approx": True}
             else:
                 location = geocode_address(property_data.get("title", ""), property_data.get("district", ""))
             time.sleep(1.05)
-        rows.append({**property_data, "type": kind, "channel": channel, "post_url": f"https://t.me/{channel}/{text_message.id}", "published_at": iso(group[0].date), "map_url": source_map_url, "location": location["location"], "lat": location["lat"], "lon": location["lon"], "_messages": photos})
+        rows.append({**property_data, "type": kind, "channel": channel, "post_url": f"https://t.me/{channel}/{text_message.id}", "published_at": iso(group[0].date), "map_url": source_map_url, "location": location["location"], "lat": location["lat"], "lon": location["lon"], "approx": bool(location.get("approx")), "_messages": photos})
     rows.sort(key=lambda item: item["published_at"], reverse=True)
     return rows
 

@@ -524,6 +524,7 @@ def normalize(raw, source, now, rates=FALLBACK_RATES):
         "metro": "" if is_car else metro,
         "lat": round(float(lat), 6) if lat is not None else None,
         "lon": round(float(lon), 6) if lon is not None else None,
+        "approx": bool(raw.get("approx")) if lat is not None else False,
         "price": price,
         "currency": currency,
         "price_usd": price_usd,
@@ -565,6 +566,17 @@ def dedupe(items):
     return result
 
 
+def mark_shared_points(items):
+    """Different addresses on one point mean a district centre, not a real location."""
+    titles = {}
+    for item in items:
+        if item.get("lat") is not None and item.get("kind") != "car":
+            titles.setdefault((item["lat"], item["lon"]), set()).add(item["title"].lower())
+    for item in items:
+        if len(titles.get((item.get("lat"), item.get("lon")), ())) >= 3:
+            item["approx"] = True
+
+
 def build(sources, now=None, fx=None):
     now = now or datetime.now().astimezone()
     fx = fx or {"rates": FALLBACK_RATES, "date": "", "source": "fallback"}
@@ -575,6 +587,7 @@ def build(sources, now=None, fx=None):
             if item:
                 items.append(item)
     items = dedupe(items)
+    mark_shared_points(items)
     counts = {}
     for item in items:
         counts[item["service"]] = counts.get(item["service"], 0) + 1

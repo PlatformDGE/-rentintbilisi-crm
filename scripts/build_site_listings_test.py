@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from build_site_listings import build, car_title, location_tags, normalize, parse_nbg, parse_price, share_page
+from build_site_listings import build, mark_shared_points, car_title, location_tags, normalize, parse_nbg, parse_price, share_page
 
 NOW = datetime(2026, 10, 19, tzinfo=timezone.utc)
 RECENT = "2026-10-18T12:00:00+04:00"
@@ -162,6 +162,15 @@ class CleanNamesTest(unittest.TestCase):
         self.assertEqual(location_tags("#Digomi🚇 #Delisi"), ("Dighomi", "Delisi"))
         self.assertEqual(location_tags("#Temka🚇 #Grmagele"), ("Temqa", "Grmagele"))
         self.assertEqual(location_tags("#LibertySquare 📍 18 Atoneli"), ("", "Liberty Square"))
+
+
+class SharedPointTest(unittest.TestCase):
+    def test_different_addresses_on_one_point_are_approximate(self):
+        items = [{"lat": 1, "lon": 2, "title": t, "kind": "apartment"} for t in ("A", "B", "C")]
+        same_house = [{"lat": 3, "lon": 4, "title": "D", "kind": "apartment"} for _ in range(5)]
+        mark_shared_points(items + same_house)
+        self.assertTrue(all(i.get("approx") for i in items))
+        self.assertFalse(any(i.get("approx") for i in same_house))
 
 
 if __name__ == "__main__":

@@ -143,7 +143,7 @@ export function renderListing(root, data, id) {
         ${amenities.length ? `<section class="l-sec"><h2>${t('l.amenities')}</h2><ul class="amenities${amenities.length > 8 ? ' clamp' : ''}">${amenities.map(a => `<li>${icon('check')}${t('am.' + a)}</li>`).join('')}</ul>
           ${amenities.length > 8 ? `<button type="button" class="more-btn" data-expand="amen">${t('l.amen.more', amenities.length)} ${icon('down')}</button>` : ''}</section>` : ''}
         ${terms.length ? `<section class="l-sec"><h2>${t('l.terms')}</h2><div class="facts">${terms.map(([ic, k, v]) => `<div class="fact">${icon(ic)}<span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div></section>` : ''}
-        ${Number.isFinite(x.lat) ? `<section class="l-sec"><h2>${t('l.location')}</h2><div class="l-map" id="l-map"></div></section>` : ''}
+        ${Number.isFinite(x.lat) ? `<section class="l-sec"><h2>${t('l.location')}</h2><div class="l-map" id="l-map"></div>${x.approx ? `<p class="l-approx">${t('l.location.approx')}</p>` : ''}</section>` : ''}
         <p class="l-meta">${t('l.id')}: ${esc(x.id)} · ${t('l.published')}: ${esc(ago(x.published_at))}
           ${x.post_url ? ` · <a href="${esc(x.post_url)}" target="_blank" rel="noopener">${t('l.source')} ${icon('external')}</a>` : ''}</p>
       </div>
