@@ -2,7 +2,7 @@
   "kind": "new",
   "channel": "DevelopmentIngeorgia",
   "source": "active_channel",
-  "updated_at": "2026-11-05T15:35:06+04:00",
+  "updated_at": "2026-11-05T15:51:33+04:00",
   "items": [
     {
       "id": "8",
@@ -23,6 +23,7 @@
       "location": "tbilisi",
       "lat": 41.6936283,
       "lon": 44.8016185,
+      "approx": false,
       "photos": [],
       "image": ""
     },
@@ -45,6 +46,7 @@
       "location": "tbilisi",
       "lat": 41.6936283,
       "lon": 44.8016185,
+      "approx": false,
       "photos": [],
       "image": ""
     }

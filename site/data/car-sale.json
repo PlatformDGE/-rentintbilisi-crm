@@ -2,7 +2,7 @@
   "kind": "car-sale",
   "channel": "CarsSaleInGeorgia",
   "source": "active_channel",
-  "updated_at": "2026-11-05T15:35:06+04:00",
+  "updated_at": "2026-11-05T15:51:33+04:00",
   "items": [
     {
       "id": "18",
@@ -23,6 +23,7 @@
       "location": "",
       "lat": null,
       "lon": null,
+      "approx": true,
       "photos": [
         "media/car-sale/18-1.jpg",
         "media/car-sale/18-2.jpg",
@@ -55,6 +56,7 @@
       "location": "",
       "lat": null,
       "lon": null,
+      "approx": true,
       "photos": [
         "media/car-sale/8-1.jpg",
         "media/car-sale/8-2.jpg",
@@ -87,6 +89,7 @@
       "location": "",
       "lat": null,
       "lon": null,
+      "approx": true,
       "photos": [],
       "image": ""
     },
@@ -109,6 +112,7 @@
       "location": "",
       "lat": null,
       "lon": null,
+      "approx": true,
       "photos": [],
       "image": ""
     },
@@ -131,6 +135,7 @@
       "location": "",
       "lat": null,
       "lon": null,
+      "approx": true,
       "photos": [],
       "image": ""
     },
@@ -153,6 +158,7 @@
       "location": "",
       "lat": null,
       "lon": null,
+      "approx": true,
       "photos": [],
       "image": ""
     }

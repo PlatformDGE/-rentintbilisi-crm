@@ -2,7 +2,7 @@
   "kind": "daily",
   "channel": "dayrentingeorgia",
   "source": "active_channel",
-  "updated_at": "2026-11-05T15:35:06+04:00",
+  "updated_at": "2026-11-05T15:51:33+04:00",
   "items": [
     {
       "id": "710",
@@ -19,10 +19,11 @@
       "channel": "dayrentingeorgia",
       "post_url": "https://t.me/dayrentingeorgia/710",
       "published_at": "2026-11-03T15:36:54+04:00",
-      "map_url": "",
-      "location": "18 giorgi atonelis kucha, tbilisi",
-      "lat": 41.698214887501,
-      "lon": 44.803278765084,
+      "map_url": "https://www.google.com/maps/place/18+Atoneli+St,+T'bilisi+0105/@41.6983993,44.8032786,16z/data=!4m6!3m5!1s0x40440ce69bcaafc3:0x6598565fb4f90d2a!8m2!3d41.6983993!4d44.8032786!16s%2Fg%2F11h1529y6?g_ep=Eg1tbF8yMDI2MDIwNF8wIJvbDyoASAJQAg%3D%3D",
+      "location": "18 Atoneli St, T'bilisi 0105",
+      "lat": 41.6983993,
+      "lon": 44.8032786,
+      "approx": false,
       "photos": [
         "media/daily/710-1.jpg",
         "media/daily/710-2.jpg",
@@ -55,6 +56,7 @@
       "location": "tbilisi",
       "lat": 41.6936283,
       "lon": 44.8016185,
+      "approx": false,
       "photos": [],
       "image": ""
     },
@@ -77,6 +79,7 @@
       "location": "tbilisi",
       "lat": 41.6936283,
       "lon": 44.8016185,
+      "approx": false,
       "photos": [
         "media/daily/392-1.jpg"
       ],
@@ -101,6 +104,7 @@
       "location": "tbilisi",
       "lat": 41.6936283,
       "lon": 44.8016185,
+      "approx": false,
       "photos": [],
       "image": ""
     }
