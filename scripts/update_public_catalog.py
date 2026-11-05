@@ -44,6 +44,15 @@ def pickup_address(text):
     return re.sub(r"[^\w\s.,/-]", "", first.split("📍", 1)[1]).strip() if "📍" in first else ""
 
 
+def valid_georgia_point(lat, lon):
+    """Objects can be anywhere in Georgia: this only rejects broken coordinates such as @0,0."""
+    try:
+        lat, lon = float(lat), float(lon)
+    except (TypeError, ValueError):
+        return False
+    return 41.0 <= lat <= 43.7 and 39.9 <= lon <= 46.8
+
+
 def valid_tbilisi_point(lat, lon):
     """Accept only coordinates within 60 km of central Tbilisi."""
     try:
@@ -84,7 +93,7 @@ def link_point(text):
     raw = unquote(text or "")
     for pattern in (r"!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)", r"[?&](?:q|query|ll|destination|daddr)=(-?\d+\.\d+),\s*(-?\d+\.\d+)", r"@(-?\d+\.\d+),\s*(-?\d+\.\d+)", r"center=(-?\d+\.\d+),\s*(-?\d+\.\d+)"):
         found = re.search(pattern, raw)
-        if found and valid_tbilisi_point(found.group(1), found.group(2)):
+        if found and valid_georgia_point(found.group(1), found.group(2)):
             return float(found.group(1)), float(found.group(2))
     return None
 
@@ -121,9 +130,13 @@ def map_details(url):
     return {"lat": None, "lon": None, "location": location}
 
 
-def geocode_address(address, district=""):
-    """An address lookup. "approx" marks anything less precise than the building itself."""
-    query = ", ".join(value for value in (address, district, "Tbilisi, Georgia") if value)
+def geocode_address(address, district="", anywhere=False):
+    """An address lookup. "approx" marks anything less precise than the building itself.
+
+    Post text is assumed to mean Tbilisi. An address taken from a map link stands on its own (anywhere=True).
+    """
+    query = ", ".join(value for value in (address, district, "Georgia" if anywhere else "Tbilisi, Georgia") if value)
+    allowed = valid_georgia_point if anywhere else valid_tbilisi_point
     if not query:
         return {"lat": None, "lon": None, "location": "", "approx": True}
     rough = None
@@ -134,7 +147,7 @@ def geocode_address(address, district=""):
         if payload:
             item = payload[0]
             lat, lon = float(item["lat"]), float(item["lon"])
-            if valid_tbilisi_point(lat, lon):
+            if allowed(lat, lon):
                 found = {"lat": lat, "lon": lon, "location": item.get("display_name", "")}
                 if int(item.get("place_rank") or 0) >= 30:
                     return {**found, "approx": False}
@@ -148,7 +161,7 @@ def geocode_address(address, district=""):
         if candidates and float(candidates[0].get("score", 0)) >= 70:
             item = candidates[0]
             lat, lon = float(item["location"]["y"]), float(item["location"]["x"])
-            if valid_tbilisi_point(lat, lon):
+            if allowed(lat, lon):
                 exact = (item.get("attributes") or {}).get("Addr_type") in ("PointAddress", "Subaddress")
                 if exact or rough is None:
                     return {"lat": lat, "lon": lon, "location": item.get("address", query), "approx": not exact}
@@ -183,16 +196,20 @@ async def collect_channel(client, channel, kind):
         photos = [item for item in group if item.photo][:9]
         source_map_url = post_map_url(text_message)
         cached = previous.get(str(text_message.id), {})
-        cached_point = valid_tbilisi_point(cached.get("lat"), cached.get("lon"))
+        cached_point = valid_georgia_point(cached.get("lat"), cached.get("lon"))
         cached_location = {"lat": cached.get("lat"), "lon": cached.get("lon"), "location": cached.get("location", ""), "approx": bool(cached.get("approx"))}
-        if source_map_url and cached_point and cached.get("map_url") == source_map_url:
-            # This link was already read; only an unchanged link may reuse its point.
+        direct_point = link_point(source_map_url)
+        if direct_point:
+            # The link itself holds the coordinates: always trust it, no network needed.
+            location = {"lat": direct_point[0], "lon": direct_point[1], "location": link_address(source_map_url), "approx": False}
+        elif source_map_url and cached_point and cached.get("map_url") == source_map_url and not cached.get("approx"):
+            # This short link was already read; only an unchanged link may reuse its point.
             location = cached_location
         elif source_map_url:
             location = map_details(source_map_url)
             if location["lat"] is None:
-                address = location["location"] or property_data.get("title", "")
-                found = geocode_address(address, "" if location["location"] else property_data.get("district", ""))
+                link_place = location["location"]
+                found = geocode_address(link_place or property_data.get("title", ""), "" if link_place else property_data.get("district", ""), anywhere=bool(link_place))
                 time.sleep(1.05)
                 location = found if found["lat"] is not None else {**cached_location, "approx": True}
             else:
