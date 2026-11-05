@@ -125,11 +125,13 @@ export const isFresh = x => Date.now() - x._ts < 3 * 864e5;
 // ---------- filtering ----------
 // Filter state lives in the URL query: every key below is a query param.
 export const LIST_KEYS = ['beds', 'kind', 'deal', 'district', 'building', 'condition', 'amen', 'gearbox', 'fuel', 'body', 'heating'];
-export const RANGE_KEYS = ['price', 'area', 'year', 'mileage'];
-export const FLAG_KEYS = ['pets', 'excl'];
+export const RANGE_KEYS = ['price', 'area', 'year', 'mileage', 'floor', 'floors', 'ppsqm', 'deposit'];
+export const FLAG_KEYS = ['pets', 'excl', 'notfirst', 'notlast'];
+export const TEXT_KEYS = ['metro', 'term', 'tenants', 'seats', 'pickup'];
 
 export function parseFilters(params) {
-  const f = { q: params.get('q') || '', sort: params.get('sort') || 'new', metro: params.get('metro') || '', term: params.get('term') || '' };
+  const f = { q: params.get('q') || '', sort: params.get('sort') || 'new' };
+  TEXT_KEYS.forEach(k => { f[k] = params.get(k) || ''; });
   LIST_KEYS.forEach(k => { f[k] = (params.get(k) || '').split(',').filter(Boolean); });
   RANGE_KEYS.forEach(k => {
     const [a, b] = (params.get(k) || '').split('-').map(v => (v === '' || v == null ? null : +v));
@@ -143,8 +145,7 @@ export function filtersToParams(f, params = new URLSearchParams()) {
   const set = (k, v) => (v ? params.set(k, v) : params.delete(k));
   set('q', f.q.trim());
   set('sort', f.sort === 'new' ? '' : f.sort);
-  set('metro', f.metro);
-  set('term', f.term);
+  TEXT_KEYS.forEach(k => set(k, f[k]));
   LIST_KEYS.forEach(k => set(k, f[k].join(',')));
   RANGE_KEYS.forEach(k => set(k, f[k][0] == null && f[k][1] == null ? '' : `${f[k][0] ?? ''}-${f[k][1] ?? ''}`));
   FLAG_KEYS.forEach(k => set(k, f[k] ? '1' : ''));
@@ -154,10 +155,13 @@ export function filtersToParams(f, params = new URLSearchParams()) {
 export function activeCount(f) {
   return LIST_KEYS.reduce((n, k) => n + f[k].length, 0)
     + RANGE_KEYS.filter(k => f[k][0] != null || f[k][1] != null).length
-    + FLAG_KEYS.filter(k => f[k]).length + (f.metro ? 1 : 0) + (f.term ? 1 : 0);
+    + FLAG_KEYS.filter(k => f[k]).length + TEXT_KEYS.filter(k => f[k]).length;
 }
 
-const inRange = (v, [a, b]) => (a == null || (v != null && v >= a)) && (b == null || (v != null && v <= b));
+// Deposits are stored in the listing's currency; the filter works in USD like the price.
+const depositUsd = x => (x.deposit && x.price && x.price_usd ? x.deposit * x.price_usd / x.price : null);
+
+const inRange = (v, [a, b] = []) => (a == null || (v != null && v >= a)) && (b == null || (v != null && v <= b));
 
 function termMatch(x, term) {
   const m = x.months || [];
@@ -189,7 +193,16 @@ export function applyFilters(items, f, skip = '') {
     && (!f.amen.length || f.amen.every(a => x.amenities?.includes(a)))
     && (!f.pets || x.pets === 'allowed' || x.pets === 'agreement')
     && (!f.term || termMatch(x, f.term))
-    && (!f.excl || x.exclusive));
+    && (!f.excl || x.exclusive)
+    && inRange(x.floor, f.floor)
+    && inRange(x.floors, f.floors)
+    && inRange(x.ppsqm_usd, f.ppsqm)
+    && inRange(depositUsd(x), f.deposit)
+    && (!f.notfirst || x.floor > 1)
+    && (!f.notlast || (x.floor != null && x.floors != null && x.floor < x.floors))
+    && (!f.tenants || x.tenants >= +f.tenants)
+    && (!f.seats || x.seats === +f.seats)
+    && (!f.pickup || x.pickup === f.pickup));
 }
 
 const SORTS = {

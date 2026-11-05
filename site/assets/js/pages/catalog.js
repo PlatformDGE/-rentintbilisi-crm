@@ -112,6 +112,15 @@ export function renderCatalog(root, data, serviceId, params) {
     f.heating.forEach(k => add(t('heat.' + k), x => { x.heating = x.heating.filter(v => v !== k); }));
     f.amen.forEach(k => add(t('am.' + k), x => { x.amen = x.amen.filter(v => v !== k); }));
     if (f.term) add(t('term.' + f.term), x => { x.term = ''; });
+    if (f.floor[0] != null || f.floor[1] != null) add(t('f.floor') + ' ' + span(f.floor, v => String(Math.round(v))), x => { x.floor = [null, null]; });
+    if (f.floors[0] != null || f.floors[1] != null) add(t('f.floors') + ' ' + span(f.floors, v => String(Math.round(v))), x => { x.floors = [null, null]; });
+    if (f.ppsqm[0] != null || f.ppsqm[1] != null) add(t('f.ppsqm') + ' ' + span(f.ppsqm, compactMoney), x => { x.ppsqm = [null, null]; });
+    if (f.deposit[0] != null || f.deposit[1] != null) add(t('f.deposit') + ' ' + span(f.deposit, compactMoney), x => { x.deposit = [null, null]; });
+    if (f.notfirst) add(t('f.notfirst'), x => { x.notfirst = false; });
+    if (f.notlast) add(t('f.notlast'), x => { x.notlast = false; });
+    if (f.tenants) add(t('f.tenants') + ': ' + f.tenants + (f.tenants === '5' ? '+' : ''), x => { x.tenants = ''; });
+    if (f.seats) add(t('f.seats') + ': ' + f.seats, x => { x.seats = ''; });
+    if (f.pickup) add(f.pickup, x => { x.pickup = ''; });
     if (f.pets) add(t('f.pets'), x => { x.pets = false; });
     if (f.excl) add(t('f.exclusive'), x => { x.excl = false; });
     return chips;
@@ -217,7 +226,14 @@ export function renderCatalog(root, data, serviceId, params) {
       return openFilterSheet({ serviceId, base, filters: f, only: pill.dataset.pill, anchor: pill, onApply: next => commit(next, { replace: false }) });
     }
     if (e.target.closest('.filters-btn')) {
-      return openFilterSheet({ serviceId, base, filters: f, onApply: next => commit(next, { replace: false }) });
+      return openFilterSheet({
+        serviceId, base, filters: f, baseFor: s => itemsFor(data, s),
+        onApply: (next, service) => {
+          if (service === serviceId) return commit(next, { replace: false });
+          const q = filtersToParams(next).toString();
+          location.hash = '#/' + service + (q ? '?' + q : '');
+        },
+      });
     }
     const sug = e.target.closest('[data-suggest]');
     if (sug) {
