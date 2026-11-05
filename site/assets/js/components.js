@@ -1,7 +1,8 @@
 import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { SERVICES } from './config.js';
-import { priceLabel, ago, isFav, toggleFav, isFresh, money, num } from './store.js';
+import { priceLabel, ago, isFav, toggleFav, isFresh, money, num, shortId } from './store.js';
+import { placeName } from './places.js';
 
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -49,10 +50,10 @@ export function card(x, { eager = false } = {}) {
     ${favButton(x.id)}
   </div>
   <a class="card-body" href="#/listing/${esc(x.id)}">
-    <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}</div>
+    <div class="card-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}${p.approx ? `<em class="card-approx">${esc(p.approx)}</em>` : ''}${sub ? `<em>${esc(sub)}</em>` : ''}<small class="card-id" title="${esc(t('l.id'))}">ID ${esc(shortId(x.id))}</small></div>
     <h3>${esc(listingTitle(x))}</h3>
     <p class="card-facts">${facts(x).map(esc).join('<i></i>')}</p>
-    <p class="card-loc">${icon('pin')}<span>${esc(x.pickup || [x.district, x.metro && x.metro !== x.district ? x.metro : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>
+    <p class="card-loc">${icon('pin')}<span>${esc(x.pickup || [placeName(x.district), x.metro && x.metro !== x.district ? placeName(x.metro) : ''].filter(Boolean).join(' · ') || t('city'))}</span><time>${esc(ago(x.published_at))}</time></p>
   </a>
 </article>`;
 }
@@ -78,6 +79,10 @@ export function rail(id, title, items, href) {
 export function empty(title, text, action = '') {
   return `<div class="empty"><div class="empty-ico">${icon('search')}</div><h3>${esc(title)}</h3><p>${esc(text)}</p>${action}</div>`;
 }
+
+// First load of the catalogue: placeholder cards instead of an empty page.
+export const loadingView = () => `<div class="container page-pad" aria-busy="true"><p class="loading-line" role="status">${esc(t('loading'))}</p><div class="grid">${skeletons(6)}</div></div>`;
+export const errorView = () => `<div class="container page-pad">${empty(t('error.t'), t('error'), `<button type="button" class="btn btn-primary" data-retry>${esc(t('retry'))}</button>`)}</div>`;
 
 export const skeletons = n => Array.from({ length: n }, () => '<div class="card skeleton"><div class="card-media"></div><div class="card-body"><i></i><i></i><i></i></div></div>').join('');
 

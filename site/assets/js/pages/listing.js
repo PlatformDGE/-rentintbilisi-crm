@@ -6,6 +6,7 @@ import { createMap } from '../map.js';
 import { openShare } from '../share.js';
 import { cameFromSite, scrollRoot } from '../scroll.js';
 import { priceLabel, money, ago, isFav, num, addRecent } from '../store.js';
+import { placeName } from '../places.js';
 
 function lightbox(photos, start, title) {
   let i = start;
@@ -72,7 +73,7 @@ export function renderListing(root, data, id) {
   const objectLink = x.post_url || url;
   const symbol = { USD: '$', GEL: '₾', EUR: '€' }[x.currency] || '$';
   const listedPrice = x.price ? `${symbol}${num(x.price)}${p.period ? ' ' + p.period : ''}` : p.main;
-  const message = t('l.msg', x.kind, title, listedPrice, objectLink);
+  const message = t('l.msg', x.kind, title, listedPrice, objectLink) + `\nID: ${x.id}`;
   const tg = telegramHref(agent.telegram || CONTACT.telegram, message);
   const phone = agent.phone || CONTACT.phone;
   document.title = `${title} · ${p.main} · Homes in Georgia`;
@@ -118,7 +119,7 @@ export function renderListing(root, data, id) {
 <article class="listing">
   <div class="container">
     <button type="button" class="l-back" data-back>${icon('left')}<span>${t('nav.back')}</span></button>
-    <nav class="crumbs" aria-label="breadcrumbs"><a href="#/">${t('nav.home')}</a>${icon('right')}<a href="#/${x.service}">${t('svc.' + x.service + '.short')}</a>${x.district ? `${icon('right')}<a href="#/${x.service}?district=${encodeURIComponent(x.district)}">${esc(x.district)}</a>` : ''}</nav>
+    <nav class="crumbs" aria-label="breadcrumbs"><a href="#/">${t('nav.home')}</a>${icon('right')}<a href="#/${x.service}">${t('svc.' + x.service + '.short')}</a>${x.district ? `${icon('right')}<a href="#/${x.service}?district=${encodeURIComponent(x.district)}">${esc(placeName(x.district))}</a>` : ''}</nav>
     <header class="l-head">
       <div>
         <div class="l-badges">
@@ -126,7 +127,7 @@ export function renderListing(root, data, id) {
           ${x.exclusive ? `<span class="badge badge-accent">${t('card.exclusive')}</span>` : ''}
         </div>
         <h1>${esc(title)}</h1>
-        ${x.kind === 'car' ? '' : `<p class="l-addr">${icon('pin')}${esc([x.title !== title ? x.title : '', x.district].filter(Boolean).join(' · ') || t('city'))}${x.metro ? `<span class="metro">${icon('metro')}${esc(x.metro)}</span>` : ''}</p>`}
+        ${x.kind === 'car' ? '' : `<p class="l-addr">${icon('pin')}${esc([x.title !== title ? x.title : '', placeName(x.district)].filter(Boolean).join(' · ') || t('city'))}${x.metro ? `<span class="metro">${icon('metro')}${esc(placeName(x.metro))}</span>` : ''}</p>`}
       </div>
       <div class="l-actions">
         <button type="button" class="btn btn-outline" data-share>${icon('share')}<span>${t('l.share')}</span></button>
@@ -149,7 +150,7 @@ export function renderListing(root, data, id) {
       <aside class="l-side">
         <div class="price-card">
           <div class="pc-price"><b>${esc(p.main)}</b>${p.period ? `<span>${p.period}</span>` : ''}</div>
-          ${p.approx ? `<p class="pc-approx">${esc(p.approx)} · ${t('l.approx')}</p>` : ''}
+          ${p.approx ? `<p class="pc-approx">${esc(p.approx)} · ${t('l.approx.rate')}</p>` : ''}
           <dl class="pc-rows">
             ${x.deposit ? `<div><dt>${t('l.deposit')}</dt><dd>${esc(terms.find(r => r[0] === 'key')?.[2] || '')}</dd></div>` : ''}
             ${x.ppsqm_usd ? `<div><dt>${t('l.ppsqm')}</dt><dd>${money(x.ppsqm_usd)}</dd></div>` : ''}

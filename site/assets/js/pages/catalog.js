@@ -4,6 +4,7 @@ import { icon } from '../icons.js';
 import { GROUPS, SERVICES, serviceOf } from '../config.js';
 import { esc, card, empty, skeletons } from '../components.js';
 import { openFilterSheet } from '../filters.js';
+import { placeName } from '../places.js';
 import { createMap } from '../map.js';
 import { replaceHash, pushHash, setPageTop, scrollRoot } from '../scroll.js';
 import {
@@ -104,8 +105,8 @@ export function renderCatalog(root, data, serviceId, params) {
     f.body.forEach(k => add(t('body.' + k), x => { x.body = x.body.filter(v => v !== k); }));
     f.beds.forEach(b => add(b === '0' ? t('f.studio') : t('card.beds', +b) + (b === '4' ? '+' : ''), x => { x.beds = x.beds.filter(v => v !== b); }));
     f.kind.forEach(k => add(t('kind.' + k), x => { x.kind = x.kind.filter(v => v !== k); }));
-    f.district.forEach(d => add(d, x => { x.district = x.district.filter(v => v !== d); }));
-    if (f.metro) add(f.metro, x => { x.metro = ''; });
+    f.district.forEach(d => add(placeName(d), x => { x.district = x.district.filter(v => v !== d); }));
+    if (f.metro) add(placeName(f.metro), x => { x.metro = ''; });
     f.building.forEach(k => add(t('building.' + k), x => { x.building = x.building.filter(v => v !== k); }));
     f.condition.forEach(k => add(t('cond.' + k), x => { x.condition = x.condition.filter(v => v !== k); }));
     f.heating.forEach(k => add(t('heat.' + k), x => { x.heating = x.heating.filter(v => v !== k); }));

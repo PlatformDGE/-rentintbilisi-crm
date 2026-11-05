@@ -372,6 +372,20 @@ def car_details(text, service):
     }
 
 
+# Common misspellings of car makes and models in channel posts.
+CAR_NAME_FIXES = [
+    (r"\bMersedes(?:[- ]Benz)?\b", "Mercedes-Benz"), (r"\bMercedes(?![- ]Benz)\b", "Mercedes-Benz"),
+    (r"\bCompas\b", "Compass"), (r"\bHundai\b", "Hyundai"), (r"\bHyndai\b", "Hyundai"),
+    (r"\bToyta\b", "Toyota"), (r"\bWolksvagen\b|\bVolkswagon\b", "Volkswagen"), (r"\bChevrole\b", "Chevrolet"),
+]
+
+
+def fix_car_name(name):
+    for pattern, good in CAR_NAME_FIXES:
+        name = re.sub(pattern, good, name, flags=re.I)
+    return name
+
+
 def car_title(text, fallback):
     """'#Jeep Compass 🚙 #SUV📍 7 Solomon St' -> 'Jeep Compass' (body type and pick-up address dropped)."""
     for line in text.splitlines():
@@ -379,9 +393,11 @@ def car_title(text, fallback):
         for pattern in CAR_BODIES.values():
             head = re.sub(r"#?\b(?:" + pattern + r")\b", "", head, flags=re.I)
         clean = re.sub(r"\s+", " ", EMOJI_RE.sub("", head).replace("#", "")).strip(" -|:")
+        # "Chevrolet Corvette | 2014$31,000Exclusive": year, price and badges live in their own fields.
+        clean = re.split(r"\s*\|\s*|\s+(?:19|20)\d\d\s*[$₾€]", clean)[0].strip(" -|:")
         if len(clean) > 2 and not re.match(r"^(?:\+?\d|@|https?://)", clean):
-            return short_sentence(clean, 60)
-    return fallback
+            return fix_car_name(short_sentence(clean, 60))
+    return fix_car_name(fallback)
 
 
 def clean_title(title, text):
@@ -408,6 +424,9 @@ PLACE_ALIASES = {
     "IsaniMetro": "Isani", "SamgoriMetro": "Samgori", "AvlabariMetro": "Avlabari",
     "OldTbilisi": "Old Tbilisi", "LibertySquare": "Liberty Square", "StationSquare": "Station Square",
     "DidiDighomi": "Didi Dighomi", "Voroncov": "Vorontsov",
+    # one spelling per place (the site translates these names to RU / KA)
+    "Digomi": "Dighomi", "Temka": "Temqa", "Temuka": "Temqa", "OutOfTown": "Out of town",
+    "Mukhyani": "Mukhiani",
 }
 PLACE_ALIASES = {k.lower(): v for k, v in PLACE_ALIASES.items()}
 NOT_PLACES = {"newupdate", "update", "rented", "sold", "studio", "apartment", "house", "commercial"}
@@ -420,6 +439,14 @@ def place_name(tag):
     return re.sub(r"(?<=[a-z])(?=[A-Z0-9])|(?<=[0-9])(?=[A-Za-z])", " ", tag)
 
 
+# Header tags sometimes put a metro station where the district goes ("#LibertySquare").
+METRO_STATIONS = {
+    "Rustaveli", "Liberty Square", "Technical University", "Medical University", "State University", "Delisi",
+    "Vazha-Pshavela", "Sarajishvili", "Marjanishvili", "300 Aragveli", "Station Square", "Akhmeteli Theatre",
+    "Tsereteli", "Grmagele", "Guramishvili", "Gotsiridze", "Elektrodepo", "Zahesi",
+}
+
+
 def location_tags(text):
     """District and metro from the post header, e.g. "#Didube🚇 #Tsereteli" -> ("Didube", "Tsereteli")."""
     for line in text.strip().split("\n")[:3]:
@@ -429,7 +456,10 @@ def location_tags(text):
         tags = lambda part: [t for t in re.findall(r"#(\w+)", part) if t.lower() not in NOT_PLACES]
         district, metro = tags(before), tags(after)
         if district or metro:
-            return (place_name(district[0]) if district else "", place_name(metro[0]) if metro else "")
+            district, metro = (place_name(district[0]) if district else "", place_name(metro[0]) if metro else "")
+            if district in METRO_STATIONS and not metro:
+                district, metro = "", district
+            return district, metro
     return "", ""
 
 

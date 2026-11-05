@@ -3,6 +3,7 @@ import { t } from './i18n.js';
 import { icon } from './icons.js';
 import { serviceOf, FILTER_AMENITIES } from './config.js';
 import { esc } from './components.js';
+import { placeName } from './places.js';
 import { applyFilters, countBy, compactMoney, fromUsd, toUsd, currencySymbol, num, LIST_KEYS, RANGE_KEYS } from './store.js';
 
 const BINS = 36;
@@ -169,7 +170,7 @@ function selectSection(title, key, options, draft, anyLabel) {
   if (!options.length) return null;
   const el = document.createElement('section');
   el.className = 'f-section';
-  el.innerHTML = `<div class="f-head"><h3>${esc(title)}</h3></div><div class="select"><select><option value="">${esc(anyLabel)}</option>${options.map(([v, n]) => `<option value="${esc(v)}">${esc(v)} (${n})</option>`).join('')}</select>${icon('down')}</div>`;
+  el.innerHTML = `<div class="f-head"><h3>${esc(title)}</h3></div><div class="select"><select><option value="">${esc(anyLabel)}</option>${options.map(([v, n]) => `<option value="${esc(v)}">${esc(key === 'metro' || key === 'district' ? placeName(v) : v)} (${n})</option>`).join('')}</select>${icon('down')}</div>`;
   const sel = el.querySelector('select');
   sel.addEventListener('change', () => { draft[key] = sel.value; });
   el.reset = () => { sel.value = draft[key]; };
@@ -212,7 +213,7 @@ export function buildFilterSections(serviceId, base, draft) {
   }
   let district = null;
   if (want.has('district')) {
-    district = chipSection(t('f.district'), 'district', countBy(base, 'district').map(([v, n]) => [v, v, n]), draft, { limit: 10 });
+    district = chipSection(t('f.district'), 'district', countBy(base, 'district').map(([v, n]) => [v, placeName(v), n]), draft, { limit: 10 });
     add(district, 'district');
   }
   if (want.has('metro')) add(selectSection(t('f.metro'), 'metro', countBy(base, 'metro'), draft, t('f.metro.any')), 'metro');

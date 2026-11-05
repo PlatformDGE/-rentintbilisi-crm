@@ -1,7 +1,7 @@
 import { t, getLang, setLang, languages, localeOf } from './i18n.js';
 import { icon, logo } from './icons.js';
 import { SERVICES, GROUPS, CONTACT, CHANNELS, telegramHref, phoneHref, whatsappHref, markLive } from './config.js';
-import { esc, installInteractions, serviceIcon } from './components.js';
+import { esc, installInteractions, serviceIcon, loadingView, errorView } from './components.js';
 import { loadFeed, favIds, onFavChange, CURRENCIES, getCurrency, setCurrency, setRates } from './store.js';
 import { openShare } from './share.js';
 import { enterEntry, setPageTop, restoreTop, cancelRestore, scrollRoot, pageTop } from './scroll.js';
@@ -134,7 +134,7 @@ async function route() {
 
   // The feed also decides which services are live, so every page waits for it.
   if (!data) {
-    view.innerHTML = `<div class="container page-pad loading">${t('loading')}</div>`;
+    view.innerHTML = loadingView();
     try {
       data = await loadFeed();
       setRates(data.rates_usd);
@@ -142,7 +142,8 @@ async function route() {
       renderHeader();
       renderFooter();
     } catch {
-      view.innerHTML = `<div class="container page-pad loading">${t('error')}</div>`;
+      view.innerHTML = errorView();
+      view.querySelector('[data-retry]')?.addEventListener('click', () => { current = null; route(); });
       return;
     }
     if (!main.contains(view)) return; // navigated away while loading

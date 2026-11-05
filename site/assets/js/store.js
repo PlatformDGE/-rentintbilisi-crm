@@ -1,5 +1,6 @@
 // Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 import { t, localeOf } from './i18n.js';
+import { canonicalPlace, placeSearchText } from './places.js';
 
 
 // ---------- data ----------
@@ -9,7 +10,9 @@ export function loadFeed() {
     .then(r => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
     .then(data => {
       data.items.forEach(x => {
-        x._text = [x.title, x.headline, x.district, x.metro, x.kind, x.year, x.description].filter(Boolean).join(' ').toLowerCase();
+        cleanItem(x);
+        // Search covers the listing ID ("547672" or "rent-547672"), the address and place names in RU / EN / KA.
+        x._text = [x.id, x.id.replace(/^\D+-/, ''), x.title, x.headline, placeSearchText(x.district), placeSearchText(x.metro), x.pickup, x.kind, x.year, x.description].filter(Boolean).join(' ').toLowerCase();
         x._ts = Date.parse(x.published_at) || 0;
       });
       data.byId = new Map(data.items.map(x => [x.id, x]));
@@ -17,6 +20,20 @@ export function loadFeed() {
     })
     .catch(err => { feed = undefined; throw err; });
   return feed;
+}
+
+// Safety net for listings built before the cleaner rules in scripts/build_site_listings.py.
+const METRO_STATIONS = new Set(['Rustaveli', 'Liberty Square', 'Technical University', 'Medical University', 'State University', 'Delisi',
+  'Vazha-Pshavela', 'Sarajishvili', 'Marjanishvili', '300 Aragveli', 'Station Square', 'Akhmeteli Theatre', 'Tsereteli', 'Grmagele', 'Guramishvili']);
+const CAR_FIXES = [[/\bMersedes(?:[- ]Benz)?\b/gi, 'Mercedes-Benz'], [/\bMercedes(?![- ]Benz)\b/gi, 'Mercedes-Benz'], [/\bCompas\b/gi, 'Compass']];
+function cleanItem(x) {
+  if (x.district) x.district = canonicalPlace(x.district);
+  if (x.metro) x.metro = canonicalPlace(x.metro);
+  if (x.district && !x.metro && METRO_STATIONS.has(x.district)) { x.metro = x.district; delete x.district; }
+  if (x.kind === 'car' && x.title) {
+    x.title = x.title.split(/\s*\|\s*|\s+(?:19|20)\d\d\s*[$₾€]/)[0].trim();
+    CAR_FIXES.forEach(([re, good]) => { x.title = x.title.replace(re, good); });
+  }
 }
 
 // "all" is the cross-service real-estate search, so cars stay out of it.
@@ -81,15 +98,16 @@ export function compactMoney(amountUsd, cur = currency) {
   return s + Math.round(v);
 }
 
-/** Price in the visitor's currency; exact when it matches the owner's currency. */
+/** The listed price exactly as the owner set it (₾ stays ₾), plus "≈" in the visitor's currency when it differs. */
 export function priceLabel(x) {
   if (!x.price_usd) return { main: t('price.request'), period: '', approx: '' };
   const period = x.period ? t('period.' + x.period) : '';
-  const exact = x.currency === currency;
-  const main = exact ? SYMBOL[currency] + num(x.price) : '≈ ' + money(x.price_usd);
-  const approx = exact ? '' : `${SYMBOL[x.currency] || '$'}${num(x.price)}`;
-  return { main, period, approx };
+  const listed = x.price && SYMBOL[x.currency] ? SYMBOL[x.currency] + num(x.price) : money(x.price_usd, 'USD');
+  const approx = x.currency === currency || !SYMBOL[x.currency] ? '' : '≈ ' + money(x.price_usd);
+  return { main: listed, period, approx };
 }
+/** Short number shown on cards: "rent-547672" → "547672". */
+export const shortId = id => String(id || '').replace(/^\D+-/, '');
 
 export function ago(iso) {
   const ts = Date.parse(iso);

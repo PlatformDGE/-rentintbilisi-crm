@@ -1471,3 +1471,10 @@ html { overflow-x: clip; }
   padding: 0 3px; background: transparent; box-shadow: none; font-size: 8px; line-height: 1.3; opacity: .5;
 }
 .leaflet-container .leaflet-control-attribution a { color: inherit; }
+
+/* Stage 1 (2026-11): ID and ≈ price on cards, first-load skeleton, map note. */
+.card-price .card-id { margin-left: auto; align-self: center; color: var(--faint); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.card-price .card-approx { color: var(--muted); font-size: 13px; }
+.loading-line { color: var(--muted); margin: 0 0 16px; font-size: 14px; }
+.map-nocoords { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+.map-nocoords a { color: var(--brand-strong); font-weight: 600; }

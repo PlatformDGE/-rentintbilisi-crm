@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-from build_site_listings import build, normalize, parse_nbg, parse_price, share_page
+from build_site_listings import build, car_title, location_tags, normalize, parse_nbg, parse_price, share_page
 
 NOW = datetime(2026, 10, 19, tzinfo=timezone.utc)
 RECENT = "2026-10-18T12:00:00+04:00"
@@ -150,6 +150,18 @@ class BuildSiteListingsTest(unittest.TestCase):
     def test_build_counts_and_dedupes_reposts(self):
         payload = build({"rent": {"updated_at": RECENT, "items": [raw(RENT_POST), {**raw(RENT_POST), "id": "2"}]}}, NOW)
         self.assertEqual(payload["counts"], {"rent": 1})
+
+
+class CleanNamesTest(unittest.TestCase):
+    def test_car_names_are_spelled_right_and_unglued(self):
+        self.assertEqual(car_title("#Mersedes C-Class 300 🚙 #Sedan📍 7 Solomon St", "Car"), "Mercedes-Benz C-Class 300")
+        self.assertEqual(car_title("#Jeep Compas 🚙 #SUV", "Car"), "Jeep Compass")
+        self.assertEqual(car_title("Chevrolet Corvette C7 Stingray 3LT | 2014$31,000Exclusive", "Car"), "Chevrolet Corvette C7 Stingray 3LT")
+
+    def test_one_spelling_per_place_and_metro_is_not_a_district(self):
+        self.assertEqual(location_tags("#Digomi🚇 #Delisi"), ("Dighomi", "Delisi"))
+        self.assertEqual(location_tags("#Temka🚇 #Grmagele"), ("Temqa", "Grmagele"))
+        self.assertEqual(location_tags("#LibertySquare 📍 18 Atoneli"), ("", "Liberty Square"))
 
 
 if __name__ == "__main__":

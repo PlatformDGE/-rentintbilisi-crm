@@ -3,6 +3,7 @@ import { t } from '../i18n.js';
 import { icon } from '../icons.js';
 import { MAP_CENTER, MAP_CHANNELS, KIND_ICONS, CHANNELS, FRESHNESS, SERVICES, channelOf, freshnessOf } from '../config.js';
 import { esc, listingTitle, facts } from '../components.js';
+import { placeName } from '../places.js';
 import { loadLeaflet, mapTiler } from '../map.js';
 import { entryData, saveEntry, replaceHash } from '../scroll.js';
 import { num, compactMoney, priceLabel, ago, itemsFor, parseFilters, applyFilters } from '../store.js';
@@ -53,6 +54,8 @@ export function renderMap(root, data, params) {
   const from = params.get('from');
   const scoped = from === 'all' || !!SERVICES[from];
   const source = scoped ? applyFilters(itemsFor(data, from), parseFilters(params)) : data.items;
+  // Listings without coordinates stay in the catalogue; the map says how many are not shown.
+  const noPoint = source.filter(x => !hasPoint(x));
   const all = source.filter(hasPoint).map(x => ({ x, ch: channelOf(x), kind: KIND_ICONS[x.kind] ? x.kind : 'apartment', fresh: freshnessOf(x) }));
   const count = { ch: {}, age: {} };
   all.forEach(p => {
@@ -89,7 +92,7 @@ export function renderMap(root, data, params) {
   function controls() {
     const n = visible().length;
     $('.mlayers').innerHTML = `
-      <h2>${t('map.title')}</h2><p>${t('map.count', n)}</p>
+      <h2>${t('map.title')}</h2><p>${t('map.count', n)}</p>${noPoint.length ? `<p class="map-nocoords">${t('map.nocoords', noPoint.length)} <a href="#/${scoped ? from : 'all'}">${t('map.nocoords.link')}</a></p>` : ''}
       <h3>${t('map.channels')}</h3><div class="lgroup">${MAP_CHANNELS.map(c => row('ch', c.id, c.icon)).join('')}</div>
       <div class="kinds-legend">${['apartment', 'house', 'commercial', 'land'].map(k => `<span><i>${icon(KIND_ICONS[k])}</i>${t('map.kind.' + k)}</span>`).join('')}</div>
       <h3>${t('map.freshness')}</h3><div class="ages">${FRESHNESS.map(ageButton).join('')}</div>

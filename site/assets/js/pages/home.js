@@ -34,7 +34,7 @@ function phraseBody(data, service) {
     <p class="fd-phrase">
       <span>${t('home.finder.want')}</span>
       ${sel('svc', FINDER.filter(s => SERVICES[s].live).map(s => `<option value="${s}"${s === service ? ' selected' : ''}>${t('home.finder.want.' + s)}</option>`).join(''))}
-      ${districts.length ? `<span>${t('home.finder.in')}</span>${sel('district', `<option value="">${t('home.finder.any')}</option>${districts.map(([d]) => `<option value="${esc(d)}">${esc(d)}</option>`).join('')}`)}` : ''}
+      ${districts.length ? `<span>${t('home.finder.in')}</span>${sel('district', `<option value="">${t('home.finder.any')}</option>${districts.map(([d]) => `<option value="${esc(d)}">${esc(placeName(d))}</option>`).join('')}`)}` : ''}
       ${steps.length ? `<span>${t('home.finder.upto')}</span>${sel('max', `<option value="">${t('home.finder.any')}</option>${steps.map(v => `<option value="${v}">${compactMoney(v)}${period ? ' ' + t('period.' + period) : ''}</option>`).join('')}`)}` : ''}
     </p>
     <button class="btn fd-go" type="submit">${icon('search')}<span class="fd-go-label"></span>${icon('arrow')}</button>`;
@@ -52,7 +52,7 @@ function finderBody(data, service) {
   return `
     <label class="fd-search">${icon('search')}<input name="q" type="search" autocomplete="off" placeholder="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}" aria-label="${esc(t(isCar ? 'cat.search.car' : 'cat.search'))}"></label>
     <div class="fd-row">
-      ${districts.length ? `<label class="fd-field"><span>${t('home.where')}</span><span class="fd-sel"><select name="district"><option value="">${t('home.where.any')}</option>${districts.map(([d, n]) => `<option value="${esc(d)}">${esc(d)} · ${n}</option>`).join('')}</select>${icon('down')}</span></label>` : ''}
+      ${districts.length ? `<label class="fd-field"><span>${t('home.where')}</span><span class="fd-sel"><select name="district"><option value="">${t('home.where.any')}</option>${districts.map(([d, n]) => `<option value="${esc(d)}">${esc(placeName(d))} · ${n}</option>`).join('')}</select>${icon('down')}</span></label>` : ''}
       ${steps.length ? `<label class="fd-field"><span>${t('home.budget')}</span><span class="fd-sel"><select name="max"><option value="">${t('home.budget.any')}</option>${steps.map(v => `<option value="${v}">${compactMoney(v)}${period ? ' ' + t('period.' + period) : ''}</option>`).join('')}</select>${icon('down')}</span></label>` : ''}
       ${rooms ? `<div class="fd-field fd-beds" role="group" aria-label="${esc(t('f.beds'))}"><span>${t('f.beds')}</span><div class="fd-seg">${BEDS.map(b => `<button type="button" data-bed="${b}" aria-pressed="false">${b === '0' ? t('f.studio') : b === '4' ? '4+' : b}</button>`).join('')}</div></div>` : ''}
     </div>
@@ -154,7 +154,7 @@ ${allServices().filter(s => SERVICES[s].live).map(s => rail('rail-' + s, t('home
       ${districts.slice(0, 8).map(([d, n], i) => `
         <a class="district${i === 0 ? ' big' : ''}" href="#/all?district=${encodeURIComponent(d)}">
           ${districtPhoto(d) ? `<img src="${esc(districtPhoto(d))}" alt="" loading="lazy">` : ''}
-          <span><b>${esc(d)}</b><em>${t('cat.count', n)}</em></span>
+          <span><b>${esc(placeName(d))}</b><em>${t('cat.count', n)}</em></span>
         </a>`).join('')}
     </div>
   </div>

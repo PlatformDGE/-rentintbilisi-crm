@@ -76,7 +76,7 @@ const dict = {
     'cat.sort.new': 'Newest first', 'cat.sort.cheap': 'Price: low to high', 'cat.sort.expensive': 'Price: high to low',
     'cat.sort.area': 'Largest first', 'cat.sort.ppsqm': 'Price per m²',
     'cat.view.list': 'List', 'cat.view.map': 'Map', 'cat.reset': 'Clear all',
-    'cat.empty.t': 'Nothing found', 'cat.empty.d': 'Try relaxing the filters or picking another district.',
+    'cat.empty.t': 'No listings found', 'cat.empty.d': 'Try relaxing the filters or picking another district.',
     'cat.more': 'Show more', 'cat.updated': 'Updated',
     'cat.map.hint': 'Listings on the map', 'cat.no.coords': 'without a map pin',
 
@@ -142,7 +142,8 @@ const dict = {
     'footer.services': 'Services', 'footer.channels': 'Telegram channels', 'footer.contact': 'Contact',
     'footer.rates': (date, gel, eur) => `NBG rate${date ? ' on ' + date : ''}: $1 = ₾${gel} · €1 = ₾${eur}`,
     'footer.rights': 'All rights reserved.', 'footer.data': 'Listings sync from our Telegram channels every hour.',
-    'loading': 'Loading listings…', 'error': 'Could not load the catalogue. Please refresh.',
+    'loading': 'Loading listings…', 'error': 'Check your internet connection and try again.', 'error.t': 'Could not load the listings', 'retry': 'Try again',
+    'map.nocoords': n => `${n} without an exact location are not on the map.`, 'map.nocoords.link': 'See them in the list', 'l.approx.rate': 'at the National Bank rate',
   },
   ka: {
     'map.channels': 'არხები', 'map.ch.rent': 'გრძელვადიანი ქირა', 'map.ch.daily': 'დღიური ქირა', 'map.ch.sale': 'გაყიდვა', 'map.ch.commercial': 'კომერცია',
@@ -218,7 +219,7 @@ const dict = {
     'cat.sort.new': 'ჯერ ახალი', 'cat.sort.cheap': 'ჯერ იაფი', 'cat.sort.expensive': 'ჯერ ძვირი',
     'cat.sort.area': 'ფართის მიხედვით', 'cat.sort.ppsqm': 'ფასი მ²-ზე',
     'cat.view.list': 'სია', 'cat.view.map': 'რუკა', 'cat.reset': 'გასუფთავება',
-    'cat.empty.t': 'ვერაფერი მოიძებნა', 'cat.empty.d': 'სცადეთ ფილტრების შერბილება ან სხვა უბნის არჩევა.',
+    'cat.empty.t': 'განცხადებები ვერ მოიძებნა', 'cat.empty.d': 'სცადეთ ფილტრების შერბილება ან სხვა უბნის არჩევა.',
     'cat.more': 'მეტის ჩვენება', 'cat.updated': 'განახლდა',
     'cat.map.hint': 'ობიექტები რუკაზე', 'cat.no.coords': 'რუკაზე წერტილის გარეშე',
 
@@ -284,7 +285,8 @@ const dict = {
     'footer.services': 'სერვისები', 'footer.channels': 'Telegram-არხები', 'footer.contact': 'კონტაქტი',
     'footer.rates': (date, gel, eur) => `ეროვნული ბანკის კურსი${date ? ' ' + date : ''}: $1 = ₾${gel} · €1 = ₾${eur}`,
     'footer.rights': 'ყველა უფლება დაცულია.', 'footer.data': 'განცხადებები ახლდება Telegram-არხებიდან ყოველ საათში.',
-    'loading': 'განცხადებები იტვირთება…', 'error': 'კატალოგის ჩატვირთვა ვერ მოხერხდა. განაახლეთ გვერდი.',
+    'loading': 'განცხადებები იტვირთება…', 'error': 'შეამოწმეთ ინტერნეტთან კავშირი და სცადეთ ხელახლა.', 'error.t': 'განცხადებები ვერ ჩაიტვირთა', 'retry': 'ხელახლა ცდა',
+    'map.nocoords': n => `${n} განცხადება ზუსტი მისამართის გარეშე რუკაზე არ ჩანს.`, 'map.nocoords.link': 'სიაში ნახვა', 'l.approx.rate': 'ეროვნული ბანკის კურსით',
   },
   ru: {
     'map.channels': 'Каналы', 'map.ch.rent': 'Долгосрочная аренда', 'map.ch.daily': 'Посуточная аренда', 'map.ch.sale': 'Продажа', 'map.ch.commercial': 'Коммерция',
@@ -368,7 +370,7 @@ const dict = {
     'cat.sort.new': 'Сначала новые', 'cat.sort.cheap': 'Сначала дешёвые', 'cat.sort.expensive': 'Сначала дорогие',
     'cat.sort.area': 'По площади', 'cat.sort.ppsqm': 'Цена за м²',
     'cat.view.list': 'Список', 'cat.view.map': 'Карта', 'cat.reset': 'Сбросить всё',
-    'cat.empty.t': 'Ничего не нашли', 'cat.empty.d': 'Попробуйте ослабить фильтры или выбрать другой район.',
+    'cat.empty.t': 'Объекты не найдены', 'cat.empty.d': 'Попробуйте ослабить фильтры или выбрать другой район.',
     'cat.more': 'Показать ещё', 'cat.updated': 'Обновлено',
     'cat.map.hint': 'Объекты на карте', 'cat.no.coords': 'без точки на карте',
 
@@ -437,7 +439,8 @@ const dict = {
     'footer.services': 'Сервисы', 'footer.channels': 'Telegram-каналы', 'footer.contact': 'Контакты',
     'footer.rates': (date, gel, eur) => `Курс НБГ${date ? ' на ' + date : ''}: 1 $ = ${gel} ₾ · 1 € = ${eur} ₾`,
     'footer.rights': 'Все права защищены.', 'footer.data': 'Данные обновляются из Telegram-каналов каждый час.',
-    'loading': 'Загружаем объекты…', 'error': 'Не удалось загрузить каталог. Обновите страницу.',
+    'loading': 'Загружаем объекты…', 'error': 'Проверьте подключение к интернету и попробуйте ещё раз.', 'error.t': 'Не удалось загрузить объекты', 'retry': 'Повторить',
+    'map.nocoords': n => `${n} без точного адреса не показаны на карте.`, 'map.nocoords.link': 'Смотреть в списке', 'l.approx.rate': 'по курсу Нацбанка',
   },
 };
 
