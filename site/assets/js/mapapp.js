@@ -6,7 +6,7 @@ import { t, getLang, setLang, languages } from './i18n.js';
 import { icon, logo } from './icons.js';
 import { markLive } from './config.js';
 import { esc, installInteractions, loadingView, errorView } from './components.js';
-import { loadFeed, setRates, parseFilters, filtersToParams, activeCount } from './store.js';
+import { loadFeed, setRates, parseFilters, filtersToParams, activeCount, CURRENCIES, getCurrency, setCurrency } from './store.js';
 import { openFilterSheet } from './filters.js';
 import { enterEntry } from './scroll.js';
 import { renderMap } from './pages/map.js';
@@ -28,11 +28,21 @@ function renderBar() {
   bar.innerHTML = `
     <a class="brand" href="./" aria-label="Homes in Georgia">${logo()}</a>
     <button type="button" class="btn btn-light mbar-filter" data-open-filters>${icon('sliders')}<span>${esc(t('f.title'))}</span>${n ? `<b class="nbadge">${n}</b>` : ''}</button>
+    <button type="button" class="cur-seg" data-cur-toggle aria-label="${esc(t('nav.currency'))}: ${getCurrency()}" title="${esc(t('nav.currency'))}">${CURRENCIES.map(c => `<span class="${c === getCurrency() ? 'on' : ''}">${c === 'USD' ? '$' : '₾'}</span>`).join('')}</button>
+    <button type="button" class="icon-btn theme-btn" data-theme-toggle aria-label="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}" title="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}">${icon(isDark() ? 'sun' : 'moon')}</button>
     <div class="lang-seg" role="radiogroup" aria-label="Language" style="--i:${languages.indexOf(getLang())}">
       <i class="lang-thumb" aria-hidden="true"></i>
       ${languages.map(l => `<button type="button" role="radio" data-lang="${l}" aria-checked="${l === getLang()}" lang="${l}">${l.toUpperCase()}</button>`).join('')}
     </div>
     <a class="btn btn-primary mbar-site" href="./" aria-label="${esc(t('map.tosite'))}">${icon('home')}<span>${esc(t('map.tosite'))}</span></a>`;
+}
+
+const isDark = () => document.documentElement.dataset.theme === 'dark';
+function setTheme(theme) {
+  if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
+  else delete document.documentElement.dataset.theme;
+  document.querySelector('meta[name=theme-color]')?.setAttribute('content', theme === 'dark' ? '#0B1220' : '#032D6A');
+  try { localStorage.setItem('hig:theme', theme); } catch { /* the choice just is not remembered */ }
 }
 
 function openFilters() {
@@ -77,6 +87,17 @@ async function start() {
 
 bar.addEventListener('click', e => {
   if (e.target.closest('[data-open-filters]')) return openFilters();
+  if (e.target.closest('[data-cur-toggle]')) {
+    setCurrency(getCurrency() === 'USD' ? 'GEL' : 'USD');
+    renderBar();
+    if (data) draw();
+    return;
+  }
+  if (e.target.closest('[data-theme-toggle]')) {
+    setTheme(isDark() ? 'light' : 'dark');
+    renderBar();
+    return;
+  }
   const langBtn = e.target.closest('[data-lang]');
   if (langBtn && langBtn.dataset.lang !== getLang()) {
     langBtn.parentElement.style.setProperty('--i', languages.indexOf(langBtn.dataset.lang));
