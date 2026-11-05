@@ -4,9 +4,10 @@
 // that can be sent to a client. "Details" opens the listing on the main site.
 import { t, getLang, setLang, languages } from './i18n.js';
 import { icon, logo } from './icons.js';
+import { curChip, langChip } from './header-controls.js';
 import { markLive } from './config.js';
 import { esc, installInteractions, loadingView, errorView } from './components.js';
-import { loadFeed, setRates, parseFilters, filtersToParams, activeCount, CURRENCIES, getCurrency, setCurrency } from './store.js';
+import { loadFeed, setRates, parseFilters, filtersToParams, activeCount, getCurrency, setCurrency } from './store.js';
 import { openFilterSheet } from './filters.js';
 import { enterEntry } from './scroll.js';
 import { renderMap } from './pages/map.js';
@@ -28,12 +29,9 @@ function renderBar() {
   bar.innerHTML = `
     <a class="brand" href="./" aria-label="Homes in Georgia">${logo()}</a>
     <button type="button" class="btn btn-light mbar-filter" data-open-filters>${icon('sliders')}<span>${esc(t('f.title'))}</span>${n ? `<b class="nbadge">${n}</b>` : ''}</button>
-    <button type="button" class="cur-seg" data-cur-toggle aria-label="${esc(t('nav.currency'))}: ${getCurrency()}" title="${esc(t('nav.currency'))}">${CURRENCIES.map(c => `<span class="${c === getCurrency() ? 'on' : ''}">${c === 'USD' ? '$' : '₾'}</span>`).join('')}</button>
+    ${curChip()}
+    ${langChip()}
     <button type="button" class="icon-btn theme-btn" data-theme-toggle aria-label="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}" title="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}">${icon(isDark() ? 'sun' : 'moon')}</button>
-    <div class="lang-seg" role="radiogroup" aria-label="Language" style="--i:${languages.indexOf(getLang())}">
-      <i class="lang-thumb" aria-hidden="true"></i>
-      ${languages.map(l => `<button type="button" role="radio" data-lang="${l}" aria-checked="${l === getLang()}" lang="${l}">${l.toUpperCase()}</button>`).join('')}
-    </div>
     <a class="btn btn-primary mbar-site" href="./" aria-label="${esc(t('map.tosite'))}">${icon('home')}<span>${esc(t('map.tosite'))}</span></a>`;
 }
 

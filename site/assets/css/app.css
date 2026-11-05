@@ -1659,3 +1659,64 @@ html[data-theme="dark"] .mstrip-dots i.on { background: #fff; }
 html[data-theme="dark"] .share-target i[class^="st-"] {
   background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); color: #E6EDF7;
 }
+
+/* Top bar: one calm set of glass buttons, on the site and on the standalone map.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.hc, .nav-tools .theme-btn, .nav-tools .burger, .nav-tools .fav-link, .mbar .theme-btn, .mbar .mbar-filter {
+  flex: none; height: 44px; border: 1px solid rgba(3, 45, 106, .13); background: #fff; color: #032D6A; box-shadow: 0 2px 8px rgba(3, 45, 106, .08); cursor: pointer;
+}
+.nav-tools .theme-btn, .nav-tools .burger, .nav-tools .fav-link, .mbar .theme-btn { width: 44px; border-radius: 50%; }
+.nav-tools .theme-btn:hover, .nav-tools .burger:hover, .nav-tools .fav-link:hover, .mbar .theme-btn:hover, .hc:hover, .mbar .mbar-filter:hover { background: var(--brand-tint); }
+.hc { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0; border-radius: 22px; font: inherit; }
+.hc-cur { width: 76px; }
+.hc-cur b { font-size: 16px; font-weight: 700; }
+.hc-cur small { font-size: 12px; font-weight: 600; color: #55657E; }
+.hc-lang { width: 60px; }
+.hc-lang .i { width: 15px; height: 15px; }
+.hc-lang span { font-size: 12px; font-weight: 700; }
+.nav-tools { gap: 6px; }
+.mbar .mbar-filter { border-radius: 22px; }
+.mbar .mbar-site { height: 44px; border-radius: 22px; }
+html[data-theme="dark"] .hc, html[data-theme="dark"] .nav-tools .theme-btn, html[data-theme="dark"] .nav-tools .burger, html[data-theme="dark"] .nav-tools .fav-link, html[data-theme="dark"] .mbar .theme-btn, html[data-theme="dark"] .mbar .mbar-filter {
+  border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .07); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+}
+html[data-theme="dark"] .hc-cur small { color: #A9B6CB; }
+html[data-theme="dark"] .hc:hover, html[data-theme="dark"] .nav-tools .theme-btn:hover, html[data-theme="dark"] .nav-tools .burger:hover, html[data-theme="dark"] .nav-tools .fav-link:hover, html[data-theme="dark"] .mbar .theme-btn:hover, html[data-theme="dark"] .mbar .mbar-filter:hover { background: rgba(255, 255, 255, .14); }
+/* Phones: the site bar. */
+@media (max-width: 389px) {
+  .nav { gap: 4px; }
+  .nav-tools { gap: 4px; }
+  .nav .logo { height: 26px; }
+  .hc, .nav-tools .theme-btn, .nav-tools .burger { height: 40px; }
+  .nav-tools .theme-btn, .nav-tools .burger { width: 40px; }
+  .hc-cur { width: 66px; }
+  .hc-lang { width: 54px; }
+}
+@media (max-width: 349px) {
+  .nav { gap: 3px; }
+  .nav-tools { gap: 3px; }
+  .nav .logo { height: 22px; }
+  .hc, .nav-tools .theme-btn, .nav-tools .burger { height: 36px; }
+  .nav-tools .theme-btn, .nav-tools .burger { width: 36px; }
+  .hc-cur { width: 42px; }
+  .hc-cur small { display: none; }
+  .hc-lang { width: 48px; gap: 3px; }
+}
+/* Phones: the standalone map bar, which also holds the filter and home buttons. */
+@media (max-width: 559px) {
+  .mbar { gap: 5px; }
+  .mbar .brand svg, .mbar .brand img { height: 22px; }
+  .mbar .hc, .mbar .theme-btn, .mbar .mbar-filter, .mbar .mbar-site { height: 40px; min-height: 0; }
+  .mbar .theme-btn, .mbar .mbar-filter, .mbar .mbar-site { width: 38px; padding: 0; border-radius: 50%; justify-content: center; }
+  .mbar .hc-cur { width: 66px; }
+  .mbar .hc-lang { width: 54px; }
+}
+@media (max-width: 349px) {
+  .mbar { gap: 3px; padding-inline: 6px; }
+  .mbar .brand svg, .mbar .brand img { height: 18px; }
+  .mbar .hc, .mbar .theme-btn, .mbar .mbar-filter, .mbar .mbar-site { height: 36px; }
+  .mbar .theme-btn, .mbar .mbar-filter, .mbar .mbar-site { width: 36px; }
+  .mbar .hc-cur { width: 42px; }
+  .mbar .hc-cur small { display: none; }
+  .mbar .hc-lang { width: 48px; gap: 3px; }
+}
