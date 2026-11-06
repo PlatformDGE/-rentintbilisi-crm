@@ -55,7 +55,7 @@ function renderHeader() {
       ${langChip()}
       <button type="button" class="icon-btn theme-btn" data-theme-toggle aria-label="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}" title="${esc(t(isDark() ? 'nav.theme.light' : 'nav.theme.dark'))}">${icon(isDark() ? 'sun' : 'moon')}</button>
       <a class="icon-btn fav-link" href="#/favorites" aria-label="${esc(t('nav.favorites'))}">${icon('heart')}<b class="nbadge">${favs || ''}</b></a>
-      <a class="btn btn-primary nav-cta" href="${telegramHref(CONTACT.telegram)}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('nav.contact')}</span></a>
+      <a class="btn btn-primary nav-cta" href="#contact" data-contact>${icon('send')}<span>${t('nav.contact')}</span></a>
       <button type="button" class="icon-btn burger" aria-label="${esc(t('nav.menu'))}" aria-expanded="false">${icon('menu')}</button>
     </div>
   </div>
@@ -91,7 +91,7 @@ function renderFooter() {
     <div><details class="foot-channels"><summary>${t('footer.channels')}${icon('down')}</summary>${Object.entries(CHANNELS).map(([s, c]) => `<a href="${telegramHref(c)}" target="_blank" rel="noopener" title="${esc(t('svc.' + s))}">@${c}</a>`).join('')}</details></div>
   </div>
   <div class="container foot-connect">
-    <section><h4>${t('footer.contact')}</h4><div class="foot-rows">
+    <section id="contact"><h4>${t('footer.contact')}</h4><div class="foot-rows">
       ${footRow(phoneHref(), 'tel', t('footer.call'), CONTACT.phone, false)}
       ${footRow(whatsappHref(), 'whatsapp', t('footer.whatsapp'), CONTACT.phone)}
       ${footRow(telegramHref(), 'telegram', t('footer.telegram'), t('footer.message'))}
@@ -110,9 +110,19 @@ function renderFooter() {
 function renderTabbar(route) {
   const items = [['#/', 'home', t('nav.home'), route === ''], ['#/all', 'search', t('nav.search'), route === 'all' || (SERVICES[route] && true)],
     ['#/map', 'map', t('nav.map'), route === 'map'],
-    ['#/favorites', 'heart', t('nav.favorites'), route === 'favorites'], [telegramHref(CONTACT.telegram), 'send', t('nav.contact'), false]];
+    ['#/favorites', 'heart', t('nav.favorites'), route === 'favorites'], ['#contact', 'send', t('nav.contact'), false]];
   tabbar.innerHTML = items.map(([href, ic, label, on]) =>
-    `<a href="${href}"${href.startsWith('http') ? ' target="_blank" rel="noopener"' : ''} class="${on ? 'on' : ''}">${icon(ic)}<span>${esc(label)}</span>${ic === 'heart' && favIds().length ? '<b class="dot"></b>' : ''}</a>`).join('');
+    `<a href="${href}"${href === '#contact' ? ' data-contact' : ''} class="${on ? 'on' : ''}">${icon(ic)}<span>${esc(label)}</span>${ic === 'heart' && favIds().length ? '<b class="dot"></b>' : ''}</a>`).join('');
+}
+
+// «Связаться» leads to the contact block at the bottom of the page.
+// The full-screen map has no footer, so from there it goes through the home page.
+let contactAfterRoute = false;
+function showContact() {
+  // Lists below may still grow while the page settles, so aim again a few times.
+  const aim = () => document.getElementById('contact')?.scrollIntoView({ behavior: 'auto', block: 'start' });
+  aim();
+  [120, 300, 600].forEach(ms => setTimeout(aim, ms));
 }
 
 function parseHash() {
@@ -174,7 +184,10 @@ async function route() {
   else if (first === 'map') { current.page = renderMap(view, data, params); document.title = t('map.title') + ' · Homes in Georgia'; }
   else renderNotFound(view);
   view.focus?.({ preventScroll: true });
-  if (revisit) restoreTop();
+  if (contactAfterRoute) {
+    contactAfterRoute = false;
+    requestAnimationFrame(showContact);
+  } else if (revisit) restoreTop();
 }
 
 function rerenderAll() {
@@ -220,6 +233,16 @@ header.addEventListener('click', e => {
   if (e.target.closest('.mega-item')) header.querySelectorAll('.nav-drop').forEach(d => d.classList.remove('open'));
 });
 document.addEventListener('click', e => {
+  if (e.target.closest('[data-contact]')) {
+    e.preventDefault();
+    if (document.body.classList.contains('map-page')) {
+      contactAfterRoute = true;
+      location.hash = '#/';
+    } else {
+      showContact();
+    }
+    return;
+  }
   const share = e.target.closest('[data-share-id]');
   if (share && data) {
     e.preventDefault();
