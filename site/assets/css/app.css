@@ -1720,3 +1720,12 @@ html[data-theme="dark"] .hc:hover, html[data-theme="dark"] .nav-tools .theme-btn
   .mbar .hc-cur small { display: none; }
   .mbar .hc-lang { width: 48px; gap: 3px; }
 }
+
+/* Standalone map: windows open above the top bar and stay clear of the phone's notch.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+body.map-standalone .sheet-wrap { z-index: 800; }
+body.map-standalone .sheet { max-height: calc(100dvh - env(safe-area-inset-top) - 12px); }
+body.map-standalone .sheet-wrap.pop .sheet { max-height: 70vh; }
+@media (min-width: 760px) {
+  body.map-standalone .sheet { max-height: none; padding-top: env(safe-area-inset-top); }
+}
