@@ -1738,3 +1738,11 @@ body.map-standalone .sheet-wrap.pop .sheet { max-height: 70vh; }
 /* Card photos that have not loaded yet: a quiet tile instead of a broken image.
    Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
 .slides img[data-src] { background: var(--brand-tint, #EEF2F8); color: transparent; }
+
+/* Wide screens: the service tabs sit under the heading, so long service names
+   no longer squeeze the heading into a narrow column.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+@media (min-width: 1000px) {
+  .finder { grid-template-columns: minmax(0, 1fr); }
+  .fd-tabs { grid-column: 1; grid-row: auto; max-width: 100%; justify-self: start; }
+}
