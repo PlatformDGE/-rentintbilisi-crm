@@ -1734,3 +1734,7 @@ body.map-standalone .sheet-wrap.pop .sheet { max-height: 70vh; }
    Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
 #contact { scroll-margin-top: 16px; }
 @media (min-width: 1000px) { #contact { scroll-margin-top: 96px; } }
+
+/* Card photos that have not loaded yet: a quiet tile instead of a broken image.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.slides img[data-src] { background: var(--brand-tint, #EEF2F8); color: transparent; }
