@@ -5,6 +5,7 @@
 import { t, getLang, setLang, languages } from './i18n.js';
 import { icon, logo } from './icons.js';
 import { curChip, langChip } from './header-controls.js';
+import { initAnalytics } from './analytics.js';
 import { markLive } from './config.js';
 import { esc, installInteractions, loadingView, errorView } from './components.js';
 import { loadFeed, setRates, parseFilters, filtersToParams, activeCount, getCurrency, setCurrency } from './store.js';
@@ -105,4 +106,5 @@ bar.addEventListener('click', e => {
 });
 
 installInteractions();
+initAnalytics();
 start();

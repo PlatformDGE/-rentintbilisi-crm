@@ -7,6 +7,7 @@ import { esc, installInteractions, serviceIcon, loadingView, errorView } from '.
 import { loadFeed, favIds, onFavChange, getCurrency, setCurrency, setRates } from './store.js';
 import { openShare, BRAND } from './share.js';
 import { enterEntry, setPageTop, restoreTop, cancelRestore, scrollRoot, pageTop } from './scroll.js';
+import { initAnalytics } from './analytics.js';
 import { renderHome } from './pages/home.js';
 import { renderMap } from './pages/map.js';
 import { renderCatalog } from './pages/catalog.js';
@@ -264,6 +265,7 @@ onFavChange(n => {
 
 window.addEventListener('hashchange', route);
 installInteractions();
+initAnalytics();
 renderHeader();
 renderFooter();
 route();
