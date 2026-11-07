@@ -15,7 +15,8 @@
  *  REPORT_CHAT_IDS  — кому слать сводку: chat id через запятую (необязательно)
  *  RETENTION_DAYS   — сколько дней хранить события (по умолчанию 400)
  *
- * Установка: запустить setup() один раз — создаст лист и расписание сводки.
+ * Установка: запустить setup() один раз — создаст таблицу «HGE Analytics» (если скрипт
+ * не привязан к таблице), лист Events и расписание сводки. Ссылка на таблицу — в журнале.
  */
 
 var SHEET = 'Events';
@@ -306,7 +307,8 @@ function summaryText_(r) {
 
 // ── Установка и уборка ───────────────────────────────
 function setup() {
-  sheet_();
+  var sheet = sheet_();
+  Logger.log('Таблица аналитики: ' + sheet.getParent().getUrl());
   ScriptApp.getProjectTriggers().forEach(function (t) { ScriptApp.deleteTrigger(t); });
   ScriptApp.newTrigger('weeklySummary').timeBased().onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(10).inTimezone(TZ).create();
   ScriptApp.newTrigger('cleanup').timeBased().everyDays(1).atHour(4).inTimezone(TZ).create();
@@ -323,8 +325,21 @@ function cleanup() {
   if (old > 0) sheet.deleteRows(2, old);
 }
 
+// The table: the one this script is attached to, or its own «HGE Analytics»
+// (created by setup() in your Google Drive and remembered as SPREADSHEET_ID).
+function book_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('SPREADSHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+  var active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
+  var ss = SpreadsheetApp.create('HGE Analytics');
+  props.setProperty('SPREADSHEET_ID', ss.getId());
+  return ss;
+}
+
 function sheet_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = book_();
   var sheet = ss.getSheetByName(SHEET);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET);
