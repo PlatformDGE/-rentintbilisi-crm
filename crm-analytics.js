@@ -5,7 +5,7 @@
   'use strict';
 
   // The same web app address as ANALYTICS_URL in site/assets/js/config.js.
-  var ANALYTICS_URL = '';
+  var ANALYTICS_URL = 'https://script.google.com/macros/s/AKfycbwPOZbRvKr2D1j61bn-fRwVeRjb-tNH6X31XNKoU5gKXQ_PcU6Ad6YFn1n7kxAKFw7voA/exec';
   var SITE = 'https://hge.ge/';
   var SESSION_KEY = 'rent_crm_tg_session';
 
