@@ -38,7 +38,7 @@ export function card(x, { eager = false } = {}) {
 <article class="card" data-id="${esc(x.id)}">
   <div class="card-media">
     <div class="slides" data-slides>
-      ${photos.length ? photos.map((src, i) => `<img src="${esc(src)}" alt="${esc(listingTitle(x))}${i ? ' · ' + (i + 1) : ''}" ${i || !eager ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" draggable="false">`).join('')
+      ${photos.length ? photos.map((src, i) => `<img ${i ? 'data-src' : 'src'}="${esc(src)}" alt="${esc(listingTitle(x))}${i ? ' · ' + (i + 1) : ''}" ${i || !eager ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" draggable="false">`).join('')
         : `<div class="noimg">${icon('image')}</div>`}
     </div>
     ${photos.length > 1 ? `
@@ -99,8 +99,24 @@ export function toast(text) {
 export const serviceTitle = id => t('svc.' + id);
 export const serviceIcon = id => SERVICES[id]?.icon || 'search';
 
+// A card loads only its first photo; the others load as the visitor reaches them.
+// Many cards with every photo loaded made phones run out of memory and reload the page.
+function wakePhotos(track, upto) {
+  track.querySelectorAll('img').forEach((img, k) => {
+    if (k > upto || !img.dataset.src) return; // load photos up to number `upto` (0 = the first)
+    img.src = img.dataset.src;
+    img.removeAttribute('data-src');
+  });
+}
+const wakeAhead = track => wakePhotos(track, Math.round(track.scrollLeft / track.clientWidth) + 1);
+
 // ---------- global delegated behaviour for cards, carousels and rails ----------
 export function installInteractions() {
+  // Touching a card's photos gets the next one ready before the swipe lands.
+  const prime = e => { const tr = e.target.closest?.('.card [data-slides]'); if (tr) wakeAhead(tr); };
+  document.addEventListener('pointerdown', prime, { passive: true });
+  document.addEventListener('touchstart', prime, { passive: true });
+  document.addEventListener('mouseover', prime, { passive: true });
   document.addEventListener('click', e => {
     const fav = e.target.closest('[data-fav]');
     if (fav) {
@@ -119,6 +135,7 @@ export function installInteractions() {
     if (slide) {
       e.preventDefault();
       const track = slide.parentElement.querySelector('[data-slides]');
+      wakePhotos(track, Math.round(track.scrollLeft / track.clientWidth) + 2);
       track.scrollBy({ left: track.clientWidth * +slide.dataset.slide, behavior: 'smooth' });
       return;
     }
@@ -138,6 +155,7 @@ export function installInteractions() {
     const track = e.target;
     if (!(track instanceof Element) || !track.matches('[data-slides]')) return;
     const i = Math.round(track.scrollLeft / track.clientWidth);
+    wakePhotos(track, i + 1);
     track.parentElement.querySelectorAll('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
   }, true);
 }
