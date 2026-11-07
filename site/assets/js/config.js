@@ -8,7 +8,7 @@ export const CONTACT = {
 };
 
 // Our own site analytics (apps-script/site-analytics.gs). Empty = switched off.
-export const ANALYTICS_URL = '';
+export const ANALYTICS_URL = 'https://script.google.com/macros/s/AKfycbwPOZbRvKr2D1j61bn-fRwVeRjb-tNH6X31XNKoU5gKXQ_PcU6Ad6YFn1n7kxAKFw7voA/exec';
 
 // Public Telegram channel of every direction.
 export const CHANNELS = {
