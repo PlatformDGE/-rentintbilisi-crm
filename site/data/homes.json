@@ -2,7 +2,7 @@
   "kind": "homes",
   "channel": "homesingeorgia",
   "source": "active_channel",
-  "updated_at": "2026-11-07T09:01:29+04:00",
+  "updated_at": "2026-11-07T09:31:21+04:00",
   "items": [
     {
       "id": "2383",
@@ -1317,39 +1317,6 @@
       "image": "media/homes/1315-1.jpg"
     },
     {
-      "id": "1295",
-      "title": "35 Zhiuli Shartava St",
-      "property_type": "apartment",
-      "price": 350,
-      "area": 150,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 4,
-      "floor": "17/18",
-      "source_text": "#Saburtalo 🚇 #TCUniversity \n📍35 Zhiuli Shartava St \n \n❗️#Exclusive \n \n🏢 #4Bed #Apartment for #Sale \n✨ #NewBuilding | #Mixed | #FullyRenovated \n🏠 150 Sq.m | 17/18 Floor | #CentralHeating  \n \n✅ #Balcony ✅ #Elevator \n✅ #2Bathroom\n \n💰350.000$ \n0% Commission \n#Price330000to360000 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Viktoriia \n \n📍APARTMENTS ON MAP📍",
-      "type": "homes",
-      "channel": "homesingeorgia",
-      "post_url": "https://t.me/homesingeorgia/1295",
-      "published_at": "2026-10-26T10:02:30+04:00",
-      "map_url": "https://www.google.com/maps/place/35+Zhiuli+Shartava+St,+T%27bilisi/@41.7319584,44.7710273,16z/data=!4m6!3m5!1s0x404472e7d8f06265:0xef856d0cbeac7275!8m2!3d41.7319584!4d44.7710273!16s%2Fg%2F11cppn6t6x?utm_campaign=ml-sul&g_ep=Eg1tbF8yMDI2MTAxM18wIJvbDyoASAJQAg%3D%3D",
-      "location": "35 Zhiuli Shartava St, T'bilisi",
-      "lat": 41.7319584,
-      "lon": 44.7710273,
-      "approx": false,
-      "photos": [
-        "media/homes/1295-1.jpg",
-        "media/homes/1295-2.jpg",
-        "media/homes/1295-3.jpg",
-        "media/homes/1295-4.jpg",
-        "media/homes/1295-5.jpg",
-        "media/homes/1295-6.jpg",
-        "media/homes/1295-7.jpg",
-        "media/homes/1295-8.jpg",
-        "media/homes/1295-9.jpg"
-      ],
-      "image": "media/homes/1295-1.jpg"
-    },
-    {
       "id": "1285",
       "title": "41 Zhiuli Shartava St",
       "property_type": "apartment",
@@ -2592,39 +2559,6 @@
         "media/homes/524-9.jpg"
       ],
       "image": "media/homes/524-1.jpg"
-    },
-    {
-      "id": "484",
-      "title": "Navdaraantkari",
-      "property_type": "apartment",
-      "price": 72,
-      "area": 1000,
-      "district": "Lisi",
-      "metro": "",
-      "rooms": null,
-      "floor": "",
-      "source_text": "#Mtskheta 🚇 #Navdaraantkari\n📍Navdaraantkari\n\n🔥#Exclusive \n\n🏢 #Land for #Sale\n✨ Agricultural\n🏠 1000 Sq.m |\n\n✅ All communications\n✅ Fenced area\n✅ Best option for investment!\n\n💰72.000$\n 0% Commission\n#Price70000to90000\n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #Mari\n\n📍APARTMENTS ON MAP📍\n\nSALE IN TBILISI🇬🇪",
-      "type": "homes",
-      "channel": "homesingeorgia",
-      "post_url": "https://t.me/homesingeorgia/484",
-      "published_at": "2026-10-17T16:20:34+04:00",
-      "map_url": "https://www.google.com/maps/search/41.900612,+44.814416?entry=tts&g_ep=EgoyMDI2MDQwOC4wIPu8ASoASAFQAw%3D%3D&skid=6d67f58f-465a-4d91-a532-38c129f24ee8",
-      "location": "tbilisi",
-      "lat": 41.6936283,
-      "lon": 44.8016185,
-      "approx": true,
-      "photos": [
-        "media/homes/484-1.jpg",
-        "media/homes/484-2.jpg",
-        "media/homes/484-3.jpg",
-        "media/homes/484-4.jpg",
-        "media/homes/484-5.jpg",
-        "media/homes/484-6.jpg",
-        "media/homes/484-7.jpg",
-        "media/homes/484-8.jpg",
-        "media/homes/484-9.jpg"
-      ],
-      "image": "media/homes/484-1.jpg"
     },
     {
       "id": "454",
