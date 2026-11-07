@@ -183,6 +183,8 @@ export function renderCatalog(root, data, serviceId, params) {
   function render() {
     rows = sortItems(applyFilters(base, f), f.sort);
     $('.cat-count').textContent = t('cat.count', rows.length);
+    // For our own analytics: what was searched and whether anything was found.
+    document.dispatchEvent(new CustomEvent('hig:results', { detail: { service: serviceId, params: filtersToParams({ ...f, sort: 'new' }).toString(), count: rows.length } }));
     renderChrome();
     shown = 0;
     grid.innerHTML = '';

@@ -636,6 +636,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:none;opacity:.6}
 .adm-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
 .adm-head h2{font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0}
 .adm-head p{font-size:12px;color:var(--muted);margin:4px 0 0}
+/* Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.adm-analytics-btn{display:inline-flex;align-items:center;gap:8px;flex:none;border:0;font:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--brand);border-radius:12px;padding:10px 14px;min-height:42px;cursor:pointer;box-shadow:var(--shadow-sm)}
+.adm-analytics-btn .i{width:18px;height:18px}
 .adm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
 .adm-stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm)}
 .adm-stat small{display:block;font-size:11px;font-weight:600;color:var(--muted)}
@@ -2306,7 +2309,7 @@ div:has(>.stats-tab){background:transparent!important;border-radius:0!important;
     <!-- ═══ ADMIN ═══ -->
     <div class="screen" id="tab-admin">
       <div class="adm">
-        <div class="adm-head"><div><h2>Управление</h2><p>Команда, бегущая строка и вид дашборда</p></div></div>
+        <div class="adm-head"><div><h2>Управление</h2><p>Команда, бегущая строка и вид дашборда</p></div><button type="button" class="adm-analytics-btn" onclick="navigate('tab-analytics')"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><span>Аналитика сайта</span></button></div>
         <div class="adm-stats">
           <div class="adm-stat"><small>Агенты</small><b id="adm-n-agents">—</b></div>
           <div class="adm-stat"><small>Рекруты</small><b id="adm-n-recruits">—</b></div>
@@ -2564,6 +2567,8 @@ div:has(>.stats-tab){background:transparent!important;border-radius:0!important;
     <iframe id="post-generator-frame" data-src="post-generator-modern.html" title="Современный генератор публикаций" style="width:100%;height:100%;border:0;background:var(--tc102);display:block;"></iframe>
   </div>
 
+    <!-- Аналитика сайта hge.ge (crm-analytics.js), только для админов -->
+    <div class="screen" id="tab-analytics"></div>
   </div><!-- /screens -->
 
   <nav class="bnav">
@@ -2872,7 +2877,7 @@ function navForward(){if(NAV_HISTORY.index>=NAV_HISTORY.items.length-1)return;NA
 // screenId: 'tab-deals' | 'tab-reports' | 'form-daily' | etc.
 // fromTab:  optional — sets prevTab for goBack()
 function navigate(screenId, fromTab, historyTraversal) {
-  if(screenId==='tab-admin'&&!isAdmin()){showToast('Нет доступа к админ-панели');return;}
+  if((screenId==='tab-admin'||screenId==='tab-analytics')&&!isAdmin()){showToast('Нет доступа к админ-панели');return;}
   // Guard: protect against non-existent screens
   var target = document.getElementById(screenId);
   if (!target) { console.warn('navigate: screen not found:', screenId); return; }
@@ -2900,6 +2905,7 @@ function navigate(screenId, fromTab, historyTraversal) {
   if (screenId === 'tab-posts')    { ensurePostGenerator(); }
   if (screenId === 'tab-objects')  { loadObjectFeed(); }
   if (screenId === 'tab-calendar') { renderCalendarWeek(); }
+  if (screenId === 'tab-analytics' && window.HigAnalytics) { window.HigAnalytics.open(); }
   updateUnityNav(screenId);
   window.scrollTo(0, 0);
 }
@@ -6542,6 +6548,8 @@ function mfSubmit(){
 
 </script>
 <script src="telegram-top10.js"></script>
+<!-- Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia -->
+<script src="crm-analytics.js"></script>
 
 </body>
 </html>

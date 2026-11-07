@@ -7,6 +7,9 @@ export const CONTACT = {
   phone: '+995 599 20 67 16',
 };
 
+// Our own site analytics (apps-script/site-analytics.gs). Empty = switched off.
+export const ANALYTICS_URL = '';
+
 // Public Telegram channel of every direction.
 export const CHANNELS = {
   rent: 'rent_tbilisi_ge',
