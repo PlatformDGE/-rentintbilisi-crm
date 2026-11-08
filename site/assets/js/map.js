@@ -2,11 +2,66 @@
 import { MAP_CENTER, MAPTILER_KEY } from './config.js';
 import { logo } from './icons.js';
 import { compactMoney, priceLabel, sqmPrice } from './store.js';
-import { esc, listingTitle, facts } from './components.js';
+import { esc, listingTitle, facts, toast } from './components.js';
 import { t } from './i18n.js';
 
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
 const CLUSTER = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/';
+
+// "Where am I" button: a blue dot with an accuracy ring that follows the visitor.
+// The position stays in the browser; nothing about it is sent anywhere.
+const LOCATE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4 3.5 10.6l7 2.4 2.4 7Z"/></svg>';
+export function addLocate(L, map) {
+  let watch = null, dot = null, ring = null, first = true;
+  const Locate = L.Control.extend({
+    options: { position: 'bottomright' },
+    onAdd() {
+      const box = L.DomUtil.create('div', 'leaflet-bar leaflet-control map-locate');
+      const btn = L.DomUtil.create('a', '', box);
+      btn.href = '#';
+      btn.setAttribute('role', 'button');
+      btn.title = t('map.locate');
+      btn.setAttribute('aria-label', t('map.locate'));
+      btn.setAttribute('aria-pressed', 'false');
+      btn.innerHTML = LOCATE_ICON;
+      L.DomEvent.disableClickPropagation(box);
+      L.DomEvent.on(btn, 'click', e => { L.DomEvent.preventDefault(e); watch === null ? start(btn) : stop(btn); });
+      this._stop = () => stop(btn);
+      return box;
+    },
+    onRemove() { this._stop?.(); },
+  });
+  function stop(btn) {
+    if (watch !== null) navigator.geolocation.clearWatch(watch);
+    watch = null; first = true;
+    dot?.remove(); ring?.remove(); dot = ring = null;
+    btn.classList.remove('on', 'busy');
+    btn.setAttribute('aria-pressed', 'false');
+  }
+  function start(btn) {
+    if (!('geolocation' in navigator)) return toast(t('map.locate.fail'));
+    btn.classList.add('busy');
+    btn.setAttribute('aria-pressed', 'true');
+    watch = navigator.geolocation.watchPosition(pos => {
+      const at = [pos.coords.latitude, pos.coords.longitude];
+      const r = Math.min(pos.coords.accuracy || 0, 3000);
+      if (!dot) {
+        ring = L.circle(at, { radius: r, interactive: false, className: 'me-ring', weight: 1 }).addTo(map);
+        dot = L.marker(at, { interactive: false, keyboard: false, zIndexOffset: 200000,
+          icon: L.divIcon({ className: 'me-dot', html: '<i></i>', iconSize: [22, 22] }) }).addTo(map);
+      } else { dot.setLatLng(at); ring.setLatLng(at).setRadius(r); }
+      btn.classList.remove('busy'); btn.classList.add('on');
+      if (first) { first = false; map.flyTo(at, Math.max(map.getZoom(), 15), { duration: .8 }); }
+    }, err => {
+      // Once the dot is shown, a phone that stands still or briefly loses signal
+      // reports timeouts; keep the last position instead of switching off.
+      if (dot && err.code !== 1) return;
+      stop(btn);
+      toast(t(err.code === 1 ? 'map.locate.denied' : 'map.locate.fail'));
+    }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
+  }
+  return new Locate().addTo(map);
+}
 
 let loading;
 export function loadLeaflet() {

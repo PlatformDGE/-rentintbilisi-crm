@@ -1746,3 +1746,21 @@ body.map-standalone .sheet-wrap.pop .sheet { max-height: 70vh; }
   .finder { grid-template-columns: minmax(0, 1fr); }
   .fd-tabs { grid-column: 1; grid-row: auto; max-width: 100%; justify-self: start; }
 }
+
+/* "Where am I" on the map: a round glass button and a blue dot with an accuracy ring.
+   Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia */
+.map-locate a { display: grid !important; place-items: center; width: 40px !important; height: 40px !important; margin: 4px; border-radius: 50% !important;
+  background: rgba(255, 255, 255, .78) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: var(--shadow); color: var(--brand-strong) !important; }
+.map-locate a svg { width: 20px; height: 20px; }
+.map-locate a.on { color: #1A73E8 !important; }
+.map-locate a.on svg { fill: currentColor; }
+.map-locate a.busy svg { animation: me-busy 1s ease-in-out infinite; }
+@keyframes me-busy { 50% { opacity: .35; } }
+html[data-theme="dark"] .map-locate a { background: rgba(17, 26, 46, .78) !important; color: #E6EDF7 !important; }
+html[data-theme="dark"] .map-locate a.on { color: #6EA8FF !important; }
+.me-dot { background: none; border: 0; }
+.me-dot i { position: absolute; inset: 3px; border-radius: 50%; background: #1A73E8; border: 3px solid #fff; box-shadow: 0 1px 6px rgba(0, 0, 0, .35); }
+.me-dot i::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; background: rgba(26, 115, 232, .28); animation: me-pulse 2s ease-out infinite; z-index: -1; }
+@keyframes me-pulse { from { transform: scale(.5); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.me-ring { fill: #1A73E8; fill-opacity: .1; stroke: #1A73E8; stroke-opacity: .35; }
+@media (prefers-reduced-motion: reduce) { .me-dot i::after, .map-locate a.busy svg { animation: none; } }
