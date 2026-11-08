@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-08T22:31:33+04:00",
+  "updated_at": "2026-11-08T23:01:33+04:00",
   "items": [
     {
       "id": "549266",
@@ -1241,29 +1241,6 @@
         "media/rent/548904-9.jpg"
       ],
       "image": "media/rent/548904-1.jpg"
-    },
-    {
-      "id": "548903",
-      "title": "Morning Post",
-      "property_type": "apartment",
-      "price": null,
-      "area": null,
-      "district": "Saburtalo",
-      "metro": "Rustaveli",
-      "rooms": 900,
-      "floor": "",
-      "source_text": "✨ Morning Post ✨\n\n🌞 Good morning, Tbilisi!\n\nDon’t miss your dream apartment! With 700+ listings daily, the perfect place for you might be hidden in the feed. Use hashtags to find it faster 👇\n\n🔎 How to search:\n\nDistrict: #Vake #Saburtalo #Vera\nMetro: #Rustaveli #Delisi\nPrice: #Price300to500 #Price700to900\nBedrooms: #1Bed #2Bed\n\n✨ Pro tip: Combine hashtags for the most accurate results.\n\nExample: #Rustaveli + #Price500to700 + #1Bed → and you’ll get exactly what you’re looking for!\n\n👉 Full list of hashtags: check here\n\n🏡 Find not just a flat — find your perfect match in Tbilisi!\n\n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/548903",
-      "published_at": "2026-11-08T08:02:20+04:00",
-      "map_url": "",
-      "location": "Saburtalo",
-      "lat": 41.71667,
-      "lon": 44.75,
-      "approx": true,
-      "photos": [],
-      "image": ""
     },
     {
       "id": "548893",
