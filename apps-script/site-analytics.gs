@@ -6,11 +6,13 @@
  *
  *  POST (с сайта)                       — пачка анонимных событий
  *  GET ?action=report&token=..&days=7   — отчёт для CRM (только админы, вход через Telegram)
+ *  GET ?action=report&key=..&days=7     — тот же отчёт для страницы hge.ge/stats/ (по ключу)
  *  GET ?action=ping                     — проверка, что скрипт работает
  *
  * Свойства скрипта (Настройки проекта → Свойства скрипта):
  *  SESSION_SECRET   — тот же, что в проекте «CRM Auth» (проверка входа в CRM)
  *  ADMINS           — Telegram ID или username админов через запятую
+ *  REPORT_KEY       — ключ для страницы hge.ge/stats/, 16+ символов (необязательно)
  *  BOT_TOKEN        — ключ бота для еженедельной сводки (необязательно)
  *  REPORT_CHAT_IDS  — кому слать сводку: chat id через запятую (необязательно)
  *  RETENTION_DAYS   — сколько дней хранить события (по умолчанию 400)
@@ -66,10 +68,16 @@ function doGet(e) {
   try {
     if (p.action === 'ping') result = { ok: true };
     else if (p.action === 'report') {
+      if (p.key) {
+        // hge.ge/stats/: a long access key instead of the Telegram login.
+        if (keyOk_(p.key)) result = { ok: true, report: report_(Number(p.days) || 7) };
+        else { Utilities.sleep(1000); result = { ok: false, error: 'bad_key' }; }
+      } else {
       var who = verifyToken_(p.token);
       if (!who) result = { ok: false, error: 'bad_session' };
       else if (!isAdmin_(who)) result = { ok: false, error: 'not_admin' };
       else result = { ok: true, report: report_(Number(p.days) || 7) };
+      }
     } else result = { ok: false, error: 'unknown_action' };
   } catch (err) {
     result = { ok: false, error: String(err && err.message || err) };
@@ -347,6 +355,13 @@ function sheet_() {
     sheet.setFrozenRows(1);
   }
   return sheet;
+}
+
+// ── Вход по ключу (страница hge.ge/stats/) ───────────
+// REPORT_KEY: at least 16 characters; without it the key entrance is closed.
+function keyOk_(key) {
+  var real = PropertiesService.getScriptProperties().getProperty('REPORT_KEY') || '';
+  return real.length >= 16 && safeEqual_(String(key), real);
 }
 
 // ── Вход: та же подписанная сессия, что у CRM Auth ───
