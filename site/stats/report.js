@@ -10,6 +10,10 @@
   var SESSION_KEY = 'rent_crm_tg_session';
 
   var state = { days: 7, report: null, loading: false, error: '' };
+  // On hge.ge/stats/ the report opens with an access key instead of the CRM Telegram login.
+  var KEY_MODE = !!(document.body && document.body.getAttribute('data-stats') === 'key');
+  var KEY_STORE = 'hig:stats-key';
+  var savedKey = function () { try { return localStorage.getItem(KEY_STORE) || ''; } catch (e) { return ''; } };
 
   var SVC = { rent: 'Аренда', daily: 'Посуточно', sale: 'Продажа', 'new': 'Новостройки', commercial: 'Коммерция', 'car-rent': 'Аренда авто', 'car-sale': 'Продажа авто', all: 'Все' };
   var KEYS = { q: 'Поиск', district: 'Район', beds: 'Спальни', price: 'Цена', area: 'Площадь', kind: 'Тип', deal: 'Сделка', building: 'Дом', condition: 'Ремонт', amen: 'Удобства', metro: 'Метро', term: 'Срок', tenants: 'Жильцов', pets: 'С животными', excl: 'Эксклюзив', floor: 'Этаж', floors: 'Этажей', ppsqm: 'Цена за м²', deposit: 'Депозит', heating: 'Отопление', year: 'Год', mileage: 'Пробег', gearbox: 'Коробка', fuel: 'Топливо', body: 'Кузов', seats: 'Мест', pickup: 'Выдача', notfirst: 'Не первый этаж', notlast: 'Не последний этаж' };
@@ -48,8 +52,15 @@
     var s = session();
     state.loading = true; state.error = ''; render();
     if (!ANALYTICS_URL) { state.loading = false; state.error = 'setup'; return render(); }
-    if (!s || !s.token) { state.loading = false; state.error = 'bad_session'; return render(); }
-    jsonp({ action: 'report', token: s.token, days: state.days }, function (res) {
+    var params = { action: 'report', days: state.days };
+    if (KEY_MODE) {
+      if (!savedKey()) { state.loading = false; state.error = 'need_key'; return render(); }
+      params.key = savedKey();
+    } else {
+      if (!s || !s.token) { state.loading = false; state.error = 'bad_session'; return render(); }
+      params.token = s.token;
+    }
+    jsonp(params, function (res) {
       state.loading = false;
       if (res && res.ok) state.report = res.report;
       else state.error = (res && res.error) || 'network';
@@ -146,7 +157,8 @@
   function render() {
     var el = root(); if (!el) return;
     var r = state.report;
-    var head = '<div class="ha-head"><div><h2>Аналитика сайта</h2><p>hge.ge · свой счётчик, без Google</p></div>' +
+    var head = '<div class="ha-head"><div><h2>Аналитика сайта</h2><p>hge.ge · свой счётчик, без Google' +
+      (KEY_MODE && savedKey() ? ' · <button type="button" class="ha-link" data-ha="logout">Выйти</button>' : '') + '</p></div>' +
       '<div class="ha-seg" role="group" aria-label="Период">' + [[1, 'Сегодня'], [7, '7 дней'], [30, '30 дней'], [90, '90 дней']].map(function (p) {
         return '<button type="button" data-days="' + p[0] + '" class="' + (state.days === p[0] ? 'on' : '') + '">' + p[1] + '</button>';
       }).join('') + '</div></div>';
@@ -154,10 +166,20 @@
       setup: 'Счётчик ещё не подключён: нужно установить скрипт аналитики в Google и вписать его адрес. Инструкция — apps-script/ANALYTICS.md.',
       bad_session: 'Сессия входа устарела. Выйдите и войдите в CRM через Telegram заново.',
       not_admin: 'Аналитика доступна только админам.',
+      need_key: 'Введите ключ доступа к отчёту.',
+      bad_key: 'Ключ не подошёл. Проверьте его в свойствах скрипта (REPORT_KEY).',
       timeout: 'Сервер аналитики не ответил. Попробуйте ещё раз.',
       network: 'Не удалось связаться с сервером аналитики. Попробуйте ещё раз.',
     };
     if (state.loading) { el.innerHTML = '<div class="ha">' + head + '<div class="ha-state"><div class="spin"></div>Считаем…</div></div>'; return; }
+    if (KEY_MODE && (state.error === 'need_key' || state.error === 'bad_key')) {
+      el.innerHTML = '<div class="ha">' + head + '<form class="ha-state ha-key" data-ha-key>' +
+        '<p>' + esc(msg[state.error]) + '</p>' +
+        '<label for="ha-key-in" class="ha-sr">Ключ доступа</label>' +
+        '<input id="ha-key-in" type="password" autocomplete="current-password" placeholder="Ключ доступа" required minlength="16">' +
+        '<button type="submit" class="ha-btn">Открыть отчёт</button></form></div>';
+      return;
+    }
     if (state.error || !r) {
       el.innerHTML = '<div class="ha">' + head + '<div class="ha-state">' + esc(msg[state.error] || ('Ошибка: ' + state.error)) +
         (state.error && state.error !== 'setup' && state.error !== 'not_admin' ? '<button type="button" class="ha-btn" data-ha="reload">Повторить</button>' : '') + '</div>' +
@@ -238,6 +260,10 @@
     var a = e.target.closest('[data-ha]');
     if (!a) return;
     if (a.getAttribute('data-ha') === 'reload') load();
+    if (a.getAttribute('data-ha') === 'logout') {
+      try { localStorage.removeItem(KEY_STORE); } catch (x) { /* fine */ }
+      state.report = null; state.error = 'need_key'; render();
+    }
     if (a.getAttribute('data-ha') === 'copy') {
       var out = document.getElementById('ha-lb-url');
       out.select();
@@ -245,6 +271,14 @@
       a.textContent = 'Скопировано';
       setTimeout(function () { a.textContent = 'Копировать'; }, 1500);
     }
+  });
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest && e.target.closest('[data-ha-key]');
+    if (!f) return;
+    e.preventDefault();
+    var v = (document.getElementById('ha-key-in').value || '').trim();
+    try { localStorage.setItem(KEY_STORE, v); } catch (x) { /* the key is asked again next time */ }
+    load();
   });
   document.addEventListener('input', function (e) { if (e.target.closest && e.target.closest('.ha-lb')) buildLink(); });
   document.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('.ha-lb')) buildLink(); });
@@ -282,10 +316,13 @@
     '.ha-lb{display:grid;gap:10px}@media(min-width:900px){.ha-lb{grid-template-columns:1.4fr 1fr 1fr}.ha-lb-out{grid-column:1/-1}}' +
     '.ha-lb label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted)}' +
     '.ha-lb input,.ha-lb select{font:inherit;font-size:14px;color:var(--ink);background:var(--bg,var(--canvas));border:1px solid var(--line);border-radius:10px;padding:10px;min-height:42px;min-width:0}' +
-    '.ha-lb-out{display:flex;gap:8px}.ha-lb-out input{flex:1;font-size:13px}';
+    '.ha-lb-out{display:flex;gap:8px}.ha-lb-out input{flex:1;font-size:13px}' +
+    '.ha-key{max-width:420px;margin:0 auto}.ha-key p{margin:0}.ha-key input{font:inherit;font-size:16px;width:100%;box-sizing:border-box;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg,var(--canvas));color:var(--ink)}' +
+    '.ha-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.ha-link{border:0;background:none;padding:0;font:inherit;color:var(--brand);font-weight:600;cursor:pointer;text-decoration:underline}';
   var style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
 
   window.HigAnalytics = { open: function () { if (!state.report && !state.loading) load(); else render(); } };
+  if (KEY_MODE) window.HigAnalytics.open();
 })();
