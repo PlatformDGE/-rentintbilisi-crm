@@ -34,7 +34,7 @@ export function pay({ amount, deposit, title, t, money }) {
       </div>
       <label>${t('pay.card')}<input name="card" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242" required></label>
       <div class="row2">
-        <label>${t('pay.exp')}<input name="exp" placeholder="MM/YY" autocomplete="cc-exp" required></label>
+        <label>${t('pay.exp')}<input name="exp" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp" required></label>
         <label>CVC<input name="cvc" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required></label>
       </div>
       <p class="err" hidden></p>
@@ -48,6 +48,11 @@ export function pay({ amount, deposit, title, t, money }) {
     wrap.querySelector('.x').onclick = () => close({ ok: false });
     wrap.addEventListener('click', e => { if (e.target === wrap) close({ ok: false }); });
     form.card.addEventListener('input', () => { form.card.value = form.card.value.replace(/\D/g, '').slice(0, 19).replace(/(\d{4})(?=\d)/g, '$1 '); });
+    form.exp.addEventListener('input', e => {
+      const d = form.exp.value.replace(/\D/g, '').slice(0, 4);
+      const deleting = e.inputType && e.inputType.startsWith('delete');
+      form.exp.value = d.length > 2 || (d.length === 2 && !deleting) ? d.slice(0, 2) + '/' + d.slice(2) : d;
+    });
     form.card.focus();
     form.onsubmit = e => {
       e.preventDefault();

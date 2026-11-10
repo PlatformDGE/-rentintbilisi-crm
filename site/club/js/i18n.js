@@ -24,6 +24,7 @@ const ru = {
   'extra.childSeat': 'Детское кресло', 'extra.booster': 'Бустер', 'extra.snowChains': 'Цепи', 'extra.winterTires': 'Зимняя резина', 'extra.secondDriver': 'Второй водитель', 'extra.day': 'сутки', 'extra.days': 'сут.',
   'book.extras': 'Дополнительно', 'adm.byPlate': '— по госномеру —', 'adm.needCar': 'Выберите машину или укажите госномер.', 'adm.listed': p => `в объявлении ${p}/сутки`,
   'nav.backSite': 'Все машины на hge.ge',
+  'nav.siteSection': 'Аренда авто',
   'nav.home': 'Главная', 'nav.cars': 'Авто', 'nav.club': 'Клуб', 'nav.support': 'Поддержка', 'nav.account': 'Аккаунт', 'nav.admin': 'Админка оператора',
   'demo.banner': 'Демо-версия модуля: данные хранятся только в этом браузере, оплата тестовая, деньги не списываются.',
 
@@ -217,6 +218,7 @@ const en = {
   'extra.childSeat': 'Child seat', 'extra.booster': 'Booster seat', 'extra.snowChains': 'Snow chains', 'extra.winterTires': 'Winter tyres', 'extra.secondDriver': 'Second driver', 'extra.day': 'day', 'extra.days': 'days',
   'book.extras': 'Extras', 'adm.byPlate': '— by plate —', 'adm.needCar': 'Pick a car or enter the plate.', 'adm.listed': p => `listed at ${p}/day`,
   'nav.backSite': 'All cars on hge.ge',
+  'nav.siteSection': 'Car rental',
   'nav.home': 'Home', 'nav.cars': 'Cars', 'nav.club': 'Club', 'nav.support': 'Support', 'nav.account': 'Account', 'nav.admin': 'Operator console',
   'demo.banner': 'Demo of the module: data stays in this browser only, payment is in test mode and nothing is charged.',
 
@@ -410,6 +412,7 @@ const ka = {
   'extra.childSeat': 'საბავშვო სავარძელი', 'extra.booster': 'ბუსტერი', 'extra.snowChains': 'ჯაჭვები', 'extra.winterTires': 'ზამთრის საბურავები', 'extra.secondDriver': 'მეორე მძღოლი', 'extra.day': 'დღე', 'extra.days': 'დღე',
   'book.extras': 'დამატებით', 'adm.byPlate': '— ნომრით —', 'adm.needCar': 'აირჩიეთ მანქანა ან მიუთითეთ ნომერი.', 'adm.listed': p => `განცხადებაში ${p}/დღე`,
   'nav.backSite': 'ყველა მანქანა hge.ge-ზე',
+  'nav.siteSection': 'მანქანების გაქირავება',
   'nav.home': 'მთავარი', 'nav.cars': 'მანქანები', 'nav.club': 'კლუბი', 'nav.support': 'მხარდაჭერა', 'nav.account': 'პროფილი', 'nav.admin': 'ოპერატორის პანელი',
   'demo.banner': 'მოდულის დემო ვერსია: მონაცემები ინახება მხოლოდ ამ ბრაუზერში, გადახდა სატესტოა და თანხა არ ჩამოიჭრება.',
   'status.paused': 'შეჩერებულია',

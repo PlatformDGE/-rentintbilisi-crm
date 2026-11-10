@@ -271,3 +271,16 @@ td input { min-width: 80px; }
 
 .footer { max-width: var(--container); margin: 40px auto 0; padding: 20px var(--gutter) 28px; color: var(--muted); font-size: 13px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: var(--gold-soft); color: var(--gold-ink); padding: 12px 14px; border-radius: var(--r); margin-bottom: 12px; }
+
+/* Strip linking back to the main Homes in Georgia site */
+.sitebar { display: flex; align-items: center; gap: 10px; padding: 6px var(--gutter); background: var(--surface, #fff); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.sitebar a { display: inline-flex; align-items: center; gap: 4px; color: var(--ink); text-decoration: none; font-weight: 600; }
+.sitebar a:first-child img { height: 24px; width: auto; display: block; }
+.sitebar .ic { width: 16px; height: 16px; }
+.sitebar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sitebar span::before { content: "/"; margin-right: 10px; opacity: .5; }
+.sitebar-cars { margin-left: auto; color: var(--brand) !important; white-space: nowrap; }
+@media (max-width: 420px) { .sitebar span { display: none; } }
+.sitebar .lg-d { display: none !important; }
+html[data-theme="dark"] .sitebar .lg-l { display: none !important; }
+html[data-theme="dark"] .sitebar .lg-d { display: block !important; }

@@ -33,6 +33,7 @@ const NAV = [
   ['support', '#/support', 'help'], ['account', '#/account', 'user'],
 ];
 const ICONS = {
+  back: '<path d="M15 18l-6-6 6-6"/>',
   home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
   car: '<path d="M5 16l1.5-5.5A2 2 0 0 1 8.4 9h7.2a2 2 0 0 1 1.9 1.5L19 16"/><rect x="3" y="16" width="18" height="4" rx="1.5"/><circle cx="7.5" cy="18" r=".6"/><circle cx="16.5" cy="18" r=".6"/>',
   crown: '<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/>',
@@ -50,6 +51,7 @@ const icon = (n, cls = 'ic') => `<svg class="${cls}" viewBox="0 0 24 24" fill="n
 function shell() {
   const route = (location.hash.split('?')[0] || '#/').split('/')[1] || '';
   const active = id => (id === 'home' ? route === '' : route === id || (id === 'cars' && ['car', 'book'].includes(route)));
+  $('#sitebar').innerHTML = `<a href="../">${icon('back')}<img class="lg-l" src="../assets/img/brand/logo.svg" alt="Homes in Georgia" width="92" height="28"><img class="lg-d" src="../assets/img/brand/logo-white.svg" alt="" width="92" height="28"></a><span>${t('nav.siteSection')}</span><a class="sitebar-cars" href="../#/car-rent">${t('nav.backSite')}</a>`;
   $('#header').innerHTML = `
     <a class="brand" href="#/"><span class="brand-mark">CR</span><span><b>Cars Rent in Tbilisi</b><small>${t('brand.sub')}</small></span></a>
     <nav class="topnav">${NAV.map(([id, href]) => `<a href="${href}" class="${active(id) ? 'on' : ''}">${t('nav.' + id)}</a>`).join('')}</nav>
