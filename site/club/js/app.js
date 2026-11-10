@@ -173,7 +173,8 @@ function pageCar(id, q) {
   const route = car.lat ? `https://www.google.com/maps/dir/?api=1&destination=${car.lat},${car.lon}` : car.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(car.address)}` : '';
   return `<section class="wrap car-page">
     <a class="back" href="#/cars">← ${t('car.back')}</a>
-    <div class="gallery">${car.photos.map(p => `<img src="${esc(p)}" alt="${esc(car.name)}" loading="lazy">`).join('')}</div>
+    <div class="gallery-wrap"><div class="gallery">${car.photos.map((p, i) => `<img src="${esc(p)}" alt="${esc(car.name)}" ${i ? 'loading="lazy"' : ''} draggable="false">`).join('')}</div>
+      ${car.photos.length > 1 ? `<button class="gal-btn prev" data-act="gal" data-dir="-1" aria-label="‹">${icon('back')}</button><button class="gal-btn next" data-act="gal" data-dir="1" aria-label="›"><span style="display:inline-flex;transform:scaleX(-1)">${icon('back')}</span></button><span class="gal-count">1 / ${car.photos.length}</span>` : ''}</div>
     <div class="car-head">
       <div><span class="cls-tag">${t('class.' + car.class)}</span><h1>${esc(car.name)} <span>${esc(sub(car))}</span></h1>
       ${car.address ? `<p class="addr">${icon('pin')}${esc(car.address)} ${route ? `<a href="${route}" target="_blank" rel="noopener">${t('car.route')}</a>` : ''}</p>` : ''}
@@ -622,6 +623,7 @@ document.addEventListener('click', async e => {
   if (!a || a.tagName === 'SELECT' || a.type === 'checkbox') return;
   const { act, id } = a.dataset;
   const d = db();
+  if (act === 'gal') { const g = a.parentElement.querySelector('.gallery'); g.scrollBy({ left: +a.dataset.dir * g.clientWidth * 0.9, behavior: 'smooth' }); return; }
   if (act === 'demo') { S.signIn(id); go('#/account'); }
   if (act === 'signout') { S.signOut(); go('#/'); }
   if (act === 'pay') { const b = d.bookings.find(x => x.id === id); if (await payBooking(b)) rerender(); }
@@ -662,6 +664,14 @@ document.addEventListener('change', e => {
 });
 
 document.addEventListener('input', e => { const f = e.target.closest('#book-form'); if (f) renderQuote(f); });
+
+// Photo counter follows the swipe.
+document.addEventListener('scroll', e => {
+  const g = e.target; if (!(g instanceof Element) || !g.classList.contains('gallery')) return;
+  const imgs = [...g.children]; const mid = g.scrollLeft + g.clientWidth / 2;
+  const i = imgs.reduce((best, im, k) => Math.abs(im.offsetLeft + im.offsetWidth / 2 - mid) < Math.abs(imgs[best].offsetLeft + imgs[best].offsetWidth / 2 - mid) ? k : best, 0);
+  const c = g.parentElement.querySelector('.gal-count'); if (c) c.textContent = `${i + 1} / ${imgs.length}`;
+}, true);
 
 document.addEventListener('submit', async e => {
   const f = e.target; const fd = new FormData(f); const d = db();
