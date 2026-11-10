@@ -11,6 +11,7 @@
 // as overrides by car id.
 
 import { DEFAULT_RULES, DAY } from './rules.js';
+import { push } from './sync.js';
 
 const KEY = 'crt-club:v2';
 let db = null;
@@ -94,7 +95,23 @@ export function upsert(collection, item) {
   const i = list.findIndex(x => x.id === item.id);
   if (i >= 0) list[i] = { ...list[i], ...item }; else list.push(item);
   save();
+  push(collection, i >= 0 ? list[i] : item);
   return item;
+}
+
+// Drivers and bookings loaded from the shared inbox (admin console).
+export function mergeRemote({ clients = [], bookings = [] }) {
+  let added = 0;
+  for (const [name, items] of [['clients', clients], ['bookings', bookings]]) {
+    for (const r of items) {
+      const i = db[name].findIndex(x => x.id === r.id);
+      if (i >= 0) db[name][i] = { ...db[name][i], ...r, remote: true };
+      else { db[name].push({ ...r, remote: true }); added++; }
+    }
+  }
+  db.syncedAt = new Date().toISOString();
+  save();
+  return added;
 }
 
 // The operator's edits to a live car.

@@ -8,6 +8,7 @@ import * as S from './store.js';
 import { t, lang, setLang, LANGS, COURSE } from './i18n.js';
 import { pay } from './payments.js';
 import { loadFleet } from './fleet.js';
+import * as Sync from './sync.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const main = $('#main');
@@ -490,12 +491,22 @@ function admFines() {
   </tbody></table></div>`;
 }
 
+function syncPanel() {
+  if (!Sync.enabled()) return `<div class="alert">${icon('alert')}<div><p>${t('sync.off')}</p></div></div>`;
+  let key = ''; try { key = localStorage.getItem('crt-club:adminKey') || ''; } catch { /* ignore */ }
+  const at = db().syncedAt;
+  return `<form id="sync-form" class="panel form grid-form">
+    <label>${t('sync.key')}<input name="key" type="password" autocomplete="off" value="${esc(key)}" required></label>
+    <button class="btn" type="submit">${t('sync.load')}</button>
+    <p class="muted">${t('sync.note')}${at ? ' ' + t('sync.last', dday(at)) : ''}</p>
+  </form>`;
+}
 function admClients() {
   const rules = db().rules;
-  return `<div class="table-wrap"><table class="clients"><thead><tr><th>${t('adm.client')}</th><th>${t('adm.tier')}</th><th>${t('acc.discount')}</th><th>${t('acc.spent')}</th><th>${t('acc.clean')}</th><th>${t('adm.window')}</th><th>${t('adm.flags')}</th></tr></thead><tbody>
+  return `${syncPanel()}<div class="table-wrap"><table class="clients"><thead><tr><th>${t('adm.client')}</th><th>${t('adm.tier')}</th><th>${t('acc.discount')}</th><th>${t('acc.spent')}</th><th>${t('acc.clean')}</th><th>${t('adm.window')}</th><th>${t('adm.flags')}</th></tr></thead><tbody>
   ${db().clients.map(c => {
     const st = statusOf(c);
-    return `<tr><td><b>${esc(c.name)}</b><br><small>${esc(c.phone)}</small></td><td>${badge(st)}</td><td>${st.discount}%</td><td>${money(st.progress.spend)}</td><td>${st.progress.rentals}</td>
+    return `<tr><td><b>${esc(c.name)}</b><br><small>${esc(c.phone)}${c.email ? ' · ' + esc(c.email) : ''}</small>${c.createdAt ? `<br><small class="muted">${t('sync.since', dday(c.createdAt))}</small>` : ''}</td><td>${badge(st)}</td><td>${st.discount}%</td><td>${money(st.progress.spend)}</td><td>${st.progress.rentals}</td>
       <td class="${st.suspended ? 'bad' : ''}">${st.reasons.gross}/${rules.penalty.maxGross} · ${st.reasons.atFault}/${rules.penalty.maxAtFault}${st.suspendedUntil ? '<br><small>' + t('adm.until', dday(st.suspendedUntil)) + '</small>' : ''}</td>
       <td class="flags">
         <label class="check"><input type="checkbox" data-act="toggle" data-field="investor" data-id="${c.id}" ${c.investor ? 'checked' : ''}> ${t('status.investor')}</label>
@@ -672,11 +683,19 @@ document.addEventListener('submit', async e => {
     const c = { id: S.uid('cl'), name: String(fd.get('name')).trim(), phone, email: String(fd.get('email') || '').trim(), birth: fd.get('birth'), licenceSince: +fd.get('licence'), createdAt: new Date().toISOString(), offerAcceptedAt: new Date().toISOString() };
     S.upsert('clients', c); S.signIn(c.id); toast(t('reg.welcome')); goNext();
   }
+  if (f.id === 'sync-form') {
+    const key = String(fd.get('key')).trim();
+    try { localStorage.setItem('crt-club:adminKey', key); } catch { /* ignore */ }
+    const btn = f.querySelector('button'); btn.disabled = true;
+    try { const n = S.mergeRemote(await Sync.pull(key)); toast(t('sync.done', n)); rerender(); }
+    catch (err) { toast(t(err.message === 'key' ? 'sync.badKey' : 'sync.fail')); btn.disabled = false; }
+    return;
+  }
   if (f.id === 'profile-form') { S.upsert('clients', { id: me().id, name: fd.get('name'), phone: fd.get('phone'), email: fd.get('email') }); toast(t('prof.saved')); rerender(); }
   if (f.id === 'book-form') {
     const { q, start, end, clash } = renderQuote(f);
     if (clash) return;
-    const b = { id: S.uid('bk'), clientId: me().id, carId: f.dataset.car, planId: fd.get('plan'), qty: q.qty, insurance: fd.get('ins'), delivery: fd.get('delivery'),
+    const b = { id: S.uid('bk'), clientId: me().id, carId: f.dataset.car, carTitle: d.cars.find(c => c.id === f.dataset.car)?.name || '', planId: fd.get('plan'), qty: q.qty, insurance: fd.get('ins'), delivery: fd.get('delivery'),
       start: new Date(start).toISOString(), end: new Date(end).toISOString(), status: 'unpaid', rental: q.rental, discountPct: q.pct, rentalPaid: q.rentalPaid,
       deliveryFee: q.deliveryFee, extras: fd.getAll('extra'), extrasFee: q.extrasFee, total: q.total, deposit: q.deposit, depositState: 'none', createdAt: new Date().toISOString() };
     S.upsert('bookings', b);
