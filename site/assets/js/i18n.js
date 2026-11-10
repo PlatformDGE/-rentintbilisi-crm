@@ -139,7 +139,7 @@ const dict = {
 
     'nf.title': 'Page not found', 'nf.home': 'Go home',
     'footer.about': 'All Homes in Georgia services in one place: real estate and cars in Tbilisi.',
-    'footer.services': 'Services', 'footer.channels': 'Telegram channels', 'footer.contact': 'Contact us', 'footer.call': 'Call us', 'footer.whatsapp': 'Message us on WhatsApp', 'footer.telegram': 'Message us on Telegram', 'footer.message': 'Open the chat', 'footer.office': 'Our office', 'footer.address': 'Stamba, 14 Merab Kostava St, Tbilisi', 'footer.social': 'We are on social media', 'footer.listings': 'All our listings', 'footer.allads': 'All listings',
+    'footer.services': 'Services', 'footer.channels': 'Telegram channels', 'footer.contact': 'Contact us', 'footer.call': 'Call us', 'footer.whatsapp': 'Message us on WhatsApp', 'footer.telegram': 'Message us on Telegram', 'footer.message': 'Open the chat', 'footer.office': 'Our office', 'footer.address': 'Stamba, 14 Merab Kostava St, Tbilisi', 'soc.instagram': 'Instagram', 'soc.facebook': 'Facebook', 'soc.listing': 'Listings', 'soc.tiktok': 'TikTok', 'soc.youtube': 'YouTube', 'soc.threads': 'Threads', 'footer.social': 'We are on social media', 'footer.listings': 'All our listings', 'footer.allads': 'All listings',
     'footer.rates': (date, gel, eur) => `NBG rate${date ? ' on ' + date : ''}: $1 = ₾${gel}`,
     'footer.rights': 'All rights reserved.', 'footer.data': 'Listings sync from our Telegram channels every hour.',
     'loading': 'Loading listings…', 'error': 'Check your internet connection and try again.', 'error.t': 'Could not load the listings', 'retry': 'Try again',
@@ -282,7 +282,7 @@ const dict = {
 
     'nf.title': 'გვერდი ვერ მოიძებნა', 'nf.home': 'მთავარზე',
     'footer.about': 'Homes in Georgia-ს ყველა სერვისი ერთ სივრცეში: უძრავი ქონება და ავტომობილები თბილისში.',
-    'footer.services': 'სერვისები', 'footer.channels': 'Telegram-არხები', 'footer.contact': 'დაგვიკავშირდით', 'footer.call': 'დაგვირეკეთ', 'footer.whatsapp': 'მოგვწერეთ WhatsApp-ში', 'footer.telegram': 'მოგვწერეთ Telegram-ში', 'footer.message': 'ჩატის გახსნა', 'footer.office': 'ჩვენი ოფისი', 'footer.address': 'სტამბა, მერაბ კოსტავას ქ. 14, თბილისი', 'footer.social': 'ჩვენ სოციალურ ქსელებში', 'footer.listings': 'ყველა ჩვენი განცხადება', 'footer.allads': 'ყველა განცხადება',
+    'footer.services': 'სერვისები', 'footer.channels': 'Telegram-არხები', 'footer.contact': 'დაგვიკავშირდით', 'footer.call': 'დაგვირეკეთ', 'footer.whatsapp': 'მოგვწერეთ WhatsApp-ში', 'footer.telegram': 'მოგვწერეთ Telegram-ში', 'footer.message': 'ჩატის გახსნა', 'footer.office': 'ჩვენი ოფისი', 'footer.address': 'სტამბა, მერაბ კოსტავას ქ. 14, თბილისი', 'soc.instagram': 'Instagram', 'soc.facebook': 'Facebook', 'soc.listing': 'ლისტინგი', 'soc.tiktok': 'TikTok', 'soc.youtube': 'YouTube', 'soc.threads': 'Threads', 'footer.social': 'ჩვენ სოციალურ ქსელებში', 'footer.listings': 'ყველა ჩვენი განცხადება', 'footer.allads': 'ყველა განცხადება',
     'footer.rates': (date, gel, eur) => `ეროვნული ბანკის კურსი${date ? ' ' + date : ''}: $1 = ₾${gel}`,
     'footer.rights': 'ყველა უფლება დაცულია.', 'footer.data': 'განცხადებები ახლდება Telegram-არხებიდან ყოველ საათში.',
     'loading': 'განცხადებები იტვირთება…', 'error': 'შეამოწმეთ ინტერნეტთან კავშირი და სცადეთ ხელახლა.', 'error.t': 'განცხადებები ვერ ჩაიტვირთა', 'retry': 'ხელახლა ცდა',
@@ -436,7 +436,7 @@ const dict = {
 
     'nf.title': 'Страница не найдена', 'nf.home': 'На главную',
     'footer.about': 'Единая площадка сервисов Homes in Georgia: недвижимость и авто в Тбилиси.',
-    'footer.services': 'Сервисы', 'footer.channels': 'Telegram-каналы', 'footer.contact': 'Свяжитесь с нами', 'footer.call': 'Позвонить нам', 'footer.whatsapp': 'Написать нам в WhatsApp', 'footer.telegram': 'Написать нам в Telegram', 'footer.message': 'Открыть чат', 'footer.office': 'Наш офис', 'footer.address': 'Стамба, ул. Мераба Костава, 14, Тбилиси', 'footer.social': 'Мы в соцсетях', 'footer.listings': 'Все наши объявления', 'footer.allads': 'Все объявления',
+    'footer.services': 'Сервисы', 'footer.channels': 'Telegram-каналы', 'footer.contact': 'Свяжитесь с нами', 'footer.call': 'Позвонить нам', 'footer.whatsapp': 'Написать нам в WhatsApp', 'footer.telegram': 'Написать нам в Telegram', 'footer.message': 'Открыть чат', 'footer.office': 'Наш офис', 'footer.address': 'Стамба, ул. Мераба Костава, 14, Тбилиси', 'soc.instagram': 'Instagram', 'soc.facebook': 'Facebook', 'soc.listing': 'Листинг', 'soc.tiktok': 'TikTok', 'soc.youtube': 'YouTube', 'soc.threads': 'Threads', 'footer.social': 'Мы в соцсетях', 'footer.listings': 'Все наши объявления', 'footer.allads': 'Все объявления',
     'footer.rates': (date, gel, eur) => `Курс НБГ${date ? ' на ' + date : ''}: 1 $ = ${gel} ₾`,
     'footer.rights': 'Все права защищены.', 'footer.data': 'Данные обновляются из Telegram-каналов каждый час.',
     'loading': 'Загружаем объекты…', 'error': 'Проверьте подключение к интернету и попробуйте ещё раз.', 'error.t': 'Не удалось загрузить объекты', 'retry': 'Повторить',

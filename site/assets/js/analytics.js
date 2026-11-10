@@ -151,6 +151,7 @@ async function onClick(e) {
   // Our social accounts, portals and Telegram channels: interest, not a direct request.
   const tg = (el.getAttribute('href') || '').match(/^https:\/\/t\.me\/([^/?#]+)/);
   if (tg && CHANNEL_NAMES.has(tg[1].toLowerCase())) return track('social', { x: { ch: 'telegram:' + tg[1] } });
+  if (el.dataset.social) return track('social', { x: { ch: el.dataset.social } });
   if (el.matches('.foot-chip')) {
     const name = (el.querySelector('b')?.textContent || '').trim().toLowerCase();
     const handle = (el.querySelector('small')?.textContent || '').trim();
