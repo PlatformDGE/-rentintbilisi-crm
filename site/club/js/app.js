@@ -7,6 +7,7 @@ import * as R from './rules.js';
 import * as S from './store.js';
 import { t, lang, setLang, LANGS, COURSE } from './i18n.js';
 import { pay } from './payments.js';
+import { loadFleet } from './fleet.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const main = $('#main');
@@ -23,7 +24,7 @@ const statusOf = c => R.status(c, db().bookings, db().incidents, Date.now(), db(
 const carById = id => db().cars.find(c => c.id === id);
 const clientById = id => db().clients.find(c => c.id === id);
 const tierName = id => t('tier.' + id);
-const color = car => car.color?.[lang()] || car.color?.en || '';
+const sub = car => [car.year, car.body ? t('body.' + car.body) : ''].filter(Boolean).join(' · ');
 
 /* ---------- Shell ---------- */
 
@@ -56,7 +57,7 @@ function shell() {
   $('#tabbar').innerHTML = NAV.map(([id, href, ic]) => `<a href="${href}" class="${active(id) ? 'on' : ''}">${icon(ic)}<span>${t('nav.' + id)}</span></a>`).join('');
   $('#footer').innerHTML = `
     <div class="demo-note">${icon('alert')}<span>${t('demo.banner')}</span></div>
-    <p>© Cars Rent in Tbilisi · <a href="#/admin">${t('nav.admin')}</a> · <a href="#/club">${t('nav.club')}</a> · <a href="#/support">${t('nav.support')}</a></p>`;
+    <p><a href="../#/car-rent">← ${t('nav.backSite')}</a> · © Cars Rent in Tbilisi · <a href="#/admin">${t('nav.admin')}</a> · <a href="#/club">${t('nav.club')}</a> · <a href="#/support">${t('nav.support')}</a></p>`;
   document.documentElement.lang = lang();
   document.title = t('doc.title');
 }
@@ -78,7 +79,7 @@ function carCard(car, st) {
     <div class="ph"><img src="${esc(car.photos[0])}" alt="${esc(car.name)}" loading="lazy"><span class="cls">${t('class.' + car.class)}</span>
       ${ok ? '' : `<span class="lock">${icon('lock')}${t('car.lockedFrom', tierName(R.unlockTier(car.class, db().rules)))}</span>`}</div>
     <div class="body">
-      <h3>${esc(car.name)} <span>${esc(color(car))}</span></h3>
+      <h3>${esc(car.name)} <span>${esc(sub(car))}</span></h3>
       <p class="price">${t('car.fromHour', money(hour))}${pct ? ` <s>${money(four / 4)}</s>` : ''}</p>
       <p class="meta">${t('car.day')}: ${money(day * (1 - pct / 100))} · ${t('car.deposit')}: ${money(R.deposit(car, db().rules))}</p>
     </div></a>`;
@@ -118,7 +119,7 @@ function pageHome() {
   const classes = R.CLASSES.filter(k => db().cars.some(car => car.class === k));
   return `
   <section class="hero">
-    <img src="media/cruze-1.jpg" alt="">
+    <img src="${esc(db().cars[0]?.photos[0] || '')}" alt="">
     <div class="hero-in">
       <p class="eyebrow">Cars Rent in Tbilisi</p>
       <h1>${t('home.title')}</h1>
@@ -171,14 +172,17 @@ function pageCar(id, q) {
     <a class="back" href="#/cars">← ${t('car.back')}</a>
     <div class="gallery">${car.photos.map(p => `<img src="${esc(p)}" alt="${esc(car.name)}" loading="lazy">`).join('')}</div>
     <div class="car-head">
-      <div><span class="cls-tag">${t('class.' + car.class)}</span><h1>${esc(car.name)} <span>${esc(color(car))}</span></h1>
-      ${car.address ? `<p class="addr">${icon('pin')}${esc(car.address)}${car.parking ? ' · ' + t('car.parking') + ' ' + esc(car.parking) : ''} ${route ? `<a href="${route}" target="_blank" rel="noopener">${t('car.route')}</a>` : ''}</p>` : ''}</div>
+      <div><span class="cls-tag">${t('class.' + car.class)}</span><h1>${esc(car.name)} <span>${esc(sub(car))}</span></h1>
+      ${car.address ? `<p class="addr">${icon('pin')}${esc(car.address)} ${route ? `<a href="${route}" target="_blank" rel="noopener">${t('car.route')}</a>` : ''}</p>` : ''}
+      ${car.postUrl ? `<p class="hint"><a href="${esc(car.postUrl)}" target="_blank" rel="noopener">${t('car.post')}</a></p>` : ''}</div>
     </div>
     <div class="specs">
-      ${spec('consumption', car.consumption ? car.consumption + ' ' + t('spec.l100') : '')}${spec('fuel', car.fuel)}${spec('drive', car.drive)}
-      ${spec('gearbox', car.gearbox === 'AT' ? t('spec.auto') : car.gearbox)}${spec('power', car.hp ? (car.hpEstimated ? '≈ ' : '') + car.hp + ' ' + t('spec.hp') : '')}${spec('seats', car.seats)}
+      ${spec('year', car.year)}${spec('consumption', car.consumption ? car.consumption + ' ' + t('spec.l100') : '')}${spec('fuel', car.fuel ? t('fuel.' + car.fuel) : '')}
+      ${spec('gearbox', car.gearbox ? t('gear.' + car.gearbox) : '')}${spec('drive', car.drive)}${spec('power', car.hp ? car.hp + ' ' + t('spec.hp') : '')}
+      ${spec('seats', car.seats)}${spec('trunk', car.trunk ? car.trunk + ' ' + t('spec.l') : '')}${spec('pets', car.pets ? t('spec.yes') : '')}
     </div>
     <div class="deposit-box"><b>${money(R.deposit(car, rules))}</b><span>${t('car.depositText')}</span></div>
+    ${car.extras?.length ? `<div class="chips">${car.extras.map(e => `<span class="chip">${t('extra.' + e.id)} · ${money(e.perDay)}/${t('extra.day')}</span>`).join('')}</div>` : ''}
     ${ok ? '' : `<div class="alert">${icon('lock')}<div><b>${t('car.lockedTitle')}</b><p>${st?.suspended ? t('car.lockedSuspended') : t('car.lockedText', tierName(R.unlockTier(car.class, rules)))}</p><a href="#/club">${t('home.clubMore')}</a></div></div>`}
     <h2>${t('car.plans')}</h2>
     <p class="muted">${t('car.plansText')}</p>
@@ -218,6 +222,7 @@ function pageBook(id, q) {
       <label>${t('book.start')}<input name="start" type="datetime-local" value="${start}" min="${toLocalInput(Date.now() + 90 * 60000)}" required></label>
       <label>${t('book.ins')}<select name="ins">${['tpl', 'casco'].map(k => `<option value="${k}" ${k === ins ? 'selected' : ''}>${t('ins.' + k)}</option>`).join('')}</select></label>
       <label>${t('book.delivery')}<select name="delivery">${Object.entries(rules.delivery).map(([k, v]) => `<option value="${k}">${t('del.' + k)}${v ? ' (+' + money(v) + ')' : ''}</option>`).join('')}</select></label>
+      ${car.extras?.length ? `<fieldset><legend>${t('book.extras')}</legend>${car.extras.map(e => `<label class="check"><input type="checkbox" name="extra" value="${e.id}"> <span>${t('extra.' + e.id)} · ${money(e.perDay)}/${t('extra.day')}</span></label>`).join('')}</fieldset>` : ''}
       <div id="quote"></div>
       <label class="check"><input type="checkbox" name="agree" required> <span>${t('book.agree')}</span></label>
       <button class="btn wide" type="submit">${t('book.pay')}</button>
@@ -229,7 +234,7 @@ function pageBook(id, q) {
 function renderQuote(form) {
   const car = carById(form.dataset.car); const st = statusOf(me());
   const f = new FormData(form);
-  const q = R.quote({ car, planId: f.get('plan'), qty: Math.max(1, +f.get('qty') || 1), insurance: f.get('ins'), delivery: f.get('delivery'), st, rules: db().rules });
+  const q = R.quote({ car, planId: f.get('plan'), qty: Math.max(1, +f.get('qty') || 1), insurance: f.get('ins'), delivery: f.get('delivery'), extras: f.getAll('extra'), st, rules: db().rules });
   const start = Date.parse(f.get('start'));
   const end = start + q.hours * 3600000;
   const clash = R.overlaps(db().bookings, car.id, new Date(start).toISOString(), new Date(end).toISOString());
@@ -238,6 +243,7 @@ function renderQuote(form) {
     <div><span>${t('book.rental')} (${t('plan.' + f.get('plan'))} × ${q.qty})</span><b>${money(q.rental)}</b></div>
     ${q.pct ? `<div class="disc"><span>${t('book.discount', q.pct, discLabel)}</span><b>−${money(q.discount)}</b></div>` : ''}
     ${q.deliveryFee ? `<div><span>${t('book.deliveryFee')}</span><b>${money(q.deliveryFee)}</b></div>` : ''}
+    ${q.extrasFee ? `<div><span>${t('book.extras')} (${q.days} ${t('extra.days')})</span><b>${money(q.extrasFee)}</b></div>` : ''}
     <div class="total"><span>${t('book.total')}</span><b>${money(q.total)}</b></div>
     <div class="dep"><span>${t('book.depositHold')}</span><b>${money(q.deposit)}</b></div>
     <p class="hint">${t('book.until', dt(end))}</p>
@@ -454,7 +460,7 @@ function admFines() {
     const why = !m.carFound ? t('adm.noCar') : m.match ? t('adm.suggest', esc(clientById(m.match.clientId)?.name), dt(m.match.start), dt(m.match.end)) : m.candidates.length ? t('adm.several') : t('adm.noRental');
     return `<div class="row-item fine ${m.match ? 'ok' : 'warn'}">
       <div class="grow"><b>${t('vt.' + i.type)} · ${esc(i.amount)} ${esc(i.currency || 'GEL')}</b>
-      <span>${esc(i.plate)} · ${dt(i.date)}${i.ref ? ' · ' + esc(i.ref) : ''}</span><span class="why">${why}</span></div>
+      <span>${esc(carById(i.carId)?.name || i.plate)}${i.plate && i.carId ? ' · ' + esc(i.plate) : ''} · ${dt(i.date)}${i.ref ? ' · ' + esc(i.ref) : ''}</span><span class="why">${why}</span></div>
       <div class="end">${m.match ? `<button class="btn sm" data-act="link" data-id="${i.id}" data-client="${m.match.clientId}" data-booking="${m.match.id}">${t('adm.confirmLink')}</button>` : ''}
         <select data-act="link-manual" data-id="${i.id}" aria-label="client">${clientOptions('')}</select>
         <button class="link" data-act="fine-cancel" data-id="${i.id}">${t('adm.cancelFine')}</button></div>
@@ -462,7 +468,8 @@ function admFines() {
   }).join('')}</div>` : `<div class="empty">${t('adm.inboxEmpty')}</div>`}
   <h2>${t('adm.addFine')}</h2>
   <form id="fine-form" class="panel form grid-form">
-    <label>${t('adm.plate')}<input name="plate" required placeholder="RI-460-AA" list="plates"></label>
+    <label>${t('adm.car')}<select name="car"><option value="">${t('adm.byPlate')}</option>${cars.map(c => `<option value="${c.id}">${esc(c.name)} · ${esc(c.year || '')}${c.plate ? ' · ' + esc(c.plate) : ''}</option>`).join('')}</select></label>
+    <label>${t('adm.plate')}<input name="plate" placeholder="AA-000-AA" list="plates"></label>
     <datalist id="plates">${cars.filter(c => c.plate).map(c => `<option value="${esc(c.plate)}">${esc(c.name)}</option>`).join('')}</datalist>
     <label>${t('adm.when')}<input name="date" type="datetime-local" required></label>
     <label>${t('adm.type')}<select name="type">${typeOptions('speed_40_plus')}</select></label>
@@ -516,7 +523,7 @@ function admBookings() {
 function admFleet() {
   const rules = db().rules;
   return `<p class="muted">${t('adm.fleetNote')}</p>${db().cars.map(car => `<form class="panel form grid-form car-form" data-id="${car.id}">
-    <h3 class="full">${esc(car.name)} · ${t('car.deposit')} ${money(R.deposit(car, rules))}</h3>
+    <h3 class="full">${esc(car.name)} ${esc(car.year || '')} · ${t('adm.listed', money(car.listedPerDay))} · ${t('car.deposit')} ${money(R.deposit(car, rules))}</h3>
     <label>${t('adm.plate')}<input name="plate" value="${esc(car.plate)}"></label>
     <label>${t('adm.class')}<select name="class">${R.CLASSES.map(k => `<option value="${k}" ${k === car.class ? 'selected' : ''}>${t('class.' + k)}</option>`).join('')}</select></label>
     <label>${t('spec.power')} (${t('spec.hp')})<input name="hp" type="number" value="${esc(car.hp ?? '')}"></label>
@@ -636,7 +643,7 @@ document.addEventListener('change', e => {
   if (act === 'link-manual' && el.value) {
     const fine = db().incidents.find(i => i.id === id);
     const b = db().bookings.find(x => x.clientId === el.value && R.matchFine(fine, [x], db().cars).match);
-    S.upsert('incidents', { id, clientId: el.value, bookingId: b?.id || null, carId: b?.carId || db().cars.find(c => R.norm(c.plate) === R.norm(fine.plate))?.id || null, status: 'confirmed', linkedBy: 'operator' });
+    S.upsert('incidents', { id, clientId: el.value, bookingId: b?.id || null, carId: b?.carId || fine.carId || db().cars.find(c => fine.plate && R.norm(c.plate) === R.norm(fine.plate))?.id || null, status: 'confirmed', linkedBy: 'operator' });
     toast(t('adm.linkedOk')); rerender();
   }
 });
@@ -669,7 +676,7 @@ document.addEventListener('submit', async e => {
     if (clash) return;
     const b = { id: S.uid('bk'), clientId: me().id, carId: f.dataset.car, planId: fd.get('plan'), qty: q.qty, insurance: fd.get('ins'), delivery: fd.get('delivery'),
       start: new Date(start).toISOString(), end: new Date(end).toISOString(), status: 'unpaid', rental: q.rental, discountPct: q.pct, rentalPaid: q.rentalPaid,
-      deliveryFee: q.deliveryFee, total: q.total, deposit: q.deposit, depositState: 'none', createdAt: new Date().toISOString() };
+      deliveryFee: q.deliveryFee, extras: fd.getAll('extra'), extrasFee: q.extrasFee, total: q.total, deposit: q.deposit, depositState: 'none', createdAt: new Date().toISOString() };
     S.upsert('bookings', b);
     await payBooking(b);
     go('#/account?tab=bookings');
@@ -682,7 +689,8 @@ document.addEventListener('submit', async e => {
     go('#/account?tab=course');
   }
   if (f.id === 'fine-form') {
-    const inc = { id: S.uid('in'), kind: 'fine', plate: String(fd.get('plate')).trim(), date: new Date(fd.get('date')).toISOString(), type: fd.get('type'), amount: +fd.get('amount'), currency: 'GEL', ref: fd.get('ref'), status: 'new', clientId: null, createdAt: new Date().toISOString() };
+    if (!fd.get('car') && !String(fd.get('plate')).trim()) { toast(t('adm.needCar')); return; }
+    const inc = { id: S.uid('in'), kind: 'fine', carId: fd.get('car') || null, plate: String(fd.get('plate')).trim(), date: new Date(fd.get('date')).toISOString(), type: fd.get('type'), amount: +fd.get('amount'), currency: 'GEL', ref: fd.get('ref'), status: 'new', clientId: null, createdAt: new Date().toISOString() };
     S.upsert('incidents', inc); toast(t('adm.fineAdded')); rerender();
   }
   if (f.id === 'csv-form') {
@@ -704,7 +712,7 @@ document.addEventListener('submit', async e => {
     const car = carById(f.dataset.id); const num = k => (fd.get(k) === '' ? null : +fd.get(k));
     const prices = { tpl: {}, casco: {} };
     d.rules.plans.forEach(p => { const a = num('tpl_' + p.id), b = num('casco_' + p.id); if (a != null) prices.tpl[p.id] = a; if (b != null) prices.casco[p.id] = b; });
-    S.upsert('cars', { ...car, plate: fd.get('plate'), class: fd.get('class'), hp: num('hp'), hpEstimated: false, depositOverride: num('depositOverride'), address: fd.get('address'), lat: num('lat'), lon: num('lon'), status: fd.get('status'), prices });
+    S.saveCar(car.id, { plate: fd.get('plate'), class: fd.get('class'), hp: num('hp'), depositOverride: num('depositOverride'), address: fd.get('address'), lat: num('lat'), lon: num('lon'), status: fd.get('status'), prices });
     toast(t('adm.saved')); rerender();
   }
   if (f.id === 'rules-form') {
@@ -726,4 +734,9 @@ function goNext() {
 }
 
 window.addEventListener('hashchange', render);
-render();
+
+// Start: load the live fleet from the site's catalogue, then draw.
+main.innerHTML = '<section class="wrap"><p class="muted">…</p></section>';
+loadFleet()
+  .then(cars => { S.init(cars); render(); })
+  .catch(err => { main.innerHTML = `<section class="wrap"><div class="alert">${esc(t('err.fleet'))}<br><small>${esc(err.message)}</small></div></section>`; });

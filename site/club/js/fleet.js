@@ -1,47 +1,85 @@
 // Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
-// Starting fleet, taken from the Cars Rent in Tbilisi site on Tilda (November 2026).
-// The Chevrolet Cruze prices and deposit are copied from its car page. The other cars
-// only had an hourly "from" price on the catalogue, so their plans are scaled from the
-// Cruze by that price; power (hp) is an estimate for the engine most likely fitted.
-// The operator corrects all of this in the admin panel.
+// The fleet is the live daily car rental catalogue of hge.ge: the same cars and the
+// same ids as the site's car listings (data/listings.json, service "car-rent"),
+// which are built from the CarsRentInGeorgia Telegram channel. Details that only
+// the post text has (fuel use, trunk, insurance, extras) come from data/car-rent.json.
+//
+// Prices: the listed price per day is the base. A plan with TPL adds the post's
+// "Basic insurance", CASCO adds "Full insurance"; the other plans follow the
+// Cars Rent in Tbilisi ladder (4 hours to 30 days). The operator can change any
+// of it in the admin panel.
 
-const scale = (k, table) => Object.fromEntries(Object.entries(table).map(([p, v]) => [p, Math.round(v * k)]));
+export const DATA_BASE = (typeof window !== 'undefined' && window.CLUB_DATA_BASE != null) ? window.CLUB_DATA_BASE : '../';
 
-const CRUZE_TPL = { '4h': 15, '8h': 28, '1d': 50, '3d': 142, '7d': 325, '14d': 630, '30d': 1320 };
-const CRUZE_CASCO = { '4h': 18, '8h': 34, '1d': 60, '3d': 171, '7d': 390, '14d': 756, '30d': 1584 };
+// Plan price as a share of the 1-day price, from the Tilda car page (4 h $15 … 30 days $1320 at $50/day).
+const LADDER = { '4h': 0.3, '8h': 0.56, '1d': 1, '3d': 2.84, '7d': 6.5, '14d': 12.6, '30d': 26.4 };
+const ladder = day => Object.fromEntries(Object.entries(LADDER).map(([k, m]) => [k, Math.round(day * m)]));
 
-export const FLEET = [
-  {
-    id: 'cruze', name: 'Chevrolet Cruze', color: { en: 'Blue', ru: 'Синий', ka: 'ლურჯი' },
-    plate: 'RI-460-AA', class: 'comfort', hp: 153, hpEstimated: true,
-    fuel: 'Premium 95', consumption: 7.5, drive: 'FWD', gearbox: 'AT', seats: 5,
-    prices: { tpl: CRUZE_TPL, casco: CRUZE_CASCO }, depositOverride: 70,
-    address: '2 Roman Miminoshvili Street, Tbilisi', parking: 'A1010', lat: null, lon: null,
-    photos: Array.from({ length: 11 }, (_, i) => `media/cruze-${i + 1}.jpg`),
+const num = (re, s) => { const m = s.match(re); return m ? +m[1].replace(',', '.') : null; };
+
+// Pull the extra details out of a CarsRentInGeorgia post.
+export function parsePost(text = '') {
+  const extras = [];
+  const add = (id, re) => { const p = num(re, text); if (p != null) extras.push({ id, perDay: p }); };
+  add('childSeat', /#ChildSeat\w*:\s*(\d+(?:[.,]\d+)?)\s*\$/i);
+  add('booster', /#BoosterSeat:\s*(\d+(?:[.,]\d+)?)\s*\$/i);
+  add('snowChains', /#SnowChains:\s*(\d+(?:[.,]\d+)?)\s*\$/i);
+  add('winterTires', /#WinterTires:\s*(\d+(?:[.,]\d+)?)\s*\$/i);
+  add('secondDriver', /#SecondDriver:\s*(\d+(?:[.,]\d+)?)\s*\$/i);
+  return {
+    consumption: num(/Fuel Use:\s*(\d+(?:[.,]\d+)?)\s*L/i, text),
+    trunk: num(/Trunk:\s*(\d+)\s*L/i, text),
+    insBasic: num(/Basic Insurance:\s*(\d+(?:[.,]\d+)?)\s*\$/i, text),
+    insFull: num(/Full Insurance:\s*(\d+(?:[.,]\d+)?)\s*\$/i, text),
+    drive: /#4WD|#AWD/i.test(text) ? '4WD' : null,
+    pets: /Pets:\s*#Allowed/i.test(text),
+    unlimited: /Unlimited\s*Mileage/i.test(text),
+    extras,
+  };
+}
+
+function classOf(x) {
+  if (x.body === 'business' || (x.price_usd || x.price) >= 100) return 'business';
+  if (x.body === 'suv' || x.body === 'minivan') return 'comfort_plus';
+  return 'comfort';
+}
+
+export function toCar(x, post = {}) {
+  const day = x.price_usd || x.price;
+  const basic = post.insBasic ?? 0;
+  const full = post.insFull ?? basic;
+  return {
+    id: x.id,
+    name: x.title,
+    year: x.year || null,
+    body: x.body || null,
+    class: classOf(x),
+    hp: null,
+    plate: '',
+    fuel: x.fuel || null,
+    gearbox: x.gearbox || null,
+    seats: x.seats || null,
+    consumption: post.consumption ?? null,
+    trunk: post.trunk ?? null,
+    drive: post.drive ?? null,
+    pets: post.pets ?? false,
+    extras: post.extras || [],
+    listedPerDay: day,
+    insurance: { basic, full },
+    prices: { tpl: ladder(day + basic), casco: ladder(day + full) },
+    address: x.pickup ? x.pickup + ', Tbilisi' : '',
+    lat: x.lat ?? null, lon: x.lon ?? null,
+    photos: (x.photos || []).map(p => DATA_BASE + p),
+    postUrl: x.post_url || '',
     status: 'available',
-  },
-  {
-    id: 'compass', name: 'Jeep Compass', color: { en: 'Black', ru: 'Чёрный', ka: 'შავი' },
-    plate: '', class: 'comfort_plus', hp: 180, hpEstimated: true,
-    fuel: 'Premium 95', consumption: null, drive: '4WD', gearbox: 'AT', seats: 5,
-    prices: { tpl: scale(1, CRUZE_TPL), casco: scale(1, CRUZE_CASCO) },
-    address: '', lat: null, lon: null,
-    photos: ['media/compass-1.jpg'], status: 'available',
-  },
-  {
-    id: 'c300', name: 'Mercedes-Benz C300', color: { en: 'Blue', ru: 'Синий', ka: 'ლურჯი' },
-    plate: '', class: 'business', hp: 241, hpEstimated: true,
-    fuel: 'Premium 95', consumption: null, drive: 'RWD', gearbox: 'AT', seats: 5,
-    prices: { tpl: scale(1.2, CRUZE_TPL), casco: scale(1.2, CRUZE_CASCO) },
-    address: '', lat: null, lon: null,
-    photos: ['media/c300-1.jpg'], status: 'available',
-  },
-  {
-    id: 'mustang', name: 'Ford Mustang', color: { en: 'Grey', ru: 'Серый', ka: 'ნაცრისფერი' },
-    plate: 'SH-181-LI', class: 'sport', hp: 310, hpEstimated: true,
-    fuel: 'Premium 95', consumption: null, drive: 'RWD', gearbox: 'AT', seats: 4,
-    prices: { tpl: scale(4 / 3, CRUZE_TPL), casco: scale(4 / 3, CRUZE_CASCO) },
-    address: '', lat: null, lon: null,
-    photos: ['media/mustang-1.jpg'], status: 'available',
-  },
-];
+  };
+}
+
+export async function loadFleet() {
+  const get = url => fetch(DATA_BASE + url, { cache: 'no-cache' }).then(r => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
+  const [listings, posts] = await Promise.all([get('data/listings.json'), get('data/car-rent.json').catch(() => ({ items: [] }))]);
+  const byPost = new Map(posts.items.map(p => [String(p.id), p.source_text || '']));
+  return listings.items
+    .filter(x => x.service === 'car-rent' && (x.price_usd || x.price) && x.photos?.length)
+    .map(x => toCar(x, parsePost(byPost.get(x.id.replace(/^\D+-/, '')) || '')));
+}

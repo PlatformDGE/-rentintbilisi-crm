@@ -218,7 +218,8 @@ export function planHours(planId, rules = DEFAULT_RULES) {
 }
 
 // Price for one booking. The club discount applies to the rental only.
-export function quote({ car, planId, qty = 1, insurance = 'tpl', delivery = 'center', st, rules = DEFAULT_RULES }) {
+// extras: ids of the car's paid add-ons (child seat, second driver…), charged per started day.
+export function quote({ car, planId, qty = 1, insurance = 'tpl', delivery = 'center', extras = [], st, rules = DEFAULT_RULES }) {
   const unit = planPrice(car, planId, insurance, rules);
   if (unit == null) return null;
   const rental = unit * qty;
@@ -226,9 +227,11 @@ export function quote({ car, planId, qty = 1, insurance = 'tpl', delivery = 'cen
   const discount = round2(rental * pct / 100);
   const deliveryFee = rules.delivery[delivery] ?? 0;
   const rentalPaid = round2(rental - discount);
+  const days = Math.max(1, Math.ceil(planHours(planId, rules) * qty / 24));
+  const extrasFee = round2((car.extras || []).filter(e => extras.includes(e.id)).reduce((s, e) => s + e.perDay * days, 0));
   return {
-    unit, qty, rental, pct, discount, rentalPaid, deliveryFee,
-    total: round2(rentalPaid + deliveryFee),
+    unit, qty, rental, pct, discount, rentalPaid, deliveryFee, extrasFee, days,
+    total: round2(rentalPaid + deliveryFee + extrasFee),
     deposit: deposit(car, rules),
     hours: planHours(planId, rules) * qty,
   };
@@ -253,8 +256,10 @@ export function overlaps(bookings, carId, start, end, ignoreId) {
 
 // A camera fine comes to the car's plate. Find who had the car at that moment.
 export function matchFine(fine, bookings, cars) {
+  // By the car itself when the operator picked it, otherwise by the plate on the notice.
   const plate = norm(fine.plate);
-  const carIds = cars.filter(c => norm(c.plate) === plate && plate).map(c => c.id);
+  const carIds = fine.carId ? cars.filter(c => c.id === fine.carId).map(c => c.id)
+    : cars.filter(c => norm(c.plate) === plate && plate).map(c => c.id);
   const t = time(fine.date);
   const candidates = bookings.filter(b => carIds.includes(b.carId) && b.status !== 'cancelled' &&
     time(b.start) <= t && t <= bookingEnd(b));

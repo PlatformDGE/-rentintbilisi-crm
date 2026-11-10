@@ -133,3 +133,18 @@ test('fine fee and overlap check', () => {
   assert.equal(overlaps(b, 'cruze', '2026-11-12T10:00:00Z', '2026-11-13T09:00:00Z'), false);
   assert.equal(overlaps(b, 'c300', '2026-11-12T09:00:00Z', '2026-11-13T09:00:00Z'), false);
 });
+
+test('extras are charged per started day, without discount', () => {
+  const car = { class: 'comfort', prices: { tpl: { '8h': 28, '3d': 142 } }, extras: [{ id: 'childSeat', perDay: 3 }, { id: 'secondDriver', perDay: 3 }] };
+  const q = quote({ car, planId: '3d', extras: ['childSeat'], st: { discount: 10 } });
+  assert.equal(q.extrasFee, 9);
+  assert.equal(q.total, round(142 * 0.9 + 9));
+  assert.equal(quote({ car, planId: '8h', extras: ['childSeat', 'secondDriver'] }).extrasFee, 6);
+});
+
+test('fine entered for a car, without a plate, still finds the driver', () => {
+  const cars = [{ id: 'car-rent-2089', plate: '' }];
+  const b = [{ id: 'b1', clientId: 'c1', carId: 'car-rent-2089', status: 'paid', start: '2026-11-01T10:00:00Z', end: '2026-11-02T10:00:00Z' }];
+  assert.equal(matchFine({ carId: 'car-rent-2089', date: '2026-11-01T18:00:00Z' }, b, cars).match.id, 'b1');
+});
+function round(n) { return Math.round(n * 100) / 100; }
