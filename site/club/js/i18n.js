@@ -15,6 +15,7 @@ export function setLang(l) { if (!LANGS.includes(l)) return; current = l; try { 
 const ru = {
   'doc.title': 'Cars Rent in Tbilisi — клуб и бронирование',
   'brand.sub': 'Клуб водителей',
+  'ui.sure': 'Точно? Нажмите ещё раз',
   'nav.home': 'Главная', 'nav.cars': 'Авто', 'nav.club': 'Клуб', 'nav.support': 'Поддержка', 'nav.account': 'Аккаунт', 'nav.admin': 'Админка оператора',
   'demo.banner': 'Демо-версия модуля: данные хранятся только в этом браузере, оплата тестовая, деньги не списываются.',
 
@@ -136,7 +137,7 @@ const ru = {
   'acc.suspendedUntil': d => `Статус вернётся ${d}, если не будет новых нарушений.`,
   'acc.unpaid': n => `Неоплаченных заказов: ${n}`,
   'acc.access': 'Доступные классы', 'acc.courseHint': p => `Пройдите курс и получите скидку ${p}%.`,
-  'acc.noBookings': 'Заказов пока нет.', 'acc.payNow': 'Оплатить', 'acc.cancel': 'Отменить', 'acc.cancelConfirm': 'Отменить бронь? Заблокированный депозит будет освобождён.',
+  'acc.noBookings': 'Заказов пока нет.', 'acc.payNow': 'Оплатить', 'acc.cancel': 'Отменить',
   'bs.unpaid': 'Не оплачен', 'bs.paid': 'Оплачен', 'bs.active': 'В поездке', 'bs.completed': 'Завершён', 'bs.cancelled': 'Отменён',
   'dep.none': 'не блокировался', 'dep.held': 'заблокирован', 'dep.released': 'возвращён',
   'rec.intro': m => `Здесь штрафы и ДТП по вашим арендам. На статус влияют только грубые нарушения и ДТП по вашей вине за последние ${m} месяцев.`,
@@ -160,7 +161,7 @@ const ru = {
   'reg.notFound': 'Аккаунт не найден. Зарегистрируйтесь.', 'reg.badCode': 'Неверный код.', 'reg.tooYoung': 'Аренда доступна с 21 года.',
   'reg.noExp': 'Нужен стаж от 2 лет.', 'reg.exists': 'Этот телефон уже зарегистрирован. Войдите.', 'reg.welcome': 'Добро пожаловать в клуб!',
 
-  'adm.title': 'Консоль оператора', 'adm.sub': 'Cars Rent in Tbilisi', 'adm.reset': 'Сбросить демо-данные', 'adm.resetConfirm': 'Вернуть демо-данные к исходным? Все изменения в этом браузере пропадут.',
+  'adm.title': 'Консоль оператора', 'adm.sub': 'Cars Rent in Tbilisi', 'adm.reset': 'Сбросить демо-данные',
   'adm.note': 'В демо-версии админка открыта всем. В рабочей версии вход только для операторов.',
   'adm.tab.fines': 'Штрафы', 'adm.tab.clients': 'Клиенты и ДТП', 'adm.tab.bookings': 'Заказы', 'adm.tab.fleet': 'Автопарк', 'adm.tab.rules': 'Правила клуба',
   'adm.howTitle': 'Как штраф попадает к клиенту',
@@ -199,6 +200,7 @@ const ru = {
 const en = {
   'doc.title': 'Cars Rent in Tbilisi — club and booking',
   'brand.sub': 'Driver club',
+  'ui.sure': 'Sure? Tap again',
   'nav.home': 'Home', 'nav.cars': 'Cars', 'nav.club': 'Club', 'nav.support': 'Support', 'nav.account': 'Account', 'nav.admin': 'Operator console',
   'demo.banner': 'Demo of the module: data stays in this browser only, payment is in test mode and nothing is charged.',
 
@@ -320,7 +322,7 @@ const en = {
   'acc.suspendedUntil': d => `The status comes back on ${d} if there are no new violations.`,
   'acc.unpaid': n => `Unpaid bookings: ${n}`,
   'acc.access': 'Classes open to you', 'acc.courseHint': p => `Take the course and get ${p}% off.`,
-  'acc.noBookings': 'No bookings yet.', 'acc.payNow': 'Pay', 'acc.cancel': 'Cancel', 'acc.cancelConfirm': 'Cancel the booking? A held deposit will be released.',
+  'acc.noBookings': 'No bookings yet.', 'acc.payNow': 'Pay', 'acc.cancel': 'Cancel',
   'bs.unpaid': 'Unpaid', 'bs.paid': 'Paid', 'bs.active': 'On the road', 'bs.completed': 'Completed', 'bs.cancelled': 'Cancelled',
   'dep.none': 'not held', 'dep.held': 'held', 'dep.released': 'released',
   'rec.intro': m => `Fines and accidents from your rentals. Only gross violations and accidents you caused in the last ${m} months affect your status.`,
@@ -344,7 +346,7 @@ const en = {
   'reg.notFound': 'Account not found. Please register.', 'reg.badCode': 'Wrong code.', 'reg.tooYoung': 'Rental is available from age 21.',
   'reg.noExp': 'At least 2 years of driving are required.', 'reg.exists': 'This phone is already registered. Please sign in.', 'reg.welcome': 'Welcome to the club!',
 
-  'adm.title': 'Operator console', 'adm.sub': 'Cars Rent in Tbilisi', 'adm.reset': 'Reset demo data', 'adm.resetConfirm': 'Reset the demo data? All changes in this browser will be lost.',
+  'adm.title': 'Operator console', 'adm.sub': 'Cars Rent in Tbilisi', 'adm.reset': 'Reset demo data',
   'adm.note': 'In the demo the console is open to everyone. In the live version only operators can sign in.',
   'adm.tab.fines': 'Fines', 'adm.tab.clients': 'Clients and accidents', 'adm.tab.bookings': 'Bookings', 'adm.tab.fleet': 'Fleet', 'adm.tab.rules': 'Club rules',
   'adm.howTitle': 'How a fine reaches the client',
@@ -383,6 +385,7 @@ const en = {
 const ka = {
   'doc.title': 'Cars Rent in Tbilisi — კლუბი და დაჯავშნა',
   'brand.sub': 'მძღოლების კლუბი',
+  'ui.sure': 'დარწმუნებული ხართ? დააჭირეთ ხელახლა',
   'nav.home': 'მთავარი', 'nav.cars': 'მანქანები', 'nav.club': 'კლუბი', 'nav.support': 'მხარდაჭერა', 'nav.account': 'პროფილი', 'nav.admin': 'ოპერატორის პანელი',
   'demo.banner': 'მოდულის დემო ვერსია: მონაცემები ინახება მხოლოდ ამ ბრაუზერში, გადახდა სატესტოა და თანხა არ ჩამოიჭრება.',
   'status.paused': 'შეჩერებულია',
@@ -500,7 +503,7 @@ const ka = {
   'acc.suspendedUntil': d => `სტატუსი დაბრუნდება ${d}, თუ ახალი დარღვევა არ იქნება.`,
   'acc.unpaid': n => `გადაუხდელი ჯავშნები: ${n}`,
   'acc.access': 'ხელმისაწვდომი კლასები', 'acc.courseHint': p => `გაიარეთ კურსი და მიიღეთ ${p}% ფასდაკლება.`,
-  'acc.noBookings': 'ჯავშნები ჯერ არ არის.', 'acc.payNow': 'გადახდა', 'acc.cancel': 'გაუქმება', 'acc.cancelConfirm': 'გავაუქმოთ ჯავშანი? დაბლოკილი დეპოზიტი გათავისუფლდება.',
+  'acc.noBookings': 'ჯავშნები ჯერ არ არის.', 'acc.payNow': 'გადახდა', 'acc.cancel': 'გაუქმება',
   'bs.unpaid': 'გადაუხდელი', 'bs.paid': 'გადახდილი', 'bs.active': 'გზაში', 'bs.completed': 'დასრულებული', 'bs.cancelled': 'გაუქმებული',
   'dep.none': 'არ დაბლოკილა', 'dep.held': 'დაბლოკილია', 'dep.released': 'დაბრუნებულია',
   'rec.intro': m => `აქ არის ჯარიმები და ავარიები თქვენი ქირაობებიდან. სტატუსზე მოქმედებს მხოლოდ უხეში დარღვევები და თქვენი ბრალით ავარიები ბოლო ${m} თვეში.`,
@@ -523,7 +526,7 @@ const ka = {
   'reg.notFound': 'პროფილი ვერ მოიძებნა. დარეგისტრირდით.', 'reg.badCode': 'არასწორი კოდი.', 'reg.tooYoung': 'ქირაობა ხელმისაწვდომია 21 წლიდან.',
   'reg.noExp': 'საჭიროა მინიმუმ 2 წლიანი გამოცდილება.', 'reg.exists': 'ეს ტელეფონი უკვე რეგისტრირებულია. შედით.', 'reg.welcome': 'კეთილი იყოს თქვენი მობრძანება კლუბში!',
 
-  'adm.title': 'ოპერატორის პანელი', 'adm.reset': 'დემო მონაცემების აღდგენა', 'adm.resetConfirm': 'აღვადგინოთ დემო მონაცემები? ამ ბრაუზერში ყველა ცვლილება დაიკარგება.',
+  'adm.title': 'ოპერატორის პანელი', 'adm.reset': 'დემო მონაცემების აღდგენა',
   'adm.note': 'დემოში პანელი ყველასთვის ღიაა. სამუშაო ვერსიაში შესვლა მხოლოდ ოპერატორებს შეუძლიათ.',
   'adm.tab.fines': 'ჯარიმები', 'adm.tab.clients': 'კლიენტები და ავარიები', 'adm.tab.bookings': 'ჯავშნები', 'adm.tab.fleet': 'ავტოპარკი', 'adm.tab.rules': 'კლუბის წესები',
   'adm.howTitle': 'როგორ აღწევს ჯარიმა კლიენტამდე',

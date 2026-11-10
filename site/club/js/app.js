@@ -587,6 +587,14 @@ async function payBooking(b) {
   return true;
 }
 
+// Two-step confirmation inside the page (browser confirm() is blocked in some embeds).
+function armed(btn) {
+  if (btn.dataset.armed) return true;
+  btn.dataset.armed = '1'; btn.textContent = t('ui.sure');
+  setTimeout(() => { if (btn.isConnected) { delete btn.dataset.armed; rerender(); } }, 4000);
+  return false;
+}
+
 document.addEventListener('click', async e => {
   const l = e.target.closest('[data-lang]');
   if (l) { setLang(l.dataset.lang); rerender(); return; }
@@ -597,9 +605,9 @@ document.addEventListener('click', async e => {
   if (act === 'demo') { S.signIn(id); go('#/account'); }
   if (act === 'signout') { S.signOut(); go('#/'); }
   if (act === 'pay') { const b = d.bookings.find(x => x.id === id); if (await payBooking(b)) rerender(); }
-  if (act === 'cancel') { if (confirm(t('acc.cancelConfirm'))) { const b = d.bookings.find(x => x.id === id); S.upsert('bookings', { id, status: 'cancelled', depositState: b.depositState === 'held' ? 'released' : 'none' }); rerender(); } }
+  if (act === 'cancel') { if (armed(a)) { const b = d.bookings.find(x => x.id === id); S.upsert('bookings', { id, status: 'cancelled', depositState: b.depositState === 'held' ? 'released' : 'none' }); rerender(); } }
   if (act === 'dispute') { S.upsert('incidents', { id, status: 'disputed' }); toast(t('rec.disputeSent')); rerender(); }
-  if (act === 'reset') { if (confirm(t('adm.resetConfirm'))) { S.reset(); rerender(); } }
+  if (act === 'reset') { if (armed(a)) { S.reset(); rerender(); } }
   if (act === 'autolink') {
     const before = d.incidents.filter(i => i.kind === 'fine' && !i.clientId).length;
     d.incidents = R.autoLink(d.incidents, d.bookings, d.cars); S.save();
