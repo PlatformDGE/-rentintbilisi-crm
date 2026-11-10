@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-10T03:31:29+04:00",
+  "updated_at": "2026-11-10T04:31:43+04:00",
   "items": [
     {
       "id": "549665",
@@ -20,9 +20,9 @@
       "post_url": "https://t.me/rent_tbilisi_ge/549665",
       "published_at": "2026-11-09T21:15:43+04:00",
       "map_url": "https://maps.app.goo.gl/u6CaCsTDamHtmcAM6?g_st=ic",
-      "location": "გიორგი შატბერაშვილის ქუჩა, კიკეთი, კოჯორი, მთაწმინდის რაიონი, თბილისი, საქართველო",
-      "lat": 41.6473584,
-      "lon": 44.6412505,
+      "location": "გიორგი შატბერაშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
+      "lat": 41.7037437,
+      "lon": 44.7726168,
       "approx": true,
       "photos": [
         "media/rent/549665-1.jpg",
