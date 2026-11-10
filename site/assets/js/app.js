@@ -82,6 +82,11 @@ function rateLine() {
 
 const brandMark = name => BRAND[name] ? `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${BRAND[name]}</svg>` : icon(name === 'tel' ? 'phone' : name);
 const footRow = (href, mark, title, sub, external = true) => `<a class="foot-row" href="${esc(href)}"${external ? ' target="_blank" rel="noopener"' : ''}><span class="foot-mark foot-mark-${mark}">${brandMark(mark)}</span><span><b>${esc(title)}</b><small>${esc(sub)}</small></span></a>`;
+// One social account: a glass circle with the white logo and a short caption under it.
+const socIcon = (brand, a) => {
+  const full = `${brand} · ${a.name} ${a.handle}`;
+  return `<a class="soc" href="${esc(a.href)}" target="_blank" rel="noopener" title="${esc(full)}" aria-label="${esc(full)}" data-social="${esc(`${a.name.toLowerCase()} ${a.handle}`)}"><span class="soc-i">${brandMark(a.icon)}</span><span class="soc-l">${esc(t(a.label))}</span></a>`;
+};
 const footChip = (href, mark, name, sub) => `<a class="foot-chip" href="${esc(href)}" target="_blank" rel="noopener"><span class="foot-mark">${brandMark(mark)}</span><span><b>${esc(name)}</b><small>${esc(sub)}</small></span></a>`;
 
 function renderFooter() {
@@ -98,9 +103,9 @@ function renderFooter() {
       ${footRow(telegramHref(), 'telegram', t('footer.telegram'), t('footer.message'))}
       ${footRow(OFFICE_MAP, 'pin', t('footer.office'), t('footer.address'))}
     </div></section>
-    <section><h4>${t('footer.social')}</h4><div class="foot-chips">
-      ${SOCIALS.map(s => footChip(s.href, s.icon, s.name, s.handle)).join('')}
-    </div></section>
+    <section class="foot-social"><h4>${t('footer.social')}</h4>
+      ${SOCIALS.map(g => `<div class="soc-group"><p class="soc-brand">${esc(g.brand)}</p><div class="soc-row">${g.accounts.map(a => socIcon(g.brand, a)).join('')}</div></div>`).join('')}
+    </section>
     <section><h4>${t('footer.listings')}</h4><div class="foot-chips">
       ${PORTALS.map(p => footChip(p.href, 'list', p.name, t('footer.allads'))).join('')}
     </div></section>

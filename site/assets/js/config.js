@@ -23,13 +23,21 @@ export const CHANNELS = {
 
 // Everywhere clients can find us. Footer of every page.
 export const OFFICE_MAP = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Stamba, 14 Merab Kostava St, Tbilisi');
+// Our social accounts, in two groups by brand. `label` is the i18n key for the caption
+// under the icon. Made with Claude (Anthropic) · © Homes in Georgia · Created by Irakli Kvirkvelia
 export const SOCIALS = [
-  { icon: 'instagram', name: 'Instagram', handle: '@homesingeorgia', href: 'https://www.instagram.com/homesingeorgia/' },
-  { icon: 'instagram', name: 'Instagram', handle: '@rentintbilisilisting', href: 'https://www.instagram.com/rentintbilisilisting/' },
-  { icon: 'facebook', name: 'Facebook', handle: 'rentintbilisi.ge', href: 'https://www.facebook.com/rentintbilisi.ge' },
-  { icon: 'tiktok', name: 'TikTok', handle: '@rent.in.tbilisi', href: 'https://www.tiktok.com/@rent.in.tbilisi' },
-  { icon: 'youtube', name: 'YouTube', handle: '@RENTINTBILISI', href: 'https://www.youtube.com/@RENTINTBILISI' },
-  { icon: 'threads', name: 'Threads', handle: '@rent_in_tbilisi', href: 'https://www.threads.com/@rent_in_tbilisi' },
+  { brand: 'Homes in Georgia', accounts: [
+    { icon: 'instagram', label: 'soc.instagram', name: 'Instagram', handle: '@homesingeorgia', href: 'https://www.instagram.com/homesingeorgia/' },
+    { icon: 'facebook', label: 'soc.facebook', name: 'Facebook', handle: 'Homes in Georgia', href: 'https://www.facebook.com/share/1DiStYPSGc/' },
+  ] },
+  { brand: 'Rent in Tbilisi', accounts: [
+    { icon: 'instagram', label: 'soc.instagram', name: 'Instagram', handle: '@rent_in_tbilisi', href: 'https://www.instagram.com/rent_in_tbilisi/' },
+    { icon: 'instagram', label: 'soc.listing', name: 'Instagram', handle: '@rentintbilisilisting', href: 'https://www.instagram.com/rentintbilisilisting/' },
+    { icon: 'facebook', label: 'soc.facebook', name: 'Facebook', handle: 'rentintbilisi.ge', href: 'https://www.facebook.com/rentintbilisi.ge' },
+    { icon: 'tiktok', label: 'soc.tiktok', name: 'TikTok', handle: '@rent.in.tbilisi', href: 'https://www.tiktok.com/@rent.in.tbilisi' },
+    { icon: 'youtube', label: 'soc.youtube', name: 'YouTube', handle: '@RENTINTBILISI', href: 'https://www.youtube.com/@RENTINTBILISI' },
+    { icon: 'threads', label: 'soc.threads', name: 'Threads', handle: '@rent_in_tbilisi', href: 'https://www.threads.com/@rent_in_tbilisi' },
+  ] },
 ];
 export const PORTALS = [
   { name: 'Myhome.ge', href: 'https://www.myhome.ge/s/?users=4201800' },
