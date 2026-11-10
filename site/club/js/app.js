@@ -9,6 +9,7 @@ import { t, lang, setLang, LANGS, COURSE } from './i18n.js';
 import { pay } from './payments.js';
 import { loadFleet } from './fleet.js';
 import * as Sync from './sync.js';
+import { carMap } from './map.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const main = $('#main');
@@ -201,7 +202,7 @@ function pageCar(id, q) {
         ${ok ? `<a class="btn sm" href="#/book/${car.id}?plan=${p.id}&ins=${ins}">${t('car.book')}</a>` : ''}</div>`;
     }).join('')}</div>
     <div class="two">
-      <div class="panel"><h3>${t('car.where')}</h3>${car.lat ? `<iframe class="map" title="map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=${car.lon - 0.006},${car.lat - 0.004},${car.lon + 0.006},${car.lat + 0.004}&layer=mapnik&marker=${car.lat},${car.lon}"></iframe>` : `<p class="muted">${t('car.noPoint')}</p>`}</div>
+      <div class="panel"><h3>${t('car.where')}</h3>${car.lat ? `<div class="map" id="car-map" data-lat="${car.lat}" data-lon="${car.lon}"></div>` : `<p class="muted">${t('car.noPoint')}</p>`}</div>
       <div class="panel"><h3>${t('car.busy')}</h3>${busy.length ? `<ul class="plain">${busy.map(b => `<li>${dt(b.start)} — ${dt(b.end)}</li>`).join('')}</ul>` : `<p class="muted">${t('car.free')}</p>`}</div>
     </div>
   </section>`;
@@ -591,6 +592,7 @@ function render() {
   shell();
   main.innerHTML = (views[page || ''] || notFound)();
   const bf = $('#book-form'); if (bf) renderQuote(bf);
+  const cm = $('#car-map'); if (cm) carMap(cm, { lat: +cm.dataset.lat, lon: +cm.dataset.lon, label: esc(money(R.planPrice(carById(id), '1d', 'tpl', db().rules)) + ' · ' + t('plan.1d')) });
   if (!render.keepScroll) window.scrollTo(0, 0);
   render.keepScroll = false;
 }
