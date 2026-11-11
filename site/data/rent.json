@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-11T08:31:30+04:00",
+  "updated_at": "2026-11-11T09:01:49+04:00",
   "items": [
     {
       "id": "550141",
@@ -1610,39 +1610,6 @@
         "media/rent/549616-9.jpg"
       ],
       "image": "media/rent/549616-1.jpg"
-    },
-    {
-      "id": "549606",
-      "title": "1 Meliton Kantaria St",
-      "property_type": "apartment",
-      "price": 750,
-      "area": 45,
-      "district": "",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "11/14",
-      "source_text": "#Nutsubidze 🚇 #VazhaPshavela \n📍1 Meliton Kantaria St \n \n🏢 #1Bed #Apartment for #Rent \n✨ #NewBuilding | #New \n🏠 45 sq.m | 11/14 Floor | #CentralHeating | #Shower \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Stove  ✅ #Microwave \n✅ #VacuumCleaner  ✅ #Elevator  ✅ #Oven \n✅ #Conditioner \n\n✖️ ParkingPlace \n \n👬Tenants: 1-2 \n🐕Pets: #NotAllowed \n🕐 #6Month #12Month \n \n💰 750$ + Deposit 750$ \n0% Commission \n#Price700to900 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Viktoriia \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/549606",
-      "published_at": "2026-11-09T18:48:20+04:00",
-      "map_url": "https://www.google.com/maps/place/41%C2%B043%2755.6%2522N+44%C2%B043%2733.2%2522E/@41.731069,44.7381033,14z/data=!4m4!3m3!8m2!3d41.7321145!4d44.7258987?utm_campaign=ml-sul&g_ep=Eg1tbF8yMDI2MTEwM18wIJvbDyoASAJQAg%3D%3D",
-      "location": "41°43'55.6%22N 44°43'33.2%22E",
-      "lat": 41.7321145,
-      "lon": 44.7258987,
-      "approx": false,
-      "photos": [
-        "media/rent/549606-1.jpg",
-        "media/rent/549606-2.jpg",
-        "media/rent/549606-3.jpg",
-        "media/rent/549606-4.jpg",
-        "media/rent/549606-5.jpg",
-        "media/rent/549606-6.jpg",
-        "media/rent/549606-7.jpg",
-        "media/rent/549606-8.jpg",
-        "media/rent/549606-9.jpg"
-      ],
-      "image": "media/rent/549606-1.jpg"
     },
     {
       "id": "549596",
