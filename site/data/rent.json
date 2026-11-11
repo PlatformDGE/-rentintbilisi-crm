@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-12T01:02:05+04:00",
+  "updated_at": "2026-11-12T01:31:55+04:00",
   "items": [
     {
       "id": "550800",
@@ -482,9 +482,9 @@
       "post_url": "https://t.me/rent_tbilisi_ge/550661",
       "published_at": "2026-11-11T18:14:55+04:00",
       "map_url": "https://maps.app.goo.gl/Ux7g7fPGq5won8T47?g_st=ipc",
-      "location": "გიორგი შატბერაშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
-      "lat": 41.7037437,
-      "lon": 44.7726168,
+      "location": "გიორგი შატბერაშვილის ქუჩა, კიკეთი, კოჯორი, მთაწმინდის რაიონი, თბილისი, საქართველო",
+      "lat": 41.6473584,
+      "lon": 44.6412505,
       "approx": true,
       "photos": [
         "media/rent/550661-1.jpg",
@@ -2278,9 +2278,9 @@
       "post_url": "https://t.me/rent_tbilisi_ge/550090",
       "published_at": "2026-11-10T21:45:49+04:00",
       "map_url": "https://maps.app.goo.gl/u6CaCsTDamHtmcAM6?g_st=ic",
-      "location": "გიორგი შატბერაშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
-      "lat": 41.7037437,
-      "lon": 44.7726168,
+      "location": "გიორგი შატბერაშვილის ქუჩა, კიკეთი, კოჯორი, მთაწმინდის რაიონი, თბილისი, საქართველო",
+      "lat": 41.6473584,
+      "lon": 44.6412505,
       "approx": true,
       "photos": [
         "media/rent/550090-1.jpg",
