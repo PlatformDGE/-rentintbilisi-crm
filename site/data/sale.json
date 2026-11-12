@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-12T11:01:54+04:00",
+  "updated_at": "2026-11-12T11:31:41+04:00",
   "items": [
     {
       "id": "76232",
@@ -5316,39 +5316,6 @@
       "image": "media/sale/73641-1.jpg"
     },
     {
-      "id": "73631",
-      "title": "3 Berbuki St",
-      "property_type": "apartment",
-      "price": 220,
-      "area": 115,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "8/19",
-      "source_text": "#Saburtalo 🚇 #TCUniversity\n📍3 Berbuki St\n\n⭐️ Near Tbilisi Sports Palace ⭐️\n\n🏢 #2bed #Apartment for #Sale\n✨ #NewBuilding | #Mixed  \n115 Sq.m | 8/19 Floor | #CentralHeating | #Shower \n \n✅ #Balcony (2) ✅ #Microwave \n✅ #Stove ✅ #Dishwasher \n✅ #Conditioner (3)\n✅ #WiFi ✅ #Elevator \n\n💰220.000 $\n0% Commission\n#Price210000to240000\n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #Giorgi \n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/73631",
-      "published_at": "2026-10-18T13:35:38+04:00",
-      "map_url": "https://www.google.com/maps?q=41.7178575,44.7807173&entry=gps&shh=CAE&lucs=,94297699,94284454,94231188,94280568,47071704,94218641,94282134,100799877,94286869&g_ep=CAISEjI2LjE1LjEuODk1MzA4MDUxMBgAIIgnKlIsOTQyOTc2OTksOTQyODQ0NTQsOTQyMzExODgsOTQyODA1NjgsNDcwNzE3MDQsOTQyMTg2NDEsOTQyODIxMzQsMTAwNzk5ODc3LDk0Mjg2ODY5QgJHRQ%3D%3D&skid=3285be8f-537a-4e66-bccb-3f0f32c4d582&g_st=ic&g_st=ic",
-      "location": "",
-      "lat": 41.7178575,
-      "lon": 44.7807173,
-      "approx": false,
-      "photos": [
-        "media/sale/73631-1.jpg",
-        "media/sale/73631-2.jpg",
-        "media/sale/73631-3.jpg",
-        "media/sale/73631-4.jpg",
-        "media/sale/73631-5.jpg",
-        "media/sale/73631-6.jpg",
-        "media/sale/73631-7.jpg",
-        "media/sale/73631-8.jpg",
-        "media/sale/73631-9.jpg"
-      ],
-      "image": "media/sale/73631-1.jpg"
-    },
-    {
       "id": "73621",
       "title": "6 Dimitri Bakradze St",
       "property_type": "house",
@@ -6893,39 +6860,6 @@
         "media/sale/69731-9.jpg"
       ],
       "image": "media/sale/69731-1.jpg"
-    },
-    {
-      "id": "69431",
-      "title": "6 Petre Melikishvili St",
-      "property_type": "apartment",
-      "price": 135,
-      "area": 105,
-      "district": "Vera",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "1/2",
-      "source_text": "#Vera 🚇 #Rustaveli \n📍6 Petre Melikishvili St \n \n🌟 In the very heart of Tbilisi, near Vera Park and the Tbilisi Concert Hall (Philharmonic), a cozy apartment with a spacious basement 🌟 \n \n🏢 #2Bed #Apartment for #Sale \n✨ #OldBuilding | #Mixed \n🏠 105 Sq.m | 1/2 Floor | #CentralHeating \n \n✅ #ParkingPlace \n✅ #Conditioner ✅ #Oven \n✅ #Stove\n \n💰135.000$ \n0% Commission \n#Price120000to150000 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #David \n \n📍APARTMENTS ON MAP📍\n\n SALE IN TBILISI🇬🇪",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/69431",
-      "published_at": "2026-09-09T18:52:25+04:00",
-      "map_url": "https://www.google.com/maps?q=41.7062169,44.7851222&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,94286869,100820247,100822504&g_ep=CAISEjI2LjMzLjEuOTYxODkxNDMyMBgAIIgnKlMsOTQyOTc2OTksOTQyMzExODgsOTQyODA1NjgsNDcwNzE3MDQsOTQyMTg2NDEsOTQyODIxMzQsOTQyODY4NjksMTAwODIwMjQ3LDEwMDgyMjUwNEICR0U%3D&skid=c1b713a1-2563-49d8-986b-2cd88311ca40&g_st=ic&g_st=ic",
-      "location": "",
-      "lat": 41.7062169,
-      "lon": 44.7851222,
-      "approx": false,
-      "photos": [
-        "media/sale/69431-1.jpg",
-        "media/sale/69431-2.jpg",
-        "media/sale/69431-3.jpg",
-        "media/sale/69431-4.jpg",
-        "media/sale/69431-5.jpg",
-        "media/sale/69431-6.jpg",
-        "media/sale/69431-7.jpg",
-        "media/sale/69431-8.jpg",
-        "media/sale/69431-9.jpg"
-      ],
-      "image": "media/sale/69431-1.jpg"
     },
     {
       "id": "69391",
