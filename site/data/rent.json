@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-12T18:01:51+04:00",
+  "updated_at": "2026-11-12T18:31:48+04:00",
   "items": [
     {
       "id": "551133",
@@ -1395,39 +1395,6 @@
         "media/rent/550721-9.jpg"
       ],
       "image": "media/rent/550721-1.jpg"
-    },
-    {
-      "id": "550711",
-      "title": "36A Shatberashvili St.",
-      "property_type": "house",
-      "price": 1500,
-      "area": 216,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "2/2",
-      "source_text": "#Vake🚇 #Rustaveli  \n📍36A Shatberashvili St.\n\n⭐️Two-storey house with a swimming pool⭐️\n\n🏢 #2Bed #House for Rent \n✨ #OldBuilding | #Mixed \n🏠 216 sq.m | 2/2 Floor | #GasHeating | #Bath \n \n✅ #Terrace  ✅ #WiFi  ✅ #TV  ✅ #Stove  ✅ #Microwave \n✅ #ParkingPlace  ✅ #Oven \n✅ #Conditioner\n\n✖️ Elevator \n\n👬Tenants: 1-5\n🐕Pets: #ByAgreement \n🕐 #12Month \n \n💰 1500$ + Deposit 1500$ \n0% Commission \n#Price1200plus\n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Eduard \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/550711",
-      "published_at": "2026-11-11T19:43:42+04:00",
-      "map_url": "https://www.google.com/maps/place/36+Shatberashvili+St,+T'bilisi/@41.7045255,44.773221,16z/data=!4m5!3m4!1s0x40440ccc01783565:0xc7b7e53aaf980835!8m2!3d41.7045255!4d44.773221?g_ep=Eg1tbF8yMDI2MTEwOF8wIOC7DCoASAJQAg%3D%3D",
-      "location": "36 Shatberashvili St, T'bilisi",
-      "lat": 41.7045255,
-      "lon": 44.773221,
-      "approx": false,
-      "photos": [
-        "media/rent/550711-1.jpg",
-        "media/rent/550711-2.jpg",
-        "media/rent/550711-3.jpg",
-        "media/rent/550711-4.jpg",
-        "media/rent/550711-5.jpg",
-        "media/rent/550711-6.jpg",
-        "media/rent/550711-7.jpg",
-        "media/rent/550711-8.jpg",
-        "media/rent/550711-9.jpg"
-      ],
-      "image": "media/rent/550711-1.jpg"
     },
     {
       "id": "550701",
