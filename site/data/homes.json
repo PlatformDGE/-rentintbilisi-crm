@@ -2,7 +2,7 @@
   "kind": "homes",
   "channel": "homesingeorgia",
   "source": "active_channel",
-  "updated_at": "2026-11-13T00:31:56+04:00",
+  "updated_at": "2026-11-13T01:01:54+04:00",
   "items": [
     {
       "id": "2943",
@@ -1975,39 +1975,6 @@
         "media/homes/1735-9.jpg"
       ],
       "image": "media/homes/1735-1.jpg"
-    },
-    {
-      "id": "1725",
-      "title": "105 Gorgasali Street",
-      "property_type": "apartment",
-      "price": 100,
-      "area": 51,
-      "district": "Ortachala",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "15/18",
-      "source_text": "#Ortachala 🚇 #300Aragveli \n📍105 Gorgasali Street \n \n🌟 Exclusive 1bed in new Building with Fantastic View 🌟 \n \n❗️#Exclusive \n \n🏢 #1Bed #Apartment for #Sale \n✨ #NewBuilding | #NewApartment \n🏠 51 Sq.m | 15/18 Floor | #CentralHeating | #Bath\n \n✅ #Balcony ✅ #Conditioner \n✅ #Oven \n✅ #Stove ✅ #Elevator \n \n💰100.000$ \n0% Commission \n#Price90000to120000 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #David \n \n📍APARTMENTS ON MAP📍",
-      "type": "homes",
-      "channel": "homesingeorgia",
-      "post_url": "https://t.me/homesingeorgia/1725",
-      "published_at": "2026-10-30T14:29:48+04:00",
-      "map_url": "https://www.google.com/maps/place/105+Gorgasali+Street,+T%27bilisi/@41.6707209,44.8383157,16z/data=!4m6!3m5!1s0x40440c40e3c40013:0x53563aa784f2fd1c!8m2!3d41.6707209!4d44.8383157!16s%2Fg%2F11mkn_zhns?g_ep=Eg1tbF8yMDI2MTAyN18wIJvbDyoASAJQAg%3D%3D",
-      "location": "105 Gorgasali Street, T'bilisi",
-      "lat": 41.6707209,
-      "lon": 44.8383157,
-      "approx": false,
-      "photos": [
-        "media/homes/1725-1.jpg",
-        "media/homes/1725-2.jpg",
-        "media/homes/1725-3.jpg",
-        "media/homes/1725-4.jpg",
-        "media/homes/1725-5.jpg",
-        "media/homes/1725-6.jpg",
-        "media/homes/1725-7.jpg",
-        "media/homes/1725-8.jpg",
-        "media/homes/1725-9.jpg"
-      ],
-      "image": "media/homes/1725-1.jpg"
     },
     {
       "id": "885",
