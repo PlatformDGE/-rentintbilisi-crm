@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-13T01:31:40+04:00",
+  "updated_at": "2026-11-13T01:46:35+04:00",
   "items": [
     {
       "id": "551283",
@@ -631,8 +631,8 @@
       "published_at": "2026-11-12T16:40:52+04:00",
       "map_url": "https://maps.app.goo.gl/MXjvoBUgkAbettKG9?g_st=ic",
       "location": "ნინო რამიშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
-      "lat": 41.7134451,
-      "lon": 44.7665688,
+      "lat": 41.7126805,
+      "lon": 44.7669751,
       "approx": true,
       "photos": [
         "media/rent/551083-1.jpg",
