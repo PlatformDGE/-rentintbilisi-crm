@@ -2,8 +2,33 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-13T08:31:44+04:00",
+  "updated_at": "2026-11-13T09:01:52+04:00",
   "items": [
+    {
+      "id": "551295",
+      "title": "Nice apartment in 📍Ortachala found a tenant 🤝👏🎉",
+      "property_type": "apartment",
+      "price": null,
+      "area": null,
+      "district": "Ortachala",
+      "metro": "",
+      "rooms": null,
+      "floor": "",
+      "source_text": "❗️#FlatRented\nNice apartment in 📍Ortachala found a tenant 🤝👏🎉",
+      "type": "rent",
+      "channel": "rent_tbilisi_ge",
+      "post_url": "https://t.me/rent_tbilisi_ge/551295",
+      "published_at": "2026-11-13T08:49:28+04:00",
+      "map_url": "",
+      "location": "tbilisi",
+      "lat": 41.6936283,
+      "lon": 44.8016185,
+      "approx": true,
+      "photos": [
+        "media/rent/551295-1.jpg"
+      ],
+      "image": "media/rent/551295-1.jpg"
+    },
     {
       "id": "551294",
       "title": "Morning Post",
@@ -282,39 +307,6 @@
         "media/rent/551203-9.jpg"
       ],
       "image": "media/rent/551203-1.jpg"
-    },
-    {
-      "id": "551193",
-      "title": "Krtsanisi II Turn N41",
-      "property_type": "apartment",
-      "price": 1100,
-      "area": 57,
-      "district": "Ortachala",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "3/6",
-      "source_text": "#Ortachala 🚇#300Aragveli\n📍Krtsanisi II Turn N41 \n \n🏢 #1Bed #Apartment for #Rent \n✨ #NewBuilding | #New \n🏠 57.3 sq.m | 3/6 Floor | #CentralHeating | #Shower \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV   ✅ #Dishwasher  ✅ #Elevator \n✅ #Oven  ✅ #ParkingPlace  ✅ #Conditioner \n \n👬Tenants: 1-2 \n🐕Pets: #NotAllowed \n🕐 #6Month #12Month \n \n💰 1100$ + Deposit 1100$ \n0% Commission \n#Price900to1200 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Leri \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/551193",
-      "published_at": "2026-11-12T20:06:38+04:00",
-      "map_url": "https://www.google.com/maps/place/41%C2%B040%2714.8%22N+44%C2%B048%2718.7%22E/@41.670778,44.8052,15z/data=!4m4!3m3!8m2!3d41.670778!4d44.8052?utm_campaign=ml-ardl&g_ep=Eg1tbF8yMDI2MTEwOF8wIOC7DCoASAJQAQ%3D%3D",
-      "location": "41°40'14.8\"N 44°48'18.7\"E",
-      "lat": 41.670778,
-      "lon": 44.8052,
-      "approx": false,
-      "photos": [
-        "media/rent/551193-1.jpg",
-        "media/rent/551193-2.jpg",
-        "media/rent/551193-3.jpg",
-        "media/rent/551193-4.jpg",
-        "media/rent/551193-5.jpg",
-        "media/rent/551193-6.jpg",
-        "media/rent/551193-7.jpg",
-        "media/rent/551193-8.jpg",
-        "media/rent/551193-9.jpg"
-      ],
-      "image": "media/rent/551193-1.jpg"
     },
     {
       "id": "551192",
@@ -11381,8 +11373,8 @@
       "published_at": "2026-10-10T10:32:28+04:00",
       "map_url": "https://www.google.com/maps?q=11+a+Mikheil+Asatiani+St%2C+T%27bilisi+0177&ftid=0x4044731cf83a6157%3A0x60eb3c9b26cb3f8&entry=gps&shh=CAE&lucs=%2C94297699%2C94231188%2C94280568%2C100821559%2C47071704%2C94218641%2C94282134%2C94286869%2C100820247%2C100822504%2C100804975&g_ep=CAISEjI2LjMzLjEuOTYxODkxNDMyMBgAIIgnKmcsOTQyOTc2OTksOTQyMzExODgsOTQyODA1NjgsMTAwODIxNTU5LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDk0Mjg2ODY5LDEwMDgyMDI0NywxMDA4MjI1MDQsMTAwODA0OTc1QgJHRQ%3D%3D&skid=0e34a0dc-7fb6-4b80-8f93-2cee948055f6&g_st=ic&g_st=ic&utm_campaign=ml-sul",
       "location": "მიხეილ ასათიანის ქუჩა, საბურთალო, ვეძისი, ყაზბეგი, გოთუა, საბურთალოს ქუჩა, საბურთალოს რაიონი, თბილისი, 0177, საქართველო",
-      "lat": 41.7271621,
-      "lon": 44.7501512,
+      "lat": 41.7286492,
+      "lon": 44.7499013,
       "approx": true,
       "photos": [
         "media/rent/535232-1.jpg",
