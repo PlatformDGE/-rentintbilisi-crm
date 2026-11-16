@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-16T07:31:41+04:00",
+  "updated_at": "2026-11-16T08:01:53+04:00",
   "items": [
     {
       "id": "552685",
@@ -152,9 +152,9 @@
       "post_url": "https://t.me/rent_tbilisi_ge/552635",
       "published_at": "2026-11-15T21:45:45+04:00",
       "map_url": "https://maps.app.goo.gl/u6CaCsTDamHtmcAM6?g_st=ic",
-      "location": "გიორგი შატბერაშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
-      "lat": 41.7037437,
-      "lon": 44.7726168,
+      "location": "74 giorgi shat'berashvilis kucha, tbilisi",
+      "lat": 41.703134796705,
+      "lon": 44.770849121078,
       "approx": true,
       "photos": [
         "media/rent/552635-1.jpg",
