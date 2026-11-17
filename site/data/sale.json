@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-17T10:31:50+04:00",
+  "updated_at": "2026-11-17T11:01:35+04:00",
   "items": [
     {
       "id": "76732",
@@ -5050,39 +5050,6 @@
         "media/sale/73661-9.jpg"
       ],
       "image": "media/sale/73661-1.jpg"
-    },
-    {
-      "id": "73651",
-      "title": "SALE IN TBILISI🇬🇪",
-      "property_type": "apartment",
-      "price": 180,
-      "area": 80,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 2,
-      "floor": "8/14",
-      "source_text": "SALE IN TBILISI🇬🇪\n#Saburtalo 🚇 #TCUniversity\n📍50 Sulkhan Nasidze street\n\n#Exclusive❗️ \n⭐️ Cozy apartment near Khiliani Square with a view of Mziuri Park. Newly renovated, never lived in after renovation!\n\n🏢 #2Bed #Apartment for #Sale\n✨ #OldBuilding | #New\n🏠 80 Sq.m | 8/14 Floor |\n#CentralHeating | #Shower\n\n✅ #Stove ✅ #Microwave \n✅ #WiFi ✅ #VacuumCleaner \n✅ #Conditioner ✅ #Balcony\n✅ #Elevator ✅ #Dishwasher \n\n💰 180.000$ \n 0% Commission\n#Price150000to180000\n#Price180000to210000\n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #David\n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/73651",
-      "published_at": "2026-10-18T15:35:38+04:00",
-      "map_url": "https://maps.app.goo.gl/Wokufa3cMsJy9WSb7?g_st=ipc",
-      "location": "50, სულხან ნასიძის ქუჩა, საბურთალო, კოსტავა, ბახტრიონი, დოლიძე, ხილიანი, საბურთალოს რაიონი, თბილისი, 0160, საქართველო",
-      "lat": 41.7150928,
-      "lon": 44.7713622,
-      "approx": false,
-      "photos": [
-        "media/sale/73651-1.jpg",
-        "media/sale/73651-2.jpg",
-        "media/sale/73651-3.jpg",
-        "media/sale/73651-4.jpg",
-        "media/sale/73651-5.jpg",
-        "media/sale/73651-6.jpg",
-        "media/sale/73651-7.jpg",
-        "media/sale/73651-8.jpg",
-        "media/sale/73651-9.jpg"
-      ],
-      "image": "media/sale/73651-1.jpg"
     },
     {
       "id": "73641",
