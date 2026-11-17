@@ -2,7 +2,7 @@
 import { t, getLang, setLang, languages, localeOf } from './i18n.js';
 import { icon, logo } from './icons.js';
 import { curChip, langChip } from './header-controls.js';
-import { SERVICES, GROUPS, CONTACT, CHANNELS, SOCIALS, PORTALS, OFFICE_MAP, telegramHref, phoneHref, whatsappHref, markLive } from './config.js';
+import { SERVICES, GROUPS, CONTACT, CHANNELS, SOCIALS, OFFICE_MAP, telegramHref, phoneHref, whatsappHref, markLive } from './config.js';
 import { esc, installInteractions, serviceIcon, loadingView, errorView } from './components.js';
 import { loadFeed, favIds, onFavChange, getCurrency, setCurrency, setRates } from './store.js';
 import { openShare, BRAND } from './share.js';
@@ -87,7 +87,6 @@ const socIcon = (brand, a) => {
   const full = `${brand} · ${a.name} ${a.handle}`;
   return `<a class="soc" href="${esc(a.href)}" target="_blank" rel="noopener" title="${esc(full)}" aria-label="${esc(full)}" data-social="${esc(`${a.name.toLowerCase()} ${a.handle}`)}"><span class="soc-i">${brandMark(a.icon)}</span><span class="soc-l">${esc(t(a.label))}</span></a>`;
 };
-const footChip = (href, mark, name, sub) => `<a class="foot-chip" href="${esc(href)}" target="_blank" rel="noopener"><span class="foot-mark">${brandMark(mark)}</span><span><b>${esc(name)}</b><small>${esc(sub)}</small></span></a>`;
 
 function renderFooter() {
   footer.innerHTML = `
@@ -106,9 +105,6 @@ function renderFooter() {
     <section class="foot-social"><h4>${t('footer.social')}</h4>
       ${SOCIALS.map(g => `<div class="soc-group"><p class="soc-brand">${esc(g.brand)}</p><div class="soc-row">${g.accounts.map(a => socIcon(g.brand, a)).join('')}</div></div>`).join('')}
     </section>
-    <section><h4>${t('footer.listings')}</h4><div class="foot-chips">
-      ${PORTALS.map(p => footChip(p.href, 'list', p.name, t('footer.allads'))).join('')}
-    </div></section>
   </div>
   <div class="container foot-bottom"><span>© ${new Date().getFullYear()} Homes in Georgia. ${t('footer.rights')}</span><span>${t('footer.data')}${rateLine()}</span></div>`;
 }
