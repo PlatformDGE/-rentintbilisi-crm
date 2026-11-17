@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-18T00:31:27+04:00",
+  "updated_at": "2026-11-18T02:05:05+04:00",
   "items": [
     {
       "id": "76822",
@@ -1092,39 +1092,6 @@
         "media/sale/76472-9.jpg"
       ],
       "image": "media/sale/76472-1.jpg"
-    },
-    {
-      "id": "76462",
-      "title": "11 Alio Mirtskhulava",
-      "property_type": "apartment",
-      "price": 110,
-      "area": 50,
-      "district": "",
-      "metro": "Didube",
-      "rooms": 1,
-      "floor": "7/22",
-      "source_text": "#Didube 🚇 #Didube \n 📍11 Alio Mirtskhulava\n\n🏢 #1Bed #Apartment for #Sale \n✨ #NewBuilding | #NewApartment \n🏠 50 Sq.m | 7/22 Floor | #Bath\n \n✅ #Balcony ✅ #Oven \n✅ #Elevator \n \n💰110.000$ \n0% Commission \n#Price90000to120000 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Mari \n \n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/76462",
-      "published_at": "2026-11-14T15:18:42+04:00",
-      "map_url": "https://www.google.com/maps/place/11+Alio+Mirtskhulava+St,+T'bilisi+0119/@41.7457522,44.7734532,16z/data=!4m6!3m5!1s0x4044728c38dd0243:0x8e4eeb30a3f2200a!8m2!3d41.7457522!4d44.7734532!16s%2Fg%2F11cphlw96p?g_ep=Eg1tbF8yMDI2MDgwOV8wIJvbDyoASAJQAg%3D%3D",
-      "location": "11 Alio Mirtskhulava St, T'bilisi 0119",
-      "lat": 41.7457522,
-      "lon": 44.7734532,
-      "approx": false,
-      "photos": [
-        "media/sale/76462-1.jpg",
-        "media/sale/76462-2.jpg",
-        "media/sale/76462-3.jpg",
-        "media/sale/76462-4.jpg",
-        "media/sale/76462-5.jpg",
-        "media/sale/76462-6.jpg",
-        "media/sale/76462-7.jpg",
-        "media/sale/76462-8.jpg",
-        "media/sale/76462-9.jpg"
-      ],
-      "image": "media/sale/76462-1.jpg"
     },
     {
       "id": "76452",
@@ -4236,39 +4203,6 @@
         "media/sale/75178-9.jpg"
       ],
       "image": "media/sale/75178-1.jpg"
-    },
-    {
-      "id": "75068",
-      "title": "31 Asmati St",
-      "property_type": "apartment",
-      "price": 106,
-      "area": 78,
-      "district": "Digomi",
-      "metro": "",
-      "rooms": 2,
-      "floor": "8/9",
-      "source_text": "#Dididigomi 🚇 #Sarajishvili\n📍 31 Asmati St\n\n🏢#2Bed #Apartment for #Sale \n✨ #NewBuilding | #White\n🏠78 Sq.m | 8/9 Floor \n\n✅ #Elevator  ✅ #Terrace \n\n💰 106.000$\n#Price90000to120000\n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #Viktoriia \n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/75068",
-      "published_at": "2026-10-31T14:50:37+04:00",
-      "map_url": "https://www.google.com/maps/place/31+Asmati+St,+T'bilisi/@41.7850037,44.7593795,16z/data=!4m5!3m4!1s0x40446de155bcd199:0xade560c8224cbf36!8m2!3d41.7850037!4d44.7593795?utm_campaign=ml-sul&g_ep=Eg1tbF8yMDI2MDkxM18wIJvbDyoASAJQAg%3D%3D",
-      "location": "31 Asmati St, T'bilisi",
-      "lat": 41.7850037,
-      "lon": 44.7593795,
-      "approx": false,
-      "photos": [
-        "media/sale/75068-1.jpg",
-        "media/sale/75068-2.jpg",
-        "media/sale/75068-3.jpg",
-        "media/sale/75068-4.jpg",
-        "media/sale/75068-5.jpg",
-        "media/sale/75068-6.jpg",
-        "media/sale/75068-7.jpg",
-        "media/sale/75068-8.jpg",
-        "media/sale/75068-9.jpg"
-      ],
-      "image": "media/sale/75068-1.jpg"
     },
     {
       "id": "74958",
