@@ -2,10 +2,10 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-17T20:31:29+04:00",
+  "updated_at": "2026-11-17T21:01:50+04:00",
   "items": [
     {
-      "id": "76812",
+      "id": "76822",
       "title": "39 Titsian Tabidze St",
       "property_type": "commercial",
       "price": 235,
@@ -17,25 +17,25 @@
       "source_text": "#Vake 🚇 #Rustaveli \n📍39 Titsian Tabidze St \n \n⭐️Has also plan for Basement⭐️\n\n🏢 #2Bed #Commercial for #Sale \n✨ #OldBuilding | #Old | #FullyRenovated \n🏠 145 Sq.m | 1/5 Floor | #CentralHeating \n \n✅ #Balcony ✅ #Conditioner \n✅ #Oven \n✅ #Stove \n \n💰235.000$ \n0% Commission \n#Price210000to240000\n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Viktoriia \n \n📍APARTMENTS ON MAP📍",
       "type": "sale",
       "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/76812",
-      "published_at": "2026-11-17T19:13:22+04:00",
+      "post_url": "https://t.me/sale_in_tbilisi/76822",
+      "published_at": "2026-11-17T20:54:34+04:00",
       "map_url": "https://www.google.com/maps/place/39+Titsian+Tabidze+St,+T%27bilisi+0100/@41.707557,44.7572762,16z/data=!4m6!3m5!1s0x404473360f1d06b7:0x9e30a8ee64b5ba72!8m2!3d41.707557!4d44.7572762!16s%2Fg%2F11g_f6y2c?utm_campaign=ml-sul&g_ep=Eg1tbF8yMDI2MTAxM18wIJvbDyoASAJQAg%3D%3D",
       "location": "39 Titsian Tabidze St, T'bilisi 0100",
       "lat": 41.707557,
       "lon": 44.7572762,
       "approx": false,
       "photos": [
-        "media/sale/76812-1.jpg",
-        "media/sale/76812-2.jpg",
-        "media/sale/76812-3.jpg",
-        "media/sale/76812-4.jpg",
-        "media/sale/76812-5.jpg",
-        "media/sale/76812-6.jpg",
-        "media/sale/76812-7.jpg",
-        "media/sale/76812-8.jpg",
-        "media/sale/76812-9.jpg"
+        "media/sale/76822-1.jpg",
+        "media/sale/76822-2.jpg",
+        "media/sale/76822-3.jpg",
+        "media/sale/76822-4.jpg",
+        "media/sale/76822-5.jpg",
+        "media/sale/76822-6.jpg",
+        "media/sale/76822-7.jpg",
+        "media/sale/76822-8.jpg",
+        "media/sale/76822-9.jpg"
       ],
-      "image": "media/sale/76812-1.jpg"
+      "image": "media/sale/76822-1.jpg"
     },
     {
       "id": "76802",
@@ -333,39 +333,6 @@
         "media/sale/76722-9.jpg"
       ],
       "image": "media/sale/76722-1.jpg"
-    },
-    {
-      "id": "76712",
-      "title": "61 Gorgasali Street",
-      "property_type": "apartment",
-      "price": 140,
-      "area": 52,
-      "district": "Krtsanisi",
-      "metro": "300 Aragveli",
-      "rooms": 1,
-      "floor": "11/12",
-      "source_text": "#Krtsanisi 🚇 #300Aragveli \n📍61 Gorgasali Street \n \n🌟 Apartment with a designer project for sale in Krtsanisi Modern 🌟 \n \n🏢 #1Bed #Apartment for #Sale \n✨ #NewBuilding | #New\n🏠 52.2 Sq.m | 11/12 Floor | #CentralHeating | #Shower\n \n✅ #Balcony ✅ #Conditioner \n✅ #Dishwasher \n✅ #Oven ✅ #Stove \n✅ #Elevator \n \n💰140.000$ \n0% Commission \n#Price120000to150000 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #David \n \n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/76712",
-      "published_at": "2026-11-16T17:34:51+04:00",
-      "map_url": "https://www.google.com/maps/place/Krtsanisi+Modern+%E2%80%A2+%E1%83%99%E1%83%A0%E1%83%AC%E1%83%90%E1%83%9C%E1%83%98%E1%83%A1%E1%83%98+%E1%83%9B%E1%83%9D%E1%83%93%E1%83%94%E1%83%A0%E1%83%9C%E1%83%98,+61+Gorgasali+Street,+Tbilisi+0114/@41.6781547,44.8245135,16z/data=!4m6!3m5!1s0x6326a2ca3281d891:0x28adef02891e0c4c!8m2!3d41.6781547!4d44.8245135!16s%2Fg%2F11t1h44cp0?g_ep=Eg1tbF8yMDI2MTAwNl8wIJvbDyoASAJQAg%3D%3D",
-      "location": "Krtsanisi Modern • კრწანისი მოდერნი, 61 Gorgasali Street, Tbilisi 0114",
-      "lat": 41.6781547,
-      "lon": 44.8245135,
-      "approx": false,
-      "photos": [
-        "media/sale/76712-1.jpg",
-        "media/sale/76712-2.jpg",
-        "media/sale/76712-3.jpg",
-        "media/sale/76712-4.jpg",
-        "media/sale/76712-5.jpg",
-        "media/sale/76712-6.jpg",
-        "media/sale/76712-7.jpg",
-        "media/sale/76712-8.jpg",
-        "media/sale/76712-9.jpg"
-      ],
-      "image": "media/sale/76712-1.jpg"
     },
     {
       "id": "76702",
