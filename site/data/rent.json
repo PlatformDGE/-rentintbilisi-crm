@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-17T23:32:58+04:00",
+  "updated_at": "2026-11-18T00:01:39+04:00",
   "items": [
     {
       "id": "553772",
@@ -1957,39 +1957,6 @@
       "image": "media/rent/553129-1.jpg"
     },
     {
-      "id": "553119",
-      "title": "5 Sandro Euli Street",
-      "property_type": "apartment",
-      "price": 800,
-      "area": 80,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "5/18",
-      "source_text": "#Saburtalo 🚇 #STUniversity \n📍5 Sandro Euli Street\n\n 💫 Apartment for rent in the Piramida Tetris  building.\n\n❗️#Exclusive \n \n🏢 #1Bed #Apartment for #Rent \n✨ #NewBuilding | #New \n🏠 80sq.m | 5/18 Floor | #CentralHeating | #Bath \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Microwave \n✅ #Elevator  ✅ #Oven \n✅ #Conditioner \n \n👬Tenants: 1-3\n🐕Pets: #NotAllowed \n🕐 #12Month \n \n💰 800$ + Deposit 800$ \n0% Commission \n#Price700to900 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Mari\n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/553119",
-      "published_at": "2026-11-16T17:46:58+04:00",
-      "map_url": "https://www.google.com/maps/place/5+Sandro+Euli+Street,+T'bilisi/@41.7228406,44.7171036,16z/data=!4m5!3m4!1s0x40447375b9db9b27:0xa57a5c0eff997294!8m2!3d41.7228406!4d44.7171036?g_ep=Eg1tbF8yMDI2MDkxM18wIJvbDyoASAJQAg%3D%3D",
-      "location": "5 Sandro Euli Street, T'bilisi",
-      "lat": 41.7228406,
-      "lon": 44.7171036,
-      "approx": false,
-      "photos": [
-        "media/rent/553119-1.jpg",
-        "media/rent/553119-2.jpg",
-        "media/rent/553119-3.jpg",
-        "media/rent/553119-4.jpg",
-        "media/rent/553119-5.jpg",
-        "media/rent/553119-6.jpg",
-        "media/rent/553119-7.jpg",
-        "media/rent/553119-8.jpg",
-        "media/rent/553119-9.jpg"
-      ],
-      "image": "media/rent/553119-1.jpg"
-    },
-    {
       "id": "553108",
       "title": "Nice apartment in 📍Saburtalo found a tenant 🤝👏🎉",
       "property_type": "apartment",
@@ -2203,39 +2170,6 @@
         "media/rent/553037-1.jpg"
       ],
       "image": "media/rent/553037-1.jpg"
-    },
-    {
-      "id": "553027",
-      "title": "12 Ermile Bedia St",
-      "property_type": "apartment",
-      "price": 750,
-      "area": 95,
-      "district": "",
-      "metro": "",
-      "rooms": 3,
-      "floor": "8/10",
-      "source_text": "#Nutsubidze 🚇 #STUniversity \n📍12 Ermile Bedia St \n \n🏢 #3Bed #Apartment for #Rent \n✨ #OldBuilding | #Mixed \n🏠 95 sq.m | 8/10 Floor | #CentralHeating | #2Bathroom \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Elevator  ✅ #Oven \n✅ #ParkingPlace \n\n✖️ Conditioner \n \n👬Tenants: 1-5 \n🐕Pets: #Allowed \n🕐 #12Month \n \n💰 750$ + Deposit 750$ \n0% Commission \n#Price700to900 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Leri \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/553027",
-      "published_at": "2026-11-16T15:15:35+04:00",
-      "map_url": "https://www.google.com/maps/place/41%C2%B043%2737.5%22N+44%C2%B043%2710.4%22E/@41.727094,44.719562,15z/data=!4m4!3m3!8m2!3d41.7270833!4d44.7195556?utm_campaign=ml-ardl&g_ep=Eg1tbF8yMDI2MTExMF8wIOC7DCoASAJQAQ%3D%3D",
-      "location": "41°43'37.5\"N 44°43'10.4\"E",
-      "lat": 41.7270833,
-      "lon": 44.7195556,
-      "approx": false,
-      "photos": [
-        "media/rent/553027-1.jpg",
-        "media/rent/553027-2.jpg",
-        "media/rent/553027-3.jpg",
-        "media/rent/553027-4.jpg",
-        "media/rent/553027-5.jpg",
-        "media/rent/553027-6.jpg",
-        "media/rent/553027-7.jpg",
-        "media/rent/553027-8.jpg",
-        "media/rent/553027-9.jpg"
-      ],
-      "image": "media/rent/553027-1.jpg"
     },
     {
       "id": "553017",
@@ -12686,39 +12620,6 @@
         "media/rent/526801-1.jpg"
       ],
       "image": "media/rent/526801-1.jpg"
-    },
-    {
-      "id": "526672",
-      "title": "87 Vazha-Pshavela Ave",
-      "property_type": "apartment",
-      "price": 50,
-      "area": 64,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "4/8",
-      "source_text": "#Saburtalo 🚇 #STUniversity \n📍87 Vazha-Pshavela Ave \n \n❗️ Available from the 1st of December\n⭐️ Cozy apartment with walk-in closet ⭐️ \n \n❗️#Exclusive \n \n🏢 #1Bed #Apartment for #Rent \n✨ #OldBuilding | #New \n🏠 64 sq.m | 4/8 Floor | #CentralHeating | #Shower \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Stove  ✅ #Elevator \n✅ #Oven  ✅ #ParkingPlace  ✅ #Conditioner \n✅ #Microwave ✅ #VacuumCleaner\n \n👬Tenants: 1-2 \n🐕Pets: #ByAgreement (+50$)\n🕐 #6Month #12Month \n \n💰 650$ + Deposit 650$ \n0% Commission \n#Price500to700 \n#Price700to900\n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Danila \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/526672",
-      "published_at": "2026-09-22T10:05:04+04:00",
-      "map_url": "https://www.google.com/maps/place/87+Vazha-Pshavela+Ave,+T%27bilisi/@41.723514,44.7219641,16z/data=!4m6!3m5!1s0x40447374cf6d86ed:0xcc8d2438b084c53b!8m2!3d41.723514!4d44.7219641!16s%2Fg%2F11y8lv7c2y?g_ep=Eg1tbF8yMDI2MDkwMV8wIJvbDyoASAJQAg%3D%3D",
-      "location": "87 Vazha-Pshavela Ave, T'bilisi",
-      "lat": 41.723514,
-      "lon": 44.7219641,
-      "approx": false,
-      "photos": [
-        "media/rent/526672-1.jpg",
-        "media/rent/526672-2.jpg",
-        "media/rent/526672-3.jpg",
-        "media/rent/526672-4.jpg",
-        "media/rent/526672-5.jpg",
-        "media/rent/526672-6.jpg",
-        "media/rent/526672-7.jpg",
-        "media/rent/526672-8.jpg",
-        "media/rent/526672-9.jpg"
-      ],
-      "image": "media/rent/526672-1.jpg"
     },
     {
       "id": "526652",
