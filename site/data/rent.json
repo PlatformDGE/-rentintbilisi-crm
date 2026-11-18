@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-18T22:02:48+04:00",
+  "updated_at": "2026-11-18T22:31:30+04:00",
   "items": [
     {
       "id": "554231",
@@ -2047,39 +2047,6 @@
         "media/rent/553632-9.jpg"
       ],
       "image": "media/rent/553632-1.jpg"
-    },
-    {
-      "id": "553622",
-      "title": "12 Ermile Bedia St",
-      "property_type": "apartment",
-      "price": 750,
-      "area": 95,
-      "district": "",
-      "metro": "",
-      "rooms": 3,
-      "floor": "8/10",
-      "source_text": "#Nutsubidze 🚇 #STUniversity \n📍12 Ermile Bedia St \n \n🏢 #3Bed #Apartment for #Rent \n✨ #OldBuilding | #Mixed \n🏠 95 sq.m | 8/10 Floor | #CentralHeating | #2Bathroom \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Elevator  ✅ #Oven \n✅ #ParkingPlace \n\n✖️ Conditioner \n \n👬Tenants: 1-5 \n🐕Pets: #Allowed \n🕐 #12Month \n \n💰 750$ + Deposit 750$ \n0% Commission \n#Price700to900 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Leri \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/553622",
-      "published_at": "2026-11-17T17:45:38+04:00",
-      "map_url": "https://www.google.com/maps/place/41%C2%B043%2737.5%22N+44%C2%B043%2710.4%22E/@41.727094,44.719562,15z/data=!4m4!3m3!8m2!3d41.7270833!4d44.7195556?utm_campaign=ml-ardl&g_ep=Eg1tbF8yMDI2MTExMF8wIOC7DCoASAJQAQ%3D%3D",
-      "location": "41°43'37.5\"N 44°43'10.4\"E",
-      "lat": 41.7270833,
-      "lon": 44.7195556,
-      "approx": false,
-      "photos": [
-        "media/rent/553622-1.jpg",
-        "media/rent/553622-2.jpg",
-        "media/rent/553622-3.jpg",
-        "media/rent/553622-4.jpg",
-        "media/rent/553622-5.jpg",
-        "media/rent/553622-6.jpg",
-        "media/rent/553622-7.jpg",
-        "media/rent/553622-8.jpg",
-        "media/rent/553622-9.jpg"
-      ],
-      "image": "media/rent/553622-1.jpg"
     },
     {
       "id": "553612",
@@ -5388,39 +5355,6 @@
         "media/rent/552040-1.jpg"
       ],
       "image": "media/rent/552040-1.jpg"
-    },
-    {
-      "id": "552030",
-      "title": "8 Arsena St",
-      "property_type": "house",
-      "price": 900,
-      "area": 120,
-      "district": "",
-      "metro": "Rustaveli",
-      "rooms": 3,
-      "floor": "2/2",
-      "source_text": "#Tskneti 🚇 #Rustaveli\n📍8 Arsena St \n \n⭐️ For rent: the second floor of a private house in Tskneti: three bedrooms, an equipped kitchen, parking, and all amenities. A quiet area not far from the city. ⭐️ \n \n🏢 #3Bed #House for #Rent \n✨ #OldBuilding | #Mixed \n🏠 120 sq.m | 2/2 Floor | #CentralHeating | #Bath\n \n✅ #Courtyard  ✅ #WiFi  ✅ #TV \n✅ #Oven  ✅ #ParkingPlace \n✅ #Dishwasher ✅ #Stove\n\n✖️ Elevator  ✖️ Conditioner \n \n👬Tenants: 1-5 \n🐕Pets: #NotAllowed \n🕐 #6Month #12Month \n \n💰 900$ + Deposit 900$ \n0% Commission \n#Price900to1200 \n#Price700to900\n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Leri \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/552030",
-      "published_at": "2026-11-14T13:15:32+04:00",
-      "map_url": "https://www.google.com/maps/place/8+Arsena+St,+T%27bilisi/@41.6981763,44.700375,15z/data=!4m6!3m5!1s0x4044749691b6f9ab:0x6030ee105a467b85!8m2!3d41.6981763!4d44.700375!16s%2Fg%2F11c4dfxcl2?utm_campaign=ml-ardl&g_ep=Eg1tbF8yMDI2MDkyOV8wIOC7DCoASAJQAQ%3D%3D",
-      "location": "8 Arsena St, T'bilisi",
-      "lat": 41.6981763,
-      "lon": 44.700375,
-      "approx": false,
-      "photos": [
-        "media/rent/552030-1.jpg",
-        "media/rent/552030-2.jpg",
-        "media/rent/552030-3.jpg",
-        "media/rent/552030-4.jpg",
-        "media/rent/552030-5.jpg",
-        "media/rent/552030-6.jpg",
-        "media/rent/552030-7.jpg",
-        "media/rent/552030-8.jpg",
-        "media/rent/552030-9.jpg"
-      ],
-      "image": "media/rent/552030-1.jpg"
     },
     {
       "id": "552029",
