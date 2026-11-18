@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-18T05:31:42+04:00",
+  "updated_at": "2026-11-18T06:01:33+04:00",
   "items": [
     {
       "id": "553772",
@@ -3960,9 +3960,9 @@
       "post_url": "https://t.me/rent_tbilisi_ge/552222",
       "published_at": "2026-11-14T20:45:28+04:00",
       "map_url": "https://maps.app.goo.gl/TVDD59Xh1rkwsksP7?g_st=com.google.maps.preview.copy",
-      "location": "45 ana p'olit'k'ovsk'aias kucha, tbilisi",
-      "lat": 41.721712238504,
-      "lon": 44.704850728079,
+      "location": "Saburtalo",
+      "lat": 41.71667,
+      "lon": 44.75,
       "approx": true,
       "photos": [
         "media/rent/552222-1.jpg",
