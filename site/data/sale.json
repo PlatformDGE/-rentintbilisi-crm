@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-18T06:01:33+04:00",
+  "updated_at": "2026-11-18T06:31:19+04:00",
   "items": [
     {
       "id": "76822",
@@ -7478,9 +7478,9 @@
       "post_url": "https://t.me/sale_in_tbilisi/64370",
       "published_at": "2026-07-24T18:03:53+04:00",
       "map_url": "https://maps.app.goo.gl/xg3nq4fQtUMk25ok6?g_st=ic",
-      "location": "თეიმურაზ ბოჭორიშვილის ქუჩა, გლდანის ლუწი მიკრორაიონები, გლდანის რაიონი, თბილისი, 0167, საქართველო",
-      "lat": 41.7913901,
-      "lon": 44.8090009,
+      "location": "angia boch'orishvilis kucha, tbilisi",
+      "lat": 41.792650248504,
+      "lon": 44.82470169288,
       "approx": true,
       "photos": [
         "media/sale/64370-1.jpg",
