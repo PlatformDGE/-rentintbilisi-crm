@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-18T20:31:30+04:00",
+  "updated_at": "2026-11-18T21:02:03+04:00",
   "items": [
     {
       "id": "76922",
@@ -6883,39 +6883,6 @@
         "media/sale/68733-9.jpg"
       ],
       "image": "media/sale/68733-1.jpg"
-    },
-    {
-      "id": "67984",
-      "title": "18 Tengiz Sheshelidze St",
-      "property_type": "apartment",
-      "price": 61,
-      "area": 51,
-      "district": "Gldani",
-      "metro": "",
-      "rooms": 1,
-      "floor": "18/25",
-      "source_text": "#Gldani  🚇 #Sarajishvili \n📍18 Tengiz Sheshelidze St\n\n⭐️ Alpha Home Gldani ⭐️\n\n🔥#Exclusive listings\n🏢 #1Bed #Apartment for #Sale \n✨ #NewBuilding | #WhiteFrame\n🏠 51,2 Sq.m | 18/25 Floor |\n\n💰 61.400$ \n0% commission\n#Price50000to70000 \n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #David \n\n📍APARTMENTS ON MAP📍\n\nSALE IN TBILISI🇬🇪",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/67984",
-      "published_at": "2026-08-28T10:15:26+04:00",
-      "map_url": "https://www.google.com/maps/place/%E1%83%90%E1%83%9A%E1%83%A4%E1%83%90+%E1%83%A1%E1%83%90%E1%83%AE%E1%83%9A%E1%83%98+%E1%83%92%E1%83%9A%E1%83%93%E1%83%90%E1%83%9C%E1%83%A8%E1%83%98,+18+Tengiz+Sheshelidze+St,+Tbilisi/@41.7854365,44.7960941,16z/data=!4m6!3m5!1s0x40446d21057072a9:0x268bd8ffd3681457!8m2!3d41.7854365!4d44.7960941!16s%2Fg%2F11tms6t79j?g_ep=Eg1tbF8yMDI1MTIwM18wIJvbDyoASAJQAg%3D%3D",
-      "location": "ალფა სახლი გლდანში, 18 Tengiz Sheshelidze St, Tbilisi",
-      "lat": 41.7854365,
-      "lon": 44.7960941,
-      "approx": false,
-      "photos": [
-        "media/sale/67984-1.jpg",
-        "media/sale/67984-2.jpg",
-        "media/sale/67984-3.jpg",
-        "media/sale/67984-4.jpg",
-        "media/sale/67984-5.jpg",
-        "media/sale/67984-6.jpg",
-        "media/sale/67984-7.jpg",
-        "media/sale/67984-8.jpg",
-        "media/sale/67984-9.jpg"
-      ],
-      "image": "media/sale/67984-1.jpg"
     },
     {
       "id": "67716",
