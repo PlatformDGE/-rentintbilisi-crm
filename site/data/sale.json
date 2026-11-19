@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-19T12:31:29+04:00",
+  "updated_at": "2026-11-19T13:01:39+04:00",
   "items": [
     {
       "id": "76972",
@@ -1356,39 +1356,6 @@
         "media/sale/76522-9.jpg"
       ],
       "image": "media/sale/76522-1.jpg"
-    },
-    {
-      "id": "76512",
-      "title": "62B David Guramishvili Ave",
-      "property_type": "apartment",
-      "price": 270,
-      "area": 194,
-      "district": "",
-      "metro": "Didube",
-      "rooms": 2,
-      "floor": "3/24",
-      "source_text": "#Didube 🚇 #Grmagele\n📍62B David Guramishvili Ave\n\n⭐️ #Exclusive Apartment with Large Terrace ⭐️\n\n🏢 #2Bed #Apartment for #Sale\n✨ #NewBuilding  | #New\n 🏠 194 Sq.m (90 Sq.m Terrace) | 3/24 Floor | #CentralHeating | #Bath #Shower\n\n✅ #2Bathroom\n✅ #Terrace\n✅ #Dishwasher\n✅ #Oven\n✅ #Conditioner \n✅ #Stove\n\n💰 270.000$\n0% Commission\n#Price270000to310000\n#Price240000to270000\n\n📲 @David_Tibelashvili\n+995 599 20 67 16 #David\n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/76512",
-      "published_at": "2026-11-15T11:33:58+04:00",
-      "map_url": "https://www.google.com/maps/place/62+b+David+Guramishvili+Ave,+T'bilisi/@41.768439,44.7914097,16z/data=!4m6!3m5!1s0x40446d9b96fee4b5:0x96dcb31fa54bca54!8m2!3d41.768439!4d44.7914097!16s%2Fg%2F11v_92y1h4?utm_campaign=ml-sul&g_ep=Eg1tbF8yMDI2MDMxMV8wIJvbDyoASAJQAg%3D%3D",
-      "location": "62 b David Guramishvili Ave, T'bilisi",
-      "lat": 41.768439,
-      "lon": 44.7914097,
-      "approx": false,
-      "photos": [
-        "media/sale/76512-1.jpg",
-        "media/sale/76512-2.jpg",
-        "media/sale/76512-3.jpg",
-        "media/sale/76512-4.jpg",
-        "media/sale/76512-5.jpg",
-        "media/sale/76512-6.jpg",
-        "media/sale/76512-7.jpg",
-        "media/sale/76512-8.jpg",
-        "media/sale/76512-9.jpg"
-      ],
-      "image": "media/sale/76512-1.jpg"
     },
     {
       "id": "76482",
