@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-20T15:32:11+04:00",
+  "updated_at": "2026-11-20T16:02:08+04:00",
   "items": [
     {
       "id": "554906",
@@ -925,39 +925,6 @@
       "approx": true,
       "photos": [],
       "image": ""
-    },
-    {
-      "id": "554603",
-      "title": "87 Vazha-Pshavela Ave",
-      "property_type": "apartment",
-      "price": 50,
-      "area": 64,
-      "district": "Saburtalo",
-      "metro": "Vazha-Pshavela",
-      "rooms": 1,
-      "floor": "4/8",
-      "source_text": "#Saburtalo 🚇 #STUniversity \n📍87 Vazha-Pshavela Ave \n \n❗️ Available from the 21th of November \n⭐️ Cozy apartment with walk-in closet ⭐️ \n \n❗️#Exclusive \n \n🏢 #1Bed #Apartment for #Rent \n✨ #OldBuilding | #New \n🏠 64 sq.m | 4/8 Floor | #CentralHeating | #Shower \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Stove  ✅ #Elevator \n✅ #Oven  ✅ #ParkingPlace  ✅ #Conditioner \n✅ #Microwave ✅ #VacuumCleaner\n \n👬Tenants: 1-2 \n🐕Pets: #ByAgreement (+50$)\n🕐 #6Month #12Month \n \n💰 650$ + Deposit 650$ \n0% Commission \n#Price500to700 \n#Price700to900\n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Danila \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/554603",
-      "published_at": "2026-11-19T21:45:43+04:00",
-      "map_url": "https://www.google.com/maps/place/87+Vazha-Pshavela+Ave,+T%27bilisi/@41.723514,44.7219641,16z/data=!4m6!3m5!1s0x40447374cf6d86ed:0xcc8d2438b084c53b!8m2!3d41.723514!4d44.7219641!16s%2Fg%2F11y8lv7c2y?g_ep=Eg1tbF8yMDI2MDkwMV8wIJvbDyoASAJQAg%3D%3D",
-      "location": "87 Vazha-Pshavela Ave, T'bilisi",
-      "lat": 41.723514,
-      "lon": 44.7219641,
-      "approx": false,
-      "photos": [
-        "media/rent/554603-1.jpg",
-        "media/rent/554603-2.jpg",
-        "media/rent/554603-3.jpg",
-        "media/rent/554603-4.jpg",
-        "media/rent/554603-5.jpg",
-        "media/rent/554603-6.jpg",
-        "media/rent/554603-7.jpg",
-        "media/rent/554603-8.jpg",
-        "media/rent/554603-9.jpg"
-      ],
-      "image": "media/rent/554603-1.jpg"
     },
     {
       "id": "554593",
