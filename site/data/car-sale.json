@@ -2,7 +2,7 @@
   "kind": "car-sale",
   "channel": "CarsSaleInGeorgia",
   "source": "active_channel",
-  "updated_at": "2026-11-21T17:01:35+04:00",
+  "updated_at": "2026-11-21T17:31:38+04:00",
   "items": [
     {
       "id": "38",
@@ -36,39 +36,6 @@
         "media/car-sale/38-9.jpg"
       ],
       "image": "media/car-sale/38-1.jpg"
-    },
-    {
-      "id": "28",
-      "title": "🚘 Ford Escape Titanium | 2013💰$5,000❗️#Exclusive",
-      "property_type": "car",
-      "price": 5,
-      "area": null,
-      "district": "",
-      "metro": "",
-      "rooms": null,
-      "floor": "",
-      "source_text": "🚘 Ford Escape Titanium | 2013💰$5,000❗️#Exclusive\n0% Commission\n\n⛽️ Petrol · I4 2.0L EcoBoost Turbocharged · 240 HP ⚙️ Transmission: #Automatic · #4WD \n🛣 255,000km · SUV 🎨 #Black\n\n✨ OPTIONS\n#AC · #ClimateControl · #MultifunctionSteering · #EcoMode · #MultimediaSystem · #Display · #Bluetooth\n\n🔧 CONDITION: #Good\n\nThe engine runs well, performance is confident, the transmission shifts smoothly without jerks, under load uphill it also shifts without any complaints, the suspension works without extraneous noises and handles uneven surfaces, with the current tire profile it is very comfortable on cobblestones and off-road, no serious accidents in its history\n\nCosmetic imperfections:\n• It has some cosmetic imperfections on the body and wheels, but considering its age, both the interior and exterior look remarkably fresh\n\n🛡 SAFETY\n#ABS\n\n🔎 VIN: 1FMCU9J92DUB76691\n\n🛠 AFTER-SALE SERVICES\nWe can assist with maintenance, repairs, detailing, insurance, and delivery after purchase\n\n📲 +995 599 20 67 16\n👤 @David_Tibelashvili\n\n#Ford #SUV #2010s \n#Petrol #I4 #From200000 #PriceUnder5000 #Price5000to10000\n#CarsSaleInGeorgia #CarsRentInGeorgia",
-      "type": "car-sale",
-      "channel": "CarsSaleInGeorgia",
-      "post_url": "https://t.me/CarsSaleInGeorgia/28",
-      "published_at": "2026-11-17T21:55:06+04:00",
-      "map_url": "",
-      "location": "",
-      "lat": null,
-      "lon": null,
-      "approx": true,
-      "photos": [
-        "media/car-sale/28-1.jpg",
-        "media/car-sale/28-2.jpg",
-        "media/car-sale/28-3.jpg",
-        "media/car-sale/28-4.jpg",
-        "media/car-sale/28-5.jpg",
-        "media/car-sale/28-6.jpg",
-        "media/car-sale/28-7.jpg",
-        "media/car-sale/28-8.jpg",
-        "media/car-sale/28-9.jpg"
-      ],
-      "image": "media/car-sale/28-1.jpg"
     },
     {
       "id": "18",
