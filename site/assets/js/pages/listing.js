@@ -156,7 +156,8 @@ export function renderListing(root, data, id) {
             ${x.deposit ? `<div><dt>${t('l.deposit')}</dt><dd>${esc(terms.find(r => r[0] === 'key')?.[2] || '')}</dd></div>` : ''}
             ${sqmPrice(x) ? `<div><dt>${t('l.ppsqm')}</dt><dd>${esc(sqmPrice(x))}</dd></div>` : ''}
           </dl>
-          <a class="btn btn-primary btn-lg btn-block" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write')}</span></a>
+          ${x.service === 'car-rent' ? `<a class="btn btn-primary btn-lg btn-block" href="club/#/car/${encodeURIComponent(x.id)}" data-lead="book">${icon('calendar')}<span>${t('l.bookOnline')}</span></a>` : ''}
+          <a class="btn ${x.service === 'car-rent' ? 'btn-outline' : 'btn-primary btn-lg'} btn-block" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write')}</span></a>
           <div class="pc-two">
             <a class="btn btn-outline" href="${phoneHref(phone)}" data-lead="phone">${icon('phone')}<span>${t('l.call')}</span></a>
             <a class="btn btn-outline" href="${whatsappHref(phone, message)}" target="_blank" rel="noopener" data-lead="whatsapp">${icon('whatsapp')}<span>${t('l.whatsapp')}</span></a>
@@ -171,7 +172,7 @@ export function renderListing(root, data, id) {
     <div class="ls-price"><b>${esc(p.main)}</b><span>${[p.period, sqmPrice(x)].filter(Boolean).map(esc).join(' · ') || '&nbsp;'}</span></div>
     <button type="button" class="icon-btn" data-share aria-label="${esc(t('l.share'))}">${icon('share')}</button>
     ${favButton(x.id, 'fav fav-plain')}
-    <a class="btn btn-primary" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write.short')}</span></a>
+    ${x.service === 'car-rent' ? `<a class="btn btn-primary" href="club/#/car/${encodeURIComponent(x.id)}" data-lead="book">${icon('calendar')}<span>${t('l.book.short')}</span></a>` : `<a class="btn btn-primary" href="${tg}" target="_blank" rel="noopener" data-lead="telegram">${icon('send')}<span>${t('l.write.short')}</span></a>`}
   </div>
 </article>`;
 
