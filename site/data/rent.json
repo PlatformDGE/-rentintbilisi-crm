@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-21T23:31:31+04:00",
+  "updated_at": "2026-11-22T00:01:42+04:00",
   "items": [
     {
       "id": "555584",
@@ -134,39 +134,6 @@
         "media/rent/555554-9.jpg"
       ],
       "image": "media/rent/555554-1.jpg"
-    },
-    {
-      "id": "555544",
-      "title": "6 Dimitri Arakishvili I Dead End",
-      "property_type": "apartment",
-      "price": 1000,
-      "area": 80,
-      "district": "Vake",
-      "metro": "Rustaveli",
-      "rooms": 2,
-      "floor": "1/5",
-      "source_text": "#Vake 🚇 #Rustaveli \n📍6 Dimitri Arakishvili I Dead End \n \n🏢 #2Bed #Apartment for #Rent \n✨ #OldBuilding | #Mixed \n🏠 80 sq.m | 1/5 Floor | #CentralHeating | #Bath \n \n✅ #Balcony  ✅ #WiFi  ✅ #TV \n✅ #Dishwasher  ✅ #Stove \n✅ #Oven  ✅ #Conditioner \n\n✖️ Elevator  ✖️ ParkingPlace \n \n👬Tenants: 1-4 \n🐕Pets: #ByAgreement \n🕐 #12Month \n \n💰 1000$ + Deposit 1000$ \n0% Commission \n#Price900to1200 \n \n📲 @David_Tibelashvili |  \n+995 599 20 67 16 #Luka \n \n📍APARTMENTS ON MAP📍",
-      "type": "rent",
-      "channel": "rent_tbilisi_ge",
-      "post_url": "https://t.me/rent_tbilisi_ge/555544",
-      "published_at": "2026-11-21T19:15:40+04:00",
-      "map_url": "https://www.google.com/maps/place/6+Dimitri+Arakishvili+I+Dead+End,+T%27bilisi/@41.7066008,44.7670403,16z/data=!4m6!3m5!1s0x40440ccb4d559ab7:0x8afa1633cf6ef18e!8m2!3d41.7066008!4d44.7670403!16s%2Fg%2F11v0cwxm43?g_ep=Eg1tbF8yMDI2MTEwMV8wIJvbDyoASAJQAg%3D%3D",
-      "location": "6 Dimitri Arakishvili I Dead End, T'bilisi",
-      "lat": 41.7066008,
-      "lon": 44.7670403,
-      "approx": false,
-      "photos": [
-        "media/rent/555544-1.jpg",
-        "media/rent/555544-2.jpg",
-        "media/rent/555544-3.jpg",
-        "media/rent/555544-4.jpg",
-        "media/rent/555544-5.jpg",
-        "media/rent/555544-6.jpg",
-        "media/rent/555544-7.jpg",
-        "media/rent/555544-8.jpg",
-        "media/rent/555544-9.jpg"
-      ],
-      "image": "media/rent/555544-1.jpg"
     },
     {
       "id": "555534",
