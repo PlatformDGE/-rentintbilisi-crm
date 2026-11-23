@@ -37,7 +37,7 @@ jobs:
           find public/site/assets/js -name '*.js' -exec sed -i -E "s#(from '\.{1,2}/[^']+\.js)'#\1?v=$V'#g" {} +
           sed -i -E "s#(assets/(css|js)/[a-z-]+\.(css|js))\"#\1?v=$V\"#g" public/site/index.html
           # Test copy of the car club for partners (not linked from hge.ge, noindex).
-          # Two built pages; catalogue, photos and logos load from hge.ge itself.
+          # Two built pages; catalogue and photos load from public/site (same origin), logos from hge.ge.
           mkdir -p public/club-test && cp -R club-test/. public/club-test/
           cp watermark-test.html public/watermark-test.html
           cp -R watermark-test-assets public/watermark-test-assets
