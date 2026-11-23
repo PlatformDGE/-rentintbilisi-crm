@@ -39,6 +39,8 @@ jobs:
           # Test copy of the car club for partners (not linked from hge.ge, noindex).
           # Two built pages; catalogue and photos load from public/site (same origin), logos from hge.ge.
           mkdir -p public/club-test && cp -R club-test/. public/club-test/
+          # Investment calculator on sale listings: fresh rent medians from the rent channel on every deploy.
+          python3 scripts/build_rent_medians.py site/data/rent.json public/club-test/invest/rent-medians.json
           cp watermark-test.html public/watermark-test.html
           cp -R watermark-test-assets public/watermark-test-assets
       - name: Upload Pages artifact

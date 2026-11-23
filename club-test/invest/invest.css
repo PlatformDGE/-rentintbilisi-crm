@@ -1,0 +1,32 @@
+/* Investment yield calculator on sale listings (test site only). Uses the site's tokens. */
+.inv .inv-sub { margin: -8px 0 14px; color: var(--muted); font-size: 14px; font-weight: 600; }
+.inv-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.inv-f { display: grid; gap: 2px; padding: 8px 12px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); }
+.inv-f:focus-within { border-color: var(--brand); }
+.inv-f span { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inv-f input { border: 0; outline: none; padding: 0; width: 100%; min-width: 0; font: inherit; font-weight: 650; font-size: 16px; color: var(--ink); background: none; -moz-appearance: textfield; }
+.inv-f input::-webkit-inner-spin-button, .inv-f input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.inv-basis { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.inv-out { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.inv-card { display: grid; gap: 4px; padding: 16px; border-radius: 14px; background: var(--brand-tint); border: 1px solid var(--line); }
+.inv-card span { font-size: 13px; color: var(--muted); font-weight: 600; }
+.inv-y { margin: 0; line-height: 1.15; }
+.inv-y em { font-style: normal; font-size: 14px; font-weight: 600; color: var(--muted); }
+.inv-card b { font-size: 26px; font-weight: 800; color: var(--brand); }
+.inv-card.inv-daily b { color: var(--ok); }
+.inv-card small { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+.inv-note { margin: 10px 0 0; font-size: 12px; color: var(--faint); }
+.inv-reset { border: 0; background: none; padding: 0; margin-left: 4px; font: inherit; font-weight: 600; color: var(--brand); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+
+@media (max-width: 720px) {
+  .inv-fields { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .inv-out { gap: 8px; }
+  .inv-card { padding: 12px; }
+  .inv-card b { font-size: 22px; }
+}
+
+html[data-theme="dark"] .inv-f { background: var(--surface); }
+html[data-theme="dark"] .inv-card { background: var(--surface); }
+html[data-theme="dark"] .inv-card b { color: var(--link); }
+html[data-theme="dark"] .inv-card.inv-daily b { color: #3FCF8E; }
+html[data-theme="dark"] .inv-reset { color: var(--link); }
