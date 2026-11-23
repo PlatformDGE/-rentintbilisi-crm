@@ -2,7 +2,7 @@
   "kind": "rent",
   "channel": "rent_tbilisi_ge",
   "source": "active_channel",
-  "updated_at": "2026-11-24T01:01:48+04:00",
+  "updated_at": "2026-11-24T01:32:05+04:00",
   "items": [
     {
       "id": "556411",
@@ -4331,8 +4331,8 @@
       "published_at": "2026-11-20T13:45:36+04:00",
       "map_url": "https://maps.app.goo.gl/MXjvoBUgkAbettKG9?g_st=ic",
       "location": "ნინო რამიშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
-      "lat": 41.7134451,
-      "lon": 44.7665688,
+      "lat": 41.7124402,
+      "lon": 44.766682,
       "approx": true,
       "photos": [
         "media/rent/554845-1.jpg",
@@ -6088,9 +6088,9 @@
       "post_url": "https://t.me/rent_tbilisi_ge/553896",
       "published_at": "2026-11-18T10:45:25+04:00",
       "map_url": "https://maps.app.goo.gl/Ux7g7fPGq5won8T47?g_st=ipc",
-      "location": "გიორგი შატბერაშვილის ქუჩა, ვაკე, ვაკის რაიონი, თბილისი, 0179, საქართველო",
-      "lat": 41.7037437,
-      "lon": 44.7726168,
+      "location": "გიორგი შატბერაშვილის ქუჩა, კიკეთი, კოჯორი, მთაწმინდის რაიონი, თბილისი, საქართველო",
+      "lat": 41.6473584,
+      "lon": 44.6412505,
       "approx": true,
       "photos": [
         "media/rent/553896-1.jpg",
