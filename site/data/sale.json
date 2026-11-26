@@ -2,7 +2,7 @@
   "kind": "sale",
   "channel": "sale_in_tbilisi",
   "source": "active_channel",
-  "updated_at": "2026-11-27T01:02:07+04:00",
+  "updated_at": "2026-11-27T01:31:31+04:00",
   "items": [
     {
       "id": "77687",
@@ -1057,39 +1057,6 @@
       "image": "media/sale/77371-1.jpg"
     },
     {
-      "id": "77361",
-      "title": "9 Otar Chiladze St",
-      "property_type": "apartment",
-      "price": 185,
-      "area": 66,
-      "district": "Saburtalo",
-      "metro": "",
-      "rooms": 1,
-      "floor": "14/16",
-      "source_text": "#Saburtalo 🚇 #MCUniversity \n📍9 Otar Chiladze St\n\n🏢 #1Bed #Apartment for #Sale \n✨ #NewBuilding | #GreenFrame \n🏠66Sq.m | 14/16 Floor | \n\n✅#Balcony\n✅#Elevator\n\n💰 185.000$\n#Price180000to210000 \n\n📲 @David_Tibelashvili | \n+995 599 20 67 16 #Mari\n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/77361",
-      "published_at": "2026-11-23T13:25:33+04:00",
-      "map_url": "https://www.google.com/maps/place/9+Otar+Chiladze+St,+T'bilisi+0160/@41.7283159,44.7617721,16z/data=!4m6!3m5!1s0x404472e1ab6f8c29:0xd0b9beeb79678ca2!8m2!3d41.7283159!4d44.7617721!16s%2Fg%2F11_qtj1_q?g_ep=Eg1tbF8yMDI2MDYyMl8wIJvbDyoASAJQAg%3D%3D",
-      "location": "9 Otar Chiladze St, T'bilisi 0160",
-      "lat": 41.7283159,
-      "lon": 44.7617721,
-      "approx": false,
-      "photos": [
-        "media/sale/77361-1.jpg",
-        "media/sale/77361-2.jpg",
-        "media/sale/77361-3.jpg",
-        "media/sale/77361-4.jpg",
-        "media/sale/77361-5.jpg",
-        "media/sale/77361-6.jpg",
-        "media/sale/77361-7.jpg",
-        "media/sale/77361-8.jpg",
-        "media/sale/77361-9.jpg"
-      ],
-      "image": "media/sale/77361-1.jpg"
-    },
-    {
       "id": "77351",
       "title": "SALE IN TBILISI",
       "property_type": "apartment",
@@ -1121,39 +1088,6 @@
         "media/sale/77351-9.jpg"
       ],
       "image": "media/sale/77351-1.jpg"
-    },
-    {
-      "id": "77331",
-      "title": "Mirian Mepe Street",
-      "property_type": "apartment",
-      "price": 87,
-      "area": 475,
-      "district": "Didi Dighomi",
-      "metro": "",
-      "rooms": null,
-      "floor": "",
-      "source_text": "#DidiDighomi 🚇 #Sarajishvili\n📍Mirian Mepe Street\n\n🔥#Exclusive \n\n🏢 #Land for #Sale\n✨ Not-Agricultural\n🏠 475 Sq.m |\n\n✅ All communications\n✅ Approved construction project \n✅ Best option for investment!\n\n💰87.000$\n 0% Commission\n#Price70000to90000\n\n📲 @ David_Tibelashvili | \n+995 599 20 67 16 #Mari\n\n📍APARTMENTS ON MAP📍",
-      "type": "sale",
-      "channel": "sale_in_tbilisi",
-      "post_url": "https://t.me/sale_in_tbilisi/77331",
-      "published_at": "2026-11-22T18:29:57+04:00",
-      "map_url": "https://www.google.com/maps/place//@41.796273,44.7339494,18z/data=!4m8!1m7!3m6!1s0x40446e17175a0305:0x811369f220ab1f97!2sDidi+Dighomi,+Tbilisi!8m2!3d41.7947435!4d44.735148!16s%2Fg%2F11y4lzn_mk?g_ep=Eg1tbF8yMDI2MDcyOF8wIJvbDyoASAJQAg%3D%3D",
-      "location": "",
-      "lat": 41.7947435,
-      "lon": 44.735148,
-      "approx": false,
-      "photos": [
-        "media/sale/77331-1.jpg",
-        "media/sale/77331-2.jpg",
-        "media/sale/77331-3.jpg",
-        "media/sale/77331-4.jpg",
-        "media/sale/77331-5.jpg",
-        "media/sale/77331-6.jpg",
-        "media/sale/77331-7.jpg",
-        "media/sale/77331-8.jpg",
-        "media/sale/77331-9.jpg"
-      ],
-      "image": "media/sale/77331-1.jpg"
     },
     {
       "id": "77311",
