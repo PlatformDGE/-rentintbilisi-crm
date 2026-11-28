@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "node lib-repository.test.js && node lib-duplicate.test.js && python3 -m unittest discover -s scripts -p '*_test.py'"
+    "test": "node lib-repository.test.js && node lib-duplicate.test.js && node --test test/club-rules.test.mjs && python3 -m unittest discover -s scripts -p '*_test.py'"
   },
   "dependencies": {
     "lucide-react": "^1.23.0"
